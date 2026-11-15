@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Central de Clientes · Simulador de atención multicanal · v9</title>
+<style>
+:root{
+  --brand:#173f4c; --brand2:#2f7083; --ink:#1e2b32; --muted:#687a83;
+  --line:#dce5e9; --panel:#fff; --bg:#f3f6f7; --soft:#eaf1f3;
+  --shadow:0 12px 34px rgba(24,49,60,.09); --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+body{min-height:100vh} button,input,textarea,select{font:inherit} button{cursor:pointer}.hidden{display:none!important}
+.start-shell{min-height:100vh;display:grid;place-items:center;padding:28px}
+.start-card{width:min(900px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.start-hero{padding:34px 38px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;transition:background .2s ease}
+.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;opacity:.82}
+.start-hero h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1;margin:.35rem 0 .7rem;letter-spacing:-.03em}
+.start-hero p{max-width:690px;margin:0;line-height:1.55;color:rgba(255,255,255,.9)}
+.start-body{padding:30px 38px 34px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form-grid .full{grid-column:1/-1}
+label{font-weight:750;font-size:.9rem;display:block;margin-bottom:7px}
+input[type=text],select{width:100%;border:1px solid #cbd7dc;border-radius:11px;padding:13px 14px;outline:none;background:white}
+input[type=text]:focus,select:focus,textarea:focus{border-color:var(--brand2);box-shadow:0 0 0 3px rgba(47,112,131,.13)}
+.start-note{margin:22px 0 0;padding:14px 16px;border-radius:12px;background:#f4f8f9;color:#51636c;font-size:.9rem;line-height:1.5;border:1px solid #e3ecef}
+.primary{border:0;background:var(--brand);color:white;border-radius:11px;padding:12px 18px;font-weight:800;box-shadow:0 5px 14px rgba(31,78,95,.16)}
+.primary:hover{filter:brightness(1.05)}.primary:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.secondary{border:1px solid #ccd8dd;background:white;color:var(--ink);border-radius:11px;padding:11px 16px;font-weight:750}
+.start-actions{display:flex;justify-content:flex-end;margin-top:22px}
+.topbar{height:68px;background:var(--brand);color:white;display:flex;align-items:center;gap:20px;padding:0 24px;position:sticky;top:0;z-index:30;box-shadow:0 2px 14px rgba(0,0,0,.08)}
+.brandmark{display:flex;align-items:center;gap:11px;min-width:250px}.logo-dot{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-weight:900}
+.brand-title{font-weight:850}.brand-sub{font-size:.75rem;color:rgba(255,255,255,.68);margin-top:1px}.top-spacer{flex:1}
+.top-info{display:flex;gap:18px;align-items:center;font-size:.83rem;color:rgba(255,255,255,.82)}.top-info strong{color:white}
+.layout{display:grid;grid-template-columns:220px 1fr 270px;min-height:calc(100vh - 68px)}
+.sidebar{background:#eef3f5;border-right:1px solid var(--line);padding:20px 14px}.side-title{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#74868f;font-weight:850;padding:6px 10px 10px}
+.navitem{display:flex;justify-content:space-between;align-items:center;padding:10px 11px;border-radius:10px;color:#42555f;font-weight:700;margin-bottom:4px}
+.navitem.active{background:white;color:var(--brand);box-shadow:0 3px 10px rgba(31,78,95,.06)}.navleft{display:flex;gap:9px;align-items:center}
+.badge{min-width:24px;height:22px;padding:0 7px;border-radius:999px;background:#dde7ea;color:#52666f;display:grid;place-items:center;font-size:.72rem;font-weight:850}
+.workspace{padding:24px 26px 70px;min-width:0}.rightbar{border-left:1px solid var(--line);background:#f8fafb;padding:22px 18px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:16px}.section-head h2{font-size:1.25rem;margin:0}.section-head p{font-size:.84rem;color:var(--muted);margin:4px 0 0}
+.case-shell{max-width:880px;margin:0 auto}.case-card{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.case-top{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}.channel-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--soft);font-size:1.25rem}
+.case-meta{min-width:0}.case-meta strong{display:block}.case-meta span{font-size:.78rem;color:var(--muted)}.case-clock{margin-left:auto;font-size:.78rem;color:#6d7c84}
+.conversation{padding:22px;min-height:210px;background:linear-gradient(#fff,#fbfcfd)}.bubble{max-width:78%;padding:13px 15px;border-radius:15px 15px 15px 4px;background:#edf3f5;line-height:1.48;margin-bottom:11px;white-space:pre-line}
+.bubble.self{margin-left:auto;border-radius:15px 15px 4px 15px;background:color-mix(in srgb,var(--brand2) 17%,white);color:var(--brand)}
+.choice-zone{padding:18px 22px 22px;border-top:1px solid var(--line)}.prompt{font-weight:850;margin-bottom:12px}.choices{display:grid;gap:9px}
+.choice{width:100%;text-align:left;border:1px solid #cfdbdf;border-radius:11px;background:white;padding:12px 14px;color:#263840;transition:.14s ease;line-height:1.35}
+.choice:hover{border-color:#88aeb9;background:#f6fafb;transform:translateY(-1px)}.choice:disabled{opacity:.62;cursor:default;transform:none}
+textarea{width:100%;min-height:120px;resize:vertical;border:1px solid #ccd8dd;border-radius:11px;padding:13px;outline:none;line-height:1.45}
+.text-footer{display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:12px}.counter{font-size:.78rem;color:var(--muted)}
+.reaction{margin-top:13px;padding:10px 12px;border-left:3px solid #95afb7;background:#f5f8f9;border-radius:8px;color:#4a6069;font-size:.88rem;line-height:1.4}.continue-row{display:flex;justify-content:flex-end;margin-top:13px}
+.status-card{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}.status-card h3{font-size:.88rem;margin:0 0 12px}.mini-stat{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed #dce5e8;font-size:.84rem}.mini-stat:last-child{border-bottom:0}.mini-stat span{color:#6a7c85}.mini-stat strong{font-variant-numeric:tabular-nums}
+.progress-track{height:8px;background:#e3eaed;border-radius:99px;overflow:hidden;margin-top:8px}.progress-fill{height:100%;background:var(--brand2);width:0%;transition:.25s ease}.hint{font-size:.78rem;color:#6b7c85;line-height:1.45}
+.event-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:#edf4f6;color:#48646f;font-size:.74rem;font-weight:800}
+.toast{position:fixed;right:24px;bottom:24px;z-index:60;background:var(--brand);color:white;padding:12px 15px;border-radius:11px;box-shadow:0 10px 30px rgba(0,0,0,.17);font-size:.86rem;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+.report-shell{max-width:980px;margin:32px auto;padding:0 18px 60px}.report-actions{display:flex;justify-content:flex-end;gap:10px;margin-bottom:14px}.report{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.report-head{padding:28px 32px;background:var(--brand);color:white}.report-head h1{margin:5px 0 6px;font-size:2rem;letter-spacing:-.03em}.report-head p{margin:0;color:rgba(255,255,255,.76)}.report-body{padding:28px 32px 36px}
+.report-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 26px}.report-kpi{border:1px solid var(--line);border-radius:12px;padding:13px}.report-kpi span{display:block;color:#71828b;font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800}.report-kpi strong{display:block;font-size:1.15rem;margin-top:4px}
+.score-area{display:grid;grid-template-columns:190px 1fr;gap:24px;align-items:center;padding:20px;border:1px solid var(--line);border-radius:14px;margin-bottom:24px}.big-score{width:150px;height:150px;border-radius:50%;border:14px solid #dfeaed;display:grid;place-items:center;margin:auto;color:var(--brand);font-size:2rem;font-weight:900}.bars{display:grid;gap:11px}.bar-row{display:grid;grid-template-columns:170px 1fr 42px;gap:10px;align-items:center;font-size:.84rem}.bar-bg{height:9px;border-radius:99px;background:#e7edef;overflow:hidden}.bar-fill{height:100%;background:var(--brand2)}
+.report h2{font-size:1.05rem;margin:25px 0 11px}.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.feedback-box{border:1px solid var(--line);border-radius:12px;padding:15px}.feedback-box ul{margin:8px 0 0;padding-left:18px;line-height:1.5}.feedback-box li{margin-bottom:7px}
+.cases-table{width:100%;border-collapse:collapse;font-size:.82rem}.cases-table th,.cases-table td{padding:9px 8px;border-bottom:1px solid #e4eaed;text-align:left;vertical-align:top}.cases-table th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:#70818a}
+.personal-response{border-left:3px solid #9eb9c2;background:#f7fafb;padding:10px 12px;margin:8px 0 12px;font-size:.85rem;white-space:pre-wrap}.report-foot{margin-top:28px;padding-top:15px;border-top:1px solid var(--line);font-size:.74rem;color:#75858d;display:flex;justify-content:space-between;gap:12px}
+@media(max-width:1050px){.layout{grid-template-columns:190px 1fr}.rightbar{display:none}}
+@media(max-width:760px){.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.start-body,.start-hero{padding-left:22px;padding-right:22px}.layout{display:block}.sidebar{display:none}.workspace{padding:18px 12px 50px}.topbar{padding:0 13px}.brandmark{min-width:0}.brand-sub,.session-small{display:none}.bubble{max-width:92%}.report-grid{grid-template-columns:1fr 1fr}.score-area{grid-template-columns:1fr}.feedback-grid{grid-template-columns:1fr}.bar-row{grid-template-columns:120px 1fr 38px}.report-body{padding:20px}}
+@media print{
+ @page{size:A4;margin:13mm} body{background:white!important}
+ .report-actions,#startScreen,#appScreen,.toast{display:none!important} #reportScreen{display:block!important}
+ .report-shell{max-width:none;margin:0;padding:0}.report{border:0;box-shadow:none;border-radius:0}
+ .report-head{background:white!important;color:#173e4c!important;border-bottom:2px solid #173e4c;padding:0 0 14px}.report-head p{color:#586b74!important}
+ .report-body{padding:18px 0 0}.report-grid{grid-template-columns:repeat(4,1fr);break-inside:avoid}.score-area,.feedback-grid,.feedback-box{break-inside:avoid}.cases-table{font-size:9pt}.cases-table tr{break-inside:avoid}.bar-fill{-webkit-print-color-adjust:exact;print-color-adjust:exact}.report-foot{position:relative}
+}
+
+/* v3 · navegación real por canales */
+.navitem{width:100%;border:0;background:transparent;text-align:left;font:inherit;cursor:pointer}
+.navitem:hover{background:rgba(255,255,255,.58)}
+.queue-list{display:grid;gap:11px;max-width:900px;margin:0 auto}
+.queue-card{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:15px 16px;display:grid;grid-template-columns:50px 1fr auto;gap:13px;align-items:center;text-align:left;box-shadow:0 4px 15px rgba(24,49,60,.04);transition:.14s ease}
+.queue-card:hover{border-color:#9eb8c1;transform:translateY(-1px);box-shadow:0 8px 22px rgba(24,49,60,.07)}
+.queue-card.done-card{cursor:default;opacity:.83}
+.queue-icon{width:46px;height:46px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:1.22rem}
+.queue-main{min-width:0}
+.queue-topline{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.queue-client{font-weight:850}
+.queue-subject{font-size:.86rem;color:#5e7079;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.queue-side{text-align:right;min-width:94px}
+.queue-time{font-size:.78rem;color:#6e7e86;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.status-pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf3f5;color:#536871;font-size:.7rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em}
+.status-pill.progress{background:#fff2d8;color:#7c591d}
+.status-pill.done{background:#e9f4ee;color:#356a50}
+.filter-summary{display:flex;align-items:center;gap:9px;color:#667982;font-size:.84rem;margin:0 0 15px}
+.back-row{max-width:880px;margin:0 auto 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.back-btn{border:0;background:transparent;color:var(--brand);padding:6px 2px;font-weight:800}
+.back-btn:hover{text-decoration:underline}
+.empty-state{max-width:700px;margin:50px auto;background:white;border:1px dashed #c9d6db;border-radius:16px;padding:34px;text-align:center;color:#657781}
+.empty-state strong{display:block;color:#30454f;font-size:1.05rem;margin-bottom:7px}
+.finish-banner{max-width:900px;margin:18px auto 0;background:#eaf4ef;border:1px solid #c8ded2;border-radius:15px;padding:18px 20px;display:flex;align-items:center;gap:16px;justify-content:space-between}
+.finish-banner strong{display:block;margin-bottom:3px}.finish-banner span{font-size:.85rem;color:#587066}
+.start-guide{margin-top:22px;border-top:1px solid #e1e8eb;padding-top:20px}
+.start-guide h3{margin:0 0 12px;font-size:1rem}
+.guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.guide-step{border:1px solid #e0e8eb;background:#fbfcfd;border-radius:12px;padding:13px}
+.guide-num{width:27px;height:27px;border-radius:8px;background:#e6f0f3;color:#235365;display:grid;place-items:center;font-weight:900;font-size:.8rem;margin-bottom:8px}
+.guide-step strong{font-size:.83rem;display:block;margin-bottom:4px}
+.guide-step span{font-size:.76rem;line-height:1.38;color:#667982}
+.start-warning{margin-top:12px;font-size:.79rem;color:#667982}
+.nav-explain{font-size:.73rem;color:#72858e;line-height:1.35;padding:7px 10px 14px}
+.case-paused{font-size:.76rem;color:#73848c}
+@media(max-width:760px){
+ .queue-card{grid-template-columns:42px 1fr}.queue-side{grid-column:2;text-align:left;display:flex;gap:8px;align-items:center}
+ .guide-grid{grid-template-columns:1fr 1fr}.finish-banner{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:480px){.guide-grid{grid-template-columns:1fr}}
+
+.color-picker{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.color-swatch{width:34px;height:34px;border-radius:50%;border:3px solid transparent;box-shadow:0 0 0 1px #c7d2d7;cursor:pointer;transition:.15s ease}
+.color-swatch:hover{transform:scale(1.06)}
+.color-swatch.selected{border-color:white;box-shadow:0 0 0 3px var(--brand),0 0 0 4px white}
+.color-caption{font-size:.78rem;color:#697b84;margin-top:7px}
+.arrival-dot{display:inline-flex;width:8px;height:8px;border-radius:50%;background:#d64b4b;margin-left:4px;vertical-align:middle}
+.interrupt-overlay{position:fixed;inset:0;background:rgba(16,29,35,.46);z-index:100;display:grid;place-items:center;padding:24px}
+.interrupt-card{width:min(530px,100%);background:white;border-radius:18px;border:1px solid var(--line);box-shadow:0 22px 70px rgba(0,0,0,.24);overflow:hidden}
+.interrupt-head{background:var(--brand);color:white;padding:19px 22px;display:flex;align-items:center;gap:12px}
+.interrupt-icon{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:1.2rem}
+.interrupt-body{padding:22px}
+.interrupt-body h3{margin:0 0 7px;font-size:1.08rem}
+.interrupt-body p{margin:0;color:#60727b;line-height:1.5}
+.interrupt-actions{display:flex;justify-content:flex-end;gap:10px;padding:0 22px 22px}
+.new-case-flash{animation:newCaseFlash .9s ease}
+@keyframes newCaseFlash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--brand2) 35%,transparent)}50%{box-shadow:0 0 0 8px transparent}100%{box-shadow:none}}
+
+
+.response-editor{display:block;width:100%;margin-top:2px}
+.response-editor textarea.written-response{display:block!important;visibility:visible!important;opacity:1!important;width:100%;min-height:140px;background:#fff;color:var(--ink);position:relative;z-index:1}
+
+/* v6/v7 · panel derecho de trabajo */
+.layout{grid-template-columns:220px minmax(0,1fr) 330px}
+.rightbar{padding:18px 14px;max-height:calc(100vh - 68px);overflow:auto;position:sticky;top:68px;align-self:start}
+.right-section{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.right-section h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:#667a84;margin:0 0 10px}
+.right-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.right-kpi{background:#f7fafb;border:1px solid #e5ecef;border-radius:10px;padding:9px}
+.right-kpi span{display:block;font-size:.68rem;color:#778991;text-transform:uppercase;letter-spacing:.04em;font-weight:800}
+.right-kpi strong{display:block;margin-top:3px;font-size:.98rem}
+.close-line{margin-top:10px;padding-top:10px;border-top:1px dashed #dce5e8;display:flex;justify-content:space-between;gap:10px;font-size:.8rem}
+.close-line span{color:#6e8089}.close-line strong{font-variant-numeric:tabular-nums}
+.priority-item,.alert-item,.note-item{padding:8px 0;border-bottom:1px dashed #e2e8eb;font-size:.78rem;line-height:1.35}
+.priority-item:last-child,.alert-item:last-child,.note-item:last-child{border-bottom:0}
+.priority-item strong,.alert-item strong{display:block;color:#344a54;margin-bottom:2px}
+.priority-meta,.alert-meta{color:#798a92;font-size:.7rem}
+.priority-empty,.alerts-empty,.notes-empty{font-size:.76rem;color:#84939a;line-height:1.4}
+.client-card{background:linear-gradient(180deg,color-mix(in srgb,var(--brand2) 8%,white),white)}
+.client-name{font-weight:900;font-size:1rem;margin-bottom:2px}.client-company{font-size:.78rem;color:#667982;margin-bottom:10px}
+.client-row{display:flex;justify-content:space-between;gap:9px;padding:6px 0;border-top:1px dashed #dfe7ea;font-size:.75rem}.client-row span{color:#71838c}.client-row strong{text-align:right}
+.note-compose{display:flex;gap:7px;margin-top:8px}.note-compose input{min-width:0;flex:1;padding:9px 10px;border:1px solid #cedade;border-radius:9px;font-size:.76rem}.note-compose button{border:0;background:var(--brand);color:white;border-radius:9px;padding:0 11px;font-weight:900}
+.note-item{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:start}.note-item button{border:0;background:transparent;color:#8d5a5a;padding:0;font-size:.8rem}
+.panel-badge{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf3f5;color:#566b74;font-size:.66rem;font-weight:850}
+.panel-badge.warn{background:#fff2d8;color:#7c591d}.panel-badge.urgent{background:#f8e7e7;color:#8b3c3c}
+.closing-overlay{position:fixed;inset:0;background:rgba(15,28,34,.52);z-index:120;display:grid;place-items:center;padding:24px}.closing-card{width:min(560px,100%);background:white;border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.28);overflow:hidden}.closing-head{background:var(--brand);color:white;padding:20px 22px}.closing-head h2{margin:0 0 5px;font-size:1.25rem}.closing-head p{margin:0;opacity:.85;font-size:.85rem}.closing-body{padding:22px}.closing-body p{margin:0 0 10px;color:#5f727b;line-height:1.5}.closing-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}.closing-stat{border:1px solid var(--line);border-radius:11px;padding:11px}.closing-stat span{display:block;color:#788991;font-size:.7rem;text-transform:uppercase;font-weight:800}.closing-stat strong{display:block;font-size:1.15rem;margin-top:3px}.closing-actions{display:flex;justify-content:flex-end;gap:9px;padding:0 22px 22px}
+@media(max-width:1150px){.layout{grid-template-columns:190px 1fr}.rightbar{display:none}}
+@media print{.rightbar,.closing-overlay{display:none!important}}
+
+
+/* v7 · navegación operativa y modo oscuro */
+.start-actions{justify-content:space-between;align-items:center;gap:12px}
+.mode-toggle{display:inline-flex;align-items:center;gap:7px}
+.top-mode-toggle{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.09);color:#fff;border-radius:9px;padding:7px 10px;font-weight:750;font-size:.78rem;display:flex;align-items:center;gap:6px}
+.top-mode-toggle:hover{background:rgba(255,255,255,.16)}
+.priority-item.clickable,.progress-item{display:block;width:100%;text-align:left;border:0;background:transparent;color:inherit;padding:9px 7px;margin:0 -7px;border-radius:9px;border-bottom:1px dashed #e2e8eb;transition:.12s ease;cursor:pointer}
+.priority-item.clickable:hover,.progress-item:hover{background:color-mix(in srgb,var(--brand2) 8%,transparent)}
+.priority-item.clickable:last-child,.progress-item:last-child{border-bottom:0}
+.priority-open{float:right;color:var(--brand);font-weight:850;font-size:.68rem;margin-left:8px}
+.progress-item strong{display:block;color:#344a54;margin-bottom:2px;font-size:.78rem}.progress-meta{color:#798a92;font-size:.7rem}
+body.dark{
+ --ink:#f4f7f9;--muted:#aeb9c3;--line:#2c3945;--panel:#111922;--bg:#080c11;--soft:#18222c;
+ --shadow:0 14px 38px rgba(0,0,0,.40)
+}
+body.dark .start-body,body.dark .workspace{background:#080c11}
+body.dark .start-card,body.dark .case-card,body.dark .right-section,body.dark .queue-card,body.dark .report,body.dark .interrupt-card,body.dark .closing-card{background:#111922;color:var(--ink);border-color:#2c3945}
+body.dark .sidebar{background:#0d141b;border-color:#26323d}
+body.dark .rightbar{background:#0a1016;border-color:#26323d}
+body.dark .navitem{color:#c5ced6}
+body.dark .navitem:hover{background:#17222c;color:#fff}
+body.dark .navitem.active{background:color-mix(in srgb,var(--brand) 30%,#17222c);color:#fff;box-shadow:inset 3px 0 0 var(--brand2)}
+body.dark .badge{background:#25313c;color:#edf2f5}
+body.dark .conversation{background:linear-gradient(180deg,#0f161d,#0b1117)}
+body.dark .bubble{background:#1a2530;color:#f1f5f7;border:1px solid #2a3743}
+body.dark .bubble.self{background:color-mix(in srgb,var(--brand) 38%,#17222b);color:#fff;border-color:color-mix(in srgb,var(--brand2) 55%,#33414e)}
+body.dark .choice{background:#151e27;color:#f3f6f8;border-color:#34424f}
+body.dark .choice:hover{background:#1d2934;border-color:color-mix(in srgb,var(--brand2) 65%,#6d7d89);transform:translateY(-1px)}
+body.dark .choice:disabled{opacity:.70}
+body.dark .secondary{background:#18222c;color:#eef3f6;border-color:#35424e}
+body.dark .secondary:hover{background:#202d38;border-color:#465664}
+body.dark input[type=text],body.dark select,body.dark textarea{background:#0f171f;color:#f4f7f9;border-color:#36434f}
+body.dark input[type=text]::placeholder,body.dark textarea::placeholder{color:#7f8d99}
+body.dark input[type=text]:focus,body.dark select:focus,body.dark textarea:focus{border-color:color-mix(in srgb,var(--brand2) 70%,#8fa0ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+body.dark .start-note,body.dark .guide-step,body.dark .filter-summary,body.dark .empty-state,body.dark .finish-banner,body.dark .reaction{background:#17212a;color:#d9e0e5;border-color:#303d49}
+body.dark .right-kpi{background:#161f28;border-color:#303d49}
+body.dark .right-kpi strong{color:#f6f8fa}
+body.dark .client-card{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 19%,#151f28),#111922);border-color:#33414e}
+body.dark .priority-item,body.dark .alert-item,body.dark .progress-item{border-color:#34414d}
+body.dark .priority-item:hover,body.dark .progress-item:hover{background:#19242e}
+body.dark .priority-item strong,body.dark .alert-item strong,body.dark .progress-item strong{color:#f1f5f7}
+body.dark .priority-meta,body.dark .alert-meta,body.dark .progress-meta,body.dark .client-company,body.dark .client-row span,body.dark .right-section h3,body.dark .color-caption{color:#aab6c0}
+body.dark .back-btn,body.dark .priority-open{color:color-mix(in srgb,var(--brand2) 72%,#d9f5ff);font-weight:850}
+body.dark .back-btn:hover,body.dark .priority-open:hover{color:#fff}
+body.dark .status-pill,body.dark .event-tag,body.dark .panel-badge{background:#25323d;color:#e2e9ee}
+body.dark .panel-badge.warn{background:#49371c;color:#ffd995}
+body.dark .panel-badge.urgent{background:#4d2529;color:#ffc0c4}
+body.dark .response-editor textarea.written-response{background:#0f171f!important;color:#f4f7f9;border-color:#36434f}
+body.dark .note-compose input{background:#0f171f;color:#f4f7f9;border-color:#36434f}
+body.dark .report-kpi,body.dark .score-area,body.dark .feedback-box,body.dark .closing-stat{border-color:#303d49;background:#151e27}
+body.dark .bar-bg,body.dark .big-score{background:#202b35;border-color:#35434f}
+body.dark .cases-table th{background:#18222c;color:#f0f4f6}
+body.dark .cases-table th,body.dark .cases-table td{border-color:#303d49}
+body.dark .cases-table td{color:#dce3e8}
+body.dark .personal-response{background:#17212a;color:#e4eaee}
+body.dark .interrupt-body p,body.dark .closing-body p{color:#c0c9d1}
+body.dark .queue-card{box-shadow:0 4px 18px rgba(0,0,0,.18)}
+body.dark .queue-card:hover{background:#17212a;border-color:#43515e;box-shadow:0 8px 24px rgba(0,0,0,.24)}
+body.dark .queue-title{color:#f4f7f9}
+body.dark .queue-meta,body.dark .queue-time,body.dark .case-meta span,body.dark .case-clock{color:#a7b3bd}
+body.dark .mini-stat{border-color:#2c3945}
+body.dark .mini-stat span,body.dark .hint,body.dark .counter{color:#aab6c0}
+body.dark .progress-track{background:#202a34}
+body.dark .note-item{background:#151f28;border-color:#303d49;color:#e4eaee}
+body.dark .note-item button{color:#b9c4cc}
+body.dark .note-item button:hover{color:#fff}
+body.dark .top-mode-toggle{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.24);color:#fff}
+body.dark .top-mode-toggle:hover{background:rgba(255,255,255,.16)}
+@media(max-width:760px){.top-mode-toggle span{display:none}.top-mode-toggle{padding:7px 9px}}
+@media print{
+ body.dark{--ink:#1e2b32;--muted:#687a83;--line:#dce5e9;--panel:#fff;--bg:#fff;--soft:#eaf1f3}
+ body.dark .report,body.dark .report-kpi,body.dark .score-area,body.dark .feedback-box,body.dark .personal-response{background:#fff!important;color:#1e2b32!important;border-color:#dce5e9!important}
+ body.dark .cases-table th,body.dark .cases-table td{border-color:#e4eaed!important}
+}
+
+
+/* Exportación robusta desde Sites: PDF local, vista independiente y opción antigua en pestaña normal */
+.report-export-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.report-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:.88rem}
+.report-export-help{max-width:980px;margin:0 0 14px auto;color:var(--muted);font-size:.82rem;line-height:1.4;text-align:right}
+.grade-disclaimer{font-size:.82rem;color:var(--muted);line-height:1.5;padding:11px 14px;border:1px solid var(--line);border-radius:11px;margin:0 0 18px}
+body.dark .report-export-help{color:#b1bec9}
+@media print{.report-export-help,.report-export-actions{display:none!important}}
+</style>
+</head>
+<body>
+
+<section id="startScreen" class="start-shell">
+  <div class="start-card">
+    <div class="start-hero">
+      <div id="startEyebrow" class="eyebrow">ATENCIÓN AL CLIENTE · SIMULACIÓN PROFESIONAL</div>
+      <h1 id="startTitle">Central de Clientes</h1>
+      <p id="startDesc">Gestiona una jornada de atención multicanal en una empresa gráfica. Empezarás con varios casos abiertos y, mientras trabajas, irán llegando nuevas consultas e incidencias.</p>
+    </div>
+    <div class="start-body">
+      <div class="form-grid">
+        <div>
+          <label id="labStudent" for="studentName">Nombre y apellidos</label>
+          <input id="studentName" type="text" maxlength="70" placeholder="Nombre">
+        </div>
+        <div>
+          <label id="labCompany" for="companyName">Nombre de tu empresa</label>
+          <input id="companyName" type="text" maxlength="60" placeholder="Empresa">
+        </div>
+        <div class="full">
+          <label id="labLang" for="langSelect">Idioma de la simulación</label>
+          <select id="langSelect">
+            <option value="es">Español</option>
+            <option value="ca">Català</option>
+          </select>
+        </div>
+        <div class="full">
+          <label id="labColor">Color de tu empresa</label>
+          <div id="colorPicker" class="color-picker" role="group" aria-label="Color de la empresa">
+            <button type="button" class="color-swatch selected" data-theme="teal" title="Petróleo" style="background:#173f4c"></button>
+            <button type="button" class="color-swatch" data-theme="navy" title="Azul marino" style="background:#243b63"></button>
+            <button type="button" class="color-swatch" data-theme="blue" title="Azul" style="background:#275b8d"></button>
+            <button type="button" class="color-swatch" data-theme="cyan" title="Cian" style="background:#08768c"></button>
+            <button type="button" class="color-swatch" data-theme="green" title="Verde" style="background:#315c46"></button>
+            <button type="button" class="color-swatch" data-theme="olive" title="Oliva" style="background:#59612f"></button>
+            <button type="button" class="color-swatch" data-theme="ochre" title="Ocre" style="background:#805522"></button>
+            <button type="button" class="color-swatch" data-theme="orange" title="Naranja" style="background:#98501f"></button>
+            <button type="button" class="color-swatch" data-theme="red" title="Rojo" style="background:#8b3434"></button>
+            <button type="button" class="color-swatch" data-theme="burgundy" title="Granate" style="background:#6b3043"></button>
+            <button type="button" class="color-swatch" data-theme="magenta" title="Magenta" style="background:#87345f"></button>
+            <button type="button" class="color-swatch" data-theme="purple" title="Morado" style="background:#51406d"></button>
+          </div>
+          <div id="colorCaption" class="color-caption">El color elegido se aplicará a la interfaz de tu empresa.</div>
+        </div>
+      </div>
+
+      <div id="startNote" class="start-note"></div>
+
+      <div class="start-guide">
+        <h3 id="guideTitle">Cómo funciona la jornada</h3>
+        <div class="guide-grid">
+          <div class="guide-step"><div class="guide-num">1</div><strong id="g1t"></strong><span id="g1d"></span></div>
+          <div class="guide-step"><div class="guide-num">2</div><strong id="g2t"></strong><span id="g2d"></span></div>
+          <div class="guide-step"><div class="guide-num">3</div><strong id="g3t"></strong><span id="g3d"></span></div>
+          <div class="guide-step"><div class="guide-num">4</div><strong id="g4t"></strong><span id="g4d"></span></div>
+        </div>
+        <div id="startWarning" class="start-warning"></div>
+      </div>
+
+      <div class="start-actions">
+  <button id="darkToggleStart" type="button" class="secondary mode-toggle">🌙 Modo oscuro</button>
+  <button id="startBtn" class="primary" disabled>Comenzar la jornada</button>
+</div>
+    </div>
+  </div>
+</section>
+
+<section id="appScreen" class="hidden">
+<header class="topbar">
+  <div class="brandmark"><div class="logo-dot">C</div><div><div id="topCompany" class="brand-title">Empresa</div><div id="brandSub" class="brand-sub">Central de Clientes</div></div></div>
+  <div class="top-spacer"></div>
+  <button id="darkToggleTop" type="button" class="top-mode-toggle" title="Modo oscuro">🌙 <span>Oscuro</span></button>
+  <div class="top-info"><span class="session-small"><span id="lblSession">Sesión</span> <strong id="topSession"></strong></span><span><span id="lblDay">Jornada</span> <strong id="fakeClock">09:00</strong></span><span><span id="lblTime">Tiempo</span> <strong id="elapsedClock">00:00</strong></span></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div id="sideTitle" class="side-title">Canales</div>
+  <div id="navExplain" class="nav-explain">Todos los pendientes reúne los casos de los cuatro canales.</div>
+  <button class="navitem active" data-filter="all"><div class="navleft"><span>📥</span><span id="navInbox">Todos los pendientes</span></div><span id="countAll" class="badge">0</span></button>
+  <button class="navitem" data-filter="email"><div class="navleft"><span>📧</span><span id="navMail">Correo</span></div><span id="countEmail" class="badge">0</span></button>
+  <button class="navitem" data-filter="msg"><div class="navleft"><span>💬</span><span id="navMsg">Mensajes</span></div><span id="countMsg" class="badge">0</span></button>
+  <button class="navitem" data-filter="phone"><div class="navleft"><span>☎️</span><span id="navPhone">Llamadas</span></div><span id="countPhone" class="badge">0</span></button>
+  <button class="navitem" data-filter="desk"><div class="navleft"><span>👤</span><span id="navDesk">Recepción</span></div><span id="countDesk" class="badge">0</span></button>
+  <button class="navitem" data-filter="done"><div class="navleft"><span>✅</span><span id="navDone">Resueltos</span></div><span id="countDone" class="badge">0</span></button>
+</aside>
+
+<main class="workspace">
+  <div id="listView">
+    <div class="section-head">
+      <div><h2 id="listTitle">Todos los pendientes</h2><p id="listSubtitle">Elige qué conversación quieres atender.</p></div>
+      <span id="queueTotalTag" class="event-tag">0 pendientes</span>
+    </div>
+    <div id="filterSummary" class="filter-summary"></div>
+    <div id="caseList" class="queue-list"></div>
+    <div id="finishBanner" class="finish-banner hidden">
+      <div><strong id="finishTitle">Jornada completada</strong><span id="finishText">Has resuelto todas las conversaciones. Ya puedes generar tu informe final.</span></div>
+      <button id="finishBtn" class="primary">Ver informe final</button>
+    </div>
+  </div>
+
+  <div id="caseView" class="hidden">
+    <div class="back-row">
+      <button id="backBtn" class="back-btn">← Volver a pendientes</button>
+      <span id="pausedHint" class="case-paused">Puedes cambiar de canal sin perder el progreso.</span>
+    </div>
+    <div class="case-shell">
+      <div class="section-head">
+        <div><h2 id="workTitle">Nueva situación</h2><p id="workSubtitle">Analiza el contexto antes de decidir.</p></div>
+        <span id="difficultyTag" class="event-tag">● situación</span>
+      </div>
+      <div class="case-card">
+        <div class="case-top"><div id="channelIcon" class="channel-icon">💬</div><div class="case-meta"><strong id="clientName">Cliente</strong><span id="clientMeta">Canal</span></div><div id="caseTime" class="case-clock">09:00</div></div>
+        <div id="conversation" class="conversation"></div>
+        <div id="choiceZone" class="choice-zone"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<aside class="rightbar">
+  <div class="right-section">
+    <h3 id="panelDayTitle">Resumen de jornada</h3>
+    <div class="right-kpis">
+      <div class="right-kpi"><span id="panelResolvedLabel">Resueltos</span><strong id="panelResolved">0</strong></div>
+      <div class="right-kpi"><span id="panelPendingLabel">Pendientes</span><strong id="panelPending">0</strong></div>
+      <div class="right-kpi"><span id="panelProgressLabel">En curso</span><strong id="panelProgress">0</strong></div>
+      <div class="right-kpi"><span id="panelNewLabel">Nuevos</span><strong id="panelNew">0</strong></div>
+    </div>
+    <div class="close-line"><span id="panelCloseLabel">Cierre</span><strong id="panelClose">14:00</strong></div>
+  </div>
+
+  <div id="clientPanel" class="right-section client-card hidden">
+    <h3 id="clientPanelTitle">Cliente actual</h3>
+    <div id="panelClientName" class="client-name"></div>
+    <div id="panelClientCompany" class="client-company"></div>
+    <div class="client-row"><span id="clientChannelLabel">Canal</span><strong id="panelClientChannel"></strong></div>
+    <div class="client-row"><span id="clientStatusLabel">Estado</span><strong id="panelClientStatus"></strong></div>
+    <div class="client-row"><span id="clientContactsLabel">Contactos hoy</span><strong id="panelClientContacts"></strong></div>
+  </div>
+
+  <div class="right-section">
+    <h3 id="inProgressTitle">En curso</h3>
+    <div id="inProgressList"></div>
+  </div>
+
+  <div class="right-section">
+    <h3 id="prioritiesTitle">Prioridades</h3>
+    <div id="priorityList"></div>
+  </div>
+
+  <div class="right-section">
+    <h3 id="alertsTitle">Avisos internos</h3>
+    <div id="internalAlerts"></div>
+  </div>
+
+  <div class="right-section">
+    <h3 id="notesTitle">Notas</h3>
+    <div id="notesList"></div>
+    <div class="note-compose"><input id="noteInput" type="text" maxlength="100" placeholder="Añadir una nota..."><button id="addNoteBtn" type="button">+</button></div>
+  </div>
+</aside>
+</div>
+</section>
+
+<section id="reportScreen" class="hidden">
+<div class="report-shell">
+  <div class="report-actions report-export-actions">
+    <a id="pdfDownload" class="primary report-link" href="#" download="informe-central-clientes.pdf">⬇ Descargar informe PDF</a>
+    <a id="pdfOpen" class="secondary report-link" href="#" target="_blank" rel="noopener">↗ Abrir PDF para imprimir</a>
+    <button id="printBtn" class="secondary" type="button">🖨 Imprimir desde navegador</button>
+  </div>
+  <p id="exportHelp" class="report-export-help">Descarga el PDF directamente; si Google Sites bloquea la descarga, prueba a abrirlo en otra pestaña.</p>
+  <article class="report"><div class="report-head"><div id="reportEyebrow" class="eyebrow">INFORME INDIVIDUAL DE SIMULACIÓN</div><h1 id="reportTitle">Central de Clientes</h1><p id="reportCompany">Empresa</p></div><div id="reportBody" class="report-body"></div></article>
+</div>
+</section>
+
+<div id="interruptOverlay" class="interrupt-overlay hidden" aria-modal="true" role="dialog">
+  <div class="interrupt-card">
+    <div class="interrupt-head"><div id="interruptIcon" class="interrupt-icon">☎️</div><div><strong id="interruptKicker">NUEVA ENTRADA</strong><div id="interruptChannel" style="font-size:.8rem;opacity:.8"></div></div></div>
+    <div class="interrupt-body"><h3 id="interruptTitle"></h3><p id="interruptText"></p></div>
+    <div class="interrupt-actions">
+      <button id="interruptLaterBtn" class="secondary">Seguir con lo actual</button>
+      <button id="interruptNowBtn" class="primary">Atender ahora</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="closingOverlay" class="closing-overlay hidden" aria-modal="true" role="dialog">
+  <div class="closing-card">
+    <div class="closing-head"><h2 id="closingTitle">Fin de la jornada laboral</h2><p id="closingSubtitle">Son las 14:00.</p></div>
+    <div class="closing-body">
+      <p id="closingText">Tu horario ha terminado, pero aún quedan asuntos pendientes. Puedes finalizar ahora o continuar en horas extra.</p>
+      <div class="closing-stats">
+        <div class="closing-stat"><span id="closingPendingLabel">Pendientes</span><strong id="closingPending">0</strong></div>
+        <div class="closing-stat"><span id="closingDoneLabel">Resueltos</span><strong id="closingDone">0</strong></div>
+      </div>
+    </div>
+    <div class="closing-actions"><button id="finishNowBtn" class="secondary">Finalizar jornada</button><button id="overtimeBtn" class="primary">Hacer horas extra</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+
+(() => {
+'use strict';
+const $=id=>document.getElementById(id), clamp=n=>Math.max(0,Math.min(100,n)), pick=a=>a[Math.floor(Math.random()*a.length)], shuffle=a=>[...a].sort(()=>Math.random()-.5), pad=n=>String(n).padStart(2,'0');
+const state={
+ lang:'es',theme:'teal',darkMode:false,student:'',company:'',session:'',realStart:null,realEnd:null,fakeMinutes:540,timer:null,arrivalTimer:null,
+ sessionCases:[],currentFilter:'all',currentCaseId:null,
+ scores:{sat:0,prec:0,prof:0,risk:100},gradeItems:[],decisions:0,history:[],openResponses:[],flags:{},arrivalQueue:[],lastArrivalUid:null,notes:[],internalAlerts:[],overtime:false,closingPromptShown:false,nearCloseShown:false,forcedFinish:false,identityBook:{}
+};
+const T=(es,ca)=>state.lang==='ca'?ca:es;
+
+const UI={
+ es:{
+  title:'Central de Clientes',eyebrow:'ATENCIÓN AL CLIENTE · SIMULACIÓN PROFESIONAL',
+  desc:'Gestiona una jornada de atención multicanal en una empresa gráfica. Empezarás con varios casos abiertos y, mientras trabajas, irán llegando nuevas consultas e incidencias.',
+  student:'Nombre y apellidos',company:'Nombre de tu empresa',lang:'Idioma de la simulación',color:'Color de tu empresa',colorCaption:'El color elegido se aplicará a la interfaz de tu empresa.',
+  note:'<strong>Importante:</strong> no es un test lineal. “Todos los pendientes” reúne los casos de Correo, Mensajes, Llamadas y Recepción. Puedes entrar y salir de una conversación y cambiar de canal: el simulador conservará tu progreso.',
+  guideTitle:'Cómo funciona la jornada',
+  g1t:'Elige un canal',g1d:'Usa el menú izquierdo para ver todos los pendientes o filtrar por correo, mensajes, llamadas y recepción.',
+  g2t:'Abre una conversación',g2d:'Cada caso puede tener una o varias decisiones. Lee el contexto antes de actuar.',
+  g3t:'Cambia cuando quieras',g3d:'Puedes dejar una conversación en curso, atender otro canal y volver después sin perder el punto en el que estabas.',
+  g4t:'La jornada va cambiando',g4d:'Empezarás con 8 casos. Durante el trabajo aparecerán 14 situaciones nuevas hasta completar una jornada de 22; algunas pueden interrumpirte.',
+  warning:'El reloj de jornada está acelerado: 7 segundos reales equivalen aproximadamente a 1 minuto de trabajo. La puntuación permanece oculta durante la actividad. Al terminar, descarga el PDF del informe; las respuestas escritas las revisará el profesor.',
+  start:'Comenzar la jornada',session:'Sesión',day:'Jornada',time:'Tiempo',channels:'Canales',
+  inbox:'Todos los pendientes',mail:'Correo',msgs:'Mensajes',calls:'Llamadas',desk:'Recepción',done:'Resueltos',
+  navExplain:'Todos los pendientes reúne los casos de los cuatro canales.',
+  listSub:'Elige qué conversación quieres atender.',allSummary:'Correo + Mensajes + Llamadas + Recepción',
+  studentShort:'Alumno/a',cases:'Casos resueltos',decisions:'Decisiones',remember:'Recuerda',
+  rememberText:'Puedes cambiar de canal en cualquier momento. Las conversaciones en curso conservarán el punto exacto en el que las dejaste.',
+  analyse:'Analiza el contexto antes de decidir.',back:'← Volver a pendientes',paused:'Puedes cambiar de canal sin perder el progreso.',
+  pending:'pendientes',new:'nuevo',inProgress:'en curso',resolved:'resuelto',empty:'No hay conversaciones en esta sección.',
+  finishTitle:'Jornada completada',finishText:'Has resuelto todas las conversaciones. Ya puedes generar tu informe final.',finishBtn:'Ver informe final',
+  print:'🖨 Imprimir desde navegador',reportEyebrow:'INFORME INDIVIDUAL DE SIMULACIÓN',pdfDownload:'⬇ Descargar informe PDF',pdfOpen:'↗ Abrir PDF para imprimir',exportHelp:'El PDF se genera en este dispositivo. Si Google Sites bloquea la descarga, prueba «Abrir PDF para imprimir». Si ambas opciones están bloqueadas, abre el simulador directamente fuera de Sites.',writtenReview:'Respuestas abiertas: pendientes de revisión docente.',
+  continue:'Continuar conversación',close:'Cerrar situación',send:'Enviar respuesta',placeholder:'Escribe una respuesta profesional...',
+  tooShort:'La respuesta es demasiado corta. Desarróllala un poco más.',closed:'Situación cerrada',
+  askName:'Escribe tu nombre y apellidos.',askCompany:'Pon un nombre a tu empresa.',
+  email:'Correo electrónico',instagram:'Instagram',whatsapp:'Mensajería',phone:'Llamada',deskCh:'Atención presencial',
+  panelDay:'Resumen de jornada',panelResolved:'Resueltos',panelPending:'Pendientes',panelProgress:'En curso',panelNew:'Nuevos',panelClose:'Cierre',clientPanel:'Cliente actual',clientChannel:'Canal',clientStatus:'Estado',clientContacts:'Contactos hoy',inProgressCases:'Conversaciones en curso',noInProgress:'No has dejado ninguna conversación en curso.',priorities:'Prioridades',openCase:'Abrir →',darkMode:'Modo oscuro',lightMode:'Modo claro',darkShort:'Oscuro',lightShort:'Claro',alerts:'Avisos internos',notes:'Notas',notePlaceholder:'Añadir una nota...',noPriorities:'No hay prioridades destacadas ahora.',noAlerts:'Aún no hay avisos internos.',noNotes:'No has añadido notas.',closingTitle:'Fin de la jornada laboral',closingSubtitle:'Son las 14:00.',closingText:'Tu horario ha terminado, pero aún quedan asuntos pendientes. Puedes finalizar ahora o continuar en horas extra.',finishNow:'Finalizar jornada',overtime:'Hacer horas extra',nearClose:'Quedan 20 minutos para el cierre.',overtimeLabel:'HORAS EXTRA',diff1:'● inicial',diff2:'●● intermedia',diff3:'●●● compleja',newEntry:'NUEVA ENTRADA',newCase:'Ha llegado un nuevo caso',urgentInterrupt:'Esta entrada puede requerir tu atención. Puedes atenderla ahora o dejarla pendiente y continuar con lo que estabas haciendo.',later:'Seguir con lo actual',attendNow:'Atender ahora'
+ },
+ ca:{
+  title:'Central de Clients',eyebrow:'ATENCIÓ AL CLIENT · SIMULACIÓ PROFESSIONAL',
+  desc:"Gestiona una jornada d'atenció multicanal en una empresa gràfica. Començaràs amb diversos casos oberts i, mentre treballes, aniran arribant noves consultes i incidències.",
+  student:'Nom i llinatges',company:'Nom de la teva empresa',lang:'Idioma de la simulació',color:'Color de la teva empresa',colorCaption:'El color triat s’aplicarà a la interfície de la teva empresa.',
+  note:"<strong>Important:</strong> no és un test lineal. “Tots els pendents” reuneix els casos de Correu, Missatges, Telefonades i Recepció. Pots entrar i sortir d'una conversa i canviar de canal: el simulador conservarà el teu progrés.",
+  guideTitle:'Com funciona la jornada',
+  g1t:'Tria un canal',g1d:"Utilitza el menú esquerre per veure tots els pendents o filtrar per correu, missatges, telefonades i recepció.",
+  g2t:'Obre una conversa',g2d:'Cada cas pot tenir una o diverses decisions. Llegeix el context abans d’actuar.',
+  g3t:'Canvia quan vulguis',g3d:'Pots deixar una conversa en curs, atendre un altre canal i tornar-hi després sense perdre el punt on eres.',
+  g4t:'La jornada va canviant',g4d:'Començaràs amb 8 casos. Durant la feina apareixeran 14 situacions noves fins a completar una jornada de 22; algunes et poden interrompre.',
+  warning:"El rellotge de jornada està accelerat: 7 segons reals equivalen aproximadament a 1 minut de feina. La puntuació roman oculta durant l'activitat. En acabar, descarrega el PDF de l’informe; el professor revisarà les respostes escrites.",
+  start:'Començar la jornada',session:'Sessió',day:'Jornada',time:'Temps',channels:'Canals',
+  inbox:'Tots els pendents',mail:'Correu',msgs:'Missatges',calls:'Telefonades',desk:'Recepció',done:'Resolts',
+  navExplain:'Tots els pendents reuneix els casos dels quatre canals.',
+  listSub:'Tria quina conversa vols atendre.',allSummary:'Correu + Missatges + Telefonades + Recepció',
+  studentShort:'Alumne/a',cases:'Casos resolts',decisions:'Decisions',remember:'Recorda',
+  rememberText:'Pots canviar de canal en qualsevol moment. Les converses en curs conservaran el punt exacte on les has deixat.',
+  analyse:'Analitza el context abans de decidir.',back:'← Tornar als pendents',paused:'Pots canviar de canal sense perdre el progrés.',
+  pending:'pendents',new:'nou',inProgress:'en curs',resolved:'resolt',empty:'No hi ha converses en aquesta secció.',
+  finishTitle:'Jornada completada',finishText:'Has resolt totes les converses. Ja pots generar el teu informe final.',finishBtn:'Veure informe final',
+  print:'🖨 Imprimir des del navegador',reportEyebrow:'INFORME INDIVIDUAL DE SIMULACIÓ',pdfDownload:'⬇ Descarregar informe PDF',pdfOpen:'↗ Obrir PDF per imprimir',exportHelp:'El PDF es genera en aquest dispositiu. Si Google Sites bloqueja la descàrrega, prova «Obrir PDF per imprimir». Si totes dues opcions estan bloquejades, obre el simulador directament fora de Sites.',writtenReview:'Respostes obertes: pendents de revisió docent.',
+  continue:'Continuar conversa',close:'Tancar situació',send:'Enviar resposta',placeholder:'Escriu una resposta professional...',
+  tooShort:'La resposta és massa curta. Desenvolupa-la una mica més.',closed:'Situació tancada',
+  askName:'Escriu el teu nom i llinatges.',askCompany:'Posa un nom a la teva empresa.',
+  email:'Correu electrònic',instagram:'Instagram',whatsapp:'Missatgeria',phone:'Telefonada',deskCh:'Atenció presencial',
+  panelDay:'Resum de jornada',panelResolved:'Resolts',panelPending:'Pendents',panelProgress:'En curs',panelNew:'Nous',panelClose:'Tancament',clientPanel:'Client actual',clientChannel:'Canal',clientStatus:'Estat',clientContacts:'Contactes avui',inProgressCases:'Converses en curs',noInProgress:'No has deixat cap conversa en curs.',priorities:'Prioritats',openCase:'Obrir →',darkMode:'Mode fosc',lightMode:'Mode clar',darkShort:'Fosc',lightShort:'Clar',alerts:'Avisos interns',notes:'Notes',notePlaceholder:'Afegir una nota...',noPriorities:'No hi ha prioritats destacades ara.',noAlerts:'Encara no hi ha avisos interns.',noNotes:'No has afegit notes.',closingTitle:'Fi de la jornada laboral',closingSubtitle:'Són les 14:00.',closingText:'El teu horari ha acabat, però encara queden assumptes pendents. Pots finalitzar ara o continuar fent hores extra.',finishNow:'Finalitzar jornada',overtime:'Fer hores extra',nearClose:'Queden 20 minuts per al tancament.',overtimeLabel:'HORES EXTRA',diff1:'● inicial',diff2:'●● intermèdia',diff3:'●●● complexa',newEntry:'NOVA ENTRADA',newCase:'Ha arribat un cas nou',urgentInterrupt:'Aquesta entrada pot requerir la teva atenció. Pots atendre-la ara o deixar-la pendent i continuar amb el que estaves fent.',later:'Continuar amb el que faig',attendNow:'Atendre ara'
+ }
+};
+function u(){return UI[state.lang]}
+function applyLanguage(){
+ state.lang=$('langSelect').value; document.documentElement.lang=state.lang;
+ document.title=u().title+' · '+T('Simulador de atención multicanal',"Simulador d'atenció multicanal");
+ const map={
+  startEyebrow:'eyebrow',startTitle:'title',startDesc:'desc',labStudent:'student',labCompany:'company',labLang:'lang',labColor:'color',colorCaption:'colorCaption',
+  guideTitle:'guideTitle',g1t:'g1t',g1d:'g1d',g2t:'g2t',g2d:'g2d',g3t:'g3t',g3d:'g3d',g4t:'g4t',g4d:'g4d',
+  startWarning:'warning',startBtn:'start',brandSub:'title',lblSession:'session',lblDay:'day',lblTime:'time',
+  sideTitle:'channels',navInbox:'inbox',navMail:'mail',navMsg:'msgs',navPhone:'calls',navDesk:'desk',navDone:'done',
+  navExplain:'navExplain',listSubtitle:'listSub',rightDayTitle:'day',rightStudentLabel:'studentShort',rightCasesLabel:'cases',
+  rightDecisionsLabel:'decisions',rememberTitle:'remember',rememberText:'rememberText',backBtn:'back',pausedHint:'paused',
+  finishTitle:'finishTitle',finishText:'finishText',finishBtn:'finishBtn',printBtn:'print',reportEyebrow:'reportEyebrow',reportTitle:'title',panelDayTitle:'panelDay',panelResolvedLabel:'panelResolved',panelPendingLabel:'panelPending',panelProgressLabel:'panelProgress',panelNewLabel:'panelNew',panelCloseLabel:'panelClose',clientPanelTitle:'clientPanel',clientChannelLabel:'clientChannel',clientStatusLabel:'clientStatus',clientContactsLabel:'clientContacts',inProgressTitle:'inProgressCases',prioritiesTitle:'priorities',alertsTitle:'alerts',notesTitle:'notes',closingTitle:'closingTitle',closingSubtitle:'closingSubtitle',closingText:'closingText',closingPendingLabel:'panelPending',closingDoneLabel:'panelResolved',finishNowBtn:'finishNow',overtimeBtn:'overtime'
+ };
+ Object.entries(map).forEach(([id,key])=>{if($(id))$(id).textContent=u()[key]});
+ $('startNote').innerHTML=u().note;
+ $('pdfDownload').textContent=u().pdfDownload;$('pdfOpen').textContent=u().pdfOpen;$('exportHelp').textContent=u().exportHelp;
+ $('studentName').placeholder=T('Nombre','Nom');
+ $('companyName').placeholder=T('Empresa','Empresa');
+ $('interruptKicker').textContent=u().newEntry;$('interruptLaterBtn').textContent=u().later;$('interruptNowBtn').textContent=u().attendNow;$('noteInput').placeholder=u().notePlaceholder;updateDarkButtons();
+}
+
+$('langSelect').addEventListener('change',applyLanguage); applyLanguage();
+
+const THEMES={
+ teal:['#173f4c','#2f7083'],
+ navy:['#243b63','#46658e'],
+ blue:['#275b8d','#4d82b8'],
+ cyan:['#08768c','#2c9ab0'],
+ green:['#315c46','#56846b'],
+ olive:['#59612f','#7f8a49'],
+ ochre:['#805522','#b07b3d'],
+ orange:['#98501f','#c4773b'],
+ red:['#8b3434','#b75a55'],
+ burgundy:['#6b3043','#9a5369'],
+ magenta:['#87345f','#b55786'],
+ purple:['#51406d','#7a6698']
+};
+function applyTheme(name){
+ const pair=THEMES[name]||THEMES.teal;state.theme=name;
+ document.documentElement.style.setProperty('--brand',pair[0]);
+ document.documentElement.style.setProperty('--brand2',pair[1]);
+ document.querySelectorAll('.color-swatch').forEach(b=>b.classList.toggle('selected',b.dataset.theme===name));
+}
+document.querySelectorAll('.color-swatch').forEach(b=>b.addEventListener('click',()=>applyTheme(b.dataset.theme)));
+applyTheme('teal');
+
+function updateDarkButtons(){
+ const start=$('darkToggleStart'),top=$('darkToggleTop');
+ if(start)start.textContent=state.darkMode?`☀️ ${u().lightMode}`:`🌙 ${u().darkMode}`;
+ if(top){top.innerHTML=state.darkMode?`☀️ <span>${u().lightShort}</span>`:`🌙 <span>${u().darkShort}</span>`;top.title=state.darkMode?u().lightMode:u().darkMode}
+}
+function setDarkMode(on){state.darkMode=!!on;document.body.classList.toggle('dark',state.darkMode);updateDarkButtons()}
+function toggleDarkMode(){setDarkMode(!state.darkMode)}
+$('darkToggleStart').addEventListener('click',toggleDarkMode);
+$('darkToggleTop').addEventListener('click',toggleDarkMode);
+updateDarkButtons();
+
+function validateStart(){
+ const ok=$('studentName').value.trim().length>=2 && $('companyName').value.trim().length>=2;
+ $('startBtn').disabled=!ok;
+}
+$('studentName').addEventListener('input',validateStart);
+$('companyName').addEventListener('input',validateStart);
+
+
+const CHANNELS={
+ email:{label:()=>u().email,icon:'📧',group:'email'},
+ instagram:{label:()=>u().instagram,icon:'💬',group:'msg'},
+ whatsapp:{label:()=>u().whatsapp,icon:'💬',group:'msg'},
+ phone:{label:()=>u().phone,icon:'☎️',group:'phone'},
+ desk:{label:()=>u().deskCh,icon:'👤',group:'desk'}
+};
+function sid(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='AC-';for(let i=0;i<6;i++)s+=c[Math.floor(Math.random()*c.length)];return s}
+function realTime(d){return d.toLocaleTimeString(state.lang==='ca'?'ca-ES':'es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+function realDate(d){return d.toLocaleDateString(state.lang==='ca'?'ca-ES':'es-ES',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function dur(ms){const t=Math.max(0,Math.floor(ms/1000)),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;return h?`${h} h ${m} min ${s} s`:`${m} min ${s} s`}
+function ftime(min=state.fakeMinutes){return `${pad(Math.floor(min/60)%24)}:${pad(min%60)}`}
+function syncSimClock(){
+ if(!state.realStart)return;
+ const elapsedSec=Math.floor(((state.realEnd||new Date())-state.realStart)/1000);
+ // 7 real seconds = 1 simulated minute. 35 real minutes ≈ 09:00–14:00.
+ state.fakeMinutes=9*60+Math.floor(elapsedSec/7);
+ if($('fakeClock'))$('fakeClock').textContent=ftime()+(state.overtime?' · '+u().overtimeLabel:'');
+ if(!state.nearCloseShown && state.fakeMinutes>=13*60+40){state.nearCloseShown=true;addInternalAlert(u().nearClose,'warning');toast(u().nearClose)}
+ if(!state.closingPromptShown && state.fakeMinutes>=14*60 && state.history.length<state.sessionCases.length){showClosingPrompt()}
+}
+function advance(){syncSimClock()}
+function toast(m){$('toast').textContent=m;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1400)}
+// Evaluación basada en evidencias: no hay puntos de partida ni premios automáticos por teclear.
+// 0: incorrecta, 1: débil, 2: razonable incompleta, 3: óptima.
+const QUALITY_POINTS=[0,25,65,100];
+function eff(e={},quality=0,c=null){
+ const q=Math.max(0,Math.min(3,Math.round(Number(quality)||0))),base=QUALITY_POINTS[q];
+ const weight=c?(c.difficulty===3?1.55:c.difficulty===2?1.25:1):1;
+ const limit=v=>Math.max(-14,Math.min(14,v));
+ state.gradeItems.push({quality:q,weight,points:base,
+  sat:clamp(base+limit((e.sat||0)*2)),
+  prec:clamp(base+limit((e.prec||0)*2)),
+  prof:clamp(base+limit((e.prof||0)*2)),
+  safety:clamp(base-limit((e.risk||0)*2))
+ });
+ const sum=key=>Math.round(state.gradeItems.reduce((a,x)=>a+x[key]*x.weight,0)/state.gradeItems.reduce((a,x)=>a+x.weight,0));
+ state.scores.sat=sum('sat');state.scores.prec=sum('prec');state.scores.prof=sum('prof');state.scores.risk=100-sum('safety');
+}
+function overall(){
+ const a=state.gradeItems;if(!a.length)return 0;
+ return Math.round(a.reduce((s,x)=>s+x.points*x.weight,0)/a.reduce((s,x)=>s+x.weight,0));
+}
+function rating(a){return a>=2.65?T('Muy adecuado','Molt adequat'):a>=1.9?T('Adecuado','Adequat'):a>=1.15?T('Mejorable','Millorable'):T('Poco adecuado','Poc adequat')}
+function diff(n){return n===1?u().diff1:n===2?u().diff2:u().diff3}
+
+const C=(t,q,e,r,next=null,end=false,flag=null)=>({t,q,e,r,next,end,flag});
+
+function cHours(){const close=pick(['18:00','18:30','19:00']);return{id:'hours',category:'consult',difficulty:1,channel:'instagram',client:'@nuria_art',meta:T('Mensaje directo · consulta rápida','Missatge directe · consulta ràpida'),title:T('Consulta sencilla','Consulta senzilla'),start:'n1',nodes:{n1:{type:'choice',message:T('¡Hola! ¿A qué hora cerráis hoy?','Hola! A quina hora tancau avui?'),prompt:T('¿Qué respuesta es más adecuada?','Quina resposta és més adequada?'),choices:[
+ C(T(`¡Hola! Hoy cerramos a las ${close}. Si necesitas hacer alguna gestión antes de venir, dínoslo y te ayudamos.`,`Hola! Avui tancam a les ${close}. Si necessites fer una gestió abans de venir, digues-nos-ho i t'ajudam.`),3,{sat:3,prof:2,prec:2},T('Respuesta clara, directa y adecuada al canal.','Resposta clara, directa i adequada al canal.'),null,true),
+ C(T(`A las ${close}.`,`A les ${close}.`),2,{prec:2},T('La información es correcta, pero el trato es bastante seco.','La informació és correcta, però el tracte és bastant sec.'),null,true),
+ C(T('Consulta nuestra web.','Consulta el nostre web.'),1,{sat:-4,prof:-2},T('El cliente había hecho una pregunta muy sencilla que podías resolver directamente.','El client havia fet una pregunta molt senzilla que podies resoldre directament.'),null,true),
+ C(T('Llama a recepción y te lo dirán.','Telefona a recepció i t’ho diran.'),0,{sat:-7,prof:-4,risk:2},T('Has añadido un paso innecesario a una consulta fácil.','Has afegit una passa innecessària a una consulta fàcil.'),null,true)
+ ]}}}}
+
+function cFlyers(){const qty=pick([250,500,750,1000]),day=pick([T('viernes','divendres'),T('jueves','dijous'),T('la semana que viene','la setmana que ve')]);return{id:'flyers',category:'consult',difficulty:2,channel:'instagram',client:'@cafecanblau',meta:T('Instagram · posible encargo','Instagram · possible encàrrec'),title:T('Consulta comercial','Consulta comercial'),start:'n1',nodes:{
+ n1:{type:'choice',message:T(`¡Hola! Necesitamos ${qty} flyers para una inauguración ${day}. ¿Nos podéis decir cuánto costaría?`,`Hola! Necessitam ${qty} flyers per una inauguració ${day}. Ens podeu dir quant costaria?`),prompt:T('¿Qué harías primero?','Què faries primer?'),choices:[
+  C(T('Pediría los datos que faltan antes de dar un precio cerrado.','Demanaria les dades que falten abans de donar un preu tancat.'),3,{prec:4,prof:2,risk:-3},T('El cliente responde que todavía no sabe qué papel necesita.','El client respon que encara no sap quin paper necessita.'),'n2'),
+  C(T('Daría un precio aproximado sin hacer más preguntas.','Donaria un preu aproximat sense més preguntes.'),1,{sat:2,prec:-3,risk:7},T('El cliente da por hecho que ese precio ya es definitivo.','El client dona per fet que aquell preu ja és definitiu.'),'n3',false,'roughPrice'),
+  C(T('Le diría que viniera personalmente a la tienda.','Li diria que vengui personalment a la botiga.'),1,{sat:-3,prof:-2},T('El cliente solo quería una primera orientación y sigue confuso.','El client només volia una primera orientació i continua confós.'),'n2')
+ ]},
+ n2:{type:'choice',message:T('No sé mucho. Los quiero “normales”, que queden bien y no sean muy caros.','No en sé gaire. Els vull “normals”, que quedin bé i no siguin molt cars.'),prompt:T('¿Qué respuesta adapta mejor el lenguaje al cliente?','Quina resposta adapta millor el llenguatge al client?'),choices:[
+  C(T('Podemos buscar una opción equilibrada de precio y calidad. Si quieres, te proponemos un formato y un papel adecuados y te explicamos las diferencias.','Podem cercar una opció equilibrada de preu i qualitat. Si vols, et proposam un format i un paper adequats i t’explicam les diferències.'),3,{sat:4,prof:4,prec:2},T('Has traducido la decisión técnica a criterios que el cliente entiende.','Has traduït la decisió tècnica a criteris que el client entén.'),null,true),
+  C(T('Te recomiendo A5, 4+4 CMYK, estucado mate de 135 g y sangre de 3 mm.','Et recoman A5, 4+4 CMYK, estucat mat de 135 g i sang de 3 mm.'),1,{sat:-2,prof:-1,prec:2},T('Técnicamente puede tener sentido, pero el registro es demasiado técnico para este cliente.','Tècnicament pot tenir sentit, però el registre és massa tècnic per aquest client.'),null,true),
+  C(T('Cualquier papel sirve.','Qualsevol paper va bé.'),0,{prec:-5,prof:-4,risk:5},T('Has simplificado demasiado una decisión que afecta al resultado.','Has simplificat massa una decisió que afecta el resultat.'),null,true)
+ ]},
+ n3:{type:'choice',message:T('Perfecto, entonces queda por ese precio y para el día que te he dicho, ¿no?','Perfecte, doncs queda per aquest preu i per al dia que t’he dit, no?'),prompt:T('Ahora tienes un riesgo creado por la respuesta anterior. ¿Qué haces?','Ara tens un risc creat per la resposta anterior. Què fas?'),choices:[
+  C(T('Aclarar que era orientativo y que hay que confirmar características, archivo y plazo antes de cerrar el precio.','Aclarir que era orientatiu i que cal confirmar característiques, arxiu i termini abans de tancar el preu.'),3,{prec:5,prof:3,risk:-5,sat:-1},T('Has corregido la expectativa antes de que se convierta en un compromiso.','Has corregit l’expectativa abans que es converteixi en un compromís.'),null,true),
+  C(T('Confirmarlo para no decepcionar al cliente.','Confirmar-ho per no decebre el client.'),0,{sat:3,prec:-6,prof:-4,risk:14},T('Has priorizado la satisfacción inmediata asumiendo un compromiso no verificado.','Has prioritzat la satisfacció immediata assumint un compromís no verificat.'),null,true,'promisedUnchecked'),
+  C(T('No responder hasta tener el presupuesto.','No respondre fins tenir un pressupost.'),1,{sat:-5,prof:-2,risk:1},T('Dejar al cliente sin respuesta también genera una mala experiencia.','Deixar el client sense resposta també genera una mala experiència.'),null,true)
+ ]}
+ }}}
+
+function cQuote(){const prod=pick([T('un tríptico corporativo','un tríptic corporatiu'),T('un pequeño catálogo de 12 páginas','un petit catàleg de 12 pàgines'),T('unas invitaciones para un acto','unes invitacions per un acte')]);return{id:'quote',category:'order',difficulty:2,channel:'email',client:T('Administración · Hotel Mar Azul','Administració · Hotel Mar Blau'),meta:T('Correo electrónico · presupuesto','Correu electrònic · pressupost'),title:T('Presupuesto y trazabilidad','Pressupost i traçabilitat'),start:'n1',nodes:{
+ n1:{type:'choice',message:T(`Buenos días,\n¿Podríais prepararnos un presupuesto para ${prod}? Nos gustaría tenerlo hoy si es posible.\nGracias.`,`Bon dia,\nEns podríeu preparar un pressupost per ${prod}? Ens agradaria tenir-lo avui si és possible.\nGràcies.`),prompt:T('¿Qué es más profesional?','Què és més professional?'),choices:[
+  C(T('Responder que has recibido la petición y pedir los datos imprescindibles que faltan antes de presupuestar.','Respondre que has rebut la petició i demanar les dades imprescindibles que falten abans de pressupostar.'),3,{sat:3,prec:4,prof:3,risk:-2},T('Acusas recibo, gestionas la expectativa y reduces el riesgo.','Acuses recepció, gestiones l’expectativa i redueixes el risc.'),'n2'),
+  C(T('Esperar hasta tener tiempo de preparar un presupuesto completo y entonces contestar.','Esperar fins tenir temps de preparar un pressupost complet i llavors contestar.'),1,{sat:-4,prof:-2},T('El cliente no sabe si has recibido su petición.','El client no sap si has rebut la seva petició.'),'n2'),
+  C(T('Enviar una cifra aproximada y corregirla después.','Enviar una xifra aproximada i ja la corregiràs després.'),0,{sat:1,prec:-5,risk:10,prof:-3},T('Un presupuesto necesita datos y condiciones suficientemente claras.','Un pressupost necessita dades i condicions prou clares.'),'n2')
+ ]},
+ n2:{type:'choice',message:T('El cliente responde con todos los datos. El presupuesto está listo.','El client respon amb totes les dades. El pressupost queda llest.'),prompt:T('¿Por qué canal conviene enviarlo?','Per quin canal convé enviar-lo?'),choices:[
+  C(T('Por correo electrónico, con el documento adjunto y las condiciones principales bien identificadas.','Per correu electrònic, amb el document adjunt i les condicions principals ben identificades.'),3,{prec:4,prof:3,risk:-3},T('El correo facilita orden, adjuntos y constancia escrita.','El correu facilita ordre, adjunts i constància escrita.'),null,true),
+  C(T('Por teléfono, dictando los importes.','Per una telefonada, dictant els imports.'),0,{prec:-4,risk:8},T('Pierdes claridad y trazabilidad en una información económica importante.','Perds claredat i traçabilitat en una informació econòmica important.'),null,true),
+  C(T('Por un mensaje muy corto: “Son 284 €”.','Per un missatge molt curt: “Són 284 €”.'),1,{prof:-2,prec:-1,risk:4},T('Faltan condiciones y contexto.','Falten condicions i context.'),null,true)
+ ]}
+ }}}
+
+function cPhoneChange(){const old=pick([500,1000,1500]),neu=old+pick([250,500]);return{id:'phonechange',category:'change',difficulty:2,channel:'phone',client:T('Juan · Restaurante Sa Plaça','Joan · Restaurant Sa Plaça'),meta:T('Llamada · pedido en curso','Telefonada · comanda en curs'),title:T('Cambio de un pedido','Canvi d’una comanda'),start:'n1',nodes:{
+ n1:{type:'choice',message:T(`Buenos días. Tenemos un pedido de ${old} tarjetas promocionales, pero finalmente necesitamos ${neu}. ¿Podéis cambiarlo?`,`Bon dia. Tenim una comanda de ${old} cartes promocionals, però finalment en necessitam ${neu}. Ho podeu canviar?`),prompt:T('¿Cuál es la mejor primera respuesta?','Quina és la millor primera resposta?'),choices:[
+  C(T('Tomar nota del cambio y explicar que hay que comprobar si todavía es viable antes de confirmarlo.','Prendre nota del canvi i explicar que cal comprovar si encara és viable abans de confirmar-lo.'),3,{prec:4,prof:3,risk:-4,sat:2},T('No prometes nada antes de verificar el estado de producción.','No promets res abans de verificar l’estat de producció.'),'n2'),
+  C(T('Decir que sí inmediatamente porque solo cambia la cantidad.','Dir que sí immediatament perquè només és canviar una quantitat.'),0,{sat:4,prec:-5,risk:13,prof:-2},T('No sabes en qué punto se encuentra el pedido.','No saps en quin punt es troba la comanda.'),'n3',false,'promisedUnchecked'),
+  C(T('Decir que los cambios por teléfono no se aceptan.','Dir que els canvis per telèfon no s’accepten.'),1,{sat:-5,prof:-3,risk:-1},T('El teléfono puede servir para gestionar el cambio; después conviene dejar constancia.','El telèfon pot servir per gestionar el canvi; després convé deixar-ne constància.'),'n2')
+ ]},
+ n2:{type:'choice',message:T('Producción confirma que el cambio es posible y modifica el precio.','Producció confirma que el canvi és possible i que modifica el preu.'),prompt:T('¿Qué harías después de la llamada?','Què faries després de la telefonada?'),choices:[
+  C(T('Enviar una confirmación escrita con nueva cantidad, precio y plazo, y pedir conformidad.','Enviar una confirmació escrita amb nova quantitat, preu i termini, i demanar conformitat.'),3,{prec:5,prof:4,risk:-6},T('Hablar para resolver; escribir para confirmar.','Parlar per resoldre; escriure per confirmar.'),null,true),
+  C(T('No hacer nada más: ya ha quedado claro por teléfono.','No fer res més: ja ha quedat clar per telèfon.'),0,{risk:10,prec:-3},T('Falta trazabilidad en un cambio importante.','Falta traçabilitat en un canvi important.'),null,true),
+  C(T('Enviar solo “cambio hecho 👍”.','Enviar només “canvi fet 👍”.'),1,{prof:-2,prec:-2,risk:5},T('La confirmación es demasiado poco concreta.','La confirmació és massa poc concreta.'),null,true)
+ ]},
+ n3:{type:'choice',message:T('Producción avisa: las primeras unidades ya están impresas y el cambio afecta al coste y al plazo.','Producció avisa: les primeres unitats ja estan impreses i el canvi afecta el cost i el termini.'),prompt:T('¿Cómo gestionas ahora el compromiso que habías asumido?','Com gestiones ara el compromís que havies assumit?'),choices:[
+  C(T('Contactar con el cliente, explicar la situación con transparencia y ofrecer las alternativas reales.','Contactar amb el client, explicar la situació amb transparència i oferir les alternatives reals.'),3,{prof:4,prec:4,risk:-4,sat:-1},T('Debes corregir un compromiso precipitado con información clara.','Has de corregir un compromís precipitat amb informació clara.'),null,true),
+  C(T('Intentar mantener la promesa aunque implique ocultar el sobrecoste.','Intentar mantenir la promesa encara que impliqui ocultar el sobrecost.'),0,{risk:15,prof:-7,prec:-3},T('Ocultar información multiplica el riesgo y deteriora la confianza.','Ocultar informació multiplica el risc i deteriora la confiança.'),null,true),
+  C(T('Culpar a producción del problema.','Culpar producció del problema.'),0,{prof:-8,sat:-6,risk:5},T('El cliente trata con la empresa; trasladar culpas internas no resuelve el problema.','El client tracta amb l’empresa; traslladar culpes internes no resol el problema.'),null,true)
+ ]}
+ }}}
+
+function cPublicComplaint(){return{id:'publiccomplaint',category:'public',difficulty:3,channel:'instagram',client:'@laia_m',meta:T('Comentario público · incidencia','Comentari públic · incidència'),title:T('Queja pública','Queixa pública'),start:'n1',nodes:{
+ n1:{type:'text',message:T('“Hace tres días que espero mi pedido y nadie me dice nada. Servicio pésimo.”','“Fa tres dies que esper la meva comanda i ningú em diu res. Servei pèssim.”'),prompt:T('Escribe la respuesta pública que dejarías al comentario (máx. 300 caracteres).','Escriu la resposta pública que deixaries al comentari (màx. 300 caràcters).'),max:300,next:'n2'},
+ n2:{type:'choice',message:T('La respuesta pública ya está enviada.','La resposta pública ja està enviada.'),prompt:T('¿Qué paso darías ahora?','Quina passa faries ara?'),choices:[
+  C(T('Trasladar la gestión a privado y pedir solo los datos necesarios para localizar el pedido.','Traslladar la gestió a privat i demanar només les dades necessàries per localitzar la comanda.'),3,{prof:5,prec:3,risk:-5,sat:2},T('La respuesta pública muestra voluntad de resolver; los detalles se gestionan en privado.','La resposta pública mostra voluntat de resoldre; els detalls es gestionen en privat.'),null,true),
+  C(T('Pedir públicamente nombre completo, teléfono y número de pedido.','Demanar públicament el nom complet, telèfon i número de comanda.'),0,{prof:-5,risk:14,prec:-1},T('Estás exponiendo datos que no conviene gestionar en público.','Estàs exposant dades que no convé gestionar en públic.'),null,true),
+  C(T('Continuar toda la discusión en los comentarios para que todo el mundo vea quién tiene razón.','Continuar tota la discussió als comentaris perquè tothom vegi qui té raó.'),0,{prof:-8,sat:-5,risk:10},T('Una discusión pública puede escalar y perjudicar la imagen de la empresa.','Una discussió pública pot escalar i perjudicar la imatge de l’empresa.'),null,true),
+  C(T('Borrar el comentario sin responder.','Esborrar el comentari sense respondre.'),1,{sat:-7,prof:-5,risk:3},T('Eliminar una queja legítima no resuelve la incidencia.','Eliminar una queixa legítima no resol la incidència.'),null,true)
+ ]}
+ }}}
+
+function cLateOrder(){return{id:'late',category:'incident',difficulty:3,channel:'phone',client:T('Ana · Estudio Norte','Aina · Estudi Nord'),meta:T('Llamada · retraso','Telefonada · retard'),title:T('Retraso de un pedido','Retard d’una comanda'),start:'n1',nodes:{
+ n1:{type:'choice',message:T('Me dijisteis que estaría hoy a las 12. Son las 13:15 y todavía no me habéis avisado. Lo necesito esta tarde.','M’havíeu dit que estaria avui a les 12. Són les 13.15 i encara no m’heu avisat. Ho necessit aquesta tarda.'),prompt:T('¿Cómo empezarías la respuesta?','Com començaries la resposta?'),choices:[
+  C(T('“Entiendo que el plazo es importante y que contabas con el pedido a las 12. Lo reviso ahora mismo y te digo qué solución real tenemos.”','“Entenc que el termini és important i que comptaves amb la comanda a les 12. Ho revis ara mateix i et dic quina solució real tenim.”'),3,{sat:4,prof:5,prec:2},T('Reconoces el impacto sin inventar todavía una solución.','Reconeixes l’impacte sense inventar encara una solució.'),'n2'),
+  C(T('“Tranquila, seguro que no es para tanto.”','“Calma, que segur que no és per tant.”'),0,{sat:-10,prof:-9,risk:2},T('Minimizar el problema puede aumentar el conflicto.','Minimitzar el problema pot augmentar el conflicte.'),'n2'),
+  C(T('“Eso es cosa de producción, yo no puedo hacer nada.”','“Això és cosa de producció, jo no hi puc fer res.”'),0,{sat:-9,prof:-8},T('Trasladar la culpa interna no ayuda al cliente.','Traslladar la culpa interna no ajuda el client.'),'n2'),
+  C(T('“Seguro que en media hora está.”','“Segur que en mitja hora està.”'),0,{sat:2,prec:-6,risk:15},T('Has prometido un plazo sin comprobarlo.','Has promès un termini sense comprovar-lo.'),'n2',false,'promisedUnchecked')
+ ]},
+ n2:{type:'choice',message:T('Producción confirma que no estará hasta mañana por la mañana.','Producció confirma que no estarà fins demà al matí.'),prompt:T('¿Qué respuesta es más adecuada?','Quina resposta és més adequada?'),choices:[
+  C(T('Explicar el nuevo plazo, disculparse y ofrecer solo alternativas que realmente se puedan cumplir.','Explicar el nou termini, disculpar-se i oferir només alternatives que realment es puguin complir.'),3,{prof:4,prec:4,risk:-4,sat:-1},T('La solución puede no gustar, pero es honesta y gestionable.','La solució pot no agradar, però és honesta i gestionable.'),null,true),
+  C(T('Decir que probablemente estará hoy para mantener la esperanza.','Dir que probablement estarà avui per mantenir l’esperança.'),0,{risk:16,prec:-6,prof:-5},T('Generas una nueva expectativa que no puedes garantizar.','Generes una nova expectativa que no pots garantir.'),null,true),
+  C(T('Evitar dar una hora concreta y decir “ya te avisaremos”.','Evitar donar una hora concreta i dir “ja t’avisarem”.'),1,{sat:-4,prof:-2},T('Después de un retraso, el cliente necesita una expectativa concreta y realista.','Després d’un retard, el client necessita una expectativa concreta i realista.'),null,true)
+ ]}
+ }}}
+
+function cWrongFile(){return{id:'wrongfile',category:'incident',difficulty:2,channel:'email',client:T('Claudia · Asociación Levante','Clàudia · Associació Llevant'),meta:T('Correo electrónico · archivos','Correu electrònic · arxius'),title:T('Archivo inconsistente','Arxiu inconsistent'),start:'n1',nodes:{n1:{type:'choice',message:T('Buenos días,\nAdjunto el archivo definitivo del cartel. Podéis seguir adelante.\n\n[cartel_FINAL_v3.pdf]\n\nEn el hilo anterior constaba que el definitivo era “cartel_FINAL_v5.pdf”.','Bon dia,\nAdjunt l’arxiu definitiu del cartell. Podeu tirar endavant.\n\n[cartell_FINAL_v3.pdf]\n\nAl fil anterior constava que el definitiu era “cartell_FINAL_v5.pdf”.'),prompt:T('¿Qué harías?','Què faries?'),choices:[
+ C(T('Detener la orden y confirmar con el cliente qué archivo es realmente el definitivo antes de producir.','Aturar l’ordre i confirmar amb el client quin arxiu és realment el definitiu abans de produir.'),3,{prec:6,risk:-7,prof:3},T('Has detectado una incoherencia crítica antes de que se convierta en un error de producción.','Has detectat una incoherència crítica abans que es converteixi en un error de producció.'),null,true),
+ C(T('Usar el archivo adjunto porque es el último que ha enviado.','Utilitzar el fitxer adjunt perquè és el darrer que ha enviat.'),1,{prec:-4,risk:10},T('Es plausible, pero existe una contradicción que conviene aclarar.','És plausible, però hi ha una contradicció que convé aclarir.'),null,true),
+ C(T('Usar el v5 porque tiene un número de versión superior.','Utilitzar el v5 perquè té un número de versió superior.'),1,{prec:-4,risk:10},T('El nombre del archivo no basta para asumir la conformidad.','El nom del fitxer no és suficient per assumir la conformitat.'),null,true)
+ ]}}}}
+
+function cUrgentMsg(){return{id:'urgentmsg',category:'change',difficulty:3,channel:'whatsapp',client:T('Pablo · Gimnasio 360','Pau · Gimnàs 360'),meta:T('Mensajería · cambio urgente','Missatgeria · canvi urgent'),title:T('Cambios encadenados','Canvis encadenats'),start:'n1',nodes:{
+ n1:{type:'choice',message:T('¡Hola! Cambio importante: en lugar de 300 adhesivos necesito 500, con un material mejor y, si puede ser, mañana por la mañana. ¿Se puede?','Hola! Canvi important: en lloc de 300 adhesius en necessit 500, amb un material millor i, si pot ser, demà al matí. Ho podem fer?'),prompt:T('¿Qué conviene hacer?','Què convé fer?'),choices:[
+  C(T('Separar los tres cambios (cantidad, material y plazo), confirmar que los has entendido y revisar viabilidad antes de responder.','Separar els tres canvis (quantitat, material i termini), confirmar que els has entès i revisar viabilitat abans de donar resposta.'),3,{prec:5,prof:4,risk:-5},T('Has estructurado una petición compleja antes de comprometerte.','Has estructurat una petició complexa abans de comprometre’t.'),'n2'),
+  C(T('Contestar “sí, sin problema” para tranquilizarle.','Contestar “sí, cap problema” per tranquil·litzar-lo.'),0,{sat:4,prec:-6,prof:-4,risk:16},T('Hay demasiadas variables modificadas para confirmar sin revisar.','Hi ha massa variables modificades per confirmar sense revisar.'),'n2',false,'promisedUnchecked'),
+  C(T('Pedirle que vuelva a enviar el mensaje por correo.','Demanar-li que torni a enviar el missatge per correu.'),1,{sat:-3,prof:-1},T('Cambiar de canal puede ser útil, pero primero puedes ordenar la petición.','Canviar de canal pot ser útil, però primer pots ordenar la petició.'),'n2')
+ ]},
+ n2:{type:'choice',message:T('Después de varios mensajes todavía hay dudas sobre el material y el plazo.','Després de diversos missatges, encara hi ha dubtes sobre el material i el termini.'),prompt:T('¿Qué estrategia es más eficiente?','Quina estratègia és més eficient?'),choices:[
+  C(T('Proponer una llamada breve para aclararlo y después enviar una confirmación escrita.','Proposar una telefonada breu per aclarir-ho i després enviar una confirmació escrita.'),3,{sat:3,prec:4,prof:4,risk:-4},T('Cambias de canal porque la conversación escrita ya no es eficiente, pero mantienes la trazabilidad.','Canvies de canal perquè la conversa escrita ja no és eficient, però mantens la traçabilitat.'),null,true),
+  C(T('Seguir por mensajes hasta que quede todo claro, aunque sean veinte más.','Continuar per missatges fins que quedi tot clar, encara que siguin vint missatges més.'),1,{sat:-1,risk:3},T('El canal se ha vuelto poco eficiente para la complejidad del caso.','El canal s’ha tornat poc eficient per la complexitat del cas.'),null,true),
+  C(T('Hacer una llamada y no dejar confirmación posterior.','Fer una telefonada i no deixar cap confirmació posterior.'),1,{prec:-2,risk:6},T('La llamada ayuda, pero falta dejar constancia de los cambios.','La trucada ajuda, però falta deixar constància dels canvis.'),null,true)
+ ]}
+ }}}
+
+function cIndecisive(){const product=pick([T('tarjetas de visita','targetes de visita'),T('invitaciones','invitacions'),T('un pequeño folleto promocional','un petit fullet promocional')]);return{id:'indecisive',category:'difficult',difficulty:2,channel:'desk',client:T('Marina · clienta nueva','Marina · clienta nova'),meta:T('Recepción · cliente indeciso','Recepció · client indecís'),title:T('Cliente que necesita orientación','Client que necessita orientació'),start:'n1',nodes:{n1:{type:'choice',message:T(`Buenos días... Querría hacer ${product}, pero no tengo ni idea. Hay tantas opciones que no sé qué elegir.`,`Bon dia... Voldria fer ${product}, però no en tenc ni idea. Hi ha tantes opcions que no sé què triar.`),prompt:T('¿Cómo la atenderías?','Com l’atendries?'),choices:[
+ C(T('Hacer algunas preguntas sobre uso, cantidad, presupuesto y plazo, y después reducir las opciones a dos o tres alternativas claras.','Fer algunes preguntes sobre ús, quantitat, pressupost i termini, i després reduir les opcions a dues o tres alternatives clares.'),3,{sat:5,prof:4,prec:4},T('Orientar no es abrumar: primero entiendes y después filtras opciones.','Orientar no és aclaparar: primer entens i després filtres opcions.'),null,true),
+ C(T('Enseñarle todas las muestras y dejar que decida tranquilamente.','Ensenyar-li totes les mostres i deixar que decideixi tranquil·lament.'),1,{prec:1},T('Puede aumentar aún más la indecisión si no ayudas a ordenar criterios.','Pot augmentar encara més la indecisió si no l’ajudes a ordenar criteris.'),null,true),
+ C(T('Elegir tú la mejor opción y decirle que no se preocupe.','Triar tu la millor opció i dir-li que no es preocupi.'),1,{sat:1,prof:-2,risk:5},T('Asesorar no significa decidir por la persona sin conocer sus prioridades.','Assessorar no significa decidir per la persona sense conèixer prioritats.'),null,true)
+ ]}}}}
+
+function cExpert(){return{id:'expert',category:'difficult',difficulty:2,channel:'phone',client:T('Marc · Diseñador freelance','Marc · Dissenyador freelance'),meta:T('Llamada · cliente técnico','Telefonada · client tècnic'),title:T('Adaptación al perfil del cliente','Adaptació al perfil del client'),start:'n1',nodes:{n1:{type:'choice',message:T('Buenos días. Necesito presupuesto para 2.000 dípticos A4 abierto, 4+4, estucado mate 170 g. Os pasaré PDF/X con sangrado.','Bon dia. Necessit pressupost per 2.000 díptics A4 obert, 4+4, estucat mat 170 g. Jo us passaré PDF/X amb sagnat.'),prompt:T('¿Cómo adaptas la comunicación?','Com adaptes la comunicació?'),choices:[
+ C(T('Mantengo un registro técnico adecuado y confirmo los datos clave sin explicar conceptos que el cliente ya domina.','Mantenc un registre tècnic adequat i confirm les dades clau sense explicar conceptes que el client ja domina.'),3,{sat:4,prof:4,prec:3},T('Adaptarse también significa no infantilizar a un cliente experto.','Adaptar-se també significa no infantilitzar un client expert.'),null,true),
+ C(T('Le explico cada término técnico desde el principio para asegurarme de que lo entiende.','Li explic cada terme tècnic des del principi per assegurar-me que ho entén.'),1,{sat:-3,prof:-1,prec:1},T('La intención es buena, pero no te has adaptado al nivel que el cliente ya ha mostrado.','La intenció és bona, però no t’has adaptat al nivell que el client ja ha mostrat.'),null,true),
+ C(T('Evito cualquier vocabulario técnico porque con clientes siempre se debe hablar de forma simple.','Evito qualsevol vocabulari tècnic perquè amb clients sempre s’ha de parlar de manera simple.'),1,{prec:-2,prof:-1},T('El lenguaje profesional se adapta; no se elimina automáticamente.','El llenguatge professional s’ha d’adaptar, no eliminar automàticament.'),null,true)
+ ]}}}}
+
+function cPrivacy(){return{id:'privacy',category:'public',difficulty:2,channel:'instagram',client:'@eventsmallorca',meta:T('Comentario público · datos de pedido','Comentari públic · dades de comanda'),title:T('¿Público o privado?','Públic o privat?'),start:'n1',nodes:{n1:{type:'choice',message:T('¡Hola! Nuestro pedido es el 3187 a nombre de Elena Puig, tel. 6XX XXX XXX. ¿Me podéis decir aquí cuándo estará?','Hola! La nostra comanda és la 3187 a nom d’Elena Puig, tel. 6XX XXX XXX. Em podeu dir aquí quan estarà?'),prompt:T('¿Qué harías?','Què faries?'),choices:[
+ C(T('Responder sin repetir los datos y trasladar la consulta a mensaje privado.','Respondre sense repetir les dades i traslladar la consulta a missatge privat.'),3,{prof:5,risk:-7,prec:2},T('Evitas ampliar la exposición de datos y cambias al canal adecuado.','Evites ampliar l’exposició de dades i canvies al canal adequat.'),null,true),
+ C(T('Responder públicamente con el estado detallado del pedido.','Respondre públicament amb l’estat detallat de la comanda.'),0,{risk:14,prof:-5},T('La información del pedido no conviene gestionarla públicamente.','La informació de la comanda no convé gestionar-la públicament.'),null,true),
+ C(T('Copiar el número de pedido y el teléfono en la respuesta para demostrar que lo has identificado.','Copiar el número de comanda i el telèfon a la resposta per demostrar que l’has identificada.'),0,{risk:18,prof:-7},T('Repetir datos personales en público empeora la exposición.','Repetir dades personals en públic empitjora l’exposició.'),null,true)
+ ]}}}}
+
+function cUnknown(){return{id:'unknown',category:'consult',difficulty:1,channel:'phone',client:T('Nuria · Colegio Pequeño Mundo','Neus · Escola Petit Món'),meta:T('Llamada · consulta','Telefonada · consulta'),title:T('Cuando no sabes la respuesta','Quan no saps la resposta'),start:'n1',nodes:{n1:{type:'choice',message:T('¿Podríais confirmarme si este material se puede usar en exterior durante seis meses sin deteriorarse?','Em podríeu confirmar si aquest material es pot utilitzar a l’exterior durant sis mesos sense deteriorar-se?'),prompt:T('No estás seguro de la respuesta. ¿Qué haces?','No estàs segur de la resposta. Què fas?'),choices:[
+ C(T('Decir que debes consultarlo y concretar cuándo le darás una respuesta.','Dir que ho has de consultar i concretar quan li donaràs una resposta.'),3,{prof:5,prec:5,risk:-6,sat:2},T('Reconocer el límite y comprometer una respuesta verificable es profesional.','Reconèixer el límit i comprometre una resposta verificable és professional.'),null,true),
+ C(T('Decir que sí; probablemente aguantará.','Dir que sí; probablement aguantarà.'),0,{prec:-7,risk:16,prof:-5},T('Has convertido una suposición en una afirmación profesional.','Has convertit una suposició en una afirmació professional.'),null,true),
+ C(T('Decir que no lo sabes y terminar la conversación.','Dir que no ho saps i acabar la conversa.'),1,{sat:-5,prof:-3,prec:1},T('Es honesto, pero falta hacerse cargo de la consulta.','És honest, però falta fer-se càrrec de la consulta.'),null,true)
+ ]}}}}
+
+function cLongChat(){return{id:'longchat',category:'channel',difficulty:2,channel:'whatsapp',client:T('Carla · Clínica Dental','Carla · Clínica Dental'),meta:T('Mensajería · conversación larga','Missatgeria · conversa llarga'),title:T('Cuándo cambiar de canal','Quan cal canviar de canal'),start:'n1',nodes:{n1:{type:'choice',message:T('Lleváis 14 mensajes intentando decidir formato, papel, cantidad, un cambio de diseño y una fecha de entrega. Cada respuesta genera una nueva duda.','Portau 14 missatges intentant decidir format, paper, quantitat, un canvi de disseny i una data de lliurament. Cada resposta genera un nou dubte.'),prompt:T('¿Cuál es la opción más eficiente?','Quina és l’opció més eficient?'),choices:[
+ C(T('Proponer una llamada breve para cerrar los puntos pendientes y enviar después un resumen escrito.','Proposar una trucada breu per tancar els punts pendents i enviar després un resum escrit.'),3,{sat:3,prec:4,prof:4,risk:-4},T('Has detectado que el canal ya no es eficiente para la complejidad de la conversación.','Has detectat que el canal ja no és eficient per la complexitat de la conversa.'),null,true),
+ C(T('Seguir por el mismo canal porque el cliente lo eligió.','Continuar pel mateix canal perquè el client el va triar.'),1,{sat:-2,risk:3},T('Respetar el canal no obliga a mantenerlo cuando deja de ser útil.','Respectar el canal no obliga a mantenir-lo quan deixa de ser útil.'),null,true),
+ C(T('Enviar un audio largo con toda la explicación y dar el tema por cerrado.','Enviar un àudio llarg amb tota l’explicació i donar el tema per tancat.'),1,{prec:-2,risk:5},T('El audio puede ayudar, pero es difícil de consultar y no garantiza confirmación.','L’àudio pot ajudar, però és difícil de consultar i no garanteix confirmació.'),null,true)
+ ]}}}}
+
+function cColorIssue(){return{id:'color',category:'incident',difficulty:3,channel:'desk',client:T('Biel · cliente habitual','Biel · client habitual'),meta:T('Recepción · calidad percibida','Recepció · qualitat percebuda'),title:T('Resultado diferente de lo esperado','Resultat diferent de l’esperat'),start:'n1',nodes:{
+ n1:{type:'choice',message:T('Este azul no es el mismo que yo veía en pantalla. No me gusta nada. ¿Qué ha pasado?','Aquest blau no és el mateix que jo veia a la pantalla. No m’agrada gens. Què ha passat?'),prompt:T('¿Cuál es la mejor manera de empezar?','Quina és la millor manera de començar?'),choices:[
+  C(T('Escuchar el problema, revisar el material y explicar qué se puede comprobar antes de concluir la causa.','Escoltar el problema, revisar el material i explicar què es pot comprovar abans de concloure la causa.'),3,{sat:4,prof:5,prec:4,risk:-2},T('Primero comprendes y verificas; después argumentas.','Primer comprens i verifiques; després argumentes.'),'n2'),
+  C(T('Decirle que las pantallas siempre engañan y que no es culpa vuestra.','Dir-li que les pantalles sempre enganen i que no és culpa vostra.'),0,{sat:-8,prof:-7,prec:-2},T('Has defendido a la empresa antes de investigar el caso.','Has defensat l’empresa abans d’investigar el cas.'),'n2'),
+  C(T('Prometer una reimpresión completa inmediatamente.','Prometre una reimpressió completa immediata.'),1,{sat:5,risk:13,prec:-4},T('Has ofrecido una solución costosa sin determinar qué ha ocurrido.','Has ofert una solució costosa sense determinar encara què ha passat.'),'n2',false,'promisedUnchecked')
+ ]},
+ n2:{type:'choice',message:T('El cliente sigue molesto, pero acepta revisar el archivo y la prueba.','El client continua molest, però accepta revisar l’arxiu i la prova.'),prompt:T('¿Qué actitud conviene mantener?','Quina actitud convé mantenir?'),choices:[
+  C(T('Calma, lenguaje claro y orientación a comprobar hechos y posibles soluciones.','Calma, llenguatge clar i orientació a comprovar fets i possibles solucions.'),3,{sat:3,prof:4,prec:3},T('Asertividad y verificación antes de tomar una decisión final.','Asertivitat i verificació abans de prendre una decisió final.'),null,true),
+  C(T('Entrar en una discusión técnica para demostrar que la empresa tiene razón.','Entrar en una discussió tècnica per demostrar que l’empresa té raó.'),0,{sat:-7,prof:-6},T('Tener argumentos técnicos no obliga a convertir la atención en una confrontación.','Tenir arguments tècnics no obliga a convertir l’atenció en una confrontació.'),null,true)
+ ]}
+ }}}
+
+function cAudio(){return{id:'audio',category:'channel',difficulty:2,channel:'whatsapp',client:T('Sergio · Tienda Terra','Sergi · Botiga Terra'),meta:T('Mensajería · nota de voz','Missatgeria · nota de veu'),title:T('Información en una nota de voz','Informació en una nota de veu'),start:'n1',nodes:{n1:{type:'choice',message:T('🎵 Nota de voz (2:08)\n\n“...al final queremos 800, no 500; el logo nuevo es el que te he enviado ahora y la fecha sería el martes, ¿de acuerdo?”','🎵 Nota de veu (2:08)\n\n“...al final en volem 800, no 500; el logo nou és el que t’he enviat ara i la data seria dimarts, d’acord?”'),prompt:T('Hay cambios importantes dentro del audio. ¿Qué harías?','Hi ha canvis importants dins l’àudio. Què faries?'),choices:[
+ C(T('Enviar un resumen escrito de los cambios y pedir confirmación antes de aplicarlos.','Enviar un resum escrit dels canvis i demanar confirmació abans d’aplicar-los.'),3,{prec:5,prof:4,risk:-6},T('Transformas información dispersa en una confirmación trazable.','Transformes informació dispersa en una confirmació traçable.'),null,true),
+ C(T('Aplicar los cambios directamente porque han quedado claros en el audio.','Aplicar els canvis directament perquè han quedat clars a l’àudio.'),1,{risk:8,prec:-2},T('El audio contiene información importante, pero conviene resumirla y confirmarla.','L’àudio conté informació important, però convé deixar-la resumida i confirmada.'),null,true),
+ C(T('Pedirle que vuelva a grabar un audio más corto.','Demanar-li que torni a gravar un àudio més curt.'),0,{sat:-4,prof:-2},T('No resuelves la necesidad de registrar los cambios.','No resols la necessitat de registrar els canvis.'),null,true)
+ ]}}}}
+
+function cReview(){return{id:'review',category:'public',difficulty:3,channel:'instagram',client:T('Reseña pública','Ressenya pública'),meta:T('Reseña · reputación digital','Ressenya · reputació digital'),title:T('Respuesta a una reseña','Resposta a una ressenya'),start:'n1',nodes:{
+ n1:{type:'text',message:T('⭐☆☆☆☆\n“Trabajo correcto, pero tardaron dos días más de lo que me habían dicho y nadie me avisó.”','⭐☆☆☆☆\n“Feina correcta, però varen tardar dos dies més del que m’havien dit i ningú em va avisar.”'),prompt:T('Redacta una respuesta pública breve y profesional (máx. 350 caracteres).','Redacta una resposta pública breu i professional (màx. 350 caràcters).'),max:350,next:'n2'},
+ n2:{type:'choice',message:T('La respuesta ya está publicada.','La resposta ja està publicada.'),prompt:T('¿Qué objetivo debería tener una buena respuesta pública?','Quin objectiu hauria de tenir una bona resposta pública?'),choices:[
+  C(T('Reconocer la experiencia, evitar una discusión y mostrar voluntad de revisar o resolver el caso.','Reconèixer l’experiència, evitar una discussió i mostrar voluntat de revisar o resoldre el cas.'),3,{prof:5,sat:2,risk:-2},T('La respuesta también la leerán futuros clientes.','La resposta també la llegiran futurs clients.'),null,true),
+  C(T('Demostrar públicamente que el cliente exagera.','Demostrar públicament que el client exagera.'),0,{prof:-8,sat:-5,risk:6},T('Convertir la respuesta en una disputa suele perjudicar la reputación.','Convertir la resposta en una disputa acostuma a perjudicar la reputació.'),null,true),
+  C(T('Ofrecer siempre una compensación económica pública.','Oferir sempre una compensació econòmica pública.'),1,{risk:7,prof:-1},T('Una compensación puede ser adecuada, pero no debe ser automática ni pública.','Una compensació pot ser adequada, però no ha de ser automàtica ni pública.'),null,true)
+ ]}
+ }}}
+
+function cConfirmation(){return{id:'confirm',category:'order',difficulty:2,channel:'phone',client:T('Teresa · Floristería Verde','Teresa · Floristeria Verd'),meta:T('Llamada · acuerdo final','Telefonada · acord final'),title:T('Cerrar una conversación','Tancar una conversa'),start:'n1',nodes:{n1:{type:'choice',message:T('Después de cinco minutos de conversación habéis acordado 400 tarjetas, dos caras, acabado mate y entrega el viernes.','Després de cinc minuts de conversa heu acordat 400 targetes, dues cares, acabat mat i lliurament divendres.'),prompt:T('¿Cómo terminarías la llamada?','Com acabaries la telefonada?'),choices:[
+ C(T('Resumir los puntos principales, comprobar que el cliente está de acuerdo y enviar después la confirmación escrita.','Resumir els punts principals, comprovar que el client hi està d’acord i enviar després la confirmació escrita.'),3,{prec:5,prof:4,risk:-5,sat:2},T('El resumen final detecta errores antes de que pasen a producción.','El resum final detecta errors abans que passin a producció.'),null,true),
+ C(T('“Perfecto, ya está. Adiós.”','“Perfecte, ja està. Adéu.”'),1,{risk:4,prec:-1,prof:-1},T('Falta una comprobación final de los acuerdos.','Falta una comprovació final dels acords.'),null,true),
+ C(T('Repetir toda la conversación desde el principio.','Repetir tota la conversa des del principi.'),1,{sat:-2,prec:1},T('Confirmar no significa volver a explicarlo todo; hay que sintetizar.','Confirmar no significa tornar a explicar-ho tot; cal sintetitzar.'),null,true)
+ ]}}}}
+
+
+
+
+function cTalkative(){return{id:'talkative',category:'difficult',difficulty:2,channel:'phone',client:'',meta:T('Llamada · conversación dispersa','Telefonada · conversa dispersa'),title:T('La llamada que no termina nunca','La telefonada que no s’acaba mai'),start:'n1',nodes:{n1:{type:'choice',message:T('“Mira, antes de lo de los folletos te cuento: mi cuñado también tenía una imprenta, aunque luego la cerró... y el sábado fuimos a Sóller... Bueno, que necesito algo para la tienda...”','“Mira, abans d’això dels fullets et cont: el meu cunyat també tenia una impremta, encara que després la va tancar... i dissabte vàrem anar a Sóller... Bé, que necessit una cosa per a la botiga...”'),prompt:T('¿Cómo reconduces la conversación?','Com reconduïxes la conversa?'),choices:[
+ C(T('“Entiendo. Para ayudarte con el encargo, si te parece, concretamos primero qué producto necesitas, cantidad y fecha.”','“Entenc. Per ajudar-te amb l’encàrrec, si et sembla, concretam primer quin producte necessites, quantitat i data.”'),3,{sat:2,prof:4,prec:3},T('Reconduces con educación sin cortar bruscamente al cliente.','Reconduïxes amb educació sense tallar bruscament el client.'),null,true),
+ C(T('“Sí, sí... pero vamos al grano.”','“Sí, sí... però anem al gra.”'),1,{sat:-3,prof:-2},T('La intención es comprensible, pero la formulación puede sonar brusca.','La intenció és comprensible, però la formulació pot sonar brusca.'),null,true),
+ C(T('Dejarle hablar todo el tiempo que quiera.','Deixar-lo parlar tot el temps que vulgui.'),1,{sat:1,prec:-2},T('Escuchar es importante, pero también lo es gestionar el tiempo y el objetivo de la conversación.','Escoltar és important, però també ho és gestionar el temps i l’objectiu de la conversa.'),null,true)
+]}}}}
+
+function cMonosyllabic(){return{id:'monosyllabic',category:'difficult',difficulty:2,channel:'desk',client:'',meta:T('Recepción · poca información','Recepció · poca informació'),title:T('Cliente de respuestas monosilábicas','Client de respostes monosil·làbiques'),start:'n1',nodes:{n1:{type:'choice',message:T('— ¿Qué necesitas? “Un cartel.”\n— ¿Para cuándo? “Pronto.”\n— ¿Tamaño? “No sé.”','— Què necessites? “Un cartell.”\n— Per quan? “Prest.”\n— Mida? “No ho sé.”'),prompt:T('¿Qué estrategia ayuda más?','Quina estratègia ajuda més?'),choices:[
+ C(T('Hacer preguntas concretas pero abiertas a ejemplos: dónde se colocará, desde qué distancia se verá y cuándo lo necesita exactamente.','Fer preguntes concretes però obertes a exemples: on es col·locarà, des de quina distància es veurà i quan el necessita exactament.'),3,{prec:4,prof:3,sat:2},T('Le facilitas responder sin convertir la conversación en un interrogatorio técnico.','Li facilites respondre sense convertir la conversa en un interrogatori tècnic.'),null,true),
+ C(T('Seguir haciendo muchas preguntas cerradas seguidas hasta obtener todos los datos.','Continuar fent moltes preguntes tancades seguides fins obtenir totes les dades.'),1,{sat:-3,prec:2},T('Puede sentirse como un interrogatorio y no siempre ayuda a una persona insegura.','Pot semblar un interrogatori i no sempre ajuda una persona insegura.'),null,true),
+ C(T('Elegir tú un tamaño estándar para avanzar rápido.','Triar tu una mida estàndard per avançar ràpid.'),0,{risk:8,prec:-4,prof:-2},T('Estás tomando una decisión sin saber todavía el uso real del cartel.','Estàs prenent una decisió sense saber encara l’ús real del cartell.'),null,true)
+]}}}}
+
+function cInternetHalf(){return{id:'internethalf',category:'consult',difficulty:2,channel:'desk',client:'',meta:T('Recepción · comparación de precios','Recepció · comparació de preus'),title:T('“En Internet cuesta la mitad”','“A Internet costa la meitat”'),start:'n1',nodes:{n1:{type:'text',message:T('El cliente te enseña en el móvil una web donde aparentemente el mismo trabajo cuesta casi la mitad y dice: “¿Por qué sois tan caros?”','El client t’ensenya al mòbil una web on aparentment la mateixa feina costa gairebé la meitat i diu: “Per què sou tan cars?”'),prompt:T('Escribe una respuesta profesional breve (máx. 320 caracteres).','Escriu una resposta professional breu (màx. 320 caràcters).'),max:320,next:'n2'},n2:{type:'choice',message:T('El cliente añade: “Entonces, ¿me estás diciendo que esa empresa es peor?”','El client afegeix: “Llavors, em dius que aquella empresa és pitjor?”'),prompt:T('¿Qué conviene responder?','Què convé respondre?'),choices:[
+ C(T('No. Conviene comparar exactamente materiales, plazos, envío, revisión de archivos y servicio antes de concluir que son ofertas equivalentes.','No. Convé comparar exactament materials, terminis, enviament, revisió d’arxius i servei abans de concloure que són ofertes equivalents.'),3,{prof:5,prec:4},T('Explicas diferencias sin desacreditar a la competencia.','Expliques diferències sense desacreditar la competència.'),null,true),
+ C(T('Sí, normalmente lo barato sale caro.','Sí, normalment el barat surt car.'),0,{prof:-6,sat:-2},T('Has desacreditado a un competidor sin información suficiente.','Has desacreditat un competidor sense informació suficient.'),null,true),
+ C(T('Igualar el precio automáticamente.','Igualar el preu automàticament.'),1,{risk:8,prec:-2},T('No sabes si realmente estás comparando el mismo servicio.','No saps si realment compares el mateix servei.'),null,true)
+]}}}}
+
+function cLogoBigger(){return{id:'logobigger',category:'consult',difficulty:2,channel:'email',client:'',meta:T('Correo · cambios de diseño','Correu · canvis de disseny'),title:T('“Haz el logo más grande”','“Fes el logo més gran”'),start:'n1',nodes:{n1:{type:'text',message:T('El cliente responde por tercera vez al diseño: “Está mejor, pero haz el logo todavía más grande. Que ocupe casi toda la portada.”','El client respon per tercera vegada al disseny: “Està millor, però fes el logo encara més gran. Que ocupi gairebé tota la portada.”'),prompt:T('Redacta una respuesta que respete su decisión pero también asesore profesionalmente (máx. 300 caracteres).','Redacta una resposta que respecti la seva decisió però també assessori professionalment (màx. 300 caràcters).'),max:300,next:'n2'},n2:{type:'choice',message:T('El cliente responde: “Vale, enséñame las dos opciones.”','El client respon: “D’acord, mostra’m les dues opcions.”'),prompt:T('¿Qué harías?','Què faries?'),choices:[
+ C(T('Preparar una versión siguiendo su petición y otra con una alternativa equilibrada, explicando brevemente la diferencia.','Preparar una versió seguint la seva petició i una altra amb una alternativa equilibrada, explicant breument la diferència.'),3,{sat:4,prof:4,prec:2},T('Asesoras sin imponer tu criterio.','Assessores sense imposar el teu criteri.'),null,true),
+ C(T('Preparar solo la versión que tú consideras correcta.','Preparar només la versió que tu consideres correcta.'),1,{sat:-4,prof:-2},T('El profesional asesora, pero la decisión final no es suya.','El professional assessora, però la decisió final no és seva.'),null,true)
+]}}}}
+
+function cWedding(){return{id:'wedding',category:'incident',difficulty:3,channel:'phone',client:'',meta:T('Llamada · urgencia real','Telefonada · urgència real'),title:T('La boda es mañana','El casament és demà'),start:'n1',nodes:{n1:{type:'choice',message:T('“¡Tenemos un problema! En 150 minutas que recogemos esta tarde aparece ‘Alejando’ en vez de ‘Alejandro’. La boda es mañana.”','“Tenim un problema! A 150 minutes que recollim avui horabaixa posa ‘Alejando’ en lloc d’‘Alejandro’. El casament és demà.”'),prompt:T('¿Cuál debería ser tu primera reacción?','Quina hauria de ser la primera reacció?'),choices:[
+ C(T('Comprobar inmediatamente el archivo aprobado y el estado real de producción antes de prometer una solución.','Comprovar immediatament l’arxiu aprovat i l’estat real de producció abans de prometre una solució.'),3,{prec:5,prof:4,risk:-5},T('La urgencia no elimina la necesidad de verificar qué ha ocurrido y qué es viable.','La urgència no elimina la necessitat de verificar què ha passat i què és viable.'),'n2'),
+ C(T('Prometer una reimpresión completa hoy mismo.','Prometre una reimpressió completa avui mateix.'),0,{sat:4,risk:16,prec:-5},T('Has prometido una solución antes de comprobar capacidad, tiempo y responsabilidad.','Has promès una solució abans de comprovar capacitat, temps i responsabilitat.'),'n2',false,'promisedUnchecked'),
+ C(T('Decir que si aprobaron el archivo ya no es problema de la empresa.','Dir que si varen aprovar l’arxiu ja no és problema de l’empresa.'),0,{sat:-9,prof:-7},T('Aunque exista una aprobación, primero hay que gestionar la incidencia y buscar opciones.','Encara que existeixi una aprovació, primer cal gestionar la incidència i cercar opcions.'),'n2')
+]},n2:{type:'choice',message:T('El archivo aprobado ya contenía el error, pero producción confirma que puede reimprimir una parte del pedido antes de cerrar.','L’arxiu aprovat ja contenia l’error, però producció confirma que pot reimprimir una part de la comanda abans de tancar.'),prompt:T('¿Qué enfoque es más profesional?','Quin enfocament és més professional?'),choices:[
+ C(T('Explicar con tacto lo ocurrido, ofrecer la opción real disponible y concretar coste y cantidad antes de proceder.','Explicar amb tacte què ha passat, oferir l’opció real disponible i concretar cost i quantitat abans de continuar.'),3,{sat:2,prof:5,prec:4,risk:-3},T('Combinas transparencia, solución y límites reales.','Combines transparència, solució i límits reals.'),null,true),
+ C(T('Reimprimir sin hablar de coste ni pedir confirmación, porque es una boda.','Reimprimir sense parlar de cost ni demanar confirmació, perquè és un casament.'),1,{risk:10,prec:-2},T('La urgencia no autoriza a tomar decisiones económicas por el cliente.','La urgència no autoritza a prendre decisions econòmiques pel client.'),null,true)
+]}}}}
+
+function cColleaguePromised(){return{id:'colleague',category:'incident',difficulty:2,channel:'desk',client:'',meta:T('Recepción · promesa no registrada','Recepció · promesa no registrada'),title:T('“Tu compañero me dijo que sí”','“El teu company em va dir que sí”'),start:'n1',nodes:{n1:{type:'choice',message:T('“Ayer vuestro compañero me aseguró que el trabajo estaría hoy antes de las 12. He venido a recogerlo.” No encuentras ninguna anotación de ese compromiso.','“Ahir el vostre company em va assegurar que la feina estaria avui abans de les 12. He vengut a recollir-la.” No trobes cap anotació d’aquest compromís.'),prompt:T('¿Qué haces?','Què fas?'),choices:[
+ C(T('Reconocer lo que explica el cliente y comprobar el estado real y, si es posible, la información interna antes de confirmar nada.','Reconèixer el que explica el client i comprovar l’estat real i, si és possible, la informació interna abans de confirmar res.'),3,{sat:2,prof:5,prec:4},T('No desacreditas al cliente ni al compañero, pero verificas el compromiso.','No desacredites el client ni el company, però verifiques el compromís.'),null,true),
+ C(T('Decir: “Mi compañero no debería haberte dicho eso.”','Dir: “El meu company no t’hauria d’haver dit això.”'),0,{prof:-6,sat:-4},T('Has atribuido una culpa interna sin saber todavía qué ocurrió.','Has atribuït una culpa interna sense saber encara què va passar.'),null,true),
+ C(T('Dar por cierta la promesa y exigir a producción que lo tenga ya.','Donar per certa la promesa i exigir a producció que ho tengui ja.'),1,{risk:8,prec:-3},T('Antes de escalar, conviene verificar el compromiso y el estado real.','Abans d’escalar, convé verificar el compromís i l’estat real.'),null,true)
+]}}}}
+
+function cMissingUnits(){const ordered=pick([500,1000,1500]),missing=pick([25,50,100]);return{id:'missingunits',category:'incident',difficulty:2,channel:'phone',client:'',meta:T('Llamada · cantidad recibida','Telefonada · quantitat rebuda'),title:T('Faltan unidades','Falten unitats'),start:'n1',nodes:{n1:{type:'choice',message:T(`“Pedimos ${ordered} y al contarlas solo hay ${ordered-missing}. Nos faltan ${missing}.”`,`“En vàrem demanar ${ordered} i en comptar-les només n’hi ha ${ordered-missing}. En falten ${missing}.”`),prompt:T('¿Cómo respondes?','Com respons?'),choices:[
+ C(T('Tomar la incidencia en serio, confirmar datos del pedido y revisar preparación/entrega antes de decidir la solución.','Prendre la incidència seriosament, confirmar dades de la comanda i revisar preparació/lliurament abans de decidir la solució.'),3,{sat:3,prof:4,prec:4},T('Primero verificas el hecho sin insinuar que el cliente se equivoca.','Primer verifiques el fet sense insinuar que el client s’equivoca.'),null,true),
+ C(T('Decir que seguramente las ha contado mal.','Dir que segurament les ha comptades malament.'),0,{sat:-8,prof:-7},T('Has acusado implícitamente al cliente antes de comprobar nada.','Has acusat implícitament el client abans de comprovar res.'),null,true),
+ C(T('Prometer enviar inmediatamente las unidades que faltan.','Prometre enviar immediatament les unitats que falten.'),1,{sat:3,risk:8,prec:-3},T('Puede acabar siendo la solución, pero primero hay que verificar la incidencia.','Pot acabar sent la solució, però primer cal verificar la incidència.'),null,true)
+]}}}}
+
+function cAllCaps(){return{id:'allcaps',category:'channel',difficulty:1,channel:'email',client:'',meta:T('Correo · tono ambiguo','Correu · to ambigu'),title:T('TODO EN MAYÚSCULAS','TOT EN MAJÚSCULES'),start:'n1',nodes:{n1:{type:'choice',message:T('ASUNTO: PRESUPUESTO\n\nHOLA NECESITO 300 CARTELES PARA EL VIERNES. DECIDME PRECIO Y SI PUEDE ESTAR. GRACIAS.','ASSUMPTE: PRESSUPOST\n\nHOLA NECESSIT 300 CARTELLS PER DIVENDRES. DIGAU-ME PREU I SI POT ESTAR. GRÀCIES.'),prompt:T('¿Qué interpretación es más profesional?','Quina interpretació és més professional?'),choices:[
+ C(T('No asumir automáticamente que está enfadado; responder al contenido con un tono profesional y aclarar lo necesario.','No assumir automàticament que està enfadat; respondre al contingut amb un to professional i aclarir el necessari.'),3,{prof:4,prec:2},T('Las mayúsculas pueden resultar bruscas, pero no sabemos la intención del cliente.','Les majúscules poden resultar brusques, però no sabem la intenció del client.'),null,true),
+ C(T('Responder también en mayúsculas para adaptarte a su estilo.','Respondre també en majúscules per adaptar-te al seu estil.'),1,{prof:-3},T('Adaptarse al cliente no significa imitar cualquier forma de comunicación.','Adaptar-se al client no significa imitar qualsevol forma de comunicació.'),null,true),
+ C(T('Contestar de manera más fría porque claramente está siendo agresivo.','Contestar de manera més freda perquè clarament està sent agressiu.'),0,{sat:-4,prof:-4},T('Has interpretado una intención que el mensaje no demuestra.','Has interpretat una intenció que el missatge no demostra.'),null,true)
+]}}}}
+
+function cPickupMystery(){return{id:'pickupmystery',category:'consult',difficulty:1,channel:'desk',client:'',meta:T('Recepción · identificación de pedido','Recepció · identificació de comanda'),title:T('“Vengo a recoger lo mío”','“Venc a cercar lo meu”'),start:'n1',nodes:{n1:{type:'choice',message:T('“Hola, vengo a recoger lo mío.” No sabe el número de pedido y no recuerda exactamente qué día lo encargó.','“Hola, venc a cercar lo meu.” No sap el número de comanda i no recorda exactament quin dia ho va encarregar.'),prompt:T('¿Cuál es la mejor forma de localizarlo?','Quina és la millor manera de localitzar-ho?'),choices:[
+ C(T('Pedir nombre o empresa y alguna información del encargo (producto, fecha aproximada, teléfono) hasta identificarlo con seguridad.','Demanar nom o empresa i alguna informació de l’encàrrec (producte, data aproximada, telèfon) fins identificar-lo amb seguretat.'),3,{prec:4,prof:3,sat:2},T('Usas varias pistas sin hacer que el cliente necesite conocer un dato interno.','Utilitzes diverses pistes sense fer que el client necessiti conèixer una dada interna.'),null,true),
+ C(T('Pedirle que vuelva cuando encuentre el número de pedido.','Demanar-li que torni quan trobi el número de comanda.'),1,{sat:-4,prof:-2},T('Puede haber formas razonables de identificar el encargo sin ese número.','Pot haver-hi formes raonables d’identificar l’encàrrec sense aquest número.'),null,true),
+ C(T('Entregarle el pedido que parezca más probable.','Entregar-li la comanda que sembli més probable.'),0,{risk:18,prec:-8,prof:-5},T('Nunca conviene entregar un pedido sin identificarlo con suficiente seguridad.','Mai convé lliurar una comanda sense identificar-la amb prou seguretat.'),null,true)
+]}}}}
+
+function cHugeFile(){return{id:'hugefile',category:'channel',difficulty:1,channel:'whatsapp',client:'',meta:T('Mensajería · envío de archivos','Missatgeria · enviament d’arxius'),title:T('El archivo de 850 MB','L’arxiu de 850 MB'),start:'n1',nodes:{n1:{type:'choice',message:T('“Te estoy intentando mandar el archivo por aquí pero pesa 850 MB y no me deja. ¿Qué hago?”','“Intent enviar-te l’arxiu per aquí però pesa 850 MB i no em deixa. Què faig?”'),prompt:T('¿Qué respuesta es más útil?','Quina resposta és més útil?'),choices:[
+ C(T('Indicar un canal de entrega de archivos adecuado de la empresa y explicar brevemente cómo identificar el pedido al subirlo.','Indicar un canal de lliurament d’arxius adequat de l’empresa i explicar breument com identificar la comanda en pujar-lo.'),3,{sat:3,prof:4,prec:3},T('Resuelves el problema y mantienes orden en la recepción de archivos.','Resol el problema i mantens ordre en la recepció d’arxius.'),null,true),
+ C(T('Decirle que comprima el archivo hasta que quepa por WhatsApp.','Dir-li que comprimeixi l’arxiu fins que càpiga per WhatsApp.'),1,{prec:-2,risk:4},T('Forzar una compresión sin saber el contenido puede generar otros problemas.','Forçar una compressió sense saber el contingut pot generar altres problemes.'),null,true),
+ C(T('Responder “eso pesa demasiado”.','Respondre “això pesa massa”.'),0,{sat:-4,prof:-3},T('Describes el problema, pero no ofreces ninguna solución.','Descrius el problema, però no ofereixes cap solució.'),null,true)
+]}}}}
+
+function cClientGone(){return{id:'clientgone',category:'order',difficulty:2,channel:'email',client:'',meta:T('Correo · aprobación pendiente','Correu · aprovació pendent'),title:T('El cliente ha desaparecido','El client ha desaparegut'),start:'n1',nodes:{n1:{type:'choice',message:T('El trabajo debería entregarse mañana, pero el cliente no ha respondido al PDF de aprobación enviado ayer. Sin aprobación no puedes confirmar el contenido final.','La feina s’hauria de lliurar demà, però el client no ha respost al PDF d’aprovació enviat ahir. Sense aprovació no pots confirmar el contingut final.'),prompt:T('¿Qué haces?','Què fas?'),choices:[
+ C(T('Contactar de nuevo, dejar claro qué falta y explicar que el plazo puede verse afectado si no se recibe la aprobación.','Contactar de nou, deixar clar què falta i explicar que el termini es pot veure afectat si no es rep l’aprovació.'),3,{prof:4,prec:5,risk:-5},T('Gestionas la expectativa sin producir algo no aprobado.','Gestiones l’expectativa sense produir una cosa no aprovada.'),null,true),
+ C(T('Imprimir para llegar a tiempo y asumir que el silencio significa conformidad.','Imprimir per arribar a temps i assumir que el silenci significa conformitat.'),0,{risk:18,prec:-7,prof:-4},T('El silencio no equivale a aprobación.','El silenci no equival a aprovació.'),null,true),
+ C(T('Esperar sin decir nada; si se retrasa será culpa del cliente.','Esperar sense dir res; si es retarda serà culpa del client.'),1,{sat:-5,prof:-4},T('Aunque falte su respuesta, debes gestionar la expectativa del plazo.','Encara que falti la seva resposta, has de gestionar l’expectativa del termini.'),null,true)
+]}}}}
+
+function cDamaged(){return{id:'damaged',category:'incident',difficulty:2,channel:'email',client:'',meta:T('Correo · material dañado','Correu · material danyat'),title:T('Parte del pedido llegó dañado','Part de la comanda ha arribat danyada'),start:'n1',nodes:{n1:{type:'choice',message:T('“Han llegado las cajas, pero una venía golpeada y bastantes folletos tienen las esquinas dobladas. Adjunto dos fotos.”','“Han arribat les caixes, però una venia colpejada i bastants fullets tenen les cantonades doblegades. Adjunt dues fotos.”'),prompt:T('¿Qué respuesta inicial es mejor?','Quina resposta inicial és millor?'),choices:[
+ C(T('Agradecer la información, pedir solo los datos necesarios para cuantificar lo afectado y explicar que se revisará la solución.','Agrair la informació, demanar només les dades necessàries per quantificar què està afectat i explicar que es revisarà la solució.'),3,{sat:4,prof:4,prec:4},T('Tomas la incidencia en serio sin cargar al cliente con pruebas innecesarias.','Prens la incidència seriosament sense carregar el client amb proves innecessàries.'),null,true),
+ C(T('Pedir fotos individuales de cada folleto dañado.','Demanar fotos individuals de cada fullet danyat.'),0,{sat:-6,prof:-3},T('La carga de comprobación es desproporcionada.','La càrrega de comprovació és desproporcionada.'),null,true),
+ C(T('Culpar directamente a la empresa de transporte.','Culpar directament l’empresa de transport.'),0,{prof:-6,sat:-3},T('Aunque el transporte pueda ser la causa, el cliente espera que tu empresa gestione la incidencia.','Encara que el transport pugui ser la causa, el client espera que la teva empresa gestioni la incidència.'),null,true)
+]}}}}
+const factories=[cHours,cFlyers,cQuote,cPhoneChange,cPublicComplaint,cLateOrder,cWrongFile,cUrgentMsg,cIndecisive,cExpert,cPrivacy,cUnknown,cLongChat,cColorIssue,cAudio,cReview,cConfirmation,cTalkative,cMonosyllabic,cInternetHalf,cLogoBigger,cWedding,cColleaguePromised,cMissingUnits,cAllCaps,cPickupMystery,cHugeFile,cClientGone,cDamaged];
+
+
+const FIRST_NAMES=[
+ 'Lucía','Javier','Paula','Sergio','Elena','Marcos','Carmen','Daniel','Andrea','Álvaro','Natalia','Rubén','Irene','David','Sara','Laura','Carlos','Marta','Adrián','Claudia','Miguel','Cristina','Pablo','Beatriz','Alejandro','Nerea','Raúl','Silvia','Diego','Patricia','Víctor','Sonia','Jorge','Alicia','Hugo','Noelia','Iván','Eva','Álex','Teresa',
+ 'Aina','Pau','Biel','Neus','Joan','Laia','Marc','Núria','Miquel','Marina','Toni','Clàudia','Andreu','Guillem','Adrià'
+];
+const LAST_NAMES=['García','Martínez','López','Sánchez','Pérez','Gómez','Martín','Jiménez','Ruiz','Hernández','Díaz','Moreno','Muñoz','Álvarez','Romero','Alonso','Gutiérrez','Navarro','Torres','Domínguez','Vázquez','Ramos','Gil','Serrano','Molina','Castro','Ortiz','Rubio','Suárez','Blanco','Ortega','Delgado','Vega','Cabrera','Ferrer','Vidal','Riera','Pons','Serra','Font'];
+const COMPANY_POOLS={
+ general:['Estudio Prisma','Clínica Nova','Hotel Aurora','Café Nómada','Restaurante La Plaza','UrbanFit','Floristería Magnolia','Asociación Horizonte','Academia Ágora','Panadería Central','Eventos Norte','Librería Punto y Coma','Óptica Visión','Centro Dental Alameda','Tienda Origen','Grupo Vértice','Espacio Abierto','Centro Atlas','Comercial Rivera','Proyecto Uno','Casa Oliva','Mercado Central','Taller Nexo','Servicios Delta','Comunidad Activa','Fundación Horizonte','Centro Arco','La Esquina Creativa','Mundo Verde','Espacio 21'],
+ designer:['Estudio Prisma','Nexo Diseño','Línea Visual','Pixel Lab','Estudio Vértice','Taller Gráfico Norte','Forma Estudio','Croma Creativo','Punto Visual','Estudio Paralelo'],
+ food:['Café Nómada','Restaurante La Plaza','Bistró Central','Panadería Laurel','Café Horizonte','La Mesa Verde','Restaurante Olivo','Dulce Punto','Casa Romero','Café Estación'],
+ fast:['UrbanFit','Centro Atlas','FitLab','Arena Fitness','Impulso Gym','Zona Activa','Club 24','Move Center','Energía Fitness','Forma Urbana'],
+ social:['Eventos Norte','Proyecto Uno','Asociación Horizonte','Comunidad Activa','Fundación Arco','Espacio Abierto','Agenda Cultural','Colectivo Prisma','Foro Ciudadano','Punto Encuentro'],
+ education:['Academia Ágora','Centro Educativo Horizonte','Aula Nova','Colegio Alameda','Escuela Prisma','Campus Norte','Centro Didáctico Atlas','Academia Vértice'],
+ retail:['Floristería Magnolia','Librería Punto y Coma','Óptica Visión','Tienda Origen','Mundo Verde','Casa Oliva','Mercado Central','Boutique Nube','Papelería Arco','Tienda Mosaico']
+};
+const CASE_KIND={flyers:'fast',urgentmsg:'fast',late:'designer',expert:'designer',wrongfile:'designer',color:'designer',phonechange:'food',confirm:'retail',publiccomplaint:'social',privacy:'social',review:'social',unknown:'education',longchat:'general',audio:'retail',hugefile:'designer'};
+const INDIVIDUAL_CASES=new Set(['wedding','indecisive','pickupmystery','color']);
+function normHandle(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'').slice(0,18)}
+function assignIdentities(cases){
+ const names=shuffle(FIRST_NAMES),surnames=shuffle(LAST_NAMES),usedPeople=new Set(),usedCompanies=new Set();
+ cases.forEach((c,idx)=>{
+   let name,surname,full,attempt=0;
+   do{ name=names[(idx+attempt)%names.length];surname=surnames[(idx*3+attempt)%surnames.length];full=`${name} ${surname}`;attempt++ }while(usedPeople.has(full)&&attempt<200);
+   usedPeople.add(full);
+   const kind=CASE_KIND[c.id]||'general', preferred=shuffle(COMPANY_POOLS[kind]||COMPANY_POOLS.general), all=shuffle(Object.values(COMPANY_POOLS).flat());
+   let company='';
+   if(!INDIVIDUAL_CASES.has(c.id)){company=preferred.find(x=>!usedCompanies.has(x))||all.find(x=>!usedCompanies.has(x))||`Proyecto ${idx+1}`;usedCompanies.add(company)}
+   const identity={name:full,first:name,company,handle:'@'+normHandle(company||full)};c.identity=identity;
+   const g=CHANNELS[c.channel].group;c.client=(g==='msg')?identity.handle:(identity.company?`${identity.name} · ${identity.company}`:identity.name);
+   if(c.id==='privacy')Object.values(c.nodes).forEach(n=>{if(n.message)n.message=n.message.replace('Elena Puig',identity.name)});
+ });
+}
+function normalizeChoiceText(s){
+ return String(s||'').toLocaleLowerCase(state.lang==='ca'?'ca-ES':'es-ES')
+   .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+}
+function extraChoiceFor(c,n,variant=0){
+ const p=((n.prompt||'')+' '+(n.message||'')).toLowerCase();
+ let t,q=2,e={prof:1},r;
+ const variants={
+  incident:[
+   [T('Reconocer la incidencia, indicar que vas a revisarla y pedir solo el dato imprescindible antes de concretar la solución.','Reconèixer la incidència, indicar que la revisaràs i demanar només la dada imprescindible abans de concretar la solució.'),2,{sat:2,prof:2,prec:1},T('La respuesta es razonable, aunque podría estructurar mejor la verificación y el siguiente paso.','La resposta és raonable, encara que podria estructurar millor la verificació i la passa següent.')],
+   [T('Pedir primero la referencia del pedido, comprobar qué ha ocurrido y después explicar al cliente qué alternativas reales existen.','Demanar primer la referència de la comanda, comprovar què ha passat i després explicar al client quines alternatives reals existeixen.'),3,{sat:1,prof:2,prec:3,risk:-2},T('Es una respuesta sólida porque evita prometer una solución antes de verificar los hechos.','És una resposta sòlida perquè evita prometre una solució abans de verificar els fets.')],
+   [T('Ofrecer una solución provisional para tranquilizar al cliente y confirmar los detalles cuando hayas consultado internamente.','Oferir una solució provisional per tranquil·litzar el client i confirmar els detalls quan hagis consultat internament.'),1,{sat:1,prof:0,prec:-1,risk:2},T('Intentas tranquilizar, pero una solución provisional sin verificar puede generar nuevas expectativas incorrectas.','Intentes tranquil·litzar, però una solució provisional sense verificar pot generar noves expectatives incorrectes.')]
+  ],
+  public:[
+   [T('Responder brevemente que vais a revisar el caso y pedir continuar por privado, sin entrar todavía en detalles.','Respondre breument que revisareu el cas i demanar continuar per privat, sense entrar encara en detalls.'),2,{sat:1,prof:2,risk:-1},T('Proteges la conversación pública, aunque la respuesta podría reconocer mejor la situación concreta.','Protegeixes la conversa pública, encara que la resposta podria reconèixer millor la situació concreta.')],
+   [T('Agradecer que lo haya comunicado, reconocer la situación y trasladar los datos concretos a un canal privado.','Agrair que ho hagi comunicat, reconèixer la situació i traslladar les dades concretes a un canal privat.'),3,{sat:2,prof:3,prec:1,risk:-2},T('Es una respuesta equilibrada: atiende públicamente sin exponer información innecesaria.','És una resposta equilibrada: atén públicament sense exposar informació innecessària.')],
+   [T('Explicar públicamente todos los detalles disponibles para que otros usuarios vean que la empresa tiene razón.','Explicar públicament tots els detalls disponibles perquè altres usuaris vegin que l’empresa té raó.'),0,{sat:-2,prof:-2,risk:4},T('Dar demasiados detalles en público puede escalar el conflicto y exponer información que debería tratarse en privado.','Donar massa detalls en públic pot escalar el conflicte i exposar informació que s’hauria de tractar en privat.')]
+  ],
+  change:[
+   [T('Registrar la petición y explicar que confirmarás el cambio cuando compruebes su viabilidad.','Registrar la petició i explicar que confirmaràs el canvi quan en comprovis la viabilitat.'),2,{prec:2,prof:2,risk:-2},T('Buena prudencia, aunque conviene concretar también cómo quedará documentado el cambio.','Bona prudència, encara que convé concretar també com quedarà documentat el canvi.')],
+   [T('Repetir al cliente los cambios que has entendido, comprobar si afectan a precio o plazo y pedir una confirmación final.','Repetir al client els canvis que has entès, comprovar si afecten preu o termini i demanar una confirmació final.'),3,{prec:3,prof:3,risk:-3},T('La reformulación y la confirmación final reducen mucho el riesgo de ejecutar un cambio incorrecto.','La reformulació i la confirmació final redueixen molt el risc d’executar un canvi incorrecte.')],
+   [T('Aplicar el cambio de inmediato porque el cliente lo ha pedido claramente y revisar después si afecta al resto del encargo.','Aplicar el canvi immediatament perquè el client l’ha demanat clarament i revisar després si afecta la resta de l’encàrrec.'),0,{sat:1,prec:-3,prof:-1,risk:4},T('Cambiar primero y comprobar después puede provocar errores de producción, precio o plazo.','Canviar primer i comprovar després pot provocar errors de producció, preu o termini.')]
+  ],
+  channel:[
+   [T('Mantener el canal actual, pero condensar en un único mensaje los puntos que deben confirmarse.','Mantenir el canal actual, però condensar en un únic missatge els punts que s’han de confirmar.'),2,{prof:2,prec:1},T('Ordenas la comunicación, aunque quizá otro canal resolvería mejor la complejidad del caso.','Ordenes la comunicació, encara que potser un altre canal resoldria millor la complexitat del cas.')],
+   [T('Cambiar a un canal más adecuado para resolver la parte compleja y dejar después un resumen escrito de lo acordado.','Canviar a un canal més adequat per resoldre la part complexa i deixar després un resum escrit del que s’ha acordat.'),3,{prof:3,prec:2,risk:-2},T('Combinas agilidad para resolver con trazabilidad posterior.','Combines agilitat per resoldre amb traçabilitat posterior.')],
+   [T('Seguir respondiendo mensaje a mensaje para no incomodar al cliente con un cambio de canal.','Continuar responent missatge a missatge per no incomodar el client amb un canvi de canal.'),1,{sat:1,prof:-1,prec:-1,risk:1},T('La intención es amable, pero mantener un canal ineficiente puede aumentar confusiones.','La intenció és amable, però mantenir un canal ineficient pot augmentar confusions.')]
+  ],
+  difficult:[
+   [T('Resumir lo que has entendido y hacer una pregunta concreta para avanzar paso a paso.','Resumir el que has entès i fer una pregunta concreta per avançar passa a passa.'),2,{sat:2,prof:2,prec:1},T('La estrategia ayuda a ordenar la conversación, aunque podría adaptarse todavía mejor al perfil del cliente.','L’estratègia ajuda a ordenar la conversa, encara que es podria adaptar encara millor al perfil del client.')],
+   [T('Reformular brevemente la necesidad del cliente y ofrecer dos alternativas claras para que pueda decidir.','Reformular breument la necessitat del client i oferir dues alternatives clares perquè pugui decidir.'),3,{sat:2,prof:3,prec:2},T('Reducir opciones y reformular ayuda a avanzar sin presionar al cliente.','Reduir opcions i reformular ajuda a avançar sense pressionar el client.')],
+   [T('Dar toda la información disponible de una vez para evitar que el cliente tenga que hacer más preguntas.','Donar tota la informació disponible de cop per evitar que el client hagi de fer més preguntes.'),1,{prof:0,prec:1,sat:-1},T('Ser exhaustivo no siempre ayuda: demasiada información puede aumentar la confusión.','Ser exhaustiu no sempre ajuda: massa informació pot augmentar la confusió.')]
+  ],
+  order:[
+   [T('Confirmar que has recibido la petición y explicar cuál será el siguiente paso, sin cerrar todavía condiciones no verificadas.','Confirmar que has rebut la petició i explicar quina serà la passa següent, sense tancar encara condicions no verificades.'),2,{prof:2,prec:2,risk:-1},T('La respuesta mantiene trazabilidad, aunque puede faltar alguna precisión concreta del caso.','La resposta manté traçabilitat, encara que hi pot faltar alguna precisió concreta del cas.')],
+   [T('Resumir los datos principales del encargo, señalar lo que falta y pedir confirmación antes de continuar.','Resumir les dades principals de l’encàrrec, assenyalar el que falta i demanar confirmació abans de continuar.'),3,{prof:3,prec:3,risk:-2},T('Esta opción ordena la información y evita avanzar con datos ambiguos.','Aquesta opció ordena la informació i evita avançar amb dades ambigües.')],
+   [T('Avanzar con los datos más probables y avisar al cliente de que podrá corregirlos después si fuese necesario.','Avançar amb les dades més probables i avisar el client que els podrà corregir després si fos necessari.'),0,{prec:-3,prof:-1,risk:4},T('Suponer datos de un pedido puede generar costes y errores difíciles de revertir.','Suposar dades d’una comanda pot generar costos i errors difícils de revertir.')]
+  ],
+  consult:[
+   [T('Dar una primera orientación y aclarar qué dato falta antes de confirmar una respuesta definitiva.','Donar una primera orientació i aclarir quina dada falta abans de confirmar una resposta definitiva.'),2,{sat:1,prof:2,prec:2},T('Es una respuesta razonable, aunque no siempre es la forma más directa de resolver esta consulta.','És una resposta raonable, encara que no sempre és la manera més directa de resoldre aquesta consulta.')],
+   [T('Responder primero a lo que ya puede resolverse y preguntar únicamente por la información imprescindible que falta.','Respondre primer al que ja es pot resoldre i preguntar únicament per la informació imprescindible que falta.'),3,{sat:2,prof:3,prec:2},T('La respuesta es eficiente y evita hacer preguntas que no son necesarias.','La resposta és eficient i evita fer preguntes que no són necessàries.')],
+   [T('Solicitar todos los datos posibles antes de dar cualquier información, aunque parte de la consulta pueda resolverse ya.','Sol·licitar totes les dades possibles abans de donar cap informació, encara que part de la consulta es pugui resoldre ja.'),1,{sat:-1,prof:0,prec:2},T('Recoger datos ayuda, pero pedir más de lo necesario puede hacer la atención lenta y poco natural.','Recollir dades ajuda, però demanar més del necessari pot fer l’atenció lenta i poc natural.')]
+  ]
+ };
+ let key=c.category;
+ if(p.includes('canal') && key==='consult')key='channel';
+ const arr=variants[key]||variants.consult;
+ const v=arr[Math.abs(variant)%arr.length];[t,q,e,r]=v;
+ const best=[...n.choices].sort((a,b)=>(b.q??0)-(a.q??0))[0]||{};
+ return C(t,q,e,r,best.next||null,!!best.end||!best.next);
+}
+function augmentCaseChoices(c){
+ Object.values(c.nodes).forEach(n=>{
+  if(n.type!=='choice'||!Array.isArray(n.choices))return;
+  const clean=[],seen=new Set();
+  n.choices.forEach(x=>{const k=normalizeChoiceText(x.t);if(k&&!seen.has(k)){seen.add(k);clean.push(x)}});
+  n.choices=clean;
+  let attempt=0,guard=0;
+  while(n.choices.length<4&&guard<20){
+   const x=extraChoiceFor(c,n,attempt++),k=normalizeChoiceText(x.t);guard++;
+   if(k&&!seen.has(k)){seen.add(k);n.choices.push(x)}
+  }
+  const fallbacks=[
+   T('Pedir una confirmación breve antes de continuar, aunque retrase ligeramente la gestión.','Demanar una confirmació breu abans de continuar, encara que retardi lleugerament la gestió.'),
+   T('Explicar lo que sabes con claridad y dejar explícito qué parte todavía debes comprobar.','Explicar el que saps amb claredat i deixar explícit quina part encara has de comprovar.'),
+   T('Proponer el siguiente paso concreto y confirmar que el cliente está de acuerdo antes de ejecutarlo.','Proposar la passa següent concreta i confirmar que el client hi està d’acord abans d’executar-la.'),
+   T('Resolver primero la información imprescindible y documentar después lo que se haya acordado.','Resoldre primer la informació imprescindible i documentar després el que s’hagi acordat.')
+  ];
+  for(const t of fallbacks){
+   if(n.choices.length>=4)break;const k=normalizeChoiceText(t);if(seen.has(k))continue;
+   const best=[...n.choices].sort((a,b)=>(b.q??0)-(a.q??0))[0]||{};
+   n.choices.push(C(t,2,{prof:1,prec:1},T('Es una alternativa razonable, aunque hay una opción más ajustada a la situación.','És una alternativa raonable, encara que hi ha una opció més ajustada a la situació.'),best.next||null,!!best.end||!best.next));seen.add(k);
+  }
+ });return c;
+}
+
+function buildSession(){
+ const pool=factories.map(f=>augmentCaseChoices(f())),by=cat=>shuffle(pool.filter(c=>c.category===cat));let selected=[];
+ selected.push(...by('consult').slice(0,4),...by('incident').slice(0,5),...by('public').slice(0,3),...by('change').slice(0,2),...by('difficult').slice(0,4),...by('channel').slice(0,3),...by('order').slice(0,3));
+ const unique=[];const seen=new Set();selected.forEach(c=>{if(!seen.has(c.id)){seen.add(c.id);unique.push(c)}});selected=unique;
+ const rest=shuffle(pool.filter(c=>!seen.has(c.id)));selected.push(...rest.slice(0,Math.max(0,22-selected.length)));selected=shuffle(selected).slice(0,22);
+ // guarantee all channels
+ ['email','msg','phone','desk'].forEach(group=>{
+   if(!selected.some(c=>CHANNELS[c.channel].group===group)){
+     const cand=pool.find(c=>CHANNELS[c.channel].group===group&&!selected.some(s=>s.id===c.id));
+     if(cand){const idx=selected.findIndex(c=>selected.filter(x=>CHANNELS[x.channel].group===CHANNELS[c.channel].group).length>1);if(idx>=0)selected[idx]=cand}
+   }
+ });
+ // at least three written-response cases
+ const textPool=pool.filter(c=>Object.values(c.nodes).some(n=>n.type==='text'));
+ let currentText=selected.filter(c=>Object.values(c.nodes).some(n=>n.type==='text')).length;
+ for(const cand of textPool){
+   if(currentText>=3)break;if(selected.some(c=>c.id===cand.id))continue;
+   const cg=CHANNELS[cand.channel].group;
+   const idx=selected.findIndex(c=>CHANNELS[c.channel].group===cg&&!Object.values(c.nodes).some(n=>n.type==='text')&&selected.filter(x=>CHANNELS[x.channel].group===cg).length>1);
+   if(idx>=0){selected[idx]=cand;currentText++}
+ }
+ assignIdentities(selected);
+ // 8 initial cases, with every channel represented
+ let initial=[],remaining=[...selected];
+ ['email','msg','phone','desk'].forEach(g=>{const m=remaining.filter(c=>CHANNELS[c.channel].group===g);if(m.length){const c=pick(m);initial.push(c);remaining=remaining.filter(x=>x!==c)}});
+ initial.push(...shuffle(remaining).slice(0,8-initial.length));initial=[...new Set(initial)].slice(0,8);remaining=selected.filter(c=>!initial.includes(c));
+ const initialTimes=[8*60+42,8*60+46,8*60+49,8*60+52,8*60+54,8*60+56,8*60+58,9*60];
+ initial.forEach((c,i)=>prepareCase(c,true,initialTimes[i]||9*60));remaining.forEach(c=>prepareCase(c,false,null));
+ // 14 later arrivals distributed across the morning. Progress can advance them too.
+ const targets=[75,150,225,300,390,480,570,660,750,840,930,1020,1140,1320];
+ const thresholds=[1,2,3,5,6,8,9,11,12,14,15,17,18,20];
+ remaining.forEach((c,i)=>{c.arrivalTargetSec=targets[i]??1320;c.arrivalThreshold=thresholds[i]??20});
+ const interruptCandidates=remaining.filter(c=>['incident','public','change'].includes(c.category));
+ shuffle(interruptCandidates.length>=4?interruptCandidates:remaining).slice(0,4).forEach(c=>c.interrupt=true);
+ state.arrivalQueue=remaining.map(c=>c.uid);return [...initial,...remaining];
+}
+function prepareCase(c,revealed,receivedMinute){
+ c.uid=c.id+'-'+Math.random().toString(36).slice(2,7);
+ c.revealed=revealed;c.interrupt=false;c.receivedMinute=receivedMinute;
+ c.rt={nodeId:c.start,status:'new',mode:'question',transcript:[],qualities:[],decisions:[],open:[],draft:'',
+       pendingNext:null,pendingEnd:false,pendingReaction:'',startedReal:null,activeSince:null,spentMs:0,
+       startedFake:null,finishedFake:null,avgQuality:null,rating:null};
+}
+function startGame(){
+ state.lang=$('langSelect').value;applyLanguage();
+ const student=$('studentName').value.trim(),company=$('companyName').value.trim();
+ if(student.length<2){$('studentName').focus();validateStart();return}
+ if(company.length<2){$('companyName').focus();validateStart();return}
+ $('langSelect').disabled=true;state.student=student;state.company=company;state.session=sid();state.realStart=new Date();state.fakeMinutes=9*60;
+ state.notes=[];state.internalAlerts=[];state.overtime=false;state.closingPromptShown=false;state.nearCloseShown=false;state.forcedFinish=false;state.sessionCases=buildSession();state.currentFilter='all';state.currentCaseId=null;addInternalAlert(T('Jornada iniciada.','Jornada iniciada.'),'system');
+ $('startScreen').classList.add('hidden');$('appScreen').classList.remove('hidden');$('topCompany').textContent=company;$('topSession').textContent=state.session;$('fakeClock').textContent=ftime();
+ state.timer=setInterval(updateElapsed,1000);showList('all');updateElapsed();renderRightPanel();
+}
+function updateElapsed(){
+ if(!state.realStart)return;
+ const t=Math.floor(((state.realEnd||new Date())-state.realStart)/1000);
+ $('elapsedClock').textContent=`${pad(Math.floor(t/60))}:${pad(t%60)}`;
+ syncSimClock();checkArrivals(t);
+}
+function checkArrivals(elapsedSec){
+ const hidden=state.sessionCases.filter(c=>!c.revealed);if(!hidden.length)return;
+ if(state.fakeMinutes>=13*60+30){hidden.forEach(c=>revealCase(c));return}
+ const next=hidden.find(c=>elapsedSec>=c.arrivalTargetSec || state.history.length>=c.arrivalThreshold);
+ if(next)revealCase(next);
+}
+function revealCase(c){
+ c.revealed=true;c.receivedMinute=state.fakeMinutes;state.lastArrivalUid=c.uid;addInternalAlert(`${CHANNELS[c.channel].icon} ${T('Nueva entrada','Nova entrada')}: ${c.identity?c.identity.name:c.client} · ${c.title}`,'arrival');
+ updateSidebar();renderRightPanel();
+ if(!$('listView').classList.contains('hidden'))renderQueue();
+ if(c.interrupt && state.currentCaseId){
+   $('interruptIcon').textContent=CHANNELS[c.channel].icon;
+   $('interruptChannel').textContent=CHANNELS[c.channel].label();
+   $('interruptTitle').textContent=c.title;
+   $('interruptText').textContent=u().urgentInterrupt;
+   $('interruptOverlay').dataset.uid=c.uid;
+   $('interruptOverlay').classList.remove('hidden');
+ }else{
+   toast(`${u().newCase}: ${c.title}`);
+ }
+}
+function getCase(uid){return state.sessionCases.find(c=>c.uid===uid)}
+function pauseCurrent(){
+ if(!state.currentCaseId)return;const c=getCase(state.currentCaseId);if(c&&c.rt.activeSince!=null){c.rt.spentMs+=performance.now()-c.rt.activeSince;c.rt.activeSince=null}
+}
+function activateNav(filter){
+ 
+$('addNoteBtn').addEventListener('click',addNote);
+$('noteInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addNote()}});
+$('overtimeBtn').addEventListener('click',chooseOvertime);
+$('finishNowBtn').addEventListener('click',()=>finishGame(true));
+
+document.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.filter===filter));
+}
+function filterLabel(filter){
+ return filter==='all'?u().inbox:filter==='email'?u().mail:filter==='msg'?u().msgs:filter==='phone'?u().calls:filter==='desk'?u().desk:u().done;
+}
+function showList(filter=state.currentFilter){
+ pauseCurrent();state.currentCaseId=null;state.currentFilter=filter;activateNav(filter);
+ $('caseView').classList.add('hidden');$('listView').classList.remove('hidden');
+ $('listTitle').textContent=filterLabel(filter);$('listSubtitle').textContent=u().listSub;
+ renderQueue();updateSidebar();renderRightPanel();
+}
+function eligibleForFilter(c,filter){
+ if(!c.revealed)return false;
+ if(filter==='done')return c.rt.status==='done';
+ if(c.rt.status==='done')return false;
+ if(filter==='all')return true;
+ return CHANNELS[c.channel].group===filter;
+}
+function renderQueue(){
+ const list=$('caseList');list.innerHTML='';
+ const items=state.sessionCases.filter(c=>eligibleForFilter(c,state.currentFilter)).sort((a,b)=>a.receivedMinute-b.receivedMinute);
+ const pendingTotal=state.sessionCases.filter(c=>c.revealed&&c.rt.status!=='done').length;
+ const hiddenTotal=state.sessionCases.filter(c=>!c.revealed).length;
+ $('queueTotalTag').textContent=state.currentFilter==='done'
+   ? `${state.history.length} ${u().resolved}`
+   : `${items.length} ${u().pending}`;
+ $('filterSummary').textContent=state.currentFilter==='all'?u().allSummary:'';
+ $('finishBanner').classList.toggle('hidden',pendingTotal!==0 || hiddenTotal!==0 || state.history.length!==state.sessionCases.length);
+ if(!items.length){
+   const e=document.createElement('div');e.className='empty-state';
+   e.innerHTML=`<strong>${u().empty}</strong><span>${state.currentFilter==='done'?T('Los casos aparecerán aquí cuando los cierres.','Els casos apareixeran aquí quan els tanquis.'):T('Puedes consultar otro canal desde el menú de la izquierda.','Pots consultar un altre canal des del menú de l’esquerra.')}</span>`;
+   list.appendChild(e);return;
+ }
+ items.forEach(c=>{
+   const ch=CHANNELS[c.channel],card=document.createElement(c.rt.status==='done'?'div':'button');
+   card.className='queue-card'+(c.rt.status==='done'?' done-card':'')+(c.uid===state.lastArrivalUid?' new-case-flash':'');if(card.tagName==='BUTTON')card.type='button';
+   const st=c.rt.status==='new'?u().new:c.rt.status==='inprogress'?u().inProgress:u().resolved;
+   const cls=c.rt.status==='inprogress'?'progress':c.rt.status==='done'?'done':'';
+   card.innerHTML=`<div class="queue-icon">${ch.icon}</div>
+     <div class="queue-main"><div class="queue-topline"><span class="queue-client">${esc(c.client)}</span><span class="status-pill ${cls}">${st}</span></div>
+     <div class="queue-subject">${esc(c.title)} · ${esc(c.meta)}</div></div>
+     <div class="queue-side"><div class="queue-time">${ftime(c.receivedMinute)}</div><span class="event-tag">${esc(ch.label())}</span></div>`;
+   if(c.rt.status!=='done')card.addEventListener('click',()=>openCase(c.uid));
+   list.appendChild(card);
+ });
+}
+function openCase(uid){
+ pauseCurrent();const c=getCase(uid);if(!c||c.rt.status==='done')return;
+ state.currentCaseId=uid;
+ if(c.rt.status==='new'){c.rt.status='inprogress';c.rt.startedReal=new Date();c.rt.startedFake=ftime(); }
+ c.rt.activeSince=performance.now();
+ $('listView').classList.add('hidden');$('caseView').classList.remove('hidden');
+ renderCase();updateSidebar();renderRightPanel();
+}
+function transcriptBubble(entry){
+ const d=document.createElement('div');d.className='bubble '+(entry.who==='self'?'self':'');d.textContent=entry.text;return d;
+}
+function renderCase(){
+ const c=getCase(state.currentCaseId);if(!c)return;const rt=c.rt,n=c.nodes[rt.nodeId],ch=CHANNELS[c.channel];
+ $('workTitle').textContent=c.title;$('workSubtitle').textContent=u().analyse;$('difficultyTag').textContent=diff(c.difficulty);
+ $('channelIcon').textContent=ch.icon;$('clientName').textContent=c.client;$('clientMeta').textContent=`${ch.label()} · ${c.meta}`;$('caseTime').textContent=ftime(c.receivedMinute);
+ const conv=$('conversation');conv.innerHTML='';rt.transcript.forEach(x=>conv.appendChild(transcriptBubble(x)));
+ const zone=$('choiceZone');zone.innerHTML='';
+ if(rt.mode==='question'){
+   const cb=document.createElement('div');cb.className='bubble';cb.textContent=n.message;conv.appendChild(cb);
+   const p=document.createElement('div');p.className='prompt';p.textContent=n.prompt;zone.appendChild(p);
+   if(n.type==='choice'){
+     const w=document.createElement('div');w.className='choices';
+     const visibleChoices=[];const seenChoices=new Set();shuffle(n.choices).forEach(x=>{const k=normalizeChoiceText(x.t);if(k&&!seenChoices.has(k)){seenChoices.add(k);visibleChoices.push(x)}});visibleChoices.forEach(x=>{const btn=document.createElement('button');btn.className='choice';btn.textContent=x.t;btn.onclick=()=>answerChoice(x);w.appendChild(btn)});zone.appendChild(w);
+   }else if(n.type==='text'){
+     const editor=document.createElement('div');editor.className='response-editor';
+     const ta=document.createElement('textarea');ta.className='written-response';ta.maxLength=n.max||400;ta.placeholder=u().placeholder;ta.value=rt.draft||'';ta.setAttribute('aria-label',n.prompt||u().placeholder);
+     const f=document.createElement('div');f.className='text-footer';
+     const co=document.createElement('span');co.className='counter';co.textContent=`${ta.value.length} / ${ta.maxLength}`;
+     const btn=document.createElement('button');btn.type='button';btn.className='primary';btn.textContent=u().send;
+     ta.addEventListener('input',()=>{rt.draft=ta.value;co.textContent=`${ta.value.length} / ${ta.maxLength}`});
+     btn.addEventListener('click',()=>answerText(ta.value.trim(),n));
+     f.appendChild(co);f.appendChild(btn);editor.appendChild(ta);editor.appendChild(f);zone.appendChild(editor);
+     requestAnimationFrame(()=>ta.focus());
+   }else{
+     const err=document.createElement('div');err.className='reaction';err.textContent=T('Error interno: este paso no tiene un tipo de respuesta válido.','Error intern: aquest pas no té un tipus de resposta vàlid.');zone.appendChild(err);
+   }
+ }else{
+   if(rt.pendingReaction){const r=document.createElement('div');r.className='reaction';r.textContent=rt.pendingReaction;zone.appendChild(r)}
+   const row=document.createElement('div');row.className='continue-row';const btn=document.createElement('button');btn.className='primary';btn.textContent=rt.pendingEnd?u().close:u().continue;btn.onclick=continueCurrent;row.appendChild(btn);zone.appendChild(row);
+ }
+}
+function recordCurrentPromptAndAnswer(answer){
+ const c=getCase(state.currentCaseId),rt=c.rt,n=c.nodes[rt.nodeId];
+ rt.transcript.push({who:'client',text:n.message},{who:'self',text:answer});
+}
+function answerChoice(x){
+ const c=getCase(state.currentCaseId),rt=c.rt;
+ state.decisions++;rt.qualities.push(x.q);rt.decisions.push({text:x.t,quality:x.q});eff(x.e,x.q,c);
+ if(x.flag)state.flags[x.flag]=(state.flags[x.flag]||0)+1;
+ recordCurrentPromptAndAnswer(x.t);
+ rt.pendingReaction=x.r||'';rt.pendingNext=x.next||null;rt.pendingEnd=!!x.end||!x.next;rt.mode='after';
+ advance();renderCase();updateSidebar();
+}
+function answerText(txt,n){
+ if(txt.length<20){alert(u().tooShort);return}
+ const c=getCase(state.currentCaseId),rt=c.rt;state.decisions++;rt.open.push(txt);rt.decisions.push({text:T('Respuesta redactada por el alumno','Resposta redactada per l’alumne'),quality:null});
+ state.openResponses.push({caseTitle:c.title,channel:CHANNELS[c.channel].label(),text:txt});recordCurrentPromptAndAnswer(txt);rt.draft='';
+ rt.pendingReaction='';rt.pendingNext=n.next||null;rt.pendingEnd=!n.next;rt.mode='after';advance();renderCase();updateSidebar();
+}
+function continueCurrent(){
+ const c=getCase(state.currentCaseId),rt=c.rt;
+ if(rt.pendingEnd){closeCase(c);return}
+ rt.nodeId=rt.pendingNext;rt.pendingNext=null;rt.pendingEnd=false;rt.pendingReaction='';rt.mode='question';advance();renderCase();
+}
+function closeCase(c){
+ const rt=c.rt;pauseCurrent();rt.status='done';rt.finishedFake=ftime();
+ const q=rt.qualities,a=q.length?q.reduce((x,y)=>x+y,0)/q.length:null;rt.avgQuality=a;rt.rating=q.length?rating(a):T('Respuesta abierta · revisión docente','Resposta oberta · revisió docent');
+ state.history.push({id:c.id,title:c.title,client:c.identity?(c.identity.company?`${c.identity.name} · ${c.identity.company}`:c.identity.name):c.client,channel:CHANNELS[c.channel].label(),difficulty:c.difficulty,started:rt.startedFake,finished:rt.finishedFake,duration:rt.spentMs,avgQuality:a,rating:rt.rating,open:[...rt.open]});
+ addInternalAlert(`✅ ${T('Caso resuelto','Cas resolt')}: ${c.identity?c.identity.name:c.client} · ${c.title}`,'done');state.currentCaseId=null;syncSimClock();toast(u().closed);checkArrivals(Math.floor((new Date()-state.realStart)/1000));showList(state.currentFilter==='done'?'done':state.currentFilter);
+}
+function updateSidebar(){
+ const pending=state.sessionCases.filter(c=>c.revealed&&c.rt.status!=='done'),counts={email:0,msg:0,phone:0,desk:0};pending.forEach(c=>counts[CHANNELS[c.channel].group]++);
+ $('countAll').textContent=pending.length;$('countEmail').textContent=counts.email;$('countMsg').textContent=counts.msg;$('countPhone').textContent=counts.phone;$('countDesk').textContent=counts.desk;$('countDone').textContent=state.history.length;
+ if($('rightProgress'))$('rightProgress').textContent=`${state.history.length} / ${state.sessionCases.length}`;if($('rightDecisions'))$('rightDecisions').textContent=state.decisions;if($('progressFill'))$('progressFill').style.width=`${state.history.length/state.sessionCases.length*100}%`;renderRightPanel();
+}
+
+function addInternalAlert(text,type='info'){
+ state.internalAlerts.unshift({text,time:ftime(),type});state.internalAlerts=state.internalAlerts.slice(0,8);if($('internalAlerts'))renderRightPanel();
+}
+function priorityScore(c){
+ const wait=Math.max(0,state.fakeMinutes-(c.receivedMinute||state.fakeMinutes));let p=c.difficulty*10+Math.min(wait,90)/6;
+ if(c.category==='incident')p+=18;if(c.category==='public')p+=14;if(c.category==='change')p+=10;if(c.rt.status==='inprogress')p+=4;return p;
+}
+function renderRightPanel(){
+ if(!$('panelResolved'))return;
+ const revealed=state.sessionCases.filter(c=>c.revealed),pending=revealed.filter(c=>c.rt.status!=='done'),inProgress=pending.filter(c=>c.rt.status==='inprogress'),news=pending.filter(c=>c.rt.status==='new');
+ $('panelResolved').textContent=state.history.length;$('panelPending').textContent=pending.length;$('panelProgress').textContent=inProgress.length;$('panelNew').textContent=news.length;
+ const rem=Math.max(0,14*60-state.fakeMinutes);$('panelClose').textContent=state.overtime?u().overtimeLabel:(state.fakeMinutes<14*60?`${Math.floor(rem/60)} h ${pad(rem%60)} min`:'00:00');
+ const current=state.currentCaseId?getCase(state.currentCaseId):null;
+ $('clientPanel').classList.toggle('hidden',!current);
+ if(current){
+   const id=current.identity||{name:current.client,company:''};$('panelClientName').textContent=id.name||current.client;$('panelClientCompany').textContent=id.company||'';$('panelClientChannel').textContent=CHANNELS[current.channel].label();$('panelClientStatus').textContent=current.rt.status==='inprogress'?u().inProgress:u().new;
+   const contacts=state.sessionCases.filter(c=>c.revealed&&c.identity&&id.name===c.identity.name&&id.company===c.identity.company).length;$('panelClientContacts').textContent=contacts;
+ }
+ const ip=$('inProgressList');ip.innerHTML='';
+ if(!inProgress.length){ip.innerHTML=`<div class="priority-empty">${u().noInProgress}</div>`}else inProgress.slice(0,4).forEach(c=>{const b=document.createElement('button');b.type='button';b.className='progress-item';b.innerHTML=`<strong>${esc(c.identity?c.identity.name:c.client)} <span class="priority-open">${u().openCase}</span></strong><div class="progress-meta">${CHANNELS[c.channel].icon} ${esc(c.title)}</div>`;b.addEventListener('click',()=>openCase(c.uid));ip.appendChild(b)});
+ const plist=$('priorityList');plist.innerHTML='';const pri=[...pending].sort((a,b)=>priorityScore(b)-priorityScore(a)).slice(0,3);
+ if(!pri.length){plist.innerHTML=`<div class="priority-empty">${u().noPriorities}</div>`}else pri.forEach(c=>{const wait=Math.max(0,state.fakeMinutes-(c.receivedMinute||state.fakeMinutes));const b=document.createElement('button');b.type='button';b.className='priority-item clickable';const cls=c.category==='incident'?'urgent':c.difficulty===3?'warn':'';b.innerHTML=`<strong>${esc(c.identity?c.identity.name:c.client)} <span class="priority-open">${u().openCase}</span><span class="panel-badge ${cls}">${esc(c.title)}</span></strong><div class="priority-meta">${CHANNELS[c.channel].icon} ${esc(CHANNELS[c.channel].label())} · ${wait} min ${T('en espera','en espera')}</div>`;b.addEventListener('click',()=>openCase(c.uid));plist.appendChild(b)});
+ const al=$('internalAlerts');al.innerHTML='';if(!state.internalAlerts.length){al.innerHTML=`<div class="alerts-empty">${u().noAlerts}</div>`}else state.internalAlerts.slice(0,5).forEach(a=>{const d=document.createElement('div');d.className='alert-item';d.innerHTML=`<strong>${esc(a.text)}</strong><div class="alert-meta">${esc(a.time)}</div>`;al.appendChild(d)});
+ const nl=$('notesList');nl.innerHTML='';if(!state.notes.length){nl.innerHTML=`<div class="notes-empty">${u().noNotes}</div>`}else state.notes.forEach(n=>{const d=document.createElement('div');d.className='note-item';d.innerHTML=`<div>${esc(n.text)}<div class="alert-meta">${esc(n.time)}</div></div><button type="button" aria-label="Eliminar">×</button>`;d.querySelector('button').onclick=()=>{state.notes=state.notes.filter(x=>x.id!==n.id);renderRightPanel()};nl.appendChild(d)});
+}
+function addNote(){const txt=$('noteInput').value.trim();if(!txt)return;state.notes.unshift({id:Date.now()+Math.random(),text:txt,time:ftime()});$('noteInput').value='';renderRightPanel()}
+function showClosingPrompt(){
+ state.closingPromptShown=true;const pending=state.sessionCases.filter(c=>c.revealed&&c.rt.status!=='done').length;$('closingPending').textContent=pending;$('closingDone').textContent=state.history.length;$('closingOverlay').classList.remove('hidden');
+}
+function chooseOvertime(){state.overtime=true;$('closingOverlay').classList.add('hidden');addInternalAlert(T('Horas extra iniciadas.','Hores extra iniciades.'),'warning');renderRightPanel()}
+function feedback(){
+ const s=[],i=[];
+ if(state.scores.prof>=80)s.push(T('Has mantenido un nivel alto de profesionalidad y adecuación del registro.','Has mantingut un nivell alt de professionalitat i adequació del registre.'));
+ if(state.scores.prec>=80)s.push(T('Has priorizado la precisión y la verificación antes de confirmar información importante.','Has prioritzat la precisió i la verificació abans de confirmar informació important.'));
+ if(state.scores.sat>=80)s.push(T('Tus decisiones tienden a facilitar una experiencia clara y útil para el cliente.','Les teves decisions tendeixen a facilitar una experiència clara i útil per al client.'));
+ if(state.gradeItems.length&&state.scores.risk<=22)s.push(T('Has controlado bien el riesgo de error, especialmente en cambios, plazos y confirmaciones.','Has controlat bé el risc d’error, especialment en canvis, terminis i confirmacions.'));
+ if(state.gradeItems.length&&(state.flags.promisedUnchecked||0)===0)s.push(T('No has asumido compromisos importantes sin comprobar antes su viabilidad.','No has assumit compromisos importants sense comprovar-ne abans la viabilitat.'));
+ if(state.scores.prof<70)i.push(T('Revisa el tono y la manera de explicar límites o incidencias sin entrar en confrontación.','Revisa el to i la manera d’explicar límits o incidències sense entrar en confrontació.'));
+ if(state.scores.prec<70)i.push(T('Conviene confirmar mejor datos, versiones, cantidades y condiciones antes de actuar.','Convé confirmar millor dades, versions, quantitats i condicions abans d’actuar.'));
+ if(state.scores.sat<70)i.push(T('Algunas respuestas podrían reconocer mejor la necesidad o el impacto que vive el cliente.','Algunes respostes podrien reconèixer millor la necessitat o l’impacte que viu el client.'));
+ if(state.scores.risk>38)i.push(T('Has asumido demasiado riesgo en algunas decisiones: evita prometer plazos, precios o cambios sin verificarlos.','Has assumit massa risc en algunes decisions: evita prometre terminis, preus o canvis sense verificar-los.'));
+ if((state.flags.promisedUnchecked||0)>0)i.push(T(`Has confirmado ${state.flags.promisedUnchecked} vez/veces una condición importante antes de comprobarla.`,`Has confirmat ${state.flags.promisedUnchecked} vegada/es una condició important abans de comprovar-la.`));
+ if(!s.length)s.push(T('Has completado toda la jornada y has afrontado canales y situaciones muy diferentes.','Has completat tota la jornada i has afrontat canals i situacions molt diferents.'));
+ if(!i.length)i.push(T('Continúa trabajando la síntesis final y la trazabilidad escrita de los acuerdos importantes.','Continua treballant la síntesi final i la traçabilitat escrita dels acords importants.'));
+ return{strengths:s.slice(0,4),improve:i.slice(0,4)}
+}
+function profile(score){
+ if(!state.gradeItems.length)return[T('Sin decisiones evaluables','Sense decisions avaluables'),T('No hay todavía respuestas de elección suficientes para calcular una puntuación automática.','Encara no hi ha respostes de selecció suficients per calcular una puntuació automàtica.')];
+ if(score>=88&&state.scores.prec>=83&&state.scores.prof>=83)return[T('Gestión precisa y profesional','Gestió precisa i professional'),T('Has mostrado un criterio sólido y consistente al verificar información, comunicarte y resolver situaciones.','Has mostrat un criteri sòlid i consistent en verificar informació, comunicar-te i resoldre situacions.')];
+ if(score>=75)return[T('Gestión multicanal sólida','Gestió multicanal sòlida'),T('Predominan las respuestas acertadas, aunque quedan algunos detalles de atención y trazabilidad por perfeccionar.','Predominen les respostes encertades, encara que resten alguns detalls d’atenció i traçabilitat per perfeccionar.')];
+ if(score>=60)return[T('Gestión adecuada con margen de mejora','Gestió adequada amb marge de millora'),T('Has acertado en varios criterios importantes, pero también has tomado decisiones mejorables.','Has encertat en diversos criteris importants, però també has pres decisions millorables.')];
+ if(score>=40)return[T('Gestión irregular: conviene revisar criterios','Gestió irregular: convé revisar criteris'),T('Has combinado decisiones correctas con otras poco adecuadas; revisa las justificaciones y los casos de mayor dificultad.','Has combinat decisions correctes amb altres de poc adequades; revisa les justificacions i els casos de més dificultat.')];
+ return[T('Es necesario reforzar la atención profesional','Cal reforçar l’atenció professional'),T('La mayoría de decisiones evaluadas necesitan revisión antes de aplicar estos criterios en situaciones reales.','La majoria de decisions avaluades necessiten revisió abans d’aplicar aquests criteris en situacions reals.')];
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function finishGame(force=false){
+ if(!force && (state.history.length!==state.sessionCases.length || state.sessionCases.some(c=>!c.revealed)))return;
+ pauseCurrent();state.forcedFinish=force;clearInterval(state.timer);state.realEnd=new Date();updateElapsed();$('closingOverlay').classList.add('hidden');$('appScreen').classList.add('hidden');$('reportScreen').classList.remove('hidden');renderReport();window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderReport(){
+ const score=overall(),fb=feedback(),pf=profile(score),duration=state.realEnd-state.realStart,avg=state.history.reduce((s,h)=>s+h.duration,0)/Math.max(1,state.history.length),critical=state.history.filter(x=>x.difficulty===3).length,pendingCount=state.sessionCases.length-state.history.length,overtimeMins=Math.max(0,state.fakeMinutes-14*60);
+ $('reportCompany').textContent=`${state.company} · ${state.student}`;
+ const bars=[[T('Satisfacción del cliente','Satisfacció del client'),Math.round(state.scores.sat)],[T('Precisión','Precisió'),Math.round(state.scores.prec)],[T('Profesionalidad','Professionalitat'),Math.round(state.scores.prof)],[T('Gestión del riesgo','Gestió del risc'),Math.round(100-state.scores.risk)]];
+ const rows=state.history.map((h,i)=>`<tr><td>${i+1}</td><td>${esc(h.channel)}</td><td><strong>${esc(h.title)}</strong><br><span style="color:var(--muted);font-size:.72rem">${esc(h.client||'')}</span></td><td>${esc(h.rating)}</td><td>${dur(h.duration)}</td></tr>`).join('');
+ const open=state.openResponses.length?`<h2>${T('Respuestas redactadas durante la simulación','Respostes redactades durant la simulació')}</h2>${state.openResponses.map((r,i)=>`<div><strong>${i+1}. ${esc(r.caseTitle)} · ${esc(r.channel)}</strong><div class="personal-response">${esc(r.text)}</div></div>`).join('')}`:'';
+ $('reportBody').innerHTML=`
+ <div class="report-grid">
+  <div class="report-kpi"><span>${T('Fecha','Data')}</span><strong>${realDate(state.realStart)}</strong></div>
+  <div class="report-kpi"><span>${T('Inicio','Inici')}</span><strong>${realTime(state.realStart)}</strong></div>
+  <div class="report-kpi"><span>${T('Final','Final')}</span><strong>${realTime(state.realEnd)}</strong></div>
+  <div class="report-kpi"><span>${T('Duración','Durada')}</span><strong>${dur(duration)}</strong></div>
+  <div class="report-kpi"><span>${T('Sesión','Sessió')}</span><strong>${state.session}</strong></div>
+  <div class="report-kpi"><span>${T('Casos resueltos','Casos resolts')}</span><strong>${state.history.length}/${state.sessionCases.length}</strong></div>
+  <div class="report-kpi"><span>${T('Decisiones','Decisions')}</span><strong>${state.decisions}</strong></div>
+  <div class="report-kpi"><span>${T('Pendientes al finalizar','Pendents en acabar')}</span><strong>${pendingCount}</strong></div>
+ </div>
+ <div class="score-area"><div><div class="big-score">${score}<small style="font-size:.8rem">/100</small></div><div style="text-align:center;margin-top:10px;font-weight:850">${esc(pf[0])}</div></div><div><p style="margin-top:0;color:#586b74;line-height:1.5">${esc(pf[1])}</p><div class="bars">${bars.map(([n,v])=>`<div class="bar-row"><span>${n}</span><div class="bar-bg"><div class="bar-fill" style="width:${v}%"></div></div><strong>${v}</strong></div>`).join('')}</div></div></div>
+ <p class="grade-disclaimer">${T('Nota automática: media ponderada de las decisiones de elección respondidas. Las respuestas redactadas no reciben puntos automáticos y requieren valoración del profesor. La duración y el orden de atención no modifican la nota.','Nota automàtica: mitjana ponderada de les decisions de selecció contestades. Les respostes redactades no reben punts automàtics i necessiten valoració del professor. La durada i l’ordre d’atenció no modifiquen la nota.')}</p>
+ <div class="feedback-grid"><div class="feedback-box"><strong>${T('Puntos fuertes','Punts forts')}</strong><ul>${fb.strengths.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div><div class="feedback-box"><strong>${T('Aspectos a mejorar','Aspectes a millorar')}</strong><ul>${fb.improve.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+ <h2>${T('Resumen de la jornada','Resum de la jornada')}</h2><p style="color:#5d6f78;line-height:1.55">${overtimeMins?T(`<strong>Horas extra:</strong> ${overtimeMins} min simulados. `,`<strong>Hores extra:</strong> ${overtimeMins} min simulats. `):''}${T(`Has gestionado <strong>${state.history.length}</strong> situaciones, incluidas <strong>${critical}</strong> de complejidad alta. Tiempo medio activo aproximado por caso: <strong>${dur(avg)}</strong>. El informe refleja el recorrido concreto de esta sesión y las decisiones registradas.`,`Has gestionat <strong>${state.history.length}</strong> situacions, incloses <strong>${critical}</strong> de complexitat alta. Temps mitjà actiu aproximat per cas: <strong>${dur(avg)}</strong>. L'informe reflecteix el recorregut concret d'aquesta sessió i les decisions registrades.`)}</p>
+ <h2>${T('Historial de casos','Historial de casos')}</h2><table class="cases-table"><thead><tr><th>#</th><th>${T('Canal','Canal')}</th><th>${T('Situación','Situació')}</th><th>${T('Valoración','Valoració')}</th><th>${T('Tiempo activo','Temps actiu')}</th></tr></thead><tbody>${rows}</tbody></table>${open}
+ <div class="report-foot"><span>${T('Documento generado automáticamente al finalizar la simulación.','Document generat automàticament en finalitzar la simulació.')}</span><span>${state.session} · ${realDate(state.realEnd)} ${realTime(state.realEnd)}</span></div>`;
+ prepareReportExports();
+}
+
+
+
+// Motor PDF autónomo (A4, texto seleccionable, sin bibliotecas ni conexión a Internet).
+// Se generan bytes PDF reales, no una captura ni una ventana de impresión.
+let lastPdfUrl=null;
+const PDF_W=595.28,PDF_H=841.89;
+function pdfLatin(s){
+ const trans={'‘':0x91,'’':0x92,'“':0x93,'”':0x94,'–':0x96,'—':0x97,
+  '•':0x95,'€':0x80,'…':0x85,' ':32,'​':32,'→':45,'←':45};
+ const out=[];for(const ch of String(s||'')){
+  const cp=ch.codePointAt(0);
+  if(cp===10){out.push(32);continue}
+  if(cp>=32&&cp<=126||cp>=160&&cp<=255){out.push(cp);continue}
+  if(trans[ch]!==undefined){out.push(trans[ch]);continue}
+  if(cp===9){out.push(32);continue}
+  // Symbols and emoji are replaced with a readable neutral character in the PDF only.
+  if(cp>0xFFFF)continue;
+  out.push(63);
+ }
+ return out;
+}
+function pdfHex(s){return pdfLatin(s).map(n=>n.toString(16).padStart(2,'0')).join('').toUpperCase()}
+function pdfSan(s){return String(s||'').replace(/[\r\n\t]+/g,' ').replace(/[^\S ]+/g,' ').replace(/\s+/g,' ').trim()}
+function pdfColor(hex){return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(v=>v.toFixed(3)).join(' ')}
+function pdfName(){
+ const name=(state.student||'alumno').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'').slice(0,34)||'alumno';
+ return `Informe_Central_de_Clientes_${name}_${state.session}.pdf`;
+}
+function generateReportPdf(){
+ const margin=39,maxX=PDF_W-margin,usable=PDF_W-2*margin;
+ const brand=(THEMES[state.theme]||THEMES.teal)[0],ink='#22313C',muted='#61707B',rule='#DCE5EA';
+ const pages=[];let commands=[],y=84;
+ let cvs=document.createElement('canvas'),cx=cvs.getContext('2d');
+ const escNum=n=>Number(n).toFixed(2);
+ function command(t){commands.push(t)}
+ function rect(x,top,w,h,color){command(`${pdfColor(color)} rg ${escNum(x)} ${escNum(PDF_H-top-h)} ${escNum(w)} ${escNum(h)} re f`)}
+ function stroke(x,top,w,color){command(`${pdfColor(color)} RG 0.6 w ${escNum(x)} ${escNum(PDF_H-top)} m ${escNum(x+w)} ${escNum(PDF_H-top)} l S`)}
+ function line(txt,x,top,size=9,bold=false,color=ink){
+  if(!txt)return;
+  command(`${pdfColor(color)} rg BT /${bold?'F2':'F1'} ${escNum(size)} Tf 1 0 0 1 ${escNum(x)} ${escNum(PDF_H-top-size)} Tm <${pdfHex(txt)}> Tj ET`);
+ }
+ function wrap(str,maxWidth,size=9,bold=false){
+  cx.font=`${bold?'bold ':''}${size}px Arial`;const text=pdfSan(str);
+  if(!text)return[''];const words=text.split(/\s+/),lines=[];let cur='';
+  for(let word of words){
+   if(!word)continue;
+   if(cx.measureText(word).width>maxWidth){
+    if(cur){lines.push(cur);cur=''}
+    let piece='';for(const ch of word){if(cx.measureText(piece+ch).width>maxWidth&&piece){lines.push(piece);piece=ch}else piece+=ch}word=piece;
+   }
+   const next=cur?cur+' '+word:word;
+   if(cx.measureText(next).width>maxWidth&&cur){lines.push(cur);cur=word}else cur=next;
+  }
+  if(cur)lines.push(cur);return lines.length?lines:[''];
+ }
+ function page(){
+  if(commands.length)pages.push(commands.join('\n'));
+  commands=[];y=84;
+  rect(0,0,PDF_W,44,brand);
+  line(T('CENTRAL DE CLIENTES | INFORME INDIVIDUAL','CENTRAL DE CLIENTS | INFORME INDIVIDUAL'),margin,12,12,true,'#FFFFFF');
+  line(`${state.session}  |  ${pdfSan(state.student).slice(0,65)}`,margin,51,8,false,muted);
+  stroke(margin,71,usable,rule);
+ }
+ function ensure(h=18){if(y+h>PDF_H-58)page()}
+ function title(txt){ensure(40);rect(margin,y,3,19,brand);line(txt,margin+11,y+1,12,true,ink);y+=27}
+ function paragraph(s,size=9,opt={}){
+  const w=opt.w||usable,x=opt.x||margin,leading=size*1.48;
+  for(const part of String(s||'').split(/\n/)){
+   if(!part.trim()){ensure(leading);y+=leading*.6;continue}
+   for(const t of wrap(part,w,size,!!opt.bold)){
+    ensure(leading+3);line(t,x,y,size,!!opt.bold,opt.color||ink);y+=leading;
+   }
+  }
+  y+=5;
+ }
+ function kv(key,value){ensure(17);line(key,margin,y,9,true,muted);line(value,margin+139,y,9,false,ink);y+=17}
+ function tableRow(cells,widths,heading=false){
+  const size=heading?8:8.4,lh=11.3;
+  const lines=cells.map((v,i)=>wrap(String(v??''),widths[i]-9,size,heading));
+  const h=Math.max(heading?24:22,Math.max(...lines.map(x=>x.length))*lh+11);
+  ensure(h+3);
+  if(heading)rect(margin,y,usable,h,'#EAF0F3');
+  let x=margin;
+  lines.forEach((arr,i)=>{arr.forEach((t,j)=>line(t,x+5,y+5+j*lh,size,heading,heading?'#4C626F':ink));x+=widths[i]});
+  stroke(margin,y+h,usable,rule);y+=h;
+ }
+ page();
+ title(T('Identificación de la jornada','Identificació de la jornada'));
+ kv(T('Alumno/a','Alumne/a'),state.student);
+ kv(T('Empresa','Empresa'),state.company);
+ kv(T('ID de sesión','ID de sessió'),state.session);
+ kv(T('Fecha','Data'),realDate(state.realStart));
+ kv(T('Inicio','Inici'),realTime(state.realStart));
+ kv(T('Fin','Final'),realTime(state.realEnd));
+ kv(T('Duración real','Durada real'),dur(state.realEnd-state.realStart));
+ kv(T('Situaciones completadas','Situacions completades'),`${state.history.length} / ${state.sessionCases.length}`);
+ kv(T('Decisiones registradas','Decisions registrades'),String(state.decisions));
+ const pending=state.sessionCases.length-state.history.length;
+ kv(T('Situaciones pendientes','Situacions pendents'),String(pending));
+ const overtime=Math.max(0,state.fakeMinutes-14*60);
+ if(overtime)kv(T('Horas extra simuladas','Hores extres simulades'),`${overtime} min`);
+ y+=8;
+ title(T('Evaluación automática','Avaluació automàtica'));
+ rect(margin,y,110,53,'#EAF0F3');
+ line(`${overall()} / 100`,margin+12,y+11,21,true,brand);
+ line(T('Puntuación','Puntuació'),margin+12,y+39,7,false,muted);
+ const metrics=[[T('Satisfacción','Satisfacció'),state.scores.sat],[T('Precisión','Precisió'),state.scores.prec],[T('Profesionalidad','Professionalitat'),state.scores.prof],[T('Seguridad en la gestión','Seguretat en la gestió'),100-state.scores.risk]];
+ metrics.forEach((m,i)=>line(`${m[0]}: ${Math.round(m[1])}/100`,margin+124,y+i*12,9,i===0,ink));
+ y+=64;
+ paragraph(T('La nota se obtiene exclusivamente de las decisiones de elección contestadas, ponderadas por dificultad. Las respuestas escritas requieren revisión del profesor. El tiempo de espera y las horas extra no puntúan.','La nota s’obté exclusivament de les decisions de selecció contestades, ponderades per dificultat. Les respostes escrites requereixen revisió del professor. El temps d’espera i les hores extres no puntuen.'),8.2,{color:muted});
+ const fb=feedback();title(T('Puntos fuertes','Punts forts'));
+ fb.strengths.forEach(t=>paragraph('- '+t,8.8));
+ title(T('Aspectos a mejorar','Aspectes a millorar'));
+ fb.improve.forEach(t=>paragraph('- '+t,8.8));
+ title(T('Historial de situaciones','Historial de situacions'));
+ const widths=[25,79,258,95,60];
+ const headings=['#',T('Canal','Canal'),T('Caso y cliente','Cas i client'),T('Evaluación','Avaluació'),T('Tiempo','Temps')];
+ tableRow(headings,widths,true);
+ for(let i=0;i<state.history.length;i++){
+  const h=state.history[i];
+  if(y>PDF_H-114){page();title(T('Historial (continuación)','Historial (continuació)'));tableRow(headings,widths,true)}
+  tableRow([i+1,h.channel,`${h.title} | ${h.client||''}`,h.rating,dur(h.duration)],widths);
+ }
+ title(T('Respuestas redactadas (revisión docente)','Respostes redactades (revisió docent)'));
+ if(!state.openResponses.length)paragraph(T('No hubo respuestas redactadas en esta sesión.','No hi ha hagut respostes redactades en aquesta sessió.'),9);
+ for(let i=0;i<state.openResponses.length;i++){
+  const r=state.openResponses[i];
+  ensure(55);
+  line(`${i+1}. ${pdfSan(r.caseTitle).slice(0,74)}  |  ${pdfSan(r.channel).slice(0,32)}`,margin,y,9,true,brand);y+=17;
+  paragraph(r.text,9,{x:margin+8,w:usable-16});y+=8;
+ }
+ ensure(25);
+ paragraph(`${state.session}  |  ${realDate(state.realEnd)} ${realTime(state.realEnd)}  |  ${T('Informe generado localmente','Informe generat localment')}`,7.6,{color:muted});
+ pages.push(commands.join('\n'));
+ // Create standard PDF 1.4 with correct byte offsets and WinAnsi fonts.
+ const enc=new TextEncoder(),objects=[],pageNums=[],contentNums=[];
+ function obj(x){objects.push(x);return objects.length}
+ const catalog=obj(''),pageTree=obj('');
+ const font1=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+ const font2=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ for(const commands of pages){
+  const stream=commands+'\n';const bytes=enc.encode(stream);
+  const cs=obj(`<< /Length ${bytes.length} >>\nstream\n${stream}endstream`);
+  const pn=obj(`<< /Type /Page /Parent ${pageTree} 0 R /MediaBox [0 0 ${PDF_W} ${PDF_H}] /Resources << /Font << /F1 ${font1} 0 R /F2 ${font2} 0 R >> >> /Contents ${cs} 0 R >>`);
+  contentNums.push(cs);pageNums.push(pn);
+ }
+ objects[catalog-1]=`<< /Type /Catalog /Pages ${pageTree} 0 R >>`;
+ objects[pageTree-1]=`<< /Type /Pages /Kids [${pageNums.map(x=>`${x} 0 R`).join(' ')}] /Count ${pages.length} >>`;
+ // All PDF content streams and syntax are ASCII; accented text is hex-encoded using WinAnsi.
+ const chunks=['%PDF-1.4\n%PDF-X\n'],offsets=[0];let total=enc.encode(chunks[0]).length;
+ for(let i=0;i<objects.length;i++){
+  const block=`${i+1} 0 obj\n${objects[i]}\nendobj\n`;
+  offsets.push(total);chunks.push(block);total+=enc.encode(block).length;
+ }
+ const startXref=total;
+ chunks.push(`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`);
+ for(let i=1;i<offsets.length;i++)chunks.push(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);
+ chunks.push(`trailer\n<< /Size ${objects.length+1} /Root ${catalog} 0 R >>\nstartxref\n${startXref}\n%%EOF`);
+ return new Blob(chunks,{type:'application/pdf'});
+}
+function prepareReportExports(){
+ try{
+  if(lastPdfUrl){URL.revokeObjectURL(lastPdfUrl);lastPdfUrl=null}
+  const blob=generateReportPdf();lastPdfUrl=URL.createObjectURL(blob);
+  $('pdfDownload').href=lastPdfUrl;$('pdfDownload').download=pdfName();
+  $('pdfOpen').href=lastPdfUrl;
+ }catch(error){
+  console.error('PDF generation failed:',error);
+  $('pdfDownload').removeAttribute('href');$('pdfOpen').removeAttribute('href');
+  $('exportHelp').textContent=T('No ha sido posible generar el PDF en este navegador. Puedes abrir el simulador fuera de Google Sites e imprimir el informe desde allí.','No s’ha pogut generar el PDF en aquest navegador. Pots obrir el simulador fora de Google Sites i imprimir-hi l’informe.');
+ }
+}
+$('printBtn').addEventListener('click',()=>window.print());
+
+$('interruptLaterBtn').addEventListener('click',()=>{$('interruptOverlay').classList.add('hidden');});
+$('interruptNowBtn').addEventListener('click',()=>{
+ const uid=$('interruptOverlay').dataset.uid;
+ $('interruptOverlay').classList.add('hidden');
+ if(uid)openCase(uid);
+});
+
+document.querySelectorAll('.navitem').forEach(b=>b.addEventListener('click',()=>showList(b.dataset.filter)));
+$('backBtn').addEventListener('click',()=>showList(state.currentFilter));
+$('finishBtn').addEventListener('click',finishGame);
+$('startBtn').addEventListener('click',startGame);
+['studentName','companyName'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter')startGame()}));
+})();
+
+</script>
+</body>
+</html>

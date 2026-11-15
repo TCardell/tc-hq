@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oficina de Reclamaciones · Versión final</title>
+<style>
+:root{--ink:#202a26;--dark:#253c36;--dark2:#172721;--cream:#eee5cf;--paper:#f1e8d2;--paper2:#e3d4b6;--edge:#4b5d53;--gold:#d4b178;--shadow:#0d201b;--red:#ad5448;--green:#568365;--blue:#527489;--desk:#65503c;--desk-deep:#4c3b2e;--ui:#f5edda}
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#111b19;color:#e8dfca;font-family:Consolas,"Courier New",monospace}button,textarea,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffe3a4;outline-offset:2px}
+.hidden{display:none!important}.app{min-height:100vh;background:#1e2f29}.topbar{height:70px;background:linear-gradient(180deg,#354b40,#1a2d27);display:flex;align-items:center;justify-content:space-between;padding:0 20px;gap:15px;border-bottom:4px solid #0d1b17;box-shadow:0 3px 0 #688075 inset}.top-title{font-size:18px;letter-spacing:1.5px;line-height:1.2;color:#f6e6bc;text-shadow:2px 2px #152923}.top-title small{display:block;letter-spacing:3px;color:#b9c9b9;font-size:10px;margin-top:5px}.top-right{display:flex;align-items:center;gap:14px}.smallbar{padding:8px 11px;background:#162720;color:#e2d8bc;border:2px solid #6f8375;font-size:12px;white-space:nowrap}.top-accent{color:#ffcf7a}
+.side.right{border-right:0;border-left:5px solid #14281f;background:#283831}.window{height:250px;background:linear-gradient(180deg,#394f4a 0%,#34433c 65%,#483b30 66%,#65503b 100%);border:6px solid #172821;outline:2px solid #779080;position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}.window::before{content:"";position:absolute;inset:0 0 32% 0;background:repeating-linear-gradient(90deg,transparent 0 30px,#c5dcc21a 31px 32px);pointer-events:none}.window::after{content:"";height:22px;position:absolute;bottom:0;left:0;right:0;background:linear-gradient(#7f6448,#44372a);border-top:4px solid #ad9471}.speech{position:relative;background:#eee7d4;color:#272e2a;border:3px solid #142820;min-height:121px;padding:14px 12px;font-size:12px;line-height:1.52;box-shadow:4px 4px 0 #13231d}.speech::before{content:"";position:absolute;top:-11px;left:35px;width:15px;height:15px;background:#eee7d4;border-left:3px solid #142820;border-top:3px solid #142820;transform:rotate(45deg)}
+.desk-toolbar button,.retro-btn{border:2px solid #192e24;background:#e5d6b4;color:#242d26;padding:8px 9px;box-shadow:3px 3px 0 #10221b;font-weight:800;font-size:11px;letter-spacing:.2px}.desk-toolbar button:hover,.retro-btn:hover:not(:disabled){background:#f8e7bf;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #10221b}.desk-toolbar button:active,.retro-btn:active{transform:translate(2px,2px);box-shadow:none}.paper{position:absolute;z-index:3;width:207px;height:256px;background:#efe4cc;color:#3a382d;border:1px solid #c1af8e;box-shadow:5px 7px 0 #31261e,8px 10px 15px #1e161282;transform:scale(var(--paper-zoom,1));transform-origin:top left;touch-action:none;user-select:none;cursor:grab;overflow:hidden;transition:box-shadow .12s}.paper:hover{box-shadow:5px 7px 0 #31261e,8px 10px 20px #f2e1ad66}.paper.dragging{cursor:grabbing;transition:none;box-shadow:10px 15px 0 #302319,15px 18px 22px #1e1612b0}.paper::before{content:"";position:absolute;left:12px;right:12px;top:7px;border-top:3px double #827356}.paper.stacked .desk-paperclip{opacity:.8}
+.resolution{position:absolute;z-index:12;right:19px;bottom:18px;width:277px;min-height:313px;background:#e9ddbd;color:#2d3029;border:3px solid #342f25;box-shadow:8px 10px 0 #2b2219,0 0 18px #27180977;padding:13px;transform:rotate(1deg)}.resolution::before{content:"";height:6px;position:absolute;left:13px;right:13px;top:8px;border-top:1px solid #90795b}.resolution h3{margin:6px 0 4px;font-size:14px;letter-spacing:.4px;text-transform:uppercase}.resolution .case-id{color:#7a6651;font-size:10px;margin:0 0 12px}.stamp-target{position:relative;border:2px dashed #98896f;border-radius:2px;background:#ebe1c9;min-height:76px;display:flex;align-items:center;justify-content:center;color:#786c58;font-size:10px;text-align:center;padding:5px;margin-bottom:9px;transition:background .2s}.stamp-target.dragover{background:#f6edc6;border-color:#4b7557}.stamp-mark{width:95%;border:5px double currentColor;border-radius:3px;font-size:17px;line-height:1.08;padding:5px 2px;font-weight:900;transform:rotate(-8deg);letter-spacing:.3px;animation:slam .18s ease-out}.stamp-mark.accept{color:#36714e}.stamp-mark.reject{color:#974638}.stamp-mark.pending{color:#93672a;font-size:13px}@keyframes slam{0%{transform:rotate(-8deg) scale(2);opacity:.3}100%{transform:rotate(-8deg) scale(1);opacity:1}}.resolution label{display:block;font-size:10px;font-weight:900;margin-bottom:5px}.resolution textarea{resize:vertical;min-height:66px;width:100%;background:#fffaeb;border:1px solid #8c7f69;padding:8px;color:#2a342b;font-size:11px;line-height:1.5}.resolution-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:7px}.resolution-foot small{color:#776a57;font-size:9px}.resolution-foot button{padding:9px 8px;background:#304c3d;color:#f3e8c9;border:2px solid #13291e;font-size:10px;font-weight:900}.resolution-foot button:hover:not(:disabled){background:#406951}
+.seal-grid{display:grid;grid-template-columns:1fr;gap:8px}.seal{padding:9px 7px;border:4px double;border-radius:3px;background:#e0d3b4;min-height:47px;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:900;font-size:12px;cursor:grab;user-select:none;box-shadow:4px 4px 0 #091a14}.seal b{font-size:15px}.seal.accept{color:#2e7352;border-color:#4c7d60}.seal.reject{color:#964839;border-color:#a35547}.seal.pending{color:#856220;border-color:#9a803f}.seal:hover{background:#fff0c8;transform:translateY(-1px)}.seal.active{outline:3px solid #f3d185;outline-offset:1px}.progress-track{height:10px;background:#0d1b15;border:1px solid #667866}.progress-fill{height:100%;width:0;background:#c8a46d;transition:width .25s}
+.modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#091914dd;padding:20px;overflow:auto}.modal-card{width:min(660px,100%);max-height:91vh;overflow:auto;background:#efe5ce;color:#27382d;border:7px solid #4c604e;box-shadow:12px 12px 0 #0a1710;padding:22px;position:relative}.modal-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;border-bottom:3px double #8e8063;padding-bottom:11px;margin-bottom:15px}.modal-head h2{font-size:19px;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px}.modal-head small{color:#766a54;font-size:11px}.modal-close{background:#314e3e;color:#f4e6cd;border:2px solid #1a3525;padding:7px 12px;font-weight:900}.modal-sheet{background:#fff9ec;border:2px solid #c7b48f;padding:20px;margin-bottom:15px;line-height:1.7}.modal-sheet h3{margin:0 0 12px;font-size:19px;text-align:center}.modal-sheet .field{display:flex;gap:14px;margin-bottom:10px;border-bottom:1px dotted #dbc8a8;padding-bottom:6px;align-items:baseline}.modal-sheet .field strong{font-size:11px;color:#806a4d;min-width:110px;flex-shrink:0}.modal-sheet .field span{font-size:13px;white-space:pre-wrap}.modal-sheet .note{margin-top:12px;border-top:2px solid #b6a17c;padding-top:11px;font-size:12px;line-height:1.7}.modal-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.modal-actions button{padding:11px 12px;border:2px solid #1d382a;background:#345d45;color:#fff1d7;font-weight:900;font-size:11px}.modal-actions button.alt{background:#d0bc94;color:#28352e;border-color:#8a7856}.modal-actions button:hover{filter:brightness(1.08)}.manual-nav{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}.manual-nav button{border:1px solid #7c735c;background:#dcd0b6;padding:7px;font-size:10px;font-weight:800}.manual-nav button.active{background:#314e3b;color:#f6ead2}.manual-page{font-size:12px;line-height:1.75}.manual-page h3{margin:0 0 12px;font-size:16px}.manual-page p{margin:0 0 12px}.manual-page li{margin-bottom:7px}.feedback-mark{display:inline-block;padding:12px;border:5px double;color:#2d734d;font-size:18px;font-weight:900;transform:rotate(-3deg);margin:5px 0 15px}.feedback-mark.bad{color:#9f503a}.feedback-text{line-height:1.75;font-size:13px;background:#fff7e5;padding:15px;border-left:5px solid #977a54}.kicker{font-size:10px;letter-spacing:2px;font-weight:900;color:#886942}.subtle{font-size:11px;line-height:1.55;color:#776d56}.intro-title{font-size:29px;letter-spacing:2px;line-height:1.1;color:#243f32}.report-summary{display:flex;gap:15px;flex-wrap:wrap;margin:18px 0}.big-score{background:#173928;color:#e6d4b0;padding:13px 18px;font-size:28px;font-weight:900}.report-summary p{max-width:390px;font-size:12px;line-height:1.6}.report-list{display:grid;gap:10px;max-height:37vh;overflow:auto}.report-item{border:2px solid #c1ac89;background:#fff8e8;padding:12px;font-size:12px;line-height:1.65}.report-item h3{margin:0 0 8px;font-size:13px}.report-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.report-actions a,.report-actions button{background:#2d5c42;color:#fff0d5;padding:11px 13px;border:2px solid #173b2a;text-decoration:none;font-size:11px;font-weight:900}.report-actions a:hover,.report-actions button:hover{background:#3b7453}
+@media(max-width:1190px){.game-grid{grid-template-columns:210px minmax(590px,1fr) 218px}.side{padding:10px}.topbar{padding:0 12px}.top-title{font-size:15px}.resolution{width:258px}}@media(max-width:950px){.app{overflow-x:auto}.topbar,.game-grid{min-width:1050px}.modal-card{max-height:92vh}.game-grid{height:850px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ========= BETA 02: DOS SUPERFICIES Y VISTAS POR DOCUMENTO ========== */
+:root{--counter-width:19.5%}
+html,body{overflow-x:hidden}
+.beta-topbar{height:62px;min-width:1120px;position:relative;z-index:20}
+.beta-pill{background:#b89158;color:#1c2d25;letter-spacing:1px;font-weight:900;padding:9px 10px;font-size:10px;border:2px solid #272a22;white-space:nowrap}
+.workstation{position:relative;height:calc(100dvh - 112px);min-height:680px;min-width:1120px;display:flex;overflow:hidden;background:#493929;isolation:isolate}
+.counter-zone{width:var(--counter-width);height:100%;background:linear-gradient(90deg,#394941 0%,#45564d 91%,#1b2c27 100%);border-right:13px solid #202d27;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;box-shadow:inset -6px 0 0 #62735c}
+.counter-sign{width:100%;height:34px;flex:0 0 34px;text-align:center;background:#172b24;letter-spacing:2px;color:#d4bd89;font-size:12px;font-weight:900;line-height:34px;border-bottom:3px solid #66816d}
+.counter-booth{height:200px;flex:0 0 200px;width:100%;display:flex;align-items:flex-end;justify-content:center;position:relative;background:repeating-linear-gradient(90deg,#ffffff06 0px,#ffffff06 2px,transparent 3px,transparent 60px),linear-gradient(#273c34,#536254 78%,#64513c 79%,#55432e);border-bottom:7px solid #292e27}
+.counter-booth .visitor{transform:scale(.91);transform-origin:bottom center}
+.booth-ledge{position:absolute;left:0;right:0;bottom:0;height:18px;background:linear-gradient(#b49568,#684b30);border-top:3px solid #caa577;box-shadow:0 -4px 0 #352b23 inset}
+.counter-person{height:42px;flex:0 0 42px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 20px;background:#182b24;border-bottom:2px solid #657665}
+.counter-person strong{font-size:14px;color:#f6dfaf}.counter-person small{font-size:11px;color:#aebcb0}
+.counter-zone .speech{width:calc(100% - 30px);flex:0 0 auto;max-height:125px;min-height:82px;overflow:auto;margin:15px 0 8px;padding:12px 14px;font-size:12px;border:3px solid #192d22;z-index:2;box-shadow:5px 5px 0 #1a3228}
+.counter-zone .speech::before{display:none}
+.counter-divider{height:14px;width:100%;background:linear-gradient(#8a6b47,#4c3928);border-top:3px solid #c19b66;border-bottom:4px solid #30291f;flex:0 0 14px}
+.counter-instructions{width:100%;height:54px;padding:8px 20px;background:#73604b;color:#fae8c8;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;line-height:1.4}
+.counter-instructions b{font-size:11px;letter-spacing:1px;max-width:40%}.counter-instructions span{font-size:10px;color:#e8d4b1;max-width:55%}
+.counter-tray{flex:1;width:100%;min-height:115px;background:repeating-linear-gradient(0deg,transparent 0,transparent 29px,#ffffff07 30px,#ffffff07 31px),linear-gradient(145deg,#92714e,#6e533c);box-shadow:inset 0 8px 10px #30291b88;position:relative}
+.counter-arrow{position:absolute;z-index:3;right:0;bottom:24%;color:#d6bf91;font-size:28px;padding:1px 4px 0 12px;background:#3a3928;border:2px solid #a99362;border-right:0;pointer-events:none}
+.counter-footer{position:relative;z-index:3;flex:0 0 auto;min-height:36px;background:#192c26;color:#bdc9b5;font-size:9px;line-height:1.4;padding:7px 18px;text-align:center;width:100%;border-top:3px solid #a38e65}
+.inspection-zone{width:calc(100% - var(--counter-width));height:100%;position:relative;overflow:hidden;background:repeating-linear-gradient(90deg,#ffffff04 0,#ffffff04 2px,transparent 3px,transparent 58px),repeating-linear-gradient(0deg,#00000009 0,#00000009 1px,transparent 2px,transparent 65px),linear-gradient(125deg,#856847 0%,#765b3e 46%,#59432f 100%)}
+.inspection-zone::before{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 10px #453221,inset 0 0 0 14px #9d7750,inset 0 0 55px #24170e99;pointer-events:none;z-index:1}
+.inspection-plaque{position:absolute;z-index:2;left:27px;top:19px;color:#f8e1b5;text-shadow:2px 2px #3c3328;pointer-events:none}
+.inspection-title{font-weight:900;font-size:15px;letter-spacing:2px}.inspection-sub{font-size:10px;color:#d6bf91;letter-spacing:1px;margin-top:5px}
+.inspection-manual{position:absolute;z-index:9;top:18px;right:26px}.book-control{border:4px solid #342921;background:#446052;color:#f9e5ba;font-size:11px;font-weight:900;max-width:178px;line-height:1.5;padding:12px 15px;box-shadow:5px 6px 0 #2f251d;transform:rotate(2deg)}.book-control:hover{background:#597961}
+.desk-reserved{position:absolute;left:28px;bottom:23px;font-size:22px;color:#d9c6a03d;pointer-events:none}.desk-grain{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 52% 40%,transparent,#2b1c1245)}
+.desk-tools{position:absolute;z-index:9;bottom:21px;left:24px;background:#3a3125;border:3px solid #ae8c5d;padding:10px;box-shadow:5px 6px 0 #281c14;max-width:310px}
+.tools-caption{font-size:10px;font-weight:900;color:#e1c9a0;letter-spacing:1.5px;margin-bottom:9px}
+.desk-tools .seal-grid{display:flex;gap:8px}.desk-tools .seal{flex:1;min-width:75px;max-width:92px;min-height:61px;padding:7px 3px;cursor:grab;border-width:3px}.desk-tools .seal b{font-size:22px}.desk-tools .seal span{font-size:9px}
+.resolution{z-index:9;right:27px;bottom:22px;width:285px;min-height:282px;max-height:52%;padding:12px;background:#e9ddbd;transform:rotate(1deg);overflow:auto}
+.resolution h3{font-size:13px}.resolution .case-id{margin-bottom:7px}.stamp-target{min-height:57px;margin-bottom:8px}.resolution textarea{min-height:64px}
+.paper-layer{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.paper-v2{position:absolute;touch-action:none;user-select:none;cursor:grab;pointer-events:auto;transition:box-shadow .12s;box-shadow:3px 5px 0 #211b15aa,6px 10px 14px #1c171488;outline:1px solid #433828}
+.paper-v2.dragging{cursor:grabbing;filter:drop-shadow(8px 9px 4px #17120a99);box-shadow:4px 5px 0 #211b15bb}
+.paper-v2.is-mini{width:79px;height:108px;background:#ead7ad;border:2px solid #9d855a}
+.paper-v2.is-large{width:237px;height:316px;background:#f2e6c9;border:2px solid #b49d78}
+.paper-v2 .paper-mini,.paper-v2 .paper-large{display:none}
+.paper-v2.is-mini .paper-mini{display:flex}
+.paper-v2.is-large .paper-large{display:flex}
+.paper-mini{position:relative;height:100%;width:100%;flex-direction:column;align-items:center;padding:9px 5px 7px;gap:7px;overflow:hidden}
+.paper-mini::after{content:'';position:absolute;top:1px;bottom:1px;left:1px;right:1px;box-shadow:inset 0 0 13px #bd9c6755;pointer-events:none}
+.mini-type{display:block;width:90%;font-weight:900;font-size:9px;text-align:center;color:#5b4830;white-space:nowrap;overflow:hidden;text-overflow:clip;border-bottom:2px solid #ac936d;padding-bottom:6px}
+.mini-glyph{font-size:20px;color:#867054;line-height:1.2}.mini-strokes{display:flex;width:90%;flex-direction:column;gap:4px}.mini-strokes i{height:3px;background:#b9a583;display:block}.mini-strokes i:nth-child(2){width:76%}.mini-strokes i:nth-child(3){width:90%}.mini-id{font-size:8px;color:#806c4d;margin-top:auto}
+.paper-large{position:relative;width:100%;height:100%;padding:20px 15px 12px;flex-direction:column;overflow:hidden}
+.paper-large::before{content:'';position:absolute;top:8px;left:12px;right:12px;border-top:3px double #9e896b}
+.paper-large .lg-doc-kind{font-size:9px;color:#92594b;align-self:flex-end;font-weight:900;letter-spacing:1px;margin-bottom:10px}
+.paper-large .lg-doc-title{font-size:15px;color:#433627;font-weight:900;text-transform:uppercase;line-height:1.1;min-height:30px;letter-spacing:.2px}
+.paper-large .lg-doc-id{color:#847057;font-size:9px;margin:6px 0 11px;border-bottom:2px solid #b7a384;padding-bottom:8px}
+.paper-large .lg-fields{flex:1;overflow:auto;padding-right:3px;scrollbar-color:#c1aa82 transparent;scrollbar-width:thin}
+.paper-large .lg-row{font-size:11px;line-height:1.4;color:#3f392e;margin-bottom:9px;overflow-wrap:anywhere}.paper-large .lg-row strong{display:block;font-size:10px;color:#816a50;letter-spacing:.1px;margin-bottom:1px}
+.paper-large .lg-actions{border-top:1px solid #c8b89c;display:flex;justify-content:space-between;align-items:center;padding-top:6px;gap:6px;font-size:9px;color:#8b7758}
+.paper-large .lg-actions button{border:1px solid #345341;background:#3c6048;color:#fff4d5;font-size:10px;font-weight:900;padding:5px 7px;cursor:pointer}
+.paper-large .lg-actions button:hover{background:#254c36}
+
+
+.paper-v2:hover{outline:2px solid #ffda8f}
+.beta-status{height:50px;min-width:1120px;background:#172b23;display:flex;align-items:center;gap:18px;padding:5px 18px;border-top:4px solid #6a7663;box-shadow:inset 0 -3px 0 #0b1a13;position:relative;z-index:20}
+.stat-item{display:flex;gap:7px;align-items:center;font-size:10px;color:#d7d9c1;white-space:nowrap}.stat-item b{color:#f5d58b}.stat-item .progress-track{width:45px;height:6px;background:#435745}.stat-item .progress-fill{height:100%;background:#d4b178}
+.status-btn{border:2px solid #8d9b84;background:#314a3b;color:#f5e3bb;padding:6px 9px;font-size:10px;font-weight:900;white-space:nowrap}.status-btn:hover:not(:disabled){background:#44684d}
+.beta-status .stat-item:nth-child(4){margin-right:auto}
+@media(max-height:820px){.workstation{min-height:580px}.counter-booth{height:146px;flex-basis:146px}.counter-booth .visitor{transform:scale(.66)}.counter-zone .speech{margin:9px 0 7px;max-height:93px;min-height:65px}.counter-instructions{height:45px;padding:7px 15px}.resolution{min-height:256px;padding:9px}.stamp-target{min-height:49px}.desk-tools{bottom:14px}}
+@media(max-width:1150px){html,body{overflow-x:auto}.app{width:max(100%,1120px)}.counter-sign{font-size:11px}.inspection-title{font-size:13px}.beta-pill{display:none}}
+
+
+/* === BETA 03: NUEVA DIRECCIÓN DE ARTE · IMPRENTA / ARCHIVO ANALÓGICO === */
+:root{--counter-width:19.5%;--gold:#e0ad62;--paper:#f7e7c5;--dark:#1f3030;--cream:#f4e8cf}
+html,body{background:#111c1e;color:#f5e4c5}
+.app{background:#162628}
+.topbar{background:linear-gradient(180deg,#283a3a,#172829);border-bottom-color:#0c1b1c;box-shadow:inset 0 3px #b78b50,0 4px 0 #101919}
+.top-title{color:#f2d7a4;text-shadow:1px 1px #071919;font-size:17px}
+.top-title small{color:#b9c5b4;letter-spacing:2px}
+.beta-pill{background:#d6ae71;border-color:#5e4a2f;color:#1b302e;box-shadow:inset 0 2px #f7daaa}
+.smallbar{background:#122324;border-color:#7d7760;color:#f0e4c7}
+.retro-btn,.status-btn{border-radius:2px}
+.workstation{background:#1c2727}
+.counter-zone{border-right:9px solid #151f20;box-shadow:inset -3px 0 #ae8a5a;background:#253b3b}
+.counter-sign{height:34px;flex-basis:34px;font-size:10px;letter-spacing:.9px;color:#f0cc8e;background:#18292a;border-bottom-color:#b38852;white-space:nowrap;overflow:hidden}
+.counter-booth{height:172px;flex-basis:172px;background:repeating-linear-gradient(90deg,transparent 0 23px,#ffffff0b 24px 25px),linear-gradient(165deg,#213637,#3a5150 70%,#644c37 71%);border-bottom-color:#172526}
+.counter-booth .visitor{transform:scale(.72);transform-origin:bottom center}
+.counter-person{height:auto;min-height:52px;flex-basis:52px;padding:7px 10px;display:block;background:#1a2e30;border-bottom-color:#927c5c}
+.counter-person strong{display:block;font-size:12px;color:#f3d8a4;line-height:1.4;white-space:normal}
+.counter-person small{display:block;font-size:10px;line-height:1.3;color:#bac5bd;overflow-wrap:anywhere}
+.counter-zone .speech{width:calc(100% - 16px);margin:10px 0 9px;padding:10px 9px;min-height:86px;max-height:155px;font-size:10px;line-height:1.65;background:#f3e8cf;border-color:#273a36;color:#272e2b;box-shadow:3px 4px #0c2221}
+.counter-divider{background:linear-gradient(#bf9968,#6e5139);border-top-color:#d7b17d}
+.counter-instructions{height:auto;min-height:75px;padding:9px 9px 8px;background:#73553a;flex-direction:column;gap:4px;justify-content:center;line-height:1.35}
+.counter-instructions b{max-width:none;font-size:9px;letter-spacing:.6px}
+.counter-instructions span{max-width:none;font-size:9px;color:#f7e4c5}
+.counter-tray{background:repeating-linear-gradient(0deg,transparent 0 31px,#0000000a 32px 33px),linear-gradient(140deg,#886344,#5f4635);box-shadow:inset 0 9px 14px #1e1c1899}
+.counter-arrow{font-size:20px;bottom:30%;border-color:#dab27f;color:#f2d394;background:#2f352e}
+.counter-footer{min-height:58px;font-size:8px;line-height:1.45;padding:8px 8px;color:#c8c8b6;border-top-color:#a98c60;background:#1c3232}
+.inspection-zone{background:repeating-linear-gradient(90deg,transparent 0 70px,#00000009 72px 74px),repeating-linear-gradient(0deg,transparent 0 48px,#ffffff05 49px 50px),linear-gradient(125deg,#9b7753 0%,#816143 55%,#6b5039 100%)}
+.inspection-zone:before{box-shadow:inset 0 0 0 8px #473226,inset 0 0 0 12px #bd9969,inset 0 0 80px #26180d99}
+.inspection-plaque{left:22px;top:19px;text-shadow:1px 2px #3a2c1f}
+.inspection-title{letter-spacing:1.5px;color:#fff0ca}
+.inspection-sub{font-size:9px;color:#f0d7aa}
+.book-control{border:3px solid #253934;background:linear-gradient(135deg,#2f5451,#25413e);color:#f2d19b;box-shadow:4px 5px 0 #33281f, inset 3px 0 #9b7950;transform:rotate(1deg)}
+.book-control:hover{background:#3d6260}
+.desk-tools{background:#233332;border:3px solid #bf945d;box-shadow:4px 5px #33251b}
+.tools-caption{color:#f0d09b}
+.desk-tools .seal{background:#f0dfbb;border-radius:1px;box-shadow:3px 4px #101e1b}
+.desk-tools .seal:hover{background:#fff2d6}
+.resolution{background:#f1e5cb;border-color:#3d352b;box-shadow:7px 9px #2e2119,0 0 14px #24180b55}
+.resolution:before{border-top-color:#b69b74}
+.resolution h3{color:#2e3932;letter-spacing:.7px}
+.stamp-target{background:#f1e7d3;border-color:#a99474}
+.resolution textarea{background:#fffaf0;border:2px solid #a99879}
+.resolution-foot button{background:#294c48;border-color:#102b29;color:#f9e4bd}
+.resolution-foot button:hover:not(:disabled){background:#39605b}
+.paper-v2.is-mini{background:#ead8b4;border-color:#967950;box-shadow:3px 4px #2b2019,5px 6px 9px #17110e70}
+.paper-v2.is-large{background:#f5e9cf;border-color:#9b8261;box-shadow:5px 7px #241b14,9px 12px 18px #1b1713aa}
+.paper-mini{gap:4px;padding:8px 4px 5px}
+.paper-mini .mini-type{white-space:normal;overflow:visible;text-overflow:initial;word-break:normal;hyphens:none;text-align:center;line-height:1.15;min-height:24px;font-size:7.7px;letter-spacing:-.25px;width:98%;padding-bottom:4px;color:#5b3e2b}
+.paper-v2[data-doc="complaint"] .paper-mini{border-top:6px solid #ac5a47}
+.paper-v2[data-doc="order"] .paper-mini{border-top:6px solid #50747f}
+.paper-v2[data-doc="proof"] .paper-mini{border-top:6px solid #55866b}
+.paper-v2[data-doc="production"] .paper-mini,.paper-v2[data-doc="packing"] .paper-mini{border-top:6px solid #ae8350}
+.paper-v2[data-doc="delivery"] .paper-mini{border-top:6px solid #6c6b8b}
+.paper-v2[data-doc="email"] .paper-mini{border-top:6px solid #667c92}
+.paper-v2[data-doc="quote"] .paper-mini{border-top:6px solid #987b67}
+.paper-v2 .mini-id{font-size:7px;white-space:nowrap;letter-spacing:-.1px}
+.paper-v2 .mini-glyph{font-size:16px}
+.paper-v2 .mini-strokes{gap:3px}
+.paper-large .lg-doc-title{font-size:15px;color:#44362a}
+.paper-large .lg-doc-kind{max-width:85%;font-size:9px;letter-spacing:0;text-align:right;color:#936442}
+.lg-actions button{background:#325750!important}
+.beta-status{background:#182c2c;border-top-color:#a28860}
+.stat-item{color:#d8dac7}.stat-item b{color:#f6d492}
+.status-btn{background:#31504a;border-color:#a19375;color:#f6ddae}
+.modal{background:#09191adf}
+.modal-card{border-color:#526660;background:#efe3c9;box-shadow:12px 12px #071b1a}
+.modal-head h2{color:#23433d}
+.feedback-mark{box-shadow:3px 4px 0 #d7c7a6}
+/* Clients différents : silhouette, coiffure, visage et tenue. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+.visitor.hair-curly .visitor-glasses:before,.visitor.hair-curly .visitor-glasses:after{content:'';position:absolute;top:0;width:18px;height:17px;border:2px solid #413f3b;border-radius:5px}
+
+
+@media(max-height:820px){.paper-v2.is-mini{width:69px;height:82px}.paper-mini{gap:3px;padding:5px 3px 3px}.paper-mini .mini-type{font-size:7px;min-height:20px}.paper-mini .mini-strokes{gap:2px}.paper-mini .mini-glyph{font-size:13px}.paper-mini .mini-id{font-size:6.5px}.counter-booth{height:137px;flex-basis:137px}.counter-zone .speech{max-height:110px;min-height:72px;margin:7px 0}.counter-instructions{min-height:64px}.counter-footer{min-height:53px}}
+@media(max-width:1150px){.counter-sign{font-size:9px}.counter-person strong{font-size:11px}.counter-zone .speech{font-size:9px}.counter-footer{font-size:7px}}
+
+
+/* ===== BETA 04: Oficina contemporánea y accesible ===== */
+:root{--counter-width:19.5%;--main-ink:#233944;--main-muted:#667981;--main-teal:#217a78;--main-blue:#346e87;--modern-edge:#cdd8dd}
+html,body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#e9eff1;color:#233944}
+.app{background:#edf2f4}.beta-topbar{height:70px;min-width:1000px;background:#233946;border-bottom:1px solid #536973;box-shadow:none;padding:0 22px}
+.topbar,.topbar *{text-shadow:none}.top-title{font-size:17px;letter-spacing:.3px;color:#f4f8f8;display:flex;align-items:center;gap:10px}.top-title small{font-size:9.5px;letter-spacing:1px;color:#b4cad0;margin-top:5px}.brand-square{width:38px;height:38px;background:#307f7b;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;font-size:25px;color:#fff;flex:0 0 auto}
+.beta-pill{background:#375c67;color:#e5f1f2;border:1px solid #537783;box-shadow:none;border-radius:99px;font-size:10px;letter-spacing:.5px;padding:8px 12px}
+.smallbar{background:#1b303b;color:#e2edf0;border:1px solid #4e6874;border-radius:8px;font-size:12px;padding:9px 12px}.top-accent{color:#8ee0cf}
+.retro-btn{font-weight:700;font-size:12px;background:#f2f7f8;color:#315765;border:1px solid #b6ccd4;border-radius:9px;box-shadow:none;padding:10px 12px;letter-spacing:0}
+.retro-btn:hover:not(:disabled){background:#e1f4f3;transform:none;box-shadow:0 2px 10px #102b2a24}
+.workstation{height:calc(100dvh - 126px);min-height:620px;min-width:1000px;background:#dce4e7}
+.counter-zone{border-right:5px solid #a8b9c1;box-shadow:none;background:#f2f6f7}.counter-sign{background:#294452;border-bottom:0;color:#e6f1f3;letter-spacing:.65px;font-size:11px;font-weight:700;height:36px;flex-basis:36px;line-height:36px}
+.counter-booth{height:198px;flex-basis:198px;background:radial-gradient(circle at 55% 32%,#ffffffd4,transparent 55%),linear-gradient(180deg,#dce8eb,#ccdce0);border:0}.counter-booth:before{display:none}.counter-booth .visitor-modern{width:173px;height:176px;position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 6px 9px #35495024)}
+.booth-ledge{height:12px;border:0;background:#c0ced3;box-shadow:0 -2px 5px #768c9633 inset}
+.counter-person{background:#fff;color:#2f4855;border-bottom:1px solid #d6e0e5;min-height:58px;flex-basis:58px;padding:10px 11px;height:auto}.counter-person strong{color:#244d58;font-size:12px;font-weight:800}.counter-person small{font-size:10px;color:#6b8089}
+.counter-zone .speech{border:1px solid #d1dee2;background:#ffffff;color:#263d49;box-shadow:0 5px 16px #3e626818;margin:10px 8px 10px;padding:12px 11px;border-radius:11px;width:calc(100% - 16px);font-size:12px;line-height:1.6;min-height:105px;max-height:185px}
+.counter-divider{height:4px;flex-basis:4px;background:#c5d3d8;border:0}
+.counter-instructions{background:#f2f6f7;color:#355d6c;min-height:75px;padding:13px 10px;gap:4px}.counter-instructions b{color:#2e5561;font-size:10px}.counter-instructions span{color:#5d7680;font-size:10px;line-height:1.45}
+.counter-tray{background:repeating-linear-gradient(0deg,transparent 0 38px,#91a5ab0c 39px 40px),linear-gradient(130deg,#e2e9e9,#d2dfe3);box-shadow:inset 0 9px 14px #7a949321;min-height:155px}
+.counter-arrow{background:#ffffffc9;color:#477a83;border:1px solid #b8ccd3;border-right:0;border-radius:12px 0 0 12px;box-shadow:0 3px 9px #64808722;font-size:20px;bottom:24%}
+.counter-footer{background:#e2eef0;border-top:1px solid #c0d3d9;color:#4e6d76;font-size:9px;padding:10px;line-height:1.55}
+.inspection-zone{background:linear-gradient(120deg,#f1f2ef 0%,#e9edeb 50%,#e3e8e8 100%)}.inspection-zone:before{box-shadow:inset 0 0 0 7px #dae3e5,inset 0 0 0 8px #c1cdd1,inset 0 0 52px #72858d1c}.inspection-plaque{text-shadow:none;top:19px;left:24px}.inspection-title{color:#34515c;font-size:16px;letter-spacing:.15px;font-weight:800}.inspection-sub{color:#70848d;font-size:10px;letter-spacing:.4px}
+.desk-grain{background:none}.desk-reserved{color:#69838c22}
+.paper-v2{outline:1px solid #c9d1d2;box-shadow:0 5px 11px #3c53533e,0 17px 30px #40596016;border-radius:4px}.paper-v2.dragging{box-shadow:0 16px 26px #3c565b48;filter:none}
+.paper-v2.is-mini{width:86px;height:113px;background:#fff;border:1px solid #d0d9de;box-shadow:0 4px 10px #4b64652d}
+.paper-v2.is-large{width:266px;height:354px;background:#fff;border:1px solid #cdd8d9;box-shadow:0 5px 15px #536d7445}
+.paper-v2:hover{outline:2px solid #1d9691}
+.paper-mini{background:#fff;gap:5px;padding:7px 4px 5px}.paper-mini::after{box-shadow:none}.paper-mini .mini-type{color:#405968;font-size:8px;line-height:1.2;letter-spacing:-.15px;border-bottom:1px solid #d9e4e9;padding:2px 0 5px;min-height:28px}
+.paper-v2[data-doc="complaint"] .paper-mini{border-top:6px solid #be6663}.paper-v2[data-doc="order"] .paper-mini{border-top:6px solid #5c9caa}.paper-v2[data-doc="proof"] .paper-mini{border-top:6px solid #65a590}.paper-v2[data-doc="production"] .paper-mini,.paper-v2[data-doc="packing"] .paper-mini{border-top:6px solid #d29e62}
+.mini-glyph{color:#7f9ca5}.mini-strokes i{background:#d1dbdf}.mini-id{color:#7e9096;font-size:8px}
+.paper-large{padding:22px 19px 14px}.paper-large:before{border-top:3px solid #2a7d7d;top:10px;left:17px;right:17px}.paper-large .lg-doc-kind{font-size:10px;color:#39837f;max-width:88%;letter-spacing:.1px;margin-bottom:10px}.paper-large .lg-doc-title{font-size:18px;color:#283f4b;line-height:1.2;min-height:45px;letter-spacing:0;text-transform:none}.paper-large .lg-doc-id{font-size:11px;color:#7b8b91;border-bottom:1px solid #dce5e7;padding-bottom:9px;margin:5px 0 12px}
+.paper-large .lg-row{font-size:13px;color:#2f4752;margin-bottom:11px;line-height:1.45}.paper-large .lg-row strong{font-size:11px;color:#698089;margin-bottom:3px;letter-spacing:0}.paper-large .lg-actions{font-size:11px;color:#72868e;border-top-color:#dbe5e8;padding-top:8px}.paper-large .lg-actions button{background:#287a7a!important;font-size:11px;border-radius:6px;padding:7px 10px}.paper-large .lg-actions button:hover{background:#1e6363!important}
+.paper-layer{z-index:5}
+/* Documentos de trabajo movibles */
+.inspection-manual{top:76px;right:29px;z-index:15;width:225px;background:#fff;border:1px solid #cbd9dc;border-left:6px solid #34827e;border-radius:11px;padding:0 13px 14px;box-shadow:0 9px 24px #526d751e;transform:none;color:#2b4752;display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.floating-grip{display:flex;align-items:center;gap:7px;color:#5c7681;font-size:10px;letter-spacing:.5px;font-weight:800;cursor:grab;touch-action:none;user-select:none;width:100%;min-height:30px;border-bottom:1px solid #e3ebed}.floating-grip span:first-child{font-size:19px;line-height:1;color:#55858b}.floating-grip:active{cursor:grabbing}
+.manual-card-icon{font-size:31px;color:#4d8b8d;line-height:1.1}.inspection-manual strong{color:#284d58;font-size:12px;font-weight:800}.inspection-manual small{color:#6e858b;font-size:10px;line-height:1.4}.book-control{transform:none;border:1px solid #aacacb;box-shadow:none;background:#eef7f6;color:#216764;font-size:11px;font-weight:800;border-radius:7px;padding:8px 10px;line-height:1.3;max-width:none;margin-top:8px}.book-control:hover{background:#dceeed}
+.resolution{right:25px;bottom:26px;width:324px;height:355px;min-height:0;max-height:none;padding:10px 15px 13px;border:1px solid #c7d5da;border-top:5px solid #3b8b87;background:#ffffff;transform:none;border-radius:10px;box-shadow:0 12px 30px #526f7840;z-index:13;overflow:auto}.resolution:before{display:none}.resolution .floating-grip{min-height:25px;margin-bottom:8px}.resolution h3{font-size:16px;letter-spacing:0;color:#2e505d;margin:4px 0 5px;text-transform:none}.resolution .case-id{font-size:10px;color:#799098;margin-bottom:11px;line-height:1.4}.stamp-target{background:#f6f9f9;border:1.5px dashed #a4bfc2;border-radius:7px;color:#728990;min-height:64px;font-size:11px}.stamp-target.dragover{background:#e5f4ef;border-color:#409887}.resolution label{font-size:11px;font-weight:800;color:#48616b}.resolution textarea{min-height:81px;background:#f8fafb;border:1px solid #cbd9df;border-radius:7px;padding:10px;font-size:12px;line-height:1.5;color:#2a414c}.resolution-foot button{border:0;border-radius:8px;background:#257c78;color:#fff;font-size:12px;padding:10px 12px}.resolution-foot button:hover:not(:disabled){background:#196d67}.resolution-foot small{font-size:10px;color:#718690}.stamp-mark{font-size:16px}
+.desk-tools{left:auto;right:26px;bottom:399px;max-width:324px;width:324px;background:#fff;border:1px solid #cbd9dd;border-radius:11px;box-shadow:0 8px 24px #526a752b;padding:10px 12px;z-index:12}.tools-caption{color:#557682;font-size:10px;letter-spacing:.6px;margin-bottom:8px}.desk-tools .seal-grid{gap:6px}.desk-tools .seal{border:1px solid #d0dddf;border-radius:7px;min-width:0;max-width:none;flex:1;min-height:57px;box-shadow:none;background:#f8fbfb;padding:6px 4px;display:flex;flex-direction:column;gap:3px}.desk-tools .seal b{font-size:18px}.desk-tools .seal span{font-size:9px;line-height:1.1;text-align:center}.desk-tools .seal:hover{background:#eaf4f4;transform:none}.desk-tools .seal.active{outline:2px solid #67b1aa;outline-offset:1px}
+.beta-status{height:56px;min-width:1000px;background:#253c49;color:#d7e7e9;border-top:1px solid #65818b;box-shadow:none;gap:15px;padding:8px 20px}.stat-item{font-size:11px;color:#d9e8ea;gap:8px}.stat-item b{color:#99e1d3;font-size:12px}.stat-item .progress-track{background:#4e6b77;border-radius:10px;overflow:hidden}.stat-item .progress-fill{background:#5fbdab}.status-btn{border:1px solid #628b95;background:#365461;color:#edf6f7;border-radius:8px;font-size:11px;box-shadow:none;padding:8px 11px}.status-btn:hover:not(:disabled){background:#43737e}
+/* Modales modernos y tipografía legible */
+.modal{background:#142c39b9;backdrop-filter:blur(4px)}.modal-card{background:#fff;border:1px solid #cdd9dd;box-shadow:0 22px 75px #102b3c65;border-radius:17px;color:#25414c;padding:25px;max-height:94vh}.modal-head{border-bottom:1px solid #dce5e9}.modal-head h2{color:#284956;text-transform:none;font-size:20px;letter-spacing:-.2px}.modal-head small{color:#6f8189;font-size:11px}
+.modal-close{background:#e9f1f3;color:#365966;border:1px solid #c9dadf;border-radius:8px;padding:9px 13px}.modal-sheet{background:#f9fbfb;border:1px solid #dae6ea;border-radius:10px;color:#263e49}.modal-sheet .field{border-bottom:1px solid #e3eaec}.modal-sheet .field strong{color:#607984;font-size:12px}.modal-sheet .field span{font-size:14px}.modal-sheet .note{border-color:#c8dce0;font-size:13px}.modal-actions button{border:0;border-radius:8px;background:#217b77;color:#fff;font-size:12px}.modal-actions button.alt{background:#e5f0f1;color:#2b5963;border:1px solid #d0e1e3}.manual-nav button{border:1px solid #cfdee2;border-radius:6px;background:#f1f5f6;color:#47636e}.manual-nav button.active{background:#2c7e79;color:#fff}
+.manual-page{font-size:13px}.manual-page h3{font-size:18px}.feedback-mark{transform:rotate(-2deg);box-shadow:none;border:3px solid;border-radius:5px}.feedback-text{background:#edf7f5;border-left-color:#4ba69e;font-size:13px;line-height:1.65}
+.report-item{background:#f8fbfb;border:1px solid #d9e6e9;border-radius:9px}.report-item h3{font-size:14px}.big-score{background:#247873;color:#fff;border-radius:10px;padding:16px 22px}.report-actions a,.report-actions button{background:#287d78;border:0;border-radius:8px;color:#fff;font-size:12px}
+/* Nueva portada a dos columnas */
+.modal-card:has(.intro-shell){width:min(950px,96vw);padding:0;overflow:hidden}
+.intro-shell{display:grid;grid-template-columns:39% 61%;min-height:594px}.intro-visual{position:relative;background:linear-gradient(153deg,#294b59,#376d70 60%,#56a09a);color:#fff;display:flex;flex-direction:column;padding:26px;gap:12px;overflow:hidden}.intro-visual:before{content:'';position:absolute;width:330px;height:330px;border:70px solid #fff1;border-radius:50%;bottom:-200px;left:-170px}.intro-visual-top{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.65px;position:relative}.intro-mark{border-radius:10px;background:#ffffff24;padding:8px 11px;font-size:19px}.intro-visual-paper{background:#fff;color:#36525f;position:relative;width:220px;height:285px;align-self:center;margin:auto 0;transform:rotate(-7deg);padding:29px 21px;box-shadow:0 15px 28px #17313d65;border-radius:5px}.intro-visual-paper:before{content:'';position:absolute;top:12px;left:16px;right:16px;height:4px;background:#57a39e}.iv-paper-tag{font-size:12px;color:#85989e}.iv-paper-name{font-weight:800;font-size:21px;margin-top:17px}.iv-lines{margin-top:30px;display:flex;flex-direction:column;gap:12px}.iv-lines i{background:#d6e2e5;height:5px;display:block;border-radius:4px}.iv-lines i:nth-child(2){width:75%}.iv-lines i:nth-child(3){width:85%}.iv-lines i:nth-child(4){width:52%}.iv-stamp{position:absolute;right:-15px;bottom:17px;border:4px double #428e7c;color:#428e7c;padding:6px 13px;font-size:30px;transform:rotate(-13deg);border-radius:6px}.iv-paper-note{font-size:9px;color:#647f89;position:absolute;bottom:19px}.intro-visual-small{background:#ffffff23;padding:10px;border-radius:10px;width:125px;font-size:10px;position:absolute;bottom:116px;right:-7px;transform:rotate(9deg);box-shadow:0 8px 20px #1d45554a}.intro-visual-small span:first-child{font-size:22px}.intro-visual-foot{font-size:10px;letter-spacing:.6px;opacity:.85}
+.intro-content{padding:35px 40px 28px}.intro-overline{font-weight:800;letter-spacing:1.6px;font-size:10px;color:#448882}.intro-overline span{color:#bbc9ce;margin:0 6px}.intro-content h1{font-size:38px;line-height:1.13;letter-spacing:-1.3px;color:#223d4b;margin:16px 0}.intro-content h1 span{color:#2d8882}.intro-description{font-size:14px;line-height:1.6;color:#536b75;margin:0 0 18px}.intro-steps{display:grid;gap:11px;border-block:1px solid #e3ecee;padding:14px 0;margin:15px 0}.intro-steps>div{display:flex;align-items:flex-start;gap:11px;font-size:12px;line-height:1.4;color:#3d5864}.intro-step-number{border-radius:7px;background:#e4f3f1;color:#237d78;font-size:11px;padding:5px 7px;font-weight:800;flex:0 0 auto}
+.intro-form{display:grid;grid-template-columns:1fr 160px;gap:8px 12px;align-items:end}.intro-form label{font-size:11px;font-weight:800;color:#4f6873}.intro-form input,.intro-form select{width:100%;height:42px;background:#fff;border:1px solid #c6d7dc;color:#28434e;border-radius:8px;padding:10px;font-size:13px}.intro-form input{grid-row:2}.intro-actions{margin-top:20px;display:flex;align-items:center;gap:13px;flex-wrap:wrap}.intro-actions button{background:#247d77;color:#fff;border:0;border-radius:9px;padding:13px 17px;font-size:13px;font-weight:800}.intro-actions button:hover:not(:disabled){background:#186f69}.intro-actions span{font-size:11px;color:#74868e}.intro-legal{font-size:10px;color:#83969b;margin:18px 0 0;line-height:1.6}
+.inspection-zone .desk-tools{z-index:100} /* Dock de sellos siempre accesible si se solapan objetos */
+@media(max-width:1100px){html,body{overflow-x:auto}.app{width:max(100%,1000px)}.counter-zone .speech{font-size:11px}.paper-large .lg-row{font-size:12px}}
+@media(max-height:740px){.workstation{min-height:600px}.counter-booth{height:146px;flex-basis:146px}.counter-booth .visitor-modern{width:142px;height:146px}.counter-zone .speech{max-height:130px}.inspection-manual{top:70px}.desk-tools{bottom:350px}.resolution{height:315px}.resolution textarea{min-height:57px}.resolution .stamp-target{min-height:48px}.intro-content{padding-top:24px}.intro-shell{min-height:560px}}
+@media(max-height:850px){
+ .counter-booth{height:122px;flex-basis:122px}.counter-booth .visitor-modern{height:120px;width:128px}
+ .counter-person{min-height:45px;flex-basis:45px;padding:6px 9px}
+ .counter-zone .speech{min-height:78px;max-height:78px;flex-basis:78px;margin:7px 6px;padding:9px;font-size:11px;line-height:1.43}
+ .counter-instructions{min-height:54px;padding:7px 8px}
+ .counter-footer{min-height:34px;padding:5px 6px;font-size:8px;line-height:1.3}
+}
+@media(max-width:850px), (max-height:850px){
+ .inspection-manual{top:30px;width:210px;padding:0 10px 10px;gap:2px}
+ .inspection-manual .floating-grip{min-height:23px}.inspection-manual .manual-card-icon{font-size:21px}
+ .inspection-manual strong{font-size:11px}.inspection-manual small{display:none}
+ .inspection-manual .book-control{margin-top:3px;padding:6px 8px;font-size:10px}
+}
+@media(max-width:1180px){.paper-v2.is-mini{width:75px;height:103px}.paper-mini .mini-type{font-size:7.2px}.counter-zone .speech{font-size:11px}}
+@media(max-height:700px){.paper-v2.is-mini{height:92px}}
+
+@media(max-width:750px){.modal-card:has(.intro-shell){overflow:auto}.intro-shell{grid-template-columns:1fr}.intro-visual{display:none}.intro-content{padding:26px}.intro-content h1{font-size:33px}}
+
+
+/* ===== BETA 05: legibilidad por defecto; documentos cómodos sin zoom del navegador ===== */
+.top-title{font-size:20px}.top-title small{font-size:12px}.beta-pill{font-size:12px}.smallbar{font-size:14px}.retro-btn{font-size:14px}
+.counter-sign{font-size:12px}.counter-person strong{font-size:15px}.counter-person small{font-size:13px}.counter-zone .speech{font-size:15px;line-height:1.49;max-height:220px;overflow-y:auto}.counter-instructions b{font-size:12px}.counter-instructions span{font-size:12px}.counter-footer{font-size:11px}
+.inspection-manual{top:20px}.inspection-title{font-size:19px}.inspection-sub{font-size:12px}.inspection-manual strong{font-size:14px}.inspection-manual small{font-size:12px}.inspection-manual .book-control{font-size:13px}.floating-grip{font-size:12px}
+.paper-v2.is-large{width:292px;height:402px}.paper-large{padding:22px 20px 12px}.paper-large .lg-doc-kind{font-size:12px}.paper-large .lg-doc-title{font-size:20px;min-height:51px}.paper-large .lg-doc-id{font-size:13px}.paper-large .lg-row{font-size:15px;line-height:1.42;margin-bottom:11px}.paper-large .lg-row strong{font-size:13px}.paper-large .lg-actions{font-size:13px}.paper-large .lg-actions button{font-size:13px;padding:8px 11px}
+.paper-mini .mini-type{font-size:9px}.paper-v2 .mini-id{font-size:9px}
+.resolution{height:377px;min-height:0}.resolution h3{font-size:18px}.resolution .case-id{font-size:12px}.stamp-target{font-size:13px;min-height:68px}.resolution label{font-size:13px}.resolution textarea{font-size:14px;line-height:1.45;min-height:82px}.resolution-foot small{font-size:12px}.resolution-foot button{font-size:14px}.desk-tools{bottom:419px}.tools-caption{font-size:12px}.desk-tools .seal span{font-size:12px}.desk-tools .seal b{font-size:20px}
+.stat-item{font-size:13px}.stat-item b{font-size:14px}.status-btn{font-size:13px}
+.modal-head h2{font-size:23px}.modal-head small{font-size:13px}.modal-sheet h3{font-size:22px}.modal-sheet .field strong{font-size:14px}.modal-sheet .field span{font-size:16px}.modal-sheet .note{font-size:15px}.modal-actions button{font-size:14px}.modal-close{font-size:14px}
+.manual-nav{gap:7px;margin-bottom:15px}.manual-nav button{font-size:13px;min-width:37px;padding:9px 11px}.manual-page{font-size:16px;line-height:1.68}.manual-page h3{font-size:21px;line-height:1.3}.manual-page p{margin-bottom:16px}.manual-page mark{background:#ffed8c;color:#283e44;padding:1px 3px;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}.manual-page strong{color:#214c57;font-weight:800}.manual-sheet{border-radius:9px}.manual-bottom{display:flex;justify-content:space-between;gap:15px;align-items:center;margin:4px 0 18px;flex-wrap:wrap;color:#667c86;font-size:12px;line-height:1.5}.manual-bottom>span{flex:1 1 210px}.manual-stepper{display:flex;gap:8px}.manual-stepper button{border:1px solid #c8dcdf;border-radius:7px;background:#eef7f8;color:#2e6770;padding:8px 11px;font-weight:700;font-size:13px}.manual-stepper button:disabled{opacity:.35;cursor:not-allowed}
+.feedback-text{font-size:15px}.subtle{font-size:13px}.report-item{font-size:14px}.report-item h3{font-size:16px}.report-summary p{font-size:14px}.report-actions a,.report-actions button{font-size:14px;padding:13px 14px}.report-actions .return-home-button{background:#edf4f6;color:#2b626c;border:1px solid #c6dce0}.report-actions .return-home-button:hover{background:#dbecee}
+.intro-overline{font-size:12px}.intro-description{font-size:16px}.intro-steps>div{font-size:14px}.intro-step-number{font-size:13px}.intro-form label{font-size:13px}.intro-form input,.intro-form select{font-size:15px;height:46px}.intro-actions button{font-size:15px}.intro-actions span{font-size:13px}.intro-legal{font-size:12px}
+/* Confirmation intégrée : pas de window.confirm(), fiable dans un iframe Sites. */
+.return-confirm{position:fixed;inset:0;z-index:1000;background:#0c263abf;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}
+.return-confirm-card{width:min(530px,96vw);max-height:90vh;overflow:auto;background:white;border:1px solid #d5e3e6;border-radius:17px;padding:30px;color:#2a454f;box-shadow:0 22px 70px #102c3e70}
+.return-confirm-icon{width:44px;height:44px;border-radius:100%;display:flex;justify-content:center;align-items:center;font-weight:900;font-size:24px;background:#fff2d8;color:#9f6519;margin-bottom:13px}
+.return-confirm h2{margin:0 0 14px;font-size:23px}.return-confirm p{font-size:16px;line-height:1.6;color:#516972;margin:0 0 23px}.return-confirm-actions{display:flex;flex-direction:column;gap:10px}
+.return-confirm-actions button{width:100%;border-radius:9px;padding:13px 15px;font-size:14px;font-weight:750;cursor:pointer}
+.return-confirm .return-cancel{background:#257d78;color:#fff;border:1px solid #257d78}.return-confirm .return-danger{background:#fff;color:#9a4546;border:1px solid #ddabad}
+@media(max-width:1180px){.counter-zone .speech{font-size:14px}.paper-mini .mini-type{font-size:8.5px}}
+@media(max-width:1480px){.top-title [data-i18n="brandTitle"]{white-space:nowrap;font-size:18px}.top-title small{font-size:11px;max-width:260px}}
+@media(max-width:1220px){.top-title small{display:none}}
+@media(max-height:850px){.inspection-manual{top:18px}.counter-zone .speech{font-size:13px;line-height:1.4;max-height:100px;min-height:85px}.counter-person strong{font-size:14px}.counter-person small{font-size:12px}.counter-instructions b,.counter-instructions span{font-size:11px}.counter-footer{font-size:10px}.inspection-manual strong{font-size:12px}.inspection-manual .book-control{font-size:12px}.resolution{height:335px}.resolution textarea{min-height:62px}.resolution .stamp-target{min-height:49px}.desk-tools{bottom:365px}}
+
+
+/* ===== Jornada ampliada: personalización de marca y modo oscuro ===== */
+.paper-v2.is-mini.dense-mini{width:78px;height:96px}
+@media(max-width:1180px){.paper-v2.is-mini.dense-mini{width:70px;height:91px}}
+
+:root{--brand:#23857c;--brand-dark:#174f50;--brand-soft:#e5f6f2}
+.brand-square{background:var(--brand)}
+.intro-visual{background:linear-gradient(152deg,var(--brand-dark),var(--brand) 75%,#88afa7)}
+.intro-visual-paper::before{background:var(--brand)}
+.intro-visual .iv-stamp{border-color:var(--brand);color:var(--brand)}
+.intro-content h1 span{color:var(--brand)}.intro-overline{color:var(--brand)}
+.intro-actions button,.resolution-foot button,.report-actions a,.report-actions button:not(.return-home-button){background:var(--brand)}
+.intro-actions button:hover:not(:disabled),.resolution-foot button:hover:not(:disabled){background:var(--brand-dark)}
+.intro-step-number{background:var(--brand-soft);color:var(--brand-dark)}
+.paper-large:before{border-top-color:var(--brand)}.paper-large .lg-actions button{background:var(--brand)!important}
+.inspection-manual{border-left-color:var(--brand)}.resolution{border-top-color:var(--brand)}
+.book-control{color:var(--brand-dark)}.manual-nav button.active{background:var(--brand)}
+.stat-item .progress-fill{background:var(--brand)}.report-summary .big-score{background:var(--brand)}
+.return-confirm .return-cancel{background:var(--brand);border-color:var(--brand)}
+.intro-form{grid-template-columns:minmax(0,1fr) 150px;gap:6px 12px}
+.intro-form label[for="studentInput"]{grid-column:1;grid-row:1}
+.intro-form #studentInput{grid-column:1;grid-row:2}
+.intro-form label[for="companyInput"]{grid-column:1;grid-row:3}
+.intro-form #companyInput{grid-column:1;grid-row:4}
+.intro-form label[for="languageInput"]{grid-column:2;grid-row:1}
+.intro-form #languageInput{grid-column:2;grid-row:2}
+.intro-form input{grid-row:auto}
+.intro-options{margin-top:13px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.intro-color-header{font-size:12px;color:#4f6873;font-weight:800;width:100%}
+.intro-swatches{display:flex;flex-wrap:wrap;gap:7px;flex:1 1 250px}
+.intro-swatches .theme-swatch{appearance:none;width:24px;height:24px;flex:0 0 24px;border:2px solid #fff;border-radius:50%;background:var(--swatch);box-shadow:0 0 0 1px #c5d3d8;cursor:pointer;padding:0}
+.theme-swatch.selected{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--brand)}
+.intro-dark-toggle{display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:13px;font-weight:650;color:#496774;cursor:pointer}
+.intro-dark-toggle input{width:16px;height:16px;accent-color:var(--brand);cursor:pointer}
+.intro-content{padding-top:23px;padding-bottom:22px}.intro-content h1{margin:11px 0}
+.intro-steps{margin:11px 0;padding:10px 0;gap:8px}.intro-actions{margin-top:14px}
+body.dark-mode{background:#101b24;color:#e8eff2}
+body.dark-mode .app{background:#17262d}
+body.dark-mode .beta-topbar{background:#122430;border-bottom-color:#4c6269}
+body.dark-mode .workstation{background:#223038}
+body.dark-mode .counter-zone{background:#20323b;border-right-color:#4b626a}
+body.dark-mode .counter-sign{background:#132a36;color:#e8f2f3}
+body.dark-mode .counter-booth{background:linear-gradient(180deg,#526a73,#314a55)}
+body.dark-mode .counter-person{background:#223b46;border-bottom-color:#3b5861}
+body.dark-mode .counter-person strong{color:#e6f4f5}
+body.dark-mode .counter-person small{color:#bed0d5}
+body.dark-mode .counter-zone .speech{background:#2b414b;border-color:#4d6872;color:#edf5f5}
+body.dark-mode .counter-instructions{background:#233b44}
+body.dark-mode .counter-instructions b{color:#dcebed}
+body.dark-mode .counter-instructions span{color:#c1d4d9}
+body.dark-mode .counter-tray{background:linear-gradient(130deg,#41565e,#33474e)}
+body.dark-mode .counter-footer{background:#1d333d;color:#c7d7dd;border-color:#425962}
+body.dark-mode .inspection-zone{background:linear-gradient(125deg,#374650,#293b44 65%,#253740)}
+body.dark-mode .inspection-zone:before{box-shadow:inset 0 0 0 7px #384f57,inset 0 0 0 8px #1f323a,inset 0 0 52px #0e202c40}
+body.dark-mode .inspection-title{color:#e5f4f5}
+body.dark-mode .inspection-sub{color:#b6cdd2}
+body.dark-mode .inspection-manual,body.dark-mode .desk-tools{background:#eaf0f2;border-color:#a8bec6;color:#223b45}
+body.dark-mode .resolution{background:#f5f9fa;border-color:#aec6ca;border-top:5px solid var(--brand);color:#28424e}
+body.dark-mode .beta-status{background:#132630;border-top-color:#4b616b}
+body.dark-mode .modal-card{background:#20343e;color:#edf4f5;border-color:#526a74}
+body.dark-mode .modal-head{border-color:#4d646b}
+body.dark-mode .modal-head h2{color:#eff8f9}
+body.dark-mode .modal-head small{color:#b4cad0}
+body.dark-mode .modal-close{background:#38525e;color:#f4f9f9;border-color:#5c7780}
+body.dark-mode .modal-sheet,body.dark-mode .manual-sheet{background:#fbfdfd;color:#253d47;border-color:#c9d8dc}
+body.dark-mode .manual-page{color:#243c46}
+body.dark-mode .manual-page h3{color:#25434e}
+body.dark-mode .subtle{color:#c4d5da}
+body.dark-mode .feedback-text{color:#253f46;background:#e4f2f1}
+body.dark-mode .report-item{background:#ecf3f4;color:#223c47}
+body.dark-mode .report-item h3{color:#294d59}
+body.dark-mode .report-summary p{color:#d4e6e9}
+body.dark-mode .intro-content{background:#1e323c}
+body.dark-mode .intro-content h1{color:#eff6f7}
+body.dark-mode .intro-content h1 span{color:color-mix(in srgb,var(--brand) 48%,white 52%)}
+body.dark-mode .intro-description,body.dark-mode .intro-steps>div{color:#cfdee2}
+body.dark-mode .intro-steps{border-color:#405961}
+body.dark-mode .intro-form label,body.dark-mode .intro-color-header,body.dark-mode .intro-dark-toggle{color:#d0e1e5}
+body.dark-mode .intro-form input,body.dark-mode .intro-form select{background:#263f49;color:#fff;border-color:#56727c}
+body.dark-mode .intro-legal{color:#aec3c9}
+body.dark-mode .intro-overline{color:#8fd4c6}
+body.dark-mode .return-confirm-card{background:#1d313c;border-color:#546c77;color:#eff8f9}
+body.dark-mode .return-confirm-card p{color:#d2e2e5}
+body.dark-mode .return-confirm .return-danger{background:#243942;color:#f4b7b8;border-color:#84545c}
+@media(max-width:850px){.intro-content{padding:20px}.intro-form{grid-template-columns:1fr 130px}}
+
+ 
+/* V8 — oficina web independiente, cuaderno físico, lectura integral y marca en cabecera. */
+.beta-topbar{background:linear-gradient(110deg,var(--brand-dark),color-mix(in srgb,var(--brand-dark) 78%,#102d40));border-bottom-color:color-mix(in srgb,var(--brand) 50%,#102c34)}
+body.dark-mode .beta-topbar{background:linear-gradient(110deg,color-mix(in srgb,var(--brand-dark) 75%,#091321),color-mix(in srgb,var(--brand-dark) 58%,#091321));border-bottom-color:var(--brand)}
+.beta-topbar .smallbar{background:#081d2738;border-color:#ffffff44;color:#ffffff}
+.top-title .brand-square{background:#ffffff27;border:1px solid #ffffff55;box-shadow:inset 0 0 0 2px #ffffff10}
+.theme-game-toggle{background:#ffffffeb;color:#1b4652;border:1px solid #ffffffaa;font-weight:800;white-space:nowrap;font-size:13px;padding:9px 12px}
+.theme-game-toggle:hover:not(:disabled){background:#fff}
+.top-accent{color:#fff;font-weight:800}
+.inspection-manual{background:linear-gradient(90deg,#f3fafc 0 18px,#fff 18px);border-left:8px solid var(--brand);border-radius:4px 12px 12px 4px;box-shadow:5px 7px 0 #cad8dd,0 11px 24px #526d7528}
+.inspection-manual:before{content:'';position:absolute;left:13px;top:45px;bottom:15px;border-left:2px dashed #b7cfd5;opacity:.85;pointer-events:none}
+.inspection-manual .manual-card-icon{font-size:28px;margin-left:8px}
+.inspection-manual strong,.inspection-manual small,.inspection-manual .book-control{margin-left:8px}
+.inspection-manual .floating-grip{justify-content:flex-start;min-height:30px}
+.floating-grip{min-height:29px}
+.floating-grip span:first-child{font-size:20px}
+.paper-large .lg-fields{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:7px;overscroll-behavior:contain}
+.paper-large .lg-note{font-size:11.5px;line-height:1.4;color:#3b5661;background:#f2f7f8;border-left:3px solid var(--brand);padding:8px 8px;margin:7px 1px 2px;max-height:84px;min-height:28px;overflow-y:auto;overflow-wrap:anywhere;user-select:text;flex:0 0 auto}
+.paper-large .lg-row{user-select:text}
+.paper-v2.is-large .paper-large{padding-bottom:17px}
+.resolution .sheet-client{font-size:13px;font-weight:750;color:#2e6170;margin:-5px 0 10px;line-height:1.3;overflow-wrap:anywhere}
+.resolution .case-id{margin-bottom:8px}
+.resolution .floating-grip{min-height:28px}
+/* Cuaderno abierto: anillas y líneas suaves, sin alterar la legibilidad del texto. */
+.modal-card:has(.manual-booklet){width:min(850px,96vw);border-radius:16px;background:#f5f7f7;border:1px solid #d4dfe2;box-shadow:0 28px 80px #071d2d75;padding:20px 24px 22px}
+.modal-card:has(.manual-booklet) .modal-head{margin-bottom:17px}
+.manual-booklet{position:relative;min-height:390px;background:#e1e8ea;border-radius:9px 14px 14px 9px;padding:11px 11px 11px 24px;box-shadow:7px 8px 0 #c2d0d5,0 15px 28px #243c4b20;border:1px solid #c4d1d6;overflow:hidden}
+.manual-booklet:before{content:'';position:absolute;left:8px;top:9px;bottom:8px;width:12px;background:#f0f4f4;border-right:1px solid #c4d1d6}
+.manual-book-binding{position:absolute;left:2px;top:26px;bottom:24px;width:21px;z-index:2;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 31px,#7c939c 32px,#7c939c 35px,#dde5e8 36px,#dde5e8 40px,transparent 41px,transparent 53px);filter:drop-shadow(1px 1px 1px #53697445)}
+.manual-booklet .manual-sheet{margin:0;min-height:368px;padding:24px 29px 29px 37px;border:1px solid #d6dfe2;border-radius:3px 9px 9px 3px;background:repeating-linear-gradient(to bottom,#fffdf9 0px,#fffdf9 32px,#edf2f5 33px,#fffdf9 34px);box-shadow:inset 4px 0 10px #d6dbdb6b}
+.manual-booklet .manual-page{font-size:16px;line-height:1.68}
+.manual-booklet .manual-page h3{font-size:22px;color:#2b4a55;margin:5px 0 14px}
+.manual-booklet .manual-page p{margin-bottom:16px}
+.manual-section-number{font-weight:800;color:var(--brand-dark);font-size:11px;letter-spacing:1.2px}
+.manual-booklet .manual-page mark{background:#ffe785;color:#283e44;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+body.dark-mode .modal-card:has(.manual-booklet){background:#21353e;border-color:#4a6068}
+body.dark-mode .manual-booklet .manual-sheet{background:repeating-linear-gradient(to bottom,#fffdf9 0px,#fffdf9 32px,#edf2f5 33px,#fffdf9 34px);color:#253d47}
+body.dark-mode .inspection-manual{background:linear-gradient(90deg,#dbe7ea 0 18px,#f5fafb 18px);border-left-color:var(--brand)}
+@media(max-width:800px){.modal-booklet{padding:12px}.manual-booklet .manual-sheet{padding:17px 17px 20px 27px}.manual-booklet .manual-page{font-size:14px}.manual-booklet .manual-page h3{font-size:18px}}
+/* ===== V9: pulido final de documentos, guía, hoja y marca ===== */
+/* Banner con profundidad y un destello sutil, manteniendo el color elegido. */
+.beta-topbar{
+ position:relative;isolation:isolate;
+ background:linear-gradient(116deg,
+   color-mix(in srgb,var(--brand-dark) 90%,#101d35) 0%,
+   color-mix(in srgb,var(--brand) 56%,#213b50) 43%,
+   color-mix(in srgb,var(--brand-dark) 76%,#102a3d) 77%,
+   color-mix(in srgb,var(--brand) 35%,#102134) 100%);
+ box-shadow:inset 0 1px 0 #ffffff28,inset 0 -3px 0 #ffffff17,0 5px 18px #18354128;
+}
+.beta-topbar::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(ellipse 35% 140% at 28% -30%,#ffffff2c,transparent 80%),
+ linear-gradient(110deg,transparent 0 57%,#ffffff0a 57% 67%,transparent 67%);
+}
+body.dark-mode .beta-topbar{background:linear-gradient(115deg,
+ color-mix(in srgb,var(--brand-dark) 70%,#091522),
+ color-mix(in srgb,var(--brand) 38%,#112838) 49%,
+ color-mix(in srgb,var(--brand-dark) 76%,#0b1a2a));}
+.brand-square{font-size:23px;line-height:1;}
+.intro-mark.brand-emoji{display:inline-flex;align-items:center;justify-content:center;font-size:25px;line-height:1.2}
+.intro-visual-small .brand-emoji{font-size:20px;vertical-align:middle}
+/* La voz del cliente debe reconocerse visualmente como una cita. */
+.counter-zone .speech{font-size:15.5px;line-height:1.48;font-weight:650;font-style:italic;
+ max-height:205px;overflow-y:auto;overflow-wrap:anywhere;padding:12px 11px;}
+/* Misma geometría básica para los documentos de inspección y la hoja de resolución. */
+.paper-v2.is-large{width:328px;height:454px;border-radius:6px;}
+.paper-large{padding:22px 21px 15px;}
+.resolution{width:328px;height:454px;min-height:0;max-height:none;
+ border-radius:6px;border:1px solid #cdd8d9;border-top:4px solid var(--brand);
+ box-shadow:0 6px 16px #536d743e,0 15px 29px #40596018;
+ padding:11px 15px 13px;display:flex;flex-direction:column;overflow-y:auto;}
+.resolution h3{font-size:19px;flex:0 0 auto;margin:1px 0 12px}
+.resolution .floating-grip{flex:0 0 auto;min-height:22px;margin-bottom:5px}
+.resolution .sheet-meta{display:flex;gap:7px;align-items:baseline;color:#3d5a66;
+ font-size:12.5px;line-height:1.35;margin-bottom:7px;overflow-wrap:anywhere;}
+.resolution .sheet-meta strong{flex:0 0 auto;color:#526b75;font-weight:800}
+.resolution .sheet-motive{align-items:flex-start}
+.resolution .sheet-motive strong{padding-top:1px}
+.resolution .sheet-motive span{font-weight:650;color:#314d58}
+.resolution .sheet-client{font-size:12.5px;font-weight:500;color:#3c5a67;margin:1px 0 10px;
+ line-height:1.35;overflow-wrap:anywhere}
+.resolution .sheet-client strong{font-weight:800;color:#526b75}
+.resolution .stamp-target{flex:0 0 auto;min-height:60px;margin-bottom:8px}
+.resolution label{flex:0 0 auto;font-size:12.5px;margin-bottom:6px}
+.resolution textarea{flex:1 0 69px;min-height:69px;max-height:125px;resize:vertical;font-size:13px;line-height:1.4}
+.resolution .sheet-signature{font-size:12px;color:#4a6670;line-height:1.4;
+ border-bottom:1px solid #dbe5e8;padding:7px 0 6px;margin-top:6px;overflow-wrap:anywhere}
+.resolution .sheet-signature span{font-weight:800}
+.resolution .sheet-signature strong{color:#294852;font-weight:650}
+.resolution .resolution-foot{flex:0 0 auto;gap:7px;margin-top:8px}
+.resolution .resolution-foot small{font-size:11px;line-height:1.3}
+.resolution .resolution-foot button{font-size:13px;padding:9px 10px}
+/* Sellos al lado izquierdo de la hoja, sin ocultar el cuaderno situado arriba a la derecha. */
+.desk-tools{right:calc(25px + 328px + 13px);left:auto;bottom:250px;top:auto;
+ width:296px;max-width:296px;}
+/* Cuaderno: anchura, altura y marco absolutamente constantes en sus 8 páginas. */
+.modal-card:has(.manual-booklet){width:min(850px,96vw);height:min(748px,94dvh);
+ min-height:0;max-height:none;overflow:hidden;display:flex;flex-direction:column;}
+.modal-card:has(.manual-booklet) .modal-head{flex:0 0 auto;margin-bottom:13px}
+.modal-card:has(.manual-booklet) .manual-nav{flex:0 0 auto;margin-bottom:13px}
+.modal-booklet,.manual-booklet{flex:1 1 0;height:auto;min-height:0;max-height:none;}
+.manual-booklet{display:flex;flex-direction:column;padding-top:11px;padding-bottom:11px;}
+.manual-booklet .manual-sheet{height:100%;min-height:0;flex:1 1 0;overflow:hidden;}
+.manual-booklet .manual-page{height:100%;min-height:0;overflow-y:auto;overflow-x:hidden;
+ padding-right:9px;scrollbar-color:#bdcbd0 transparent;overscroll-behavior:contain;}
+.modal-card:has(.manual-booklet) .manual-bottom{flex:0 0 auto;margin:12px 0 0}
+@media(max-height:850px){
+ .counter-zone .speech{font-size:14.5px;line-height:1.44;min-height:84px;max-height:135px;}
+ .resolution{width:328px;height:454px;min-height:0;}
+ .resolution textarea{min-height:60px;}
+ .desk-tools{bottom:250px}
+}
+@media(max-width:1180px){.counter-zone .speech{font-size:14.5px}}
+@media(max-width:800px){.modal-card:has(.manual-booklet){width:96vw;height:94dvh;padding:15px}
+ .manual-booklet .manual-sheet{padding:15px 15px 17px 27px}
+ .manual-booklet .manual-page{font-size:14px}}
+
+
+
+/* ===== V10 · Pulido de marca y usabilidad. Sin librerías externas. ===== */
+/* Portada: campos ordenados y selección independiente del logotipo. */
+.intro-form{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;align-items:stretch}
+.intro-form label[for="studentInput"],.intro-form #studentInput,
+.intro-form label[for="languageInput"],.intro-form #languageInput,
+.intro-form #companyInput{grid-column:1;grid-row:auto}
+.intro-form .company-label{grid-column:1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px}
+.intro-form .company-label label{font-size:12px;font-weight:800;color:#4f6873}
+#randomCompanyBtn{font-size:11px;font-weight:750;color:var(--brand-dark);background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 35%,#fff);border-radius:8px;padding:6px 10px;cursor:pointer;white-space:nowrap}
+#randomCompanyBtn:hover{filter:brightness(.96)}
+.intro-options{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
+.intro-options .intro-color-header{width:auto;font-size:11px}
+.intro-swatches{display:flex;flex:0 0 auto;gap:7px}
+.intro-logo-row{display:flex;flex-direction:column;gap:6px;margin-top:3px}
+.intro-emojis{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.emoji-choice{display:flex;align-items:center;justify-content:center;width:33px;height:33px;border:1px solid #cedbdd;border-radius:8px;background:#f8fafb;font-size:20px;padding:0;cursor:pointer;line-height:1;transition:transform .12s,box-shadow .12s}
+.emoji-choice:hover{transform:translateY(-2px)}
+.emoji-choice.selected{box-shadow:0 0 0 2px var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+.intro-dark-toggle{margin-top:4px}
+body.dark-mode .intro-form .company-label label{color:#d0e1e5}
+body.dark-mode #randomCompanyBtn{background:#294650;color:#d1eff0;border-color:#56707b}
+body.dark-mode .emoji-choice{background:#29414b;border-color:#536b74}
+body.dark-mode .emoji-choice.selected{background:#395e68}
+.modal-card:has(.intro-shell){max-height:95dvh;overflow-y:auto}
+.intro-content{padding:20px 35px 20px}
+.intro-content h1{margin:8px 0 10px}
+.intro-description{margin-bottom:8px}
+.intro-steps{margin:8px 0;padding:8px 0;gap:5px}
+.intro-form input,.intro-form select{height:36px;padding:7px 10px}
+.intro-actions{margin-top:10px}
+.intro-legal{margin:9px 0 0}
+@media(max-width:760px){.intro-content{padding:20px}.intro-emojis{gap:4px}.emoji-choice{width:31px;height:31px}}
+@media(max-height:790px){
+ .intro-content{padding:13px 27px 13px}
+ .intro-content h1{font-size:32px;line-height:1.05;margin:4px 0 7px}
+ .intro-overline{font-size:9px}
+ .intro-description{font-size:12px;line-height:1.4;margin-bottom:6px}
+ .intro-steps{gap:3px;margin:6px 0;padding:6px 0}
+ .intro-steps>div{font-size:11px;line-height:1.22}
+ .intro-step-number{padding:3px 6px}
+ .intro-form{gap:4px}
+ .intro-form input,.intro-form select{height:32px;padding:5px 9px}
+ .intro-form .company-label{margin-top:1px}
+ #randomCompanyBtn{padding:4px 8px}
+ .intro-options{gap:5px;margin-top:8px}
+ .intro-swatches .theme-swatch{width:22px;height:22px;flex-basis:22px}
+ .emoji-choice{width:30px;height:30px;font-size:18px}
+ .intro-logo-row{gap:4px;margin-top:1px}
+ .intro-actions{margin-top:7px}
+ .intro-actions button{padding:9px 13px}
+ .intro-legal{margin-top:6px;font-size:9px;line-height:1.4}
+}
+/* El aviso solo se muestra al inicio de la primera situación y se puede cerrar. */
+.guide-nudge{position:absolute;right:24px;top:225px;z-index:85;pointer-events:none;max-width:315px;display:flex;gap:9px;align-items:flex-start;background:#fffef4;color:#304b56;border:1px solid #f2d37b;box-shadow:0 9px 22px #263d4a34;border-radius:12px;padding:12px 11px 12px 14px;font-size:13px;line-height:1.45;font-weight:700}
+.guide-nudge:before{content:"";position:absolute;top:-9px;right:72px;width:16px;height:16px;transform:rotate(45deg);background:#fffef4;border-left:1px solid #f2d37b;border-top:1px solid #f2d37b;pointer-events:none}
+.guide-nudge button{border:0;background:transparent;color:#5b7882;font-size:23px;line-height:1;cursor:pointer;z-index:1;padding:0 3px;pointer-events:auto}
+body.dark-mode .guide-nudge{background:#f4f8f0;color:#304b56}
+/* Texto secundario administrativo: no altera los hechos que determinan la resolución. */
+.paper-large .lg-admin{margin-top:12px;padding:10px 0 0;border-top:1px dashed #c8d7dc;font-size:10.7px;line-height:1.5;color:#6d8590;display:grid;gap:3px}
+.paper-large .lg-admin>div:first-child{font-weight:700;color:#59737d}
+
+
+/* Ajuste en portátiles: la guía y la indicación inicial no ocultan la resolución. */
+@media(max-height:790px){
+ #manualCard{top:8px;padding-bottom:6px;gap:1px}
+ #manualCard .floating-grip{min-height:16px;margin-bottom:2px}
+ #manualCard .manual-card-icon{font-size:19px;line-height:1}
+ #manualCard strong{font-size:11.5px;line-height:1.13}
+ #manualCard small{display:none}
+ #manualCard .book-control{font-size:10.5px;padding:4px 8px;margin-top:2px}
+ .guide-nudge{top:190px;right:calc(328px + 25px)}
+}
+/* v11: Libro y título con dos líneas (sin separador). */
+#manualCardTitle{white-space:pre-line;display:block;line-height:1.3}
+.modal-card:has(.manual-booklet) .modal-head h2{white-space:pre-line;line-height:1.28}
+</style>
+</head>
+<body>
+<div id="app" class="app hidden">
+  <header class="topbar beta-topbar">
+    <div class="top-title"><span class="brand-square brand-emoji" id="gameBrandEmoji" aria-hidden="true">🦚</span> <span data-i18n="brandTitle">OFICINA DE RECLAMACIONES</span><small id="companyHeader" data-i18n="brandSub">DEPARTAMENTO DE INSPECCIÓN · IMPRENTA FICTICIA</small></div>
+    <div class="top-right"><span class="smallbar">EXP. <span id="caseCounter" class="top-accent">01/03</span></span><button type="button" class="retro-btn theme-game-toggle" id="gameDarkToggle" aria-pressed="false">☾ Modo oscuro</button></div>
+  </header>
+  <div class="workstation" id="deskSurface">
+    <section class="counter-zone" id="counterZone" aria-label="Mostrador del cliente: documentos reducidos">
+      <div class="counter-sign" data-i18n="windowTitle">VENTANILLA DE ATENCIÓN</div>
+      <div class="counter-booth">
+        <div class="booth-slat"></div>
+        <div class="visitor-modern" id="visitorAvatar" aria-hidden="true"></div>
+        <div class="booth-ledge"></div>
+      </div>
+      <div class="counter-person"><strong id="visitorName"></strong><small id="visitorCompany"></small></div>
+      <div class="speech" id="visitorSpeech"></div>
+      <div class="counter-divider"></div>
+      <div class="counter-instructions"><b data-i18n="counterDocsTitle">DOCUMENTOS ENTREGADOS</b><span data-i18n="counterDocsHint">Arrastra un papel hacia la derecha para leerlo.</span></div>
+      <div class="counter-tray" aria-hidden="true"></div>
+      <div class="counter-arrow">➜</div>
+      <div class="counter-footer" data-i18n="notice">TODAS LAS RECLAMACIONES SE REGISTRAN. LOS SELLOS REPRESENTAN LA PROPUESTA DE RESOLUCIÓN INTERNA, NO EL DERECHO A RECLAMAR.</div>
+    </section>
+    <section class="inspection-zone" id="inspectionZone" aria-label="Mesa de inspección: documentos ampliados">
+      <div class="inspection-plaque"><div class="inspection-title" data-i18n="deskName">ESCRITORIO DE INSPECCIÓN</div><div class="inspection-sub" data-i18n="deskTip">TRASLADA LOS DOCUMENTOS PARA LEERLOS</div></div>
+      <div class="inspection-manual movable-item" id="manualCard">
+        <div class="floating-grip" id="manualGrip" aria-label="Mover cuaderno"><span>⠿</span></div>
+        <div class="manual-card-icon brand-emoji" aria-hidden="true">🦚</div>
+        <strong id="manualCardTitle">Guía del inspector</strong>
+        <small data-i18n="manualSubtitle">Procedimientos y ayuda para la inspección</small>
+        <button id="ruleButton" class="book-control" data-i18n="ruleButton">Abrir manual</button>
+      </div>
+      <div id="guideNudge" class="guide-nudge hidden" role="note"><span id="guideNudgeText">¿Perdido en tu primer día? ¡Échale un ojo a la guía!</span><button type="button" id="guideNudgeClose" aria-label="Cerrar indicación">×</button></div>
+      <div class="desk-grain"></div>
+      <div class="desk-reserved">↙</div>
+      <div class="desk-tools">
+        <div class="tools-caption" data-i18n="stampsTitle">SELLOS DE RESOLUCIÓN</div>
+        <div class="seal-grid"><div class="seal accept" data-stamp="accept" draggable="true" role="button" tabindex="0"><b>✓</b><span data-i18n="accept">ESTIMAR</span></div><div class="seal reject" data-stamp="reject" draggable="true" role="button" tabindex="0"><b>×</b><span data-i18n="reject">DESESTIMAR</span></div><div class="seal pending" data-stamp="pending" draggable="true" role="button" tabindex="0"><b>?</b><span data-i18n="pending">PEDIR PRUEBAS</span></div></div>
+      </div>
+      <div class="resolution movable-item" id="resolutionSheet">
+        <div class="floating-grip" id="resolutionGrip" aria-label="Mover hoja de resolución"><span>⠿</span></div>
+        <h3 data-i18n="decisionTitle">HOJA DE RESOLUCIÓN</h3>
+        <div class="sheet-meta"><strong data-i18n="caseLabel">Caso:</strong><span id="sheetCaseId"></span></div>
+        <div class="sheet-meta sheet-motive"><strong data-i18n="motiveLabel">Motivo:</strong><span id="sheetMotive"></span></div>
+        <div class="sheet-client"><strong data-i18n="clientCompanyLabel">Empresa cliente:</strong> <span id="sheetClient"></span></div>
+        <div id="stampTarget" class="stamp-target" data-i18n="stampPrompt">ARRASTRA AQUÍ UN SELLO O SELECCIÓNALO</div>
+        <label for="reasonText" data-i18n="reasonLabel">Justificación de la decisión</label>
+        <textarea id="reasonText" maxlength="1200" placeholder="Explica las pruebas que justifican tu resolución..."></textarea>
+        <div class="sheet-signature"><span data-i18n="signatureLabel">Firmado:</span> <strong id="sheetSignature"></strong></div>
+        <div class="resolution-foot"><small id="readyNote">Revisa 2 documentos</small><button id="fileDecisionBtn" disabled data-i18n="submit">REGISTRAR</button></div>
+      </div>
+    </section>
+    <div id="paperLayer" class="paper-layer"></div>
+  </div>
+  <footer class="beta-status">
+    <div class="stat-item"><span data-i18n="opened">Documentos inspeccionados</span><b id="seenCounter">0/4</b><div class="progress-track"><div id="evidenceBar" class="progress-fill"></div></div></div>
+    <div class="stat-item"><span data-i18n="closed">Expedientes cerrados</span><b id="closedCounter">0/3</b></div>
+    <div class="stat-item"><span data-i18n="correct">Resoluciones correctas</span><b id="correctCounter">0</b></div>
+    <div class="stat-item"><span data-i18n="elapsed">Tiempo real</span><b id="elapsedCounter">00:00</b></div>
+    <button id="organizeBtn" class="status-btn" data-i18n="tidy">↺ Ordenar papeles</button>
+    
+  </footer>
+</div>
+<div id="modal" class="modal"><div id="modalContent" class="modal-card"></div></div>
+<div id="returnConfirm" class="return-confirm hidden" role="dialog" aria-modal="true" aria-labelledby="returnConfirmTitle">
+  <div class="return-confirm-card" role="document">
+    <div class="return-confirm-icon" aria-hidden="true">!</div>
+    <h2 id="returnConfirmTitle" data-i18n="confirmTitle">¿Volver al inicio?</h2>
+    <p data-i18n="confirmDescription">Si vuelves ahora, se cerrará esta sesión. Descarga tu PDF antes de continuar.</p>
+    <div class="return-confirm-actions">
+      <button type="button" id="cancelReturnBtn" class="return-cancel" data-i18n="confirmCancel">Seguir viendo el informe</button>
+      <button type="button" id="confirmReturnBtn" class="return-danger" data-i18n="confirmReturn">Sí, volver al inicio y borrar la sesión</button>
+    </div>
+  </div>
+</div>
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const T=(es,ca)=>({es,ca});let lang='es';const L=t=>typeof t==='string'?t:(t?.[lang]??'');
+const U={
+  returnHome:T('← Volver a la pantalla de inicio','← Tornar a la pantalla d’inici'),
+  confirmTitle:T('¿Volver al inicio?','Vols tornar a l’inici?'),
+  confirmDescription:T('Si vuelves ahora, se cerrará esta sesión y perderás el acceso al informe y a las respuestas guardadas. Asegúrate de haber descargado tu PDF antes de continuar.','Si tornes ara, es tancarà aquesta sessió i perdràs l’accés a l’informe i a les respostes desades. Assegura’t d’haver descarregat el PDF abans de continuar.'),
+  confirmCancel:T('Seguir viendo el informe','Continuar veient l’informe'),
+  confirmReturn:T('Sí, volver al inicio y borrar la sesión','Sí, tornar a l’inici i esborrar la sessió'),
+  pdfReminder:T('Recuerda descargar el informe PDF antes de regresar.','Recorda descarregar l’informe PDF abans de tornar.'),
+ brandTitle:T('OFICINA DE RECLAMACIONES','OFICINA DE RECLAMACIONS'),brandSub:T('DEPARTAMENTO DE INSPECCIÓN · IMPRENTA FICTICIA','DEPARTAMENT D’INSPECCIÓ · IMPREMTA FICTÍCIA'),windowTitle:T('VENTANILLA DE ATENCIÓN','FINESTRETA D’ATENCIÓ'),counterDocsTitle:T('DOCUMENTOS ENTREGADOS','DOCUMENTS LLIURATS'),counterDocsHint:T('Pasa a la derecha para leer','Passa a la dreta per llegir'),leftTip:T('Lee los documentos. No decidas solamente por lo que afirma el cliente.','Llegeix els documents. No decideixis només pel que afirma el client.'),notice:T('TODAS LAS RECLAMACIONES SE REGISTRAN. EL SELLO INDICA LA PROPUESTA INTERNA.','TOTES LES RECLAMACIONS ES REGISTREN. EL SEGELL INDICA LA PROPOSTA INTERNA.'),deskName:T('ESCRITORIO DE INSPECCIÓN','ESCRIPTORI D’INSPECCIÓ'),tidy:T('↺ Ordenar papeles','↺ Ordenar papers'),deskSlogan:T('VERIFICAR · CONTRASTAR · RESOLVER','VERIFICAR · CONTRASTAR · RESOLDRE'),decisionTitle:T('HOJA DE RESOLUCIÓN','FULL DE RESOLUCIÓ'),stampPrompt:T('ARRASTRA AQUÍ UN SELLO O SELECCIÓNALO','ARROSSEGA AQUÍ UN SEGELL O SELECCIONA’L'),reasonLabel:T('Justificación de la decisión','Justificació de la decisió'),reasonPlaceholder:T('Explica qué pruebas justifican tu resolución...','Explica quines proves justifiquen la teva resolució...'),submit:T('REGISTRAR','REGISTRAR'),filed:T('EXPEDIENTE YA REGISTRADO','EXPEDIENT JA REGISTRAT'),deskTip:T('ARRASTRA AQUÍ LOS DOCUMENTOS PARA LEERLOS','ARROSSEGA AQUÍ ELS DOCUMENTS PER LLEGIR-LOS'),protocolTitle:T('ARCHIVO DE PROCEDIMIENTOS','ARXIU DE PROCEDIMENTS'),ruleButton:T('Abrir guía','Obrir guia'),evidenceTitle:T('PRUEBAS CONSULTADAS','PROVES CONSULTADES'),opened:T('Documentos inspeccionados','Documents inspeccionats'),evidenceTip:T('Mueve dos documentos grandes uno al lado del otro para contrastarlos.','Mou dos documents grans un al costat de l’altre per contrastar-los.'),stampsTitle:T('SELLOS DE RESOLUCIÓN','SEGELLS DE RESOLUCIÓ'),accept:T('ESTIMAR','ESTIMAR'),reject:T('DESESTIMAR','DESESTIMAR'),pending:T('PEDIR PRUEBAS','DEMANAR PROVES'),stampTip:T('Arrastra un sello hasta la hoja de resolución o púlsalo directamente.','Arrossega un segell fins al full de resolució o prem-lo directament.'),sessionTitle:T('ESTADO DE INSPECCIÓN','ESTAT DE LA INSPECCIÓ'),closed:T('Expedientes cerrados','Expedients tancats'),correct:T('Resoluciones correctas','Resolucions correctes'),elapsed:T('Tiempo real','Temps real'),fakePolicy:T('SIMULACIÓN DIDÁCTICA · PROTOCOLOS Y DOCUMENTOS FICTICIOS.','SIMULACIÓ DIDÀCTICA · PROTOCOLS I DOCUMENTS FICTICIS.'),reviewMin:T('Inspecciona al menos 2 documentos','Inspecciona com a mínim 2 documents'),reasonMin:T('Mínimo 25 caracteres','Mínim 25 caràcters'),selectStamp:T('Selecciona un sello','Selecciona un segell'),ready:T('LISTO PARA REGISTRAR','PREPARAT PER REGISTRAR'),file:T('EXP.','EXP.'),close:T('CERRAR ×','TANCAR ×'),manualTitle:T('Guía del inspector','Guia de l’inspector'),next:T('SIGUIENTE EXPEDIENTE →','EXPEDIENT SEGÜENT →'),report:T('VER INFORME FINAL →','VEURE INFORME FINAL →'),pass:T('RESOLUCIÓN ACERTADA','RESOLUCIÓ ENCERTADA'),fail:T('RESOLUCIÓN NO ADECUADA','RESOLUCIÓ NO ADEQUADA'),correctVerdict:T('Resolución recomendada','Resolució recomanada'),reason:T('Tu justificación','La teva justificació'),pdf:T('⬇ DESCARGAR INFORME PDF','⬇ DESCARREGAR INFORME PDF'),pdfOpen:T('↗ ABRIR PDF EN OTRA PESTAÑA','↗ OBRIR PDF EN UNA ALTRA PESTANYA'),printTip:T('El informe PDF reúne todas las decisiones y justificaciones de esta jornada.','L’informe PDF recull totes les decisions i justificacions d’aquesta jornada.'),resultsTitle:T('INFORME DE INSPECCIÓN','INFORME D’INSPECCIÓ'),supervision:T('NOTA DE SUPERVISIÓN','NOTA DE SUPERVISIÓ'),backToWork:T('VOLVER AL ESCRITORIO','TORNAR A L’ESCRIPTORI'),narrative:T('La decisión siempre se refiere a cómo resolver internamente la reclamación. La reclamación debe registrarse en cualquier caso.','La decisió sempre es refereix a com resoldre internament la reclamació. La reclamació s’ha de registrar en tots els casos.'), manualSubtitle:T('Procedimientos y ayuda para la inspección','Procediments i ajuda per a la inspecció'),caseLabel:T('Caso:','Cas:'),motiveLabel:T('Motivo:','Motiu:'),clientCompanyLabel:T('Empresa cliente:','Empresa client:'),signatureLabel:T('Firmado:','Signat:'),
+};
+
+const THEMES={
+ teal:{name:['Verde petróleo','Verd petroli'],hex:'#23857c',deep:'#174f50',soft:'#e5f6f2'},
+ navy:{name:['Azul marino','Blau marí'],hex:'#426a99',deep:'#243f63',soft:'#eaf0fb'},
+ blue:{name:['Azul','Blau'],hex:'#297db9',deep:'#1d517f',soft:'#e7f4fc'},
+ cyan:{name:['Turquesa','Turquesa'],hex:'#1696a9',deep:'#166678',soft:'#e0f6f8'},
+ green:{name:['Verde','Verd'],hex:'#397d5a',deep:'#244d3c',soft:'#e8f5ed'},
+ olive:{name:['Oliva','Oliva'],hex:'#778247',deep:'#4a5831',soft:'#f3f5e5'},
+ ochre:{name:['Ocre','Ocre'],hex:'#a07a32',deep:'#6d522a',soft:'#f8f0dd'},
+ orange:{name:['Naranja','Taronja'],hex:'#cb7548',deep:'#865034',soft:'#fff0e5'},
+ red:{name:['Rojo','Vermell'],hex:'#b85052',deep:'#772e36',soft:'#fcecef'},
+ burgundy:{name:['Granate','Granat'],hex:'#93546b',deep:'#61354a',soft:'#f9edf3'},
+ magenta:{name:['Magenta','Magenta'],hex:'#a65394',deep:'#673964',soft:'#f9eaf7'},
+ purple:{name:['Violeta','Violeta'],hex:'#775ead',deep:'#453b72',soft:'#f2eafb'}
+};
+// Los logotipos pueden elegirse sin relación con el color corporativo.
+const LOGOS=['🦚','🌌','💙','🐬','🍀','🫒','🌻','🍊','❤️','🍇','🌺','💜'];
+const COMPANY_DESCRIPTORS={
+ es:['Gráficas','Estudio','Imprenta','Taller Gráfico','Ediciones','Diseño','Artes Gráficas','Grafismos','Punto Gráfico','Impresión'],
+ ca:['Gràfiques','Estudi','Impremta','Taller Gràfic','Edicions','Disseny','Arts Gràfiques','Grafismes','Punt Gràfic','Impressió']
+};
+const COMPANY_NOUNS=['Prisma','Trama','Brisa','Cometa','Mirador','Nexo','Papel','Horizonte','Atlas','Faro','Marea','Luna','Bosque','Litoral','Océano','Pixel','Tinta','Vector','Croma','Vértice','Ámbar','Norte','Estrella','Alba','Índigo','Delta','Punto','Marfil','Mistral','Orilla'];
+function randomCompanyName(){
+ const stems=COMPANY_DESCRIPTORS[lang];
+ const word=COMPANY_NOUNS[Math.floor(Math.random()*COMPANY_NOUNS.length)];
+ const descriptor=stems[Math.floor(Math.random()*stems.length)];
+ const ending=Math.random();
+ return `${descriptor} ${word}${ending<.28?' S.L.':ending<.34?' Cooperativa':''}`;
+}
+function applyPreferences(){
+ const t=THEMES[state.theme]||THEMES.teal;
+ document.documentElement.style.setProperty('--brand',t.hex);
+ document.documentElement.style.setProperty('--brand-dark',t.deep);
+ document.documentElement.style.setProperty('--brand-soft',t.soft);
+ document.body.classList.toggle('dark-mode',state.dark);
+ $$('.brand-emoji').forEach(el=>{el.textContent=state.logoEmoji||'🦚'});
+ const themeControl=$('#gameDarkToggle');if(themeControl){themeControl.textContent=L(state.dark?T('☀ Modo claro','☀ Mode clar'):T('☾ Modo oscuro','☾ Mode fosc'));themeControl.setAttribute('aria-pressed',String(state.dark));}
+}
+
+const field=(esK,caK,esV,caV)=>[T(esK,caK),T(esV,caV)];
+const doc=(id,title,kind,fields,note)=>({id,title:T(...title),kind,fields,note:T(...note)});
+const CASES=[
+ {id:'RG-104',name:'Alicia Torres',company:'Estudio Ocre',avatar:{gender:'woman',style:'long',skin:'#d8a57e',shirt:'#607a74',hair:'#483024'},speech:T('Las tarjetas que nos habéis entregado tienen un azul distinto del que aprobamos. Necesito que lo reviséis.','Les targetes que ens heu lliurat tenen un blau diferent del que vàrem aprovar. Necessit que ho reviseu.'), expected:'accept',summary:T('Diferencia de color en 500 tarjetas','Diferència de color en 500 targetes'),feedback:T('La prueba aprobada y la orden especifican el color C-42; el registro de producción acredita que se utilizó C-17. La desviación es atribuible a la producción. Procede aceptar la reclamación y proponer una reimpresión o una solución acordada.','La prova aprovada i l’ordre especifiquen el color C-42; el registre de producció acredita que es va utilitzar C-17. La desviació és atribuïble a producció. Escau estimar la reclamació i proposar una reimpressió o una solució acordada.'),docs:[
+  doc('complaint',['Formulario de reclamación','Formulari de reclamació'],'RECL.',[
+   field('Registro','Registre','RC-104 / 04-11-2026','RC-104 / 04-11-2026'),field('Cliente','Client','Estudio Ocre','Estudi Ocre'),field('Producto','Producte','500 tarjetas de visita','500 targetes de visita'),field('Motivo','Motiu','El azul impreso difiere del aprobado.','El blau imprès difereix de l’aprovat.')],['Solicita revisión y nueva impresión.','Sol·licita revisió i nova impressió.']),
+  doc('order',['Orden de trabajo','Ordre de treball'],'OT-351',[
+   field('N.º de orden','Núm. d’ordre','OT-351','OT-351'),field('Cantidad','Quantitat','500 unidades','500 unitats'),field('Formato','Format','85 × 55 mm','85 × 55 mm'),field('Referencia de color','Referència de color','AZUL C-42','BLAU C-42')],['Material: cartulina estucada 350 g/m². La orden no autoriza cambios de color.','Material: cartolina estucada 350 g/m². L’ordre no autoritza canvis de color.']),
+  doc('proof',['Prueba aprobada','Prova aprovada'],'OK 28/10',[
+   field('Archivo','Arxiu','tarjetas_v3.pdf','targetes_v3.pdf'),field('Referencia de azul','Referència de blau','AZUL C-42','BLAU C-42'),field('Aprobación','Aprovació','Firmada el 28/10/2026','Signada el 28/10/2026')],['Cliente: «Aprobamos este diseño y la referencia C-42».','Client: «Aprovam aquest disseny i la referència C-42».']),
+  doc('production',['Registro de producción','Registre de producció'],'MÁQ. 2',[
+   field('Orden','Ordre','OT-351','OT-351'),field('Operario','Operari','Técnico 07','Tècnic 07'),field('Color utilizado','Color utilitzat','AZUL C-17','BLAU C-17'),field('Cantidad terminada','Quantitat acabada','500 unidades','500 unitats')],['Observación: se seleccionó C-17 en la ficha de máquina.','Observació: es va seleccionar C-17 a la fitxa de màquina.'])
+ ]},
+ {id:'RG-105',name:'Julio Martín',company:'Clínica Norte',avatar:{gender:'man',style:'short',skin:'#c78d68',shirt:'#617a95',hair:'#2e302b'},speech:T('Vengo a reclamar: los carteles llegaron el día 18, pero yo pensaba que los tendría el 16. Quiero que me devolváis el importe.','Venc a reclamar: els cartells arribaren dia 18, però jo pensava que els tendria dia 16. Vull que em torneu els doblers.'),expected:'reject',summary:T('Reclamación por supuesto retraso','Reclamació per suposat retard'),feedback:T('El presupuesto aceptado, la confirmación por correo y el albarán acreditan el día 18 como fecha acordada y de entrega. Con la documentación disponible no consta incumplimiento del plazo: la propuesta interna es desestimar motivadamente, explicándolo con respeto. La reclamación igualmente se registra.','El pressupost acceptat, la confirmació per correu i l’albarà acrediten dia 18 com a data acordada i de lliurament. Amb la documentació disponible no consta incompliment del termini: la proposta interna és desestimar motivadament, explicant-ho amb respecte. La reclamació igualment es registra.'),docs:[
+  doc('complaint',['Formulario de reclamación','Formulari de reclamació'],'RECL.',[
+   field('Registro','Registre','RC-105 / 22-11-2026','RC-105 / 22-11-2026'),field('Cliente','Client','Clínica Norte','Clínica Nord'),field('Encargo','Encàrrec','300 carteles A3','300 cartells A3'),field('Alegación','Al·legació','«Debían llegar el día 16».','«Havien d’arribar dia 16».')],['Solicita devolución íntegra por retraso.','Sol·licita devolució íntegra per retard.']),
+  doc('quote',['Presupuesto aceptado','Pressupost acceptat'],'P-208',[
+   field('Presupuesto','Pressupost','P-208','P-208'),field('Cantidad','Quantitat','300 carteles A3','300 cartells A3'),field('Fecha de entrega','Data de lliurament','18/11/2026','18/11/2026'),field('Condición','Condició','Entrega en taller','Lliurament al taller')],['Presupuesto firmado y aceptado el 07/11/2026.','Pressupost signat i acceptat el 07/11/2026.']),
+  doc('email',['Correo de confirmación','Correu de confirmació'],'E-MAIL',[
+   field('Remitente','Remitent','Julio Martín','Julio Martín'),field('Fecha','Data','07/11/2026','07/11/2026'),field('Asunto','Assumpte','Confirmación de encargo','Confirmació d’encàrrec')],['«Confirmo el pedido y la recogida prevista para el 18 de noviembre».','«Confirm la comanda i la recollida prevista per al 18 de novembre».']),
+  doc('delivery',['Albarán de entrega','Albarà de lliurament'],'ALB. 889',[
+   field('Documento','Document','ALB-889','ALB-889'),field('Pedido','Comanda','P-208','P-208'),field('Entregado','Lliurat','18/11/2026 · 300 uds.','18/11/2026 · 300 uts.'),field('Recibido por','Rebut per','Julio Martín / firma','Julio Martín / signatura')],['Sin observaciones en el momento de la recogida.','Sense observacions en el moment de la recollida.'])
+ ]},
+ {id:'RG-106',name:'Sara Medina',company:'Librería Bosque',avatar:{gender:'woman',style:'bob',skin:'#ba8b75',shirt:'#915f67',hair:'#423027'},speech:T('En el paquete faltaban cien folletos. Aquí pone que eran seiscientos, pero yo solo he encontrado quinientos.','Al paquet faltaven cent fullets. Aquí diu que n’eren sis-cents, però jo només n’he trobat cinc-cents.'),expected:'pending',summary:T('Unidades supuestamente desaparecidas','Unitats presumptament desaparegudes'),feedback:T('La orden y el registro de empaquetado indican 600 unidades, pero el albarán carece de firma o confirmación de recepción. No está acreditado cuántas unidades recibió realmente el cliente. Procede dejar la resolución pendiente, solicitar comprobante y revisar almacén/transporte sin desestimar automáticamente.','L’ordre i el registre d’empaquetatge indiquen 600 unitats, però l’albarà no té signatura ni confirmació de recepció. No està acreditat quantes unitats va rebre realment el client. Escau deixar la resolució pendent, sol·licitar justificant i revisar magatzem/transport sense desestimar automàticament.'),docs:[
+  doc('complaint',['Formulario de reclamación','Formulari de reclamació'],'RECL.',[
+   field('Registro','Registre','RC-106 / 04-11-2026','RC-106 / 04-11-2026'),field('Cliente','Client','Librería Bosque','Llibreria Bosc'),field('Encargo','Encàrrec','600 folletos','600 fullets'),field('Reclamación','Reclamació','«Hemos recibido 500».','«N’hem rebut 500».')],['Solicita entrega de las 100 unidades restantes.','Sol·licita el lliurament de les 100 unitats restants.']),
+  doc('order',['Orden de trabajo','Ordre de treball'],'OT-362',[
+   field('Orden','Ordre','OT-362','OT-362'),field('Producto','Producte','Folletos A5','Fullets A5'),field('Cantidad','Quantitat','600 unidades','600 unitats'),field('Destino','Destinació','Librería Bosque','Llibreria Bosc')],['Pedido finalizado con cantidad teórica: 600.','Comanda finalitzada amb quantitat teòrica: 600.']),
+  doc('packing',['Registro de embalaje','Registre d’embalatge'],'MAG. 03',[
+   field('Fecha de salida','Data de sortida','03/11/2026','03/11/2026'),field('Cajas preparadas','Caixes preparades','3 × 200 folletos','3 × 200 fullets'),field('Total preparado','Total preparat','600 unidades','600 unitats'),field('Operario','Operari','Operario 05','Operari 05')],['Preparado no equivale necesariamente a entregado.','Preparat no equival necessàriament a lliurat.']),
+  doc('delivery',['Albarán incompleto','Albarà incomplet'],'SIN FIRMA',[
+   field('Documento','Document','ALB-901','ALB-901'),field('Bultos','Paquets','3 cajas / 600 uds.','3 caixes / 600 uts.'),field('Firma receptor','Signatura receptor','NO CONSTA','NO CONSTA'),field('Confirmación transportista','Confirmació transportista','PENDIENTE','PENDENT')],['No aparece acuse de recibo ni verificación del contenido.','No hi figura justificant de recepció ni verificació del contingut.'])
+ ]}
+];
+
+// Los nuevos expedientes se guardan como DATOS. Se convierten a los mismos objetos
+// bilingües que utiliza el motor original. No crear controladores por caso.
+const ADDITIONAL_CASE_DATA=[{"id":"RG-107","name":"Marta Ferrer","company":"Clínica Miramar","avatar":{"gender":"woman","style":"long","skin":"#e0b38f","shirt":"#9e7c8a","hair":"#282c36"},"summary":["Folletos sin impresión en el reverso","Fullets sense impressió al revers"],"speech":["Los folletos están impresos solo por delante. Detrás faltan todos los datos de contacto.","Els fullets estan impresos només per davant. Al darrere hi falten totes les dades de contacte."],"expected":"accept","feedback":["El presupuesto y la orden exigen impresión a dos caras. El parte de máquina registra expresamente una sola cara. Procede examinar el lote y proponer su reimpresión, con un plazo confirmado por producción.","El pressupost i l’ordre exigeixen impressió a dues cares. El registre de màquina indica expressament una sola cara. Cal examinar el lot i proposar-ne la reimpressió, amb un termini confirmat per producció."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-107 · 03/11/2026","fields":[[["Cliente","Client"],["Clínica Miramar","Clínica Miramar"]],[["Motivo","Motiu"],["Los folletos están impresos solo por delante. Detrás faltan todos los datos de contacto.","Els fullets estan impresos només per davant. Al darrere hi falten totes les dades de contacte."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-401","fields":[[["Producto","Producte"],["1.000 folletos A5","1.000 fullets A5"]],[["Impresión","Impressió"],["CMYK a dos caras","CMYK a dues cares"]]],"note":["Aceptado el 10/10/2026. Incluye impresión a dos caras.","Acceptat el 10/10/2026. Inclou impressió a dues cares."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-401","fields":[[["Cantidad","Quantitat"],["1.000 folletos A5","1.000 fullets A5"]],[["Caras","Cares"],["2 caras","2 cares"]]],"note":["Orden aprobada el 12/10/2026. No consta cambio de especificaciones.","Ordre aprovada el 12/10/2026. No consta cap canvi d’especificacions."]},{"id":"production","title":["Registro de máquina","Registre de màquina"],"kind":"M-401","fields":[[["Modo utilizado","Mode utilitzat"],["Una cara","Una cara"]],[["Cantidad","Quantitat"],["1.000 unidades","1.000 unitats"]]],"note":["Completados: 1.000 ejemplares. Parte firmado el 15/10/2026.","Completats: 1.000 exemplars. Registre signat el 15/10/2026."]}]},{"id":"RG-108","name":"Gabriel Pons","company":"Associació Far","avatar":{"gender":"man","style":"short","skin":"#a86f52","shirt":"#768b6a","hair":"#6a4c3b"},"summary":["Trípticos con plegado incorrecto","Tríptics amb plegat incorrecte"],"speech":["La portada queda escondida al abrirlos. Aprobamos un plegado en Z y recibimos otro tipo.","La portada queda amagada en obrir-los. Vàrem aprovar un plegat en Z i n’hem rebut un altre tipus."],"expected":"accept","feedback":["La maqueta aprobada y la orden piden plegado en Z, pero el taller registra plegado envolvente. Hay una desviación documentada que requiere revisar el lote y corregirlo o reimprimirlo.","La maqueta aprovada i l’ordre demanen plegat en Z, però el taller registra plegat envoltant. Hi ha una desviació documentada que requereix revisar el lot i corregir-lo o reimprimir-lo."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-108 · 03/11/2026","fields":[[["Cliente","Client"],["Associació Far","Associació Far"]],[["Motivo","Motiu"],["La portada queda escondida al abrirlos. Aprobamos un plegado en Z y recibimos otro tipo.","La portada queda amagada en obrir-los. Vàrem aprovar un plegat en Z i n’hem rebut un altre tipus."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"proof","title":["Maqueta de plegado aprobada","Maqueta de plegat aprovada"],"kind":"MAQ-82","fields":[[["Tipo aprobado","Tipus aprovat"],["Plegado en Z","Plegat en Z"]],[["Posición portada","Posició portada"],["Panel 1 exterior","Panell 1 exterior"]]],"note":["La portada debe quedar en el primer panel exterior. Aprobada el 01/10/2026.","La portada ha de quedar al primer panell exterior. Aprovada l’01/10/2026."]},{"id":"order","title":["Orden de acabado","Ordre d’acabat"],"kind":"OT-408","fields":[[["Cantidad","Quantitat"],["700 trípticos","700 tríptics"]],[["Pliegue","Plegat"],["Z, portada exterior","Z, portada exterior"]]],"note":["Instrucción al taller: plegado en Z.","Instrucció al taller: plegat en Z."]},{"id":"finishing","title":["Parte de plegadora","Registre de plegadora"],"kind":"AC-408","fields":[[["Programa","Programa"],["Plegado envolvente","Plegat envoltant"]],[["Lote","Lot"],["700 unidades","700 unitats"]]],"note":["Producción de 700 unidades realizada el 16/10/2026.","Producció de 700 unitats feta el 16/10/2026."]}]},{"id":"RG-109","name":"Irene Soler","company":"Escola Tramuntana","avatar":{"gender":"woman","style":"bob","skin":"#bb8765","shirt":"#8d7b9b","hair":"#312727"},"summary":["Programas impresos con una versión antigua","Programes impresos amb una versió antiga"],"speech":["Los programas del festival muestran el reparto del borrador antiguo, no el último que enviamos.","Els programes del festival mostren el repartiment de l’esborrany antic, no el darrer que vàrem enviar."],"expected":"accept","feedback":["La versión v4 se envió y aprobó antes de producción, y la orden indica usarla; el registro RIP acredita que se imprimió v2. Procede estimar y coordinar la reimpresión de v4.","La versió v4 es va enviar i aprovar abans de producció, i l’ordre indica emprar-la; el registre RIP acredita que es va imprimir v2. Cal estimar i coordinar la reimpressió de v4."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-109 · 03/11/2026","fields":[[["Cliente","Client"],["Escola Tramuntana","Escola Tramuntana"]],[["Motivo","Motiu"],["Los programas del festival muestran el reparto del borrador antiguo, no el último que enviamos.","Els programes del festival mostren el repartiment de l’esborrany antic, no el darrer que vàrem enviar."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"email","title":["Correo de envío definitivo","Correu d’enviament definitiu"],"kind":"EM-430","fields":[[["Fecha","Data"],["12/10/2026 10:35","12/10/2026 10:35"]],[["Archivo","Arxiu"],["programa_v4_final.pdf","programa_v4_final.pdf"]]],"note":["Mensaje de la escuela: «Adjuntamos el definitivo para imprenta».","Missatge de l’escola: «Adjuntam el definitiu per a impremta»."]},{"id":"proof","title":["Prueba aprobada","Prova aprovada"],"kind":"PR-430","fields":[[["Versión","Versió"],["programa_v4_final.pdf","programa_v4_final.pdf"]],[["Estado","Estat"],["APROBADA","APROVADA"]]],"note":["Aprobación expresa del 13/10/2026.","Aprovació expressa del 13/10/2026."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-430","fields":[[["Archivo indicado","Arxiu indicat"],["programa_v4_final.pdf","programa_v4_final.pdf"]]],"note":["Tirada 400 unidades; cierre de orden el 14/10/2026.","Tirada de 400 unitats; tancament de l’ordre el 14/10/2026."]},{"id":"production","title":["Registro RIP de impresión","Registre RIP d’impressió"],"kind":"RIP-430","fields":[[["Archivo usado","Arxiu utilitzat"],["programa_v2.pdf","programa_v2.pdf"]]],"note":["Se imprimieron 400 unidades el 16/10/2026.","Es varen imprimir 400 unitats el 16/10/2026."]}]},{"id":"RG-110","name":"Clara Vidal","company":"Estudio Llum","avatar":{"gender":"woman","style":"long","skin":"#d5a17f","shirt":"#618d91","hair":"#382c2a"},"summary":["Carpetas brillantes en lugar de mates","Carpetes brillants en lloc de mates"],"speech":["Pedimos plastificado mate para las carpetas corporativas, pero nos han llegado brillantes.","Vàrem demanar plastificat mat per a les carpetes corporatives, però ens han arribat brillants."],"expected":"accept","feedback":["El presupuesto y la orden señalan acabado mate, mientras que el registro de laminado indica bobina de brillo. La diferencia está acreditada: procede examinar y ofrecer sustitución o solución acordada.","El pressupost i l’ordre indiquen acabat mat, mentre que el registre de laminatge indica bobina de brillant. La diferència està acreditada: cal examinar i oferir substitució o solució acordada."],"difficulty":"B","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-110 · 03/11/2026","fields":[[["Cliente","Client"],["Estudio Llum","Estudio Llum"]],[["Motivo","Motiu"],["Pedimos plastificado mate para las carpetas corporativas, pero nos han llegado brillantes.","Vàrem demanar plastificat mat per a les carpetes corporatives, però ens han arribat brillants."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-440","fields":[[["Cantidad","Quantitat"],["250 carpetas","250 carpetes"]],[["Acabado","Acabat"],["Mate","Mat"]]],"note":["Precio incluye plastificado mate. Aceptado el 09/10/2026.","El preu inclou plastificat mat. Acceptat el 09/10/2026."]},{"id":"order","title":["Orden de acabados","Ordre d’acabats"],"kind":"OT-440","fields":[[["Laminado","Laminatge"],["Plastificado mate","Plastificat mat"]]],"note":["Ninguna modificación autorizada.","Cap modificació autoritzada."]},{"id":"production","title":["Registro laminadora","Registre laminadora"],"kind":"L-440","fields":[[["Bobina instalada","Bobina instal·lada"],["Brillo G-30","Brillant G-30"]]],"note":["Tratadas las 250 unidades el 18/10/2026.","Tractades les 250 unitats el 18/10/2026."]}]},{"id":"RG-111","name":"Antonio Riera","company":"Papereria Nou","avatar":{"gender":"man","style":"short","skin":"#c08a6c","shirt":"#647b99","hair":"#614333"},"summary":["Corte cobrado dos veces","Tall cobrat dues vegades"],"speech":["En la factura nos añadieron 28 euros por corte cuando el presupuesto ya lo incluía.","A la factura ens han afegit 28 euros pel tall quan el pressupost ja l’incloïa."],"expected":"accept","feedback":["El presupuesto incluye expresamente el corte y la factura lo vuelve a cobrar; no existe un trabajo extra aceptado. Corresponde corregir la factura y regularizar la diferencia.","El pressupost inclou expressament el tall i la factura el torna a cobrar; no existeix cap treball extra acceptat. Cal corregir la factura i regularitzar la diferència."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-111 · 03/11/2026","fields":[[["Cliente","Client"],["Papereria Nou","Papereria Nou"]],[["Motivo","Motiu"],["En la factura nos añadieron 28 euros por corte cuando el presupuesto ya lo incluía.","A la factura ens han afegit 28 euros pel tall quan el pressupost ja l’incloïa."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-451","fields":[[["Concepto","Concepte"],["300 invitaciones, impresión y corte incluidos","300 invitacions, impressió i tall inclosos"]],[["Corte","Tall"],["Incluido","Inclòs"]]],"note":["Base aceptada: 160,00 € más impuestos.","Base acceptada: 160,00 € més impostos."]},{"id":"invoice","title":["Factura emitida","Factura emesa"],"kind":"F-451","fields":[[["Concepto 1","Concepte 1"],["Impresión y corte: 160,00 €","Impressió i tall: 160,00 €"]],[["Concepto 2","Concepte 2"],["Corte adicional: 28,00 €","Tall addicional: 28,00 €"]]],"note":["Base facturada: 188,00 € más impuestos.","Base facturada: 188,00 € més impostos."]},{"id":"changes","title":["Registro de modificaciones","Registre de modificacions"],"kind":"MOD-451","fields":[[["Cambios aceptados","Canvis acceptats"],["Ninguno","Cap"]]],"note":["No hay autorización de servicios adicionales.","No hi ha autorització de serveis addicionals."]}]},{"id":"RG-112","name":"Berta Serra","company":"Club Esportiu Mar","avatar":{"gender":"woman","style":"bob","skin":"#e0b38f","shirt":"#9e7c8a","hair":"#282c36"},"summary":["Carteles de exterior fabricados con papel interior","Cartells d’exterior fabricats amb paper interior"],"speech":["Los carteles se han deteriorado enseguida. Creo que no habéis usado el soporte contratado.","Els cartells s’han deteriorat de seguida. Crec que no heu emprat el suport contractat."],"expected":"accept","feedback":["El encargo exigía soporte sintético exterior X-200. La salida de almacén y trazabilidad del lote demuestran que se utilizó papel interior I-90 en los seis carteles. Procede estimar.","L’encàrrec exigia suport sintètic exterior X-200. La sortida de magatzem i la traçabilitat del lot demostren que es va emprar paper interior I-90 als sis cartells. Cal estimar."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-112 · 03/11/2026","fields":[[["Cliente","Client"],["Club Esportiu Mar","Club Esportiu Mar"]],[["Motivo","Motiu"],["Los carteles se han deteriorado enseguida. Creo que no habéis usado el soporte contratado.","Els cartells s’han deteriorat de seguida. Crec que no heu emprat el suport contractat."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-460","fields":[[["Uso previsto","Ús previst"],["Exterior, seis carteles","Exterior, sis cartells"]],[["Material","Material"],["Sintético exterior X-200","Sintètic exterior X-200"]]],"note":["Soporte contratado X-200 resistente a humedad.","Suport contractat X-200 resistent a la humitat."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-460","fields":[[["Soporte previsto","Suport previst"],["X-200","X-200"]]],"note":["Seis carteles para exterior, sin sustituciones autorizadas.","Sis cartells per a exterior, sense substitucions autoritzades."]},{"id":"warehouse","title":["Salida de almacén","Sortida de magatzem"],"kind":"ALM-460","fields":[[["Material entregado","Material lliurat"],["Papel interior I-90","Paper interior I-90"]]],"note":["El mismo material se asignó a la orden OT-460.","El mateix material es va assignar a l’ordre OT-460."]},{"id":"lot","title":["Trazabilidad de lote","Traçabilitat de lot"],"kind":"L-460","fields":[[["Lote","Lot"],["L460-6","L460-6"]]],"note":["Las seis unidades se produjeron con I-90 el 20/10/2026.","Les sis unitats es varen produir amb I-90 el 20/10/2026."]}]},{"id":"RG-113","name":"Óscar Llabrés","company":"Autoescola Ponent","avatar":{"gender":"man","style":"short","skin":"#a86f52","shirt":"#768b6a","hair":"#6a4c3b"},"summary":["Carteles sin plastificar","Cartells sense plastificar"],"speech":["Estos carteles deberían estar plastificados. Quiero que los rehagáis gratis.","Aquests cartells haurien d’estar plastificats. Vull que els torneu a fer de franc."],"expected":"reject","feedback":["El presupuesto excluía el plastificado y el cliente confirmó expresamente el encargo sin ese acabado. No se acredita incumplimiento; puede ofrecerse el plastificado como servicio adicional.","El pressupost excloïa el plastificat i el client va confirmar expressament l’encàrrec sense aquest acabat. No s’acredita incompliment; es pot oferir plastificar-los com a servei addicional."],"difficulty":"B","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-113 · 03/11/2026","fields":[[["Cliente","Client"],["Autoescola Ponent","Autoescola Ponent"]],[["Motivo","Motiu"],["Estos carteles deberían estar plastificados. Quiero que los rehagáis gratis.","Aquests cartells haurien d’estar plastificats. Vull que els torneu a fer de franc."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-470","fields":[[["Producto","Producte"],["200 carteles A3","200 cartells A3"]],[["Acabado","Acabat"],["Sin plastificar","Sense plastificar"]]],"note":["El plastificado NO está incluido en el importe.","El plastificat NO està inclòs en l’import."]},{"id":"email","title":["Correo de confirmación","Correu de confirmació"],"kind":"EM-470","fields":[[["Mensaje del cliente","Missatge del client"],["Confirmamos sin plastificar para ajustar presupuesto.","Confirmam sense plastificar per ajustar el pressupost."]]],"note":["Fecha: 07/10/2026, antes de producir.","Data: 07/10/2026, abans de produir."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-470","fields":[[["Acabado indicado","Acabat indicat"],["Sin acabado adicional","Sense acabat addicional"]]],"note":["Lote entregado según el pedido confirmado.","Lot lliurat segons la comanda confirmada."]}]},{"id":"RG-114","name":"Sílvia Grau","company":"Floristeria Llavor","avatar":{"gender":"woman","style":"bob","skin":"#bb8765","shirt":"#8d7b9b","hair":"#312727"},"summary":["Etiquetas blancas en lugar de kraft","Etiquetes blanques en lloc de kraft"],"speech":["Yo quería las etiquetas marrones, de cartulina kraft. Habéis entregado etiquetas blancas.","Jo volia les etiquetes marrons, de cartolina kraft. Heu lliurat etiquetes blanques."],"expected":"reject","feedback":["La ficha ofrecía dos materiales, pero el pedido firmado eligió cartulina blanca de 300 g/m². El producto coincide con lo aceptado; la sustitución gratuita solicitada no se justifica con estos documentos.","La fitxa oferia dos materials, però la comanda signada va triar cartolina blanca de 300 g/m². El producte coincideix amb el que es va acceptar; la substitució gratuïta sol·licitada no es justifica amb aquests documents."],"difficulty":"B","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-114 · 03/11/2026","fields":[[["Cliente","Client"],["Floristeria Llavor","Floristeria Llavor"]],[["Motivo","Motiu"],["Yo quería las etiquetas marrones, de cartulina kraft. Habéis entregado etiquetas blancas.","Jo volia les etiquetes marrons, de cartolina kraft. Heu lliurat etiquetes blanques."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"catalog","title":["Ficha de materiales","Fitxa de materials"],"kind":"CAT-477","fields":[[["Opción A","Opció A"],["Kraft marrón 300 g/m²","Kraft marró 300 g/m²"]],[["Opción B","Opció B"],["Blanca 300 g/m²","Blanca 300 g/m²"]]],"note":["Se mostraron dos alternativas y se pidió al cliente elegir una.","Es varen mostrar dues alternatives i es va demanar al client que en triàs una."]},{"id":"order","title":["Pedido validado","Comanda validada"],"kind":"PD-477","fields":[[["Material elegido","Material triat"],["Cartulina blanca 300 g/m²","Cartolina blanca 300 g/m²"]]],"note":["Pedido validado por el cliente el 12/10/2026.","Comanda validada pel client el 12/10/2026."]},{"id":"quality","title":["Control de producto","Control de producte"],"kind":"CQ-477","fields":[[["Material verificado","Material verificat"],["Cartulina blanca 300 g/m²","Cartolina blanca 300 g/m²"]]],"note":["Las 500 etiquetas coinciden con la ficha del pedido.","Les 500 etiquetes coincideixen amb la fitxa de la comanda."]}]},{"id":"RG-115","name":"Dani Seguí","company":"Consultoria Verda","avatar":{"gender":"man","style":"short","skin":"#d5a17f","shirt":"#618d91","hair":"#382c2a"},"summary":["Número de teléfono de las tarjetas","Número de telèfon de les targetes"],"speech":["Mis tarjetas muestran un teléfono equivocado. Exijo que la imprenta las rehaga.","Les meves targetes mostren un telèfon equivocat. Exigeixo que la impremta les torni a fer."],"expected":"reject","feedback":["El número 600 123 111 aparece en el archivo facilitado por el cliente y en la prueba aprobada; la impresión reproduce ese dato. El número nuevo 600 123 222 se comunicó después. No se aprecia un error de producción en las pruebas aportadas, sin perjuicio de otras obligaciones aplicables.","El número 600 123 111 figura a l’arxiu facilitat pel client i a la prova aprovada; la impressió reprodueix aquesta dada. El número nou 600 123 222 es va comunicar després. No s’observa un error de producció amb les proves aportades, sens perjudici d’altres obligacions aplicables."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-115 · 03/11/2026","fields":[[["Cliente","Client"],["Consultoria Verda","Consultoria Verda"]],[["Motivo","Motiu"],["Mis tarjetas muestran un teléfono equivocado. Exijo que la imprenta las rehaga.","Les meves targetes mostren un telèfon equivocat. Exigeixo que la impremta les torni a fer."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"file","title":["Archivo enviado por el cliente","Arxiu enviat pel client"],"kind":"FILE-481","fields":[[["Teléfono en el diseño","Telèfon al disseny"],["600 123 111","600 123 111"]]],"note":["Archivo recibido el 03/10/2026.","Arxiu rebut el 03/10/2026."]},{"id":"proof","title":["Prueba aprobada","Prova aprovada"],"kind":"PR-481","fields":[[["Teléfono aprobado","Telèfon aprovat"],["600 123 111","600 123 111"]]],"note":["Aprobación explícita del 05/10/2026.","Aprovació explícita del 05/10/2026."]},{"id":"production","title":["Registro de impresión","Registre d’impressió"],"kind":"RIP-481","fields":[[["Teléfono impreso","Telèfon imprès"],["600 123 111","600 123 111"]]],"note":["900 tarjetas producidas, coinciden con la prueba.","900 targetes produïdes, coincideixen amb la prova."]},{"id":"email","title":["Correo posterior del cliente","Correu posterior del client"],"kind":"EM-481","fields":[[["Nuevo teléfono","Telèfon nou"],["600 123 222","600 123 222"]]],"note":["Cambio comunicado el 24/10/2026, después de la tirada.","Canvi comunicat el 24/10/2026, després del tiratge."]}]},{"id":"RG-116","name":"Xavi Moragues","company":"Taller 21","avatar":{"gender":"man","style":"short","skin":"#c08a6c","shirt":"#647b99","hair":"#614333"},"summary":["El repartidor que nunca se contrató","El repartidor que mai no es va contractar"],"speech":["Hace tres días que esperamos el reparto de los dossiers y no viene nadie.","Fa tres dies que esperam el repartiment dels dossiers i no ve ningú."],"expected":"reject","feedback":["El presupuesto aceptado establece recogida en el taller, no entrega a domicilio. El correo confirma que el pedido estaba listo. La falta de un envío no contratado no acredita un retraso de reparto.","El pressupost acceptat estableix recollida al taller, no lliurament a domicili. El correu confirma que la comanda estava preparada. Que no arribi un enviament no contractat no acredita cap retard del repartiment."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-116 · 03/11/2026","fields":[[["Cliente","Client"],["Taller 21","Taller 21"]],[["Motivo","Motiu"],["Hace tres días que esperamos el reparto de los dossiers y no viene nadie.","Fa tres dies que esperam el repartiment dels dossiers i no ve ningú."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-490","fields":[[["Entrega pactada","Lliurament pactat"],["Recogida en taller","Recollida al taller"]],[["Transporte","Transport"],["NO contratado","NO contractat"]]],"note":["100 dossiers encuadernados; transporte no incluido.","100 dossiers enquadernats; transport no inclòs."]},{"id":"email","title":["Aviso de pedido listo","Avís de comanda preparada"],"kind":"EM-490","fields":[[["Fecha","Data"],["12/10/2026","12/10/2026"]]],"note":["Mensaje: «Los dossiers están listos para recoger en el taller».","Missatge: «Els dossiers estan preparats per recollir al taller»."]},{"id":"dispatch","title":["Registro de expediciones","Registre d’expedicions"],"kind":"EXP-490","fields":[[["Estado","Estat"],["Listo para recogida","Preparat per recollir"]]],"note":["No existe orden de reparto para este pedido.","No existeix ordre de repartiment per a aquesta comanda."]}]},{"id":"RG-117","name":"Núria Martí","company":"Bar Sa Plaça","avatar":{"gender":"woman","style":"long","skin":"#e0b38f","shirt":"#9e7c8a","hair":"#282c36"},"summary":["Los folletos parecen demasiado pequeños","Els fullets semblen massa petits"],"speech":["Yo quería A5 y me habéis fabricado unos folletos diminutos.","Jo volia A5 i m’heu fabricat uns fullets minúsculs."],"expected":"reject","feedback":["El presupuesto identificaba A6 (105 × 148 mm), el correo del cliente lo confirmó por precio y el control dimensional coincide. No se demuestra un incumplimiento del formato aceptado.","El pressupost identificava A6 (105 × 148 mm), el correu del client el va confirmar pel preu i el control dimensional coincideix. No es demostra cap incompliment del format acceptat."],"difficulty":"B","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-117 · 03/11/2026","fields":[[["Cliente","Client"],["Bar Sa Plaça","Bar Sa Plaça"]],[["Motivo","Motiu"],["Yo quería A5 y me habéis fabricado unos folletos diminutos.","Jo volia A5 i m’heu fabricat uns fullets minúsculs."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto aceptado","Pressupost acceptat"],"kind":"P-495","fields":[[["Formato","Format"],["A6 — 105 × 148 mm","A6 — 105 × 148 mm"]]],"note":["600 folletos en papel estucado.","600 fullets en paper estucat."]},{"id":"email","title":["Confirmación del cliente","Confirmació del client"],"kind":"EM-495","fields":[[["Mensaje","Missatge"],["Confirmo A6 porque sale más económico.","Confirm A6 perquè surt més econòmic."]]],"note":["Confirmado el 09/10/2026.","Confirmat el 09/10/2026."]},{"id":"quality","title":["Control dimensional","Control dimensional"],"kind":"CQ-495","fields":[[["Tamaño medido","Mida mesurada"],["105 × 148 mm","105 × 148 mm"]]],"note":["Medición tomada sobre muestras del lote terminado.","Mesura presa sobre mostres del lot acabat."]}]},{"id":"RG-118","name":"Pedro Molina","company":"Editorial Vent","avatar":{"gender":"man","style":"short","skin":"#a86f52","shirt":"#768b6a","hair":"#6a4c3b"},"summary":["El cuarto paquete estaba en el almacén","El quart paquet era al magatzem"],"speech":["Solo vi tres paquetes de marcapáginas y pensé que faltaban doscientas unidades.","Només vaig veure tres paquets de punts de llibre i vaig pensar que en faltaven dues-centes unitats."],"expected":"reject","feedback":["El albarán firmado enumera cuatro bultos de 200, y una foto posterior aportada por el cliente sitúa el cuarto en su propio almacén. No se acredita falta de entrega; conviene explicarlo sin culpar al cliente.","L’albarà signat enumera quatre paquets de 200, i una foto posterior aportada pel client situa el quart al seu propi magatzem. No s’acredita manca de lliurament; convé explicar-ho sense culpar el client."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-118 · 03/11/2026","fields":[[["Cliente","Client"],["Editorial Vent","Editorial Vent"]],[["Motivo","Motiu"],["Solo vi tres paquetes de marcapáginas y pensé que faltaban doscientas unidades.","Només vaig veure tres paquets de punts de llibre i vaig pensar que en faltaven dues-centes unitats."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-498","fields":[[["Tirada","Tiratge"],["800 marcapáginas","800 punts de llibre"]]],"note":["Producto finalizado el 17/10/2026.","Producte acabat el 17/10/2026."]},{"id":"packing","title":["Hoja de embalaje","Full d’embalatge"],"kind":"PK-498","fields":[[["Contenido","Contingut"],["4 paquetes × 200 unidades","4 paquets × 200 unitats"]]],"note":["Numerados del 1 al 4.","Numerats de l’1 al 4."]},{"id":"delivery","title":["Albarán firmado","Albarà signat"],"kind":"ALB-498","fields":[[["Paquetes recibidos","Paquets rebuts"],["1, 2, 3 y 4","1, 2, 3 i 4"]]],"note":["Firma y recepción completa el 19/10/2026.","Signatura i recepció completa el 19/10/2026."]},{"id":"photo","title":["Fotografía aportada después","Fotografia aportada després"],"kind":"FOTO-498","fields":[[["Lugar","Lloc"],["Almacén del propio cliente","Magatzem del mateix client"]]],"note":["Imagen fechada el 22/10/2026: se ve el paquete n.º 4 cerrado.","Imatge del 22/10/2026: s’hi veu el paquet núm. 4 tancat."]}]},{"id":"RG-119","name":"Aina Ramis","company":"Escola Blau","avatar":{"gender":"woman","style":"bob","skin":"#bb8765","shirt":"#8d7b9b","hair":"#312727"},"summary":["Diplomas con rayas que no se ven claramente","Diplomes amb ratlles que no es veuen clarament"],"speech":["Muchos diplomas tienen rayas de impresión. En esta foto apenas se ve, pero el problema existe.","Molts diplomes tenen ratlles d’impressió. A aquesta foto gairebé no es veu, però el problema hi és."],"expected":"pending","feedback":["El parte de máquina sin incidencias no descarta defectos; la foto no permite medir el fallo ni cuántas unidades están afectadas. Deben solicitarse muestras claras y revisar físicamente el lote antes de decidir.","Un registre de màquina sense incidències no descarta defectes; la foto no permet mesurar la fallada ni quantes unitats estan afectades. Cal demanar mostres clares i revisar físicament el lot abans de decidir."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-119 · 03/11/2026","fields":[[["Cliente","Client"],["Escola Blau","Escola Blau"]],[["Motivo","Motiu"],["Muchos diplomas tienen rayas de impresión. En esta foto apenas se ve, pero el problema existe.","Molts diplomes tenen ratlles d’impressió. A aquesta foto gairebé no es veu, però el problema hi és."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"photo","title":["Fotografía de un diploma","Fotografia d’un diploma"],"kind":"FOTO-510","fields":[[["Calidad imagen","Qualitat imatge"],["Baja, desenfocada","Baixa, desenfocada"]]],"note":["No puede distinguirse si hay bandas en la impresión.","No es pot distingir si hi ha bandes en la impressió."]},{"id":"order","title":["Orden de trabajo","Ordre de treball"],"kind":"OT-510","fields":[[["Producto","Producte"],["1.200 diplomas","1.200 diplomes"]]],"note":["Impresión a color sobre cartulina.","Impressió a color sobre cartolina."]},{"id":"production","title":["Parte de máquina","Registre de màquina"],"kind":"M-510","fields":[[["Incidencias anotadas","Incidències anotades"],["Ninguna","Cap"]]],"note":["No existe una medición de las posibles bandas de impresión.","No existeix cap mesura de les possibles bandes d’impressió."]},{"id":"quality","title":["Control de calidad","Control de qualitat"],"kind":"CQ-510","fields":[[["Muestreo registrado","Mostreig registrat"],["No consta","No consta"]]],"note":["Falta un examen de muestras del lote real.","Falta una inspecció de mostres del lot real."]}]},{"id":"RG-120","name":"Helena Costa","company":"Editorial Illa","avatar":{"gender":"woman","style":"long","skin":"#d5a17f","shirt":"#618d91","hair":"#382c2a"},"summary":["Envío supuestamente entregado a un desconocido","Enviament suposadament lliurat a un desconegut"],"speech":["La agencia dice que el envío está entregado, pero nadie aquí lo ha recibido.","L’agència diu que l’enviament està lliurat, però aquí no l’ha rebut ningú."],"expected":"pending","feedback":["El seguimiento indica entregado, pero la firma no identifica de forma fiable al receptor y la editorial niega haberlo recibido. Hace falta verificar quién firmó, su autorización y la ubicación de los paquetes.","El seguiment indica lliurat, però la signatura no identifica de manera fiable el receptor i l’editorial nega haver-lo rebut. Cal verificar qui va signar, si estava autoritzat i on són els paquets."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-120 · 03/11/2026","fields":[[["Cliente","Client"],["Editorial Illa","Editorial Illa"]],[["Motivo","Motiu"],["La agencia dice que el envío está entregado, pero nadie aquí lo ha recibido.","L’agència diu que l’enviament està lliurat, però aquí no l’ha rebut ningú."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"delivery","title":["Albarán del transportista","Albarà del transportista"],"kind":"ALB-520","fields":[[["Firma","Signatura"],["Trazo ilegible","Traç il·legible"]]],"note":["No aparece nombre ni documento de la persona receptora.","No hi figura nom ni document de la persona receptora."]},{"id":"tracking","title":["Seguimiento de entrega","Seguiment de lliurament"],"kind":"TR-520","fields":[[["Estado","Estat"],["ENTREGADO el 22/10/2026","LLIURAT el 22/10/2026"]]],"note":["Sin fotografía de entrega ni identidad visible.","Sense fotografia de lliurament ni identitat visible."]},{"id":"order","title":["Orden y dirección de envío","Ordre i adreça d’enviament"],"kind":"OT-520","fields":[[["Dirección","Adreça"],["Editorial Illa, recepción principal","Editorial Illa, recepció principal"]]],"note":["La dirección coincide con el pedido.","L’adreça coincideix amb la comanda."]},{"id":"receiving","title":["Registro de recepción de la editorial","Registre de recepció de l’editorial"],"kind":"REC-520","fields":[[["Entrada registrada","Entrada registrada"],["No consta ese pedido","No consta aquesta comanda"]]],"note":["Pendiente de contrastar con transportista y persona firmante.","Pendent de contrastar amb transportista i persona signant."]}]},{"id":"RG-121","name":"Raül Torres","company":"Museu de la Mar","avatar":{"gender":"man","style":"short","skin":"#c08a6c","shirt":"#647b99","hair":"#614333"},"summary":["Código QR que no puede escanearse","Codi QR que no es pot escanejar"],"speech":["Los visitantes no consiguen leer el código QR de nuestros folletos.","Els visitants no aconsegueixen llegir el codi QR dels fullets."],"expected":"pending","feedback":["Hay que probar un ejemplar impreso real, comprobar tamaño/contraste y verificar que la URL de destino funciona. La fotografía borrosa y los registros actuales no permiten atribuir el problema a la impresión.","Cal provar un exemplar imprès real, comprovar-ne mida i contrast i verificar que l’URL de destinació funciona. La fotografia borrosa i els registres actuals no permeten atribuir el problema a la impressió."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-121 · 03/11/2026","fields":[[["Cliente","Client"],["Museu de la Mar","Museu de la Mar"]],[["Motivo","Motiu"],["Los visitantes no consiguen leer el código QR de nuestros folletos.","Els visitants no aconsegueixen llegir el codi QR dels fullets."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"file","title":["Archivo digital del QR","Arxiu digital del QR"],"kind":"QR-530","fields":[[["Elemento","Element"],["Código QR incorporado a folleto","Codi QR incorporat al fullet"]]],"note":["URL de destino no verificada en el expediente.","L’URL de destinació no està verificada a l’expedient."]},{"id":"proof","title":["Prueba digital aprobada","Prova digital aprovada"],"kind":"PR-530","fields":[[["Estado","Estat"],["Aprobada el 08/10/2026","Aprovada el 08/10/2026"]]],"note":["La aprobación visual no certifica que el QR funcione al imprimirlo.","L’aprovació visual no certifica que el QR funcioni un cop imprès."]},{"id":"production","title":["Registro de producción","Registre de producció"],"kind":"M-530","fields":[[["Cantidad","Quantitat"],["2.000 folletos","2.000 fullets"]]],"note":["No se documentó una prueba de lectura del QR impreso.","No es va documentar una prova de lectura del QR imprès."]},{"id":"photo","title":["Imagen del QR impreso","Imatge del QR imprès"],"kind":"FOTO-530","fields":[[["Fotografía","Fotografia"],["Desenfocada","Desenfocada"]]],"note":["No permite evaluar módulos ni contraste del QR.","No permet avaluar els mòduls ni el contrast del QR."]}]},{"id":"RG-122","name":"Marina Bosch","company":"La Casa del Llibre","avatar":{"gender":"woman","style":"bob","skin":"#e0b38f","shirt":"#9e7c8a","hair":"#282c36"},"summary":["Posible cobro duplicado","Possible cobrament duplicat"],"speech":["En mi banco aparecen dos cargos del mismo importe. Creo que me habéis cobrado dos veces.","Al meu banc hi ha dos càrrecs del mateix import. Crec que m’heu cobrat dues vegades."],"expected":"pending","feedback":["El sistema de la empresa solo refleja un cobro y la captura parcial del cliente no permite comprobar fechas ni referencias de ambas operaciones. Hay que conciliar pagos y solicitar justificantes completos, ocultando datos sensibles.","El sistema de l’empresa només reflecteix un cobrament i la captura parcial del client no permet comprovar dates ni referències de totes dues operacions. Cal conciliar pagaments i demanar justificants complets, ocultant dades sensibles."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-122 · 03/11/2026","fields":[[["Cliente","Client"],["La Casa del Llibre","La Casa del Llibre"]],[["Motivo","Motiu"],["En mi banco aparecen dos cargos del mismo importe. Creo que me habéis cobrado dos veces.","Al meu banc hi ha dos càrrecs del mateix import. Crec que m’heu cobrat dues vegades."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"invoice","title":["Factura emitida","Factura emesa"],"kind":"F-540","fields":[[["Producto","Producte"],["500 sobres personalizados","500 sobres personalitzats"]],[["Total","Total"],["245,00 €","245,00 €"]]],"note":["Factura única por 245,00 €, emitida el 10/10/2026.","Factura única per 245,00 €, emesa el 10/10/2026."]},{"id":"receipt","title":["Recibo registrado","Rebut registrat"],"kind":"REC-540","fields":[[["Pago","Pagament"],["245,00 €","245,00 €"]]],"note":["Un justificante de pago registrado el 12/10/2026.","Un justificant de pagament registrat el 12/10/2026."]},{"id":"commerce","title":["Extracto comercial","Extracte comercial"],"kind":"ERP-540","fields":[[["Cobros aplicados","Cobraments aplicats"],["1 cobro","1 cobrament"]]],"note":["Se debe contrastar con los movimientos bancarios reales.","S’ha de contrastar amb els moviments bancaris reals."]},{"id":"bank","title":["Captura bancaria parcial","Captura bancària parcial"],"kind":"CAP-540","fields":[[["Dos importes visibles","Dos imports visibles"],["245,00 € y 245,00 €","245,00 € i 245,00 €"]]],"note":["No se observan fechas completas ni referencias. No contiene números de cuenta reales.","No s’hi veuen dates completes ni referències. No conté números de compte reals."]}]},{"id":"RG-123","name":"Lluís Ferrà","company":"Centre Cultural Alba","avatar":{"gender":"man","style":"short","skin":"#a86f52","shirt":"#768b6a","hair":"#6a4c3b"},"summary":["Dípticos presuntamente torcidos","Díptics presumptament torts"],"speech":["El plegado parece torcido y el diseño no coincide bien. Mirad esta fotografía.","El plegat sembla tort i el disseny no coincideix bé. Mirau aquesta fotografia."],"expected":"pending","feedback":["La imagen tomada en ángulo no permite medir el desplazamiento real y falta un control dimensional. Es necesario examinar una muestra física o una fotografía frontal con escala antes de atribuir un defecto.","La imatge feta en angle no permet mesurar el desplaçament real i falta un control dimensional. Cal examinar una mostra física o una fotografia frontal amb escala abans d’atribuir un defecte."],"difficulty":"M","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-123 · 03/11/2026","fields":[[["Cliente","Client"],["Centre Cultural Alba","Centre Cultural Alba"]],[["Motivo","Motiu"],["El plegado parece torcido y el diseño no coincide bien. Mirad esta fotografía.","El plegat sembla tort i el disseny no coincideix bé. Mirau aquesta fotografia."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"proof","title":["Prueba digital aprobada","Prova digital aprovada"],"kind":"PR-550","fields":[[["Diseño","Disseny"],["Díptico de dos paneles","Díptic de dos panells"]]],"note":["Diseño correcto en pantalla, sin medición del pliegue físico.","Disseny correcte en pantalla, sense mesura del plec físic."]},{"id":"production","title":["Registro plegadora","Registre plegadora"],"kind":"PLE-550","fields":[[["Cantidad","Quantitat"],["900 dípticos","900 díptics"]]],"note":["No consta una desviación anotada.","No consta cap desviació anotada."]},{"id":"photo","title":["Fotografía de reclamación","Fotografia de reclamació"],"kind":"FOTO-550","fields":[[["Perspectiva","Perspectiva"],["Fotografía oblicua sin regla","Fotografia obliqua sense regle"]]],"note":["El ángulo de la cámara impide medir el margen de error.","L’angle de la càmera impedeix mesurar el marge d’error."]},{"id":"quality","title":["Ficha de control de pliegue","Fitxa de control de plec"],"kind":"CQ-550","fields":[[["Medición","Mesurament"],["Sin dato registrado","Sense dada registrada"]]],"note":["Faltan medidas sobre una muestra representativa.","Falten mesures sobre una mostra representativa."]}]},{"id":"RG-124","name":"Pau Salas","company":"Gimnàs Delta","avatar":{"gender":"man","style":"short","skin":"#bb8765","shirt":"#8d7b9b","hair":"#312727"},"summary":["Vinilo que se despega del escaparate","Vinil que es desenganxa de l’aparador"],"speech":["A las dos semanas se están levantando las esquinas del vinilo que instalasteis.","Al cap de dues setmanes s’estan aixecant les cantonades del vinil que vàreu instal·lar."],"expected":"pending","feedback":["La ficha confirma el material previsto, pero no se documentaron las condiciones de limpieza, temperatura o superficie durante la instalación ni el mantenimiento posterior. Hay que inspeccionar el escaparate antes de asignar responsabilidad.","La fitxa confirma el material previst, però no es varen documentar les condicions de neteja, temperatura o superfície durant la instal·lació ni el manteniment posterior. Cal inspeccionar l’aparador abans d’assignar responsabilitats."],"difficulty":"A","docs":[{"id":"complaint","title":["Formulario de reclamación","Formulari de reclamació"],"kind":"RC-124 · 03/11/2026","fields":[[["Cliente","Client"],["Gimnàs Delta","Gimnàs Delta"]],[["Motivo","Motiu"],["A las dos semanas se están levantando las esquinas del vinilo que instalasteis.","Al cap de dues setmanes s’estan aixecant les cantonades del vinil que vàreu instal·lar."]],[["Petición","Petició"],["Solicita que se investigue y se proponga una solución.","Sol·licita que s’investigui i es proposi una solució."]]],"note":["Esta hoja recoge la versión del cliente, pendiente de comprobación.","Aquest full recull la versió del client, pendent de comprovació."]},{"id":"quote","title":["Presupuesto de instalación","Pressupost d’instal·lació"],"kind":"P-560","fields":[[["Servicio","Servei"],["Vinilo interior con instalación","Vinil interior amb instal·lació"]]],"note":["Incluye colocación sobre escaparate de vidrio.","Inclou col·locació damunt un aparador de vidre."]},{"id":"warehouse","title":["Ficha de material utilizado","Fitxa del material emprat"],"kind":"MAT-560","fields":[[["Material","Material"],["Vinilo interior correcto","Vinil interior correcte"]]],"note":["Coincide con lo contratado.","Coincideix amb el que es va contractar."]},{"id":"install","title":["Acta de instalación","Acta d’instal·lació"],"kind":"INS-560","fields":[[["Fecha","Data"],["13/10/2026","13/10/2026"]]],"note":["No se anotó temperatura ni limpieza del cristal.","No s’hi va anotar temperatura ni neteja del vidre."]},{"id":"photo","title":["Fotografías del desprendimiento","Fotografies del despreniment"],"kind":"FOTO-560","fields":[[["Defecto visible","Defecte visible"],["Esquinas levantadas","Cantonades aixecades"]]],"note":["No permiten determinar la causa del desprendimiento.","No permeten determinar la causa del despreniment."]},{"id":"care","title":["Registro de mantenimiento del cliente","Registre de manteniment del client"],"kind":"MAN-560","fields":[[["Limpieza posterior","Neteja posterior"],["Datos no facilitados","Dades no facilitades"]]],"note":["Se desconoce qué productos se usaron para limpiar el vidrio.","Es desconeix quins productes es varen emprar per netejar el vidre."]}]}];
+function convertCaseData(c){return {...c,summary:T(...c.summary),speech:T(...c.speech),feedback:T(...c.feedback),docs:c.docs.map(d=>({
+ id:d.id,kind:d.kind,title:T(...d.title),fields:d.fields.map(f=>[T(...f[0]),T(...f[1])]),note:T(...d.note)
+}))}}
+CASES.push(...ADDITIONAL_CASE_DATA.map(convertCaseData));
+// 21 reclamaciones, con siete soluciones internas de cada tipo.
+function checkCaseBank(){
+ const ids=new Set();const counts={accept:0,reject:0,pending:0};
+ for(const c of CASES){
+  if(ids.has(c.id))throw Error('Duplicate case '+c.id);ids.add(c.id);
+  if(!counts.hasOwnProperty(c.expected))throw Error('Bad verdict '+c.id);counts[c.expected]++;
+  if(!['woman','man'].includes(c.avatar?.gender))throw Error('Missing avatar gender '+c.id);
+  if(c.avatar.gender==='woman'&&!['bob','long'].includes(c.avatar.style))throw Error('Female avatar must match '+c.id);
+  if(c.docs.length<3||new Set(c.docs.map(x=>x.id)).size!==c.docs.length)throw Error('Invalid documents '+c.id);
+  for(const text of [c.summary,c.speech,c.feedback])if(!text.es||!text.ca)throw Error('Missing translation '+c.id);
+  for(const d of c.docs){if(!d.title.es||!d.title.ca||!d.note.es||!d.note.ca)throw Error('Missing doc translation '+c.id)}
+ }
+ if(CASES.length!==21||Object.values(counts).some(n=>n!==7))throw Error('Incorrect bank distribution');
+ return counts;
+}
+checkCaseBank();
+const SESSION_LENGTH=12;
+// Las fechas de los expedientes se guardan como fechas relativas al 06/11/2026.
+// La fecha del navegador se toma SOLO al iniciar una jornada, para mantener estable la sesión.
+const DATE_REFERENCE_UTC=Date.UTC(2026,10,6);
+function sessionDateShiftDays(){
+ const d=new Date();const year=d.getFullYear();
+ if(!Number.isFinite(d.getTime())||year<2024||year>2100)return 0;
+ const utc=Date.UTC(year,d.getMonth(),d.getDate());
+ return Math.round((utc-DATE_REFERENCE_UTC)/86400000);
+}
+function shiftDatesInCase(raw,dayShift){
+ const map=value=>{
+  if(typeof value==='string')return value.replace(/\b(\d{1,2})([\/-])(\d{1,2})\2(20\d{2})\b/g,(matched,dd,sep,mm,year)=>{
+   const day=+dd,month=+mm,y=+year;
+   const utc=Date.UTC(y,month-1,day);const check=new Date(utc);
+   if(check.getUTCFullYear()!==y||check.getUTCMonth()!==month-1||check.getUTCDate()!==day)return matched;
+   const shifted=new Date(utc+dayShift*86400000);
+   const pad=x=>String(x).padStart(2,'0');
+   return `${pad(shifted.getUTCDate())}${sep}${pad(shifted.getUTCMonth()+1)}${sep}${shifted.getUTCFullYear()}`;
+  });
+  if(Array.isArray(value))return value.map(map);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([key,v])=>[key,map(v)]));
+  return value;
+ };
+ return map(raw);
+}
+function shuffled(items){
+ const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;
+}
+function selectSession(){
+ // 4 de cada resultado para evitar partidas desequilibradas.
+ const selected=['accept','reject','pending'].flatMap(type=>shuffled(CASES.filter(c=>c.expected===type)).slice(0,4));
+ return shuffled(selected);
+}
+
+// El aspecto de cada personaje se configura de forma explícita: no se infiere por el nombre.
+if(CASES.some(c=>!['woman','man'].includes(c.avatar?.gender)))console.warn('Personaje sin presentación visual definida');
+const manual=[
+{title:T("01 · Cómo jugar","01 · Com jugar"),body:T("**Tu tarea:** examinar las reclamaciones que llegan a una imprenta y proponer una resolución interna justificada. No se trata de aceptar o rechazar la presentación de una queja.\n\n**Mostrador izquierdo:** el cliente deja documentos pequeños, que solo puedes identificar. **Mesa derecha:** arrastra allí los papeles para leerlos. Puedes moverlos, superponerlos o devolverlos al mostrador. Haz doble clic en un papel pequeño si prefieres pasarlo directamente a la mesa.\n\n**Guía y hoja de resolución:** puedes recolocarlos desde la franja superior. Abre la guía para consultar procedimientos; los sellos están junto a la hoja.\n\n==Para registrar: inspecciona al menos dos documentos, elige un sello y escribe una justificación de 25 caracteres o más.== La decisión no podrá modificarse después. Al terminar la jornada, descarga el informe PDF.","**La teva tasca:** examinar les reclamacions que arriben a una impremta i proposar una resolució interna justificada. No es tracta d’acceptar o rebutjar la presentació d’una queixa.\n\n**Taulell esquerre:** el client hi deixa documents petits que només pots identificar. **Taula dreta:** arrossega-hi els papers per llegir-los. Els pots moure, superposar o tornar al taulell. Fes doble clic en un paper petit si el vols passar directament a la taula.\n\n**Guia i full de resolució:** els pots recol·locar des de la franja superior. Obre la guia per consultar procediments; els segells són al costat del full.\n\n==Per registrar: inspecciona com a mínim dos documents, tria un segell i escriu una justificació de 25 caràcters o més.== Després no podràs modificar la decisió. En acabar la jornada, descarrega l’informe PDF.")},
+{title:T("02 · Qué es cada documento","02 · Què és cada document"),body:T("**Reclamación:** explica qué problema comunica el cliente y qué solicita. **Presupuesto aceptado:** refleja condiciones y características acordadas. **Orden de trabajo:** instrucciones que recibió producción.\n\n**Prueba aprobada:** referencia del diseño o producto aceptada antes de fabricar. **Registro de producción:** datos de las operaciones realmente realizadas. **Factura:** importe y conceptos facturados.\n\n**Correo o mensaje:** comunicaciones, cambios o confirmaciones con fecha. **Registro de embalaje:** unidades y bultos preparados. **Albarán:** información sobre entrega o recogida. También puedes encontrar justificantes, partes de incidencia y documentación técnica.\n\n==Cada papel responde a una pregunta distinta; averigua qué demuestra y qué no demuestra.==","**Reclamació:** explica quin problema comunica el client i què sol·licita. **Pressupost acceptat:** reflecteix condicions i característiques acordades. **Ordre de treball:** instruccions que va rebre producció.\n\n**Prova aprovada:** referència del disseny o producte acceptada abans de fabricar. **Registre de producció:** dades de les operacions realment fetes. **Factura:** import i conceptes facturats.\n\n**Correu o missatge:** comunicacions, canvis o confirmacions amb data. **Registre d’embalatge:** unitats i paquets preparats. **Albarà:** informació sobre el lliurament o la recollida. També pots trobar justificants, parts d’incidència i documentació tècnica.\n\n==Cada paper respon una pregunta diferent; esbrina què demostra i què no demostra.==")},
+{title:T("03 · Entender la reclamación","03 · Entendre la reclamació"),body:T("Antes de mirar los detalles, identifica **quién reclama**, **qué hecho cuestiona** y **qué solución solicita**. Una queja puede contener hechos, opiniones, recuerdos y peticiones: no son lo mismo.\n\nLa reclamación es el **punto de partida de la investigación**, no una prueba definitiva ni una molestia que debas evitar. Regístrala y trata al cliente con respeto, aunque después no se estime lo solicitado.\n\n==Primero comprende el problema; después comprueba las pruebas.==","Abans de mirar els detalls, identifica **qui reclama**, **quin fet qüestiona** i **quina solució demana**. Una queixa pot contenir fets, opinions, records i peticions: no són el mateix.\n\nLa reclamació és el **punt de partida de la investigació**, no una prova definitiva ni una molèstia que hagis d’evitar. Registra-la i tracta el client amb respecte, encara que després no s’estimi allò que sol·licita.\n\n==Primer comprèn el problema; després comprova les proves.==")},
+{title:T("04 · Investigar un expediente","04 · Investigar un expedient"),body:T("Compara datos que se refieren al **mismo pedido o servicio**: referencias, versiones de archivo, formatos, cantidades, precios, fechas, condiciones y comunicaciones.\n\nReconstruye el proceso cuando sea necesario: **acuerdo → preparación → producción → entrega**. Una diferencia entre dos documentos puede deberse a una modificación posterior o a que describen momentos distintos.\n\n==Comprueba si lo acordado coincide con lo realizado y con lo acreditado por los documentos.==","Compara dades que es refereixen a **la mateixa comanda o servei**: referències, versions d’arxiu, formats, quantitats, preus, dates, condicions i comunicacions.\n\nReconstrueix el procés quan calgui: **acord → preparació → producció → lliurament**. Una diferència entre dos documents pot respondre a una modificació posterior o al fet que descriuen moments diferents.\n\n==Comprova si allò acordat coincideix amb allò realitzat i amb el que acrediten els documents.==")},
+{title:T("05 · Valorar las pruebas","05 · Valorar les proves"),body:T("Pregúntate qué acredita cada documento, **quién lo emitió**, **cuándo** y si corresponde a la versión o al encargo correcto. Una afirmación, una previsión y una confirmación documentada tienen alcances distintos.\n\nSi los papeles parecen contradecirse, no elijas automáticamente uno: comprueba si hablan de la misma fase. También puede faltar información importante.\n\n==No confundas lo que afirma una persona con lo que puede demostrarse.== Si no hay pruebas suficientes, indica qué dato falta en lugar de inventar una conclusión.","Demana’t què acredita cada document, **qui el va emetre**, **quan** i si correspon a la versió o a l’encàrrec correcte. Una afirmació, una previsió i una confirmació documentada tenen abasts diferents.\n\nSi els papers semblen contradictoris, no en triïs un automàticament: comprova si parlen de la mateixa fase. També pot faltar informació important.\n\n==No confonguis allò que afirma una persona amb allò que es pot demostrar.== Si no hi ha proves suficients, indica quina dada falta en lloc d’inventar una conclusió.")},
+{title:T("06 · Elegir una resolución","06 · Triar una resolució"),body:T("**ESTIMAR:** las pruebas disponibles respaldan lo reclamado y justifican proponer una corrección o solución.\n\n**DESESTIMAR:** el expediente es suficientemente claro y no respalda la pretensión del cliente, o acredita el cumplimiento del servicio.\n\n**PEDIR PRUEBAS:** falta información decisiva para resolver responsablemente; concreta qué documentación o comprobación sería necesaria.\n\n==El sello expresa una propuesta interna sobre el fondo de la reclamación; no decide si el cliente tiene derecho a presentarla.==","**ESTIMAR:** les proves disponibles avalen allò reclamat i justifiquen proposar una correcció o solució.\n\n**DESESTIMAR:** l’expedient és prou clar i no avala la pretensió del client, o acredita el compliment del servei.\n\n**DEMANAR PROVES:** falta informació decisiva per resoldre de manera responsable; concreta quina documentació o comprovació seria necessària.\n\n==El segell expressa una proposta interna sobre el fons de la reclamació; no decideix si el client té dret a presentar-la.==")},
+{title:T("07 · Justificar con claridad","07 · Justificar amb claredat"),body:T("Tu justificación debe permitir que otra persona entienda tu decisión sin haber estado contigo en el mostrador. Puedes seguir este orden: **hecho reclamado → documentos consultados → comprobaciones → conclusión y siguiente actuación**.\n\nEvita frases vacías como «porque sí» o «tiene razón». Identifica datos relevantes y argumenta sin descalificar al cliente. Si falta información, di **qué** falta y **para qué** la necesitas.\n\n==Una buena resolución necesita una explicación clara, basada en los documentos.==","La teva justificació ha de permetre que una altra persona entengui la decisió sense haver estat amb tu al taulell. Pots seguir aquest ordre: **fet reclamat → documents consultats → comprovacions → conclusió i actuació següent**.\n\nEvita frases buides com «perquè sí» o «té raó». Identifica dades rellevants i argumenta sense desqualificar el client. Si falta informació, digues **què** falta i **per què** la necessites.\n\n==Una bona resolució necessita una explicació clara, basada en els documents.==")},
+{title:T("08 · Antes de registrar","08 · Abans de registrar"),body:T("Haz una última comprobación:\n\n**1.** ¿He entendido qué se reclama?\n**2.** ¿He contrastado los documentos pertinentes?\n**3.** ¿Sé qué hechos están demostrados y cuáles no?\n**4.** ¿El sello corresponde a mi conclusión?\n**5.** ¿He escrito una justificación comprensible y concreta?\n\n==Registrar es definitivo para ese expediente.== Cuando termines todos los casos, descarga el **PDF** con tus decisiones y explicaciones.\n\nEsta guía es material didáctico; no sustituye los procedimientos de una empresa ni la normativa aplicable.","Fes una darrera comprovació:\n\n**1.** He entès què es reclama?\n**2.** He contrastat els documents pertinents?\n**3.** Sé quins fets estan demostrats i quins no?\n**4.** El segell correspon a la meva conclusió?\n**5.** He escrit una justificació entenedora i concreta?\n\n==Registrar és definitiu per a aquest expedient.== Quan acabis tots els casos, descarrega el **PDF** amb les decisions i explicacions.\n\nAquesta guia és material didàctic; no substitueix els procediments d’una empresa ni la normativa aplicable.")}
+];
+const state={startedAt:null,endedAt:null,name:'',company:'',theme:'teal',logoEmoji:'🦚',dark:false,tutorialSeen:false,sessionCases:[],index:0,reviews:new Set(),decision:null,reason:'',results:[],positions:{},z:20,manualPage:0,pdfUrl:null,caseFiled:false,supervisionOpen:false};
+const htmlEscape=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function current(){return state.sessionCases[state.index]}
+function uiSet(){document.documentElement.lang=lang;$$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(U[k])el.textContent=L(U[k])});$('#reasonText').placeholder=L(U.reasonPlaceholder);$('#stampTarget').textContent=state.decision?L(U[state.decision]):L(U.stampPrompt);}
+function openModal(html){$('#modalContent').className='modal-card';$('#modalContent').innerHTML=html;$('#modal').classList.remove('hidden')}
+function closeModal(){if(state.supervisionOpen)return;$('#modal').classList.add('hidden')}
+const closeButton=()=>`<button class="modal-close" data-close>${htmlEscape(L(U.close))}</button>`;
+function cardHead(title,subtitle='',dismissible=true){return `<div class="modal-head"><div><h2>${htmlEscape(title)}</h2><small>${htmlEscape(subtitle)}</small></div>${dismissible?closeButton():''}</div>`}
+function formatManualParagraph(p){return htmlEscape(p).replace(/==([^=]+)==/g,'<mark>$1</mark>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}
+function renderManual(){const m=manual[state.manualPage];openModal(cardHead(`${L(U.manualTitle)}\n${state.company}`,`${lang==='ca'?'PÀG.':'PÁG.'} ${state.manualPage+1} / ${manual.length}`)+`<div class="manual-nav">${manual.map((x,i)=>`<button class="${i===state.manualPage?'active':''}" data-manpage="${i}" title="${htmlEscape(L(x.title))}">${String(i+1).padStart(2,'0')}</button>`).join('')}</div><div class="manual-booklet"><div class="manual-book-binding" aria-hidden="true"></div><div class="manual-sheet"><div class="manual-page"><span class="manual-section-number">${String(state.manualPage+1).padStart(2,'0')} / ${String(manual.length).padStart(2,'0')}</span><h3>${htmlEscape(L(m.title))}</h3>${L(m.body).split('\n\n').map(p=>`<p>${formatManualParagraph(p)}</p>`).join('')}</div></div></div><div class="manual-bottom"><span>${htmlEscape(L(T('Guía de uso y consulta para esta simulación educativa.','Guia d’ús i consulta per a aquesta simulació educativa.')))}</span><div class="manual-stepper"><button type="button" id="prevManualPage" ${state.manualPage===0?'disabled':''}>← ${htmlEscape(L(T('Anterior','Anterior')))}</button><button type="button" id="nextManualPage" ${state.manualPage===manual.length-1?'disabled':''}>${htmlEscape(L(T('Siguiente','Següent')))} →</button></div></div>`);$('#prevManualPage').onclick=()=>{if(state.manualPage>0){state.manualPage--;renderManual()}};$('#nextManualPage').onclick=()=>{if(state.manualPage<manual.length-1){state.manualPage++;renderManual()}};}
+// Two different visual renderings of the same logical paper; zone is not inferred from zoom.
+const docMiniLabels={
+ complaint:T('RECLAMACIÓN','RECLAMACIÓ'),
+ order:T('ORDEN DE TRABAJO','ORDRE DE TREBALL'),
+ proof:T('PRUEBA APROBADA','PROVA APROVADA'),
+ production:T('REGISTRO DE PRODUCCIÓN','REGISTRE DE PRODUCCIÓ'),
+ quote:T('PRESUPUESTO','PRESSUPOST'),
+ email:T('CORREO ELECTRÓNICO','CORREU ELECTRÒNIC'),
+ delivery:T('ALBARÁN DE ENTREGA','ALBARÀ DE LLIURAMENT'),
+ packing:T('REGISTRO DE EMBALAJE','REGISTRE D’EMBALATGE')
+};
+function documentLabel(d){return L(docMiniLabels[d.id]||d.title)}
+const paperDims={mini:{w:86,h:113},large:{w:328,h:454}};
+function zoneBoundary(){const a=$('#deskSurface').getBoundingClientRect(),b=$('#counterZone').getBoundingClientRect();return b.right-a.left}
+function paperSize(zone){if(zone!=='counter')return paperDims.large;const dense=current().docs.length>=5;if(dense)return window.innerWidth<=1180?{w:70,h:91}:{w:78,h:96};return window.innerWidth<=1180?{w:75,h:window.innerHeight<=700?92:103}:paperDims.mini}
+function initialPaperPlace(i,total){
+ const scene=$('#deskSurface'),split=zoneBoundary(),mini=paperSize('counter');
+ const space=mini.w+9,cols=Math.min(total,Math.max(1,Math.floor((split-26)/space)));
+ const rows=Math.ceil(total/cols),start=Math.max(12,(split-(cols*space-9))/2);
+ const x=start+(i%cols)*space;
+ const tray=$('.counter-tray').getBoundingClientRect(),r=scene.getBoundingClientRect();
+ const step=rows>1?Math.min(96,Math.max(32,(tray.height-mini.h-19)/(rows-1))):0;
+ const y=Math.max(41,Math.min(scene.clientHeight-mini.h-14,tray.top-r.top+11+Math.floor(i/cols)*step));
+ return {x,y,zone:'counter'};
+}
+function clampPaper(x,y,zone){const scene=$('#deskSurface'),sz=paperSize(zone),split=zoneBoundary(),pad=13;
+ let left=zone==='counter'?8:split+13;
+ let right=zone==='counter'?split-11:scene.clientWidth-13;
+ const cap=Math.max(left,right-sz.w);
+ return {x:Math.max(left,Math.min(cap,x)),y:Math.max(41,Math.min(Math.max(41,scene.clientHeight-sz.h-14),y))};
+}
+function renderPaperLocation(p,pos){const zone=pos.zone||'counter';const xy=clampPaper(pos.x,pos.y,zone);
+ p.classList.toggle('is-mini',zone==='counter');p.classList.toggle('is-large',zone==='work');p.classList.toggle('dense-mini',zone==='counter'&&current().docs.length>=5);
+ p.style.left=xy.x+'px';p.style.top=xy.y+'px';p.dataset.zone=zone;
+ return {...xy,zone};
+}
+function moveToZone(p,zone,xy){const oldZone=p.dataset.zone;const pos=renderPaperLocation(p,{...xy,zone});state.positions[p.dataset.doc]=pos;
+ if(zone==='work'&&!state.reviews.has(p.dataset.doc)){state.reviews.add(p.dataset.doc);updateEvidence();}
+ return pos;
+}
+function administrativeDetail(d,caseId,i){
+ // Elementos secundarios plausibles de archivo; nunca se utilizan como pruebas decisivas.
+ if(d.fields.length>3)return '';
+ const tags={
+ complaint:T('Atención al cliente · recepción','Atenció al client · recepció'),
+ quote:T('Departamento comercial','Departament comercial'),
+ order:T('Planificación · producción','Planificació · producció'),
+ proof:T('Archivo de preimpresión','Arxiu de preimpressió'),
+ production:T('Control interno de taller','Control intern de taller'),
+ finishing:T('Sección de acabados','Secció d’acabats'),
+ delivery:T('Archivo de expediciones','Arxiu d’expedicions'),
+ packing:T('Unidad de embalaje','Unitat d’embalatge'),
+ email:T('Correspondencia recibida','Correspondència rebuda'),
+ invoice:T('Administración · facturación','Administració · facturació'),
+ photo:T('Anexo gráfico del expediente','Annex gràfic de l’expedient'),
+ quality:T('Departamento de calidad','Departament de qualitat')
+ };
+ const dept=L(tags[d.id]||T('Archivo interno del expediente','Arxiu intern de l’expedient'));
+ const text=L(T('Copia de consulta · Documento '+String(i+1).padStart(2,'0'),'Còpia de consulta · Document '+String(i+1).padStart(2,'0')));
+ return `<div class="lg-admin"><div>${htmlEscape(dept)}</div><div>${htmlEscape(text)} · ${htmlEscape(caseId)}</div></div>`;
+}
+function renderPapers(){
+ const layer=$('#paperLayer');layer.innerHTML='';const c=current();
+ c.docs.forEach((d,i)=>{
+  const pos=state.positions[d.id]||initialPaperPlace(i,c.docs.length);
+  const p=document.createElement('article');p.className='paper-v2';p.dataset.doc=d.id;
+  p.setAttribute('aria-label',`${L(d.title)}. ${L(T('Arrastra al escritorio de inspección para leer','Arrossega a l’escriptori d’inspecció per llegir'))}`);p.tabIndex=0;
+  p.style.zIndex=String(++state.z);
+  p.innerHTML=`<div class="paper-mini" aria-hidden="true"><div class="mini-type">${htmlEscape(documentLabel(d))}</div><span class="mini-glyph">▤</span><div class="mini-strokes"><i></i><i></i><i></i></div><span class="mini-id">${c.id} · ${i+1}</span></div>
+   <div class="paper-large"><div class="lg-doc-kind">${htmlEscape(documentLabel(d))}</div><div class="lg-doc-title">${htmlEscape(L(d.title))}</div><div class="lg-doc-id">${c.id} / ${i+1}</div><div class="lg-fields">${d.fields.map(f=>`<div class="lg-row"><strong>${htmlEscape(L(f[0]))}</strong>${htmlEscape(L(f[1]))}</div>`).join('')}</div><div class="lg-note">${htmlEscape(L(d.note))}</div>${administrativeDetail(d,c.id,i)}</div>`;
+  renderPaperLocation(p,pos);
+  p.addEventListener('dblclick',()=>{if(p.dataset.zone==='counter'){const split=zoneBoundary();moveToZone(p,'work',{x:split+38+i%2*35,y:94+i%3*32})}});
+  p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(p.dataset.zone==='counter'){const split=zoneBoundary();moveToZone(p,'work',{x:split+36+i%3*40,y:90+i%3*35})}}});
+  wireDragging(p);layer.appendChild(p);
+ });
+}
+function wireDragging(p){
+ let drag=null;
+ p.addEventListener('pointerdown',e=>{
+  if(e.button!==0||e.target.closest('button'))return;
+  const r=p.getBoundingClientRect();const sz=paperSize(p.dataset.zone),scene=$('#deskSurface').getBoundingClientRect();
+  drag={id:e.pointerId,ratioX:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),ratioY:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height)),
+   startX:e.clientX,startY:e.clientY,zone:p.dataset.zone,moved:false};
+  p.style.zIndex=String(++state.z);p.classList.add('dragging');p.setPointerCapture(e.pointerId);e.preventDefault();
+ });
+ p.addEventListener('pointermove',e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  if(Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)>4)drag.moved=true;
+  const r=$('#deskSurface').getBoundingClientRect(),split=zoneBoundary(),px=e.clientX-r.left,py=e.clientY-r.top;
+  // Only ONE representation is visible at once, switching exactly at the desk boundary.
+  const zone=px>=split?'work':'counter';const sz=paperSize(zone);
+  const next=moveToZone(p,zone,{x:px-drag.ratioX*sz.w,y:py-drag.ratioY*sz.h});
+ });
+ function finish(e){if(!drag||e.pointerId!==drag.id)return;
+  state.positions[p.dataset.doc]={x:parseFloat(p.style.left),y:parseFloat(p.style.top),zone:p.dataset.zone};
+  if(p.hasPointerCapture(drag.id))p.releasePointerCapture(drag.id);
+  p.classList.remove('dragging');drag=null;
+ }
+ p.addEventListener('pointerup',finish);p.addEventListener('pointercancel',finish);
+}
+
+function updateEvidence(){const c=current();$('#seenCounter').textContent=`${state.reviews.size}/${c.docs.length}`;$('#evidenceBar').style.width=Math.round(state.reviews.size/c.docs.length*100)+'%';updateReady()}
+function setDecision(type){if(state.caseFiled)return;state.decision=type;$$('.seal').forEach(el=>el.classList.toggle('active',el.dataset.stamp===type));$('#stampTarget').innerHTML=`<div class="stamp-mark ${type}">${htmlEscape(L(U[type]))}</div>`;updateReady()}
+function updateReady(){if(state.caseFiled){$('#readyNote').textContent=L(U.filed);$('#fileDecisionBtn').disabled=true;return;}let why=!state.decision?L(U.selectStamp):state.reviews.size<2?L(U.reviewMin):state.reason.trim().length<25?L(U.reasonMin):L(U.ready);$('#readyNote').textContent=why;$('#fileDecisionBtn').disabled=!(state.decision&&state.reviews.size>=2&&state.reason.trim().length>=25)}
+function portraitSVG(c){
+ const style=c.avatar.style,skin=c.avatar.skin,shirt=c.avatar.shirt,hair=c.avatar.hair;
+ const bg=style==='long'?'#dbece5':style==='short'?'#dbe6f2':'#eadff2';
+ const backHair=style==='long'?`<path d="M60 139 C46 98 52 45 104 40 C153 33 169 69 163 121 L172 190 L47 190 Z" fill="${hair}"/>`:
+ style==='bob'?`<path d="M62 131 Q46 96 56 65 Q63 39 110 39 Q160 42 165 77 L163 155 Q151 173 130 163 L96 157 Q70 171 59 146 Z" fill="${hair}"/>`:'';
+ const topHair=style==='short'?`<path d="M66 88 Q48 52 72 46 Q93 30 122 39 Q158 37 159 77 L140 69 Q126 77 111 69 Q90 80 67 84 Z" fill="${hair}"/>`:
+ style==='long'?`<path d="M64 89 Q57 50 94 42 Q145 30 160 76 Q139 76 122 65 Q101 87 65 90 Z" fill="${hair}"/>`:
+ `<path d="M64 96 Q40 60 76 43 Q109 28 142 47 Q171 65 155 99 Q151 69 139 71 Q112 79 86 62 Q82 89 64 96 Z" fill="${hair}"/>`;
+ const glasses=style==='bob'?`<g fill="none" stroke="#465065" stroke-width="3.2"><rect x="77" y="100" width="28" height="19" rx="7"/><rect x="116" y="100" width="28" height="19" rx="7"/><path d="M105 109 L116 109"/></g>`:'';
+ return `<svg viewBox="0 0 220 222" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+ <defs><linearGradient id="pbg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="#f4f7f6"/></linearGradient></defs>
+ <circle cx="110" cy="110" r="103" fill="url(#pbg)"/>
+ <circle cx="163" cy="54" r="37" fill="#fff" opacity=".19"/>
+ <path d="M27 221 Q35 162 83 155 L138 155 Q185 160 193 221Z" fill="${shirt}"/>
+ <path d="M85 150 L85 177 Q108 196 135 175 L135 149Z" fill="${skin}"/>
+ ${backHair}
+ <ellipse cx="110" cy="103" rx="48" ry="59" fill="${skin}"/>
+ <ellipse cx="65" cy="107" rx="9" ry="16" fill="${skin}"/><ellipse cx="155" cy="107" rx="9" ry="16" fill="${skin}"/>
+ ${topHair}
+ <path d="M80 97 Q91 92 102 98 M119 98 Q131 91 142 97" fill="none" stroke="${hair}" stroke-width="3" stroke-linecap="round"/>
+ <ellipse cx="91" cy="109" rx="3" ry="4" fill="#3c4346"/><ellipse cx="130" cy="109" rx="3" ry="4" fill="#3c4346"/>
+ <path d="M109 113 L106 126 Q111 129 115 127" stroke="#98675f" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+ <path d="M99 138 Q111 144 123 137" fill="none" stroke="#934f55" stroke-width="2.5" stroke-linecap="round"/>
+ <ellipse cx="78" cy="129" rx="8" ry="4" fill="#ca8180" opacity=".18"/><ellipse cx="143" cy="129" rx="8" ry="4" fill="#ca8180" opacity=".18"/>
+ ${glasses}
+ <path d="M83 159 L101 178 L110 174 L121 179 L139 160" stroke="#fff" stroke-width="5" fill="none" opacity=".7"/>
+ </svg>`;
+}
+function updateHeader(){
+ const c=current();
+ $('#caseCounter').textContent=`${String(state.index+1).padStart(2,'0')}/${String(state.sessionCases.length).padStart(2,'0')}`;
+ $('#visitorAvatar').innerHTML=portraitSVG(c);
+ $('#visitorSpeech').textContent=`«${L(c.speech)}»`;
+ $('#visitorName').textContent=c.name;
+ $('#visitorCompany').textContent=c.company;
+ $('#sheetCaseId').textContent=c.id;
+ $('#sheetMotive').textContent=L(c.summary);
+ $('#sheetClient').textContent=c.company;
+ $('#sheetSignature').textContent=state.name;
+ $('#closedCounter').textContent=`${state.results.length}/${state.sessionCases.length}`;
+ $('#correctCounter').textContent=state.results.filter(x=>x.correct).length;
+ $('#companyHeader').textContent=state.company;
+ $('#manualCardTitle').textContent=`${L(U.manualTitle)}\n${state.company}`;
+ $('#guideNudgeText').textContent=L(T('¿Perdido en tu primer día de trabajo? ¡Échale un ojo a la guía!','Perdut en el teu primer dia de feina? Dona una ullada a la guia!'));
+ $('#guideNudgeClose').setAttribute('aria-label',L(T('Cerrar indicación','Tancar indicació')));
+}
+function renderCase(){state.caseFiled=false;state.supervisionOpen=false;state.reviews=new Set();state.decision=null;state.reason='';state.positions={};state.z=20;$('#reasonText').value='';$('#reasonText').disabled=false;$('#stampTarget').textContent=L(U.stampPrompt);$$('.seal').forEach(e=>e.classList.remove('active'));renderPapers();updateHeader();updateEvidence();$('#modal').classList.add('hidden');if(state.index===0&&!state.tutorialSeen){$('#guideNudge').classList.remove('hidden')}else $('#guideNudge').classList.add('hidden');}
+function submitCase(){const c=current();if(state.caseFiled||state.results.some(r=>r.id===c.id)||!state.decision||state.reviews.size<2||state.reason.trim().length<25)return;state.caseFiled=true;state.supervisionOpen=true;updateReady();$('#reasonText').disabled=true;const record={id:c.id,name:c.name,company:c.company,summary:L(c.summary),decision:state.decision,expected:c.expected,correct:state.decision===c.expected,reason:state.reason.trim(),reviewed:[...state.reviews],feedback:L(c.feedback)};state.results.push(record);updateHeader();const mark=record.correct?L(U.pass):L(U.fail);openModal(cardHead(L(U.supervision),c.id,false)+`<div class="feedback-mark ${record.correct?'':'bad'}">${htmlEscape(mark)}</div><p class="feedback-text">${htmlEscape(record.feedback)}</p><p class="subtle"><b>${htmlEscape(L(U.correctVerdict))}:</b> ${htmlEscape(L(U[c.expected]))}</p><p class="subtle"><b>${htmlEscape(L(U.reason))}:</b> ${htmlEscape(record.reason)}</p><p class="subtle">${htmlEscape(L(U.narrative))}</p><div class="modal-actions"><button id="advanceBtn">${htmlEscape(L(state.index===state.sessionCases.length-1?U.report:U.next))}</button></div>`);$('#advanceBtn').onclick=advance;}
+function advance(){if(!state.caseFiled)return;$('#guideNudge').classList.add('hidden');state.tutorialSeen=true;state.supervisionOpen=false;if(state.index<state.sessionCases.length-1){state.index++;renderCase()}else endGame()}
+function pad(n){return String(n).padStart(2,'0')}
+function fmtTime(ms){let sec=Math.floor(ms/1000);return`${pad(Math.floor(sec/60))}:${pad(sec%60)}`}
+function updateTimer(){if(!state.startedAt||state.endedAt)return;$('#elapsedCounter').textContent=fmtTime(Date.now()-state.startedAt)}
+function startGame(){
+ const name=$('#studentInput').value.trim(),company=$('#companyInput').value.trim();
+ if(name.length<2||company.length<2)return;
+ lang=$('#languageInput').value;
+ state.name=name;state.company=company;state.startedAt=Date.now();state.endedAt=null;
+ state.sessionCases=selectSession().map(c=>shiftDatesInCase(c,sessionDateShiftDays()));state.results=[];state.index=0;state.tutorialSeen=false;
+ state.caseFiled=false;state.supervisionOpen=false;
+ applyPreferences();uiSet();applyPreferences();$('#app').classList.remove('hidden');renderCase();
+}
+function pdfBytes(s){const map={8216:145,8217:146,8220:147,8221:148,8211:150,8212:151,8226:149,8364:128,8230:133};let out=[];for(let ch of String(s)){let n=ch.codePointAt(0);if(n===10||n===9)n=32;if(n>=32&&n<=126||n>=160&&n<=255)out.push(n);else if(map[n])out.push(map[n]);else if(n>65535)continue;else out.push(63)}return out}
+const toHex=s=>pdfBytes(s).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+// Informe PDF moderno, sin dependencias y con paginación dinámica.
+// Las fuentes estándar del PDF mantienen el documento ligero y el texto seleccionable.
+function makePdf(){
+ const W=595.28,H=841.89,M=40,R=W-M,WIDTH=W-2*M;
+ const palette=THEMES[state.theme]||THEMES.teal;
+ const INK='#1f343c',MUTED='#647781',ACC=palette.hex,NAVY=palette.deep,PALE=palette.soft,BORDER='#dce6e8',WHITE='#ffffff';
+ const encoder=new TextEncoder(),can=document.createElement('canvas'),ctx=can.getContext('2d');
+ const pages=[];let ops=[],y=92;
+ const f=n=>Number(n).toFixed(2),rgb=h=>[1,3,5].map(i=>(parseInt(h.slice(i,i+2),16)/255).toFixed(3)).join(' ');
+ const sanitize=s=>String(s??'').replace(/[\r\n\t]/g,' ').replace(/\s+/g,' ').trim();
+ function rect(x,top,w,h,color){ops.push(`${rgb(color)} rg ${f(x)} ${f(H-top-h)} ${f(w)} ${f(h)} re f`)}
+ function rule(x,top,w,color=BORDER){ops.push(`${rgb(color)} RG .7 w ${f(x)} ${f(H-top)} m ${f(x+w)} ${f(H-top)} l S`)}
+ function txt(value,x,top,size=9,bold=false,color=INK){if(!value)return;ops.push(`${rgb(color)} rg BT /${bold?'F2':'F1'} ${f(size)} Tf 1 0 0 1 ${f(x)} ${f(H-top-size)} Tm <${toHex(value)}> Tj ET`)}
+ function wrap(value,maxWidth,size=9,bold=false){
+  ctx.font=`${bold?'bold ':''}${size}px Arial`;const words=sanitize(value).split(' '),rows=[];let row='';
+  for(let word of words){if(!word)continue;
+   if(ctx.measureText(word).width>maxWidth){if(row){rows.push(row);row=''}let chunk='';for(const ch of word){if(ctx.measureText(chunk+ch).width>maxWidth&&chunk){rows.push(chunk);chunk=ch}else chunk+=ch}word=chunk;}
+   const test=row?row+' '+word:word;
+   if(row&&ctx.measureText(test).width>maxWidth){rows.push(row);row=word}else row=test;
+  }if(row)rows.push(row);return rows;
+ }
+ function newPage(){if(ops.length)pages.push(ops);ops=[];y=93;
+  rect(0,0,W,49,NAVY);rect(0,46,W,3,ACC);
+  txt(L(U.resultsTitle),M,14,14,true,WHITE);
+  txt(L(T('INFORME DE INSPECCIÓN · ARTES GRÁFICAS','INFORME D’INSPECCIÓ · ARTS GRÀFIQUES')),M,57,8,false,MUTED);
+  rule(M,78,WIDTH);
+ }
+ function ensure(height=20){if(y+height>H-63)newPage()}
+ function para(value,size=9.5,opt={}){
+  const indent=opt.indent||0,x=M+indent,available=WIDTH-indent-(opt.right||0),lh=size*1.42;
+  for(const p of String(value??'').split('\n')){
+   if(!p.trim()){ensure(8);y+=8;continue}
+   const rows=wrap(p,available,size,!!opt.bold);
+   for(const row of rows){ensure(lh+2);txt(row,x,y,size,!!opt.bold,opt.color||INK);y+=lh;}
+  }
+  y+=opt.after??5;
+ }
+ function label(s){ensure(23);txt(s,M,y,8,true,MUTED);y+=17}
+ function title(s){ensure(46);rect(M,y,4,19,ACC);txt(s,M+13,y-1,12.5,true,NAVY);y+=30}
+ function keyValue(k,v){ensure(18);txt(k,M,y,9,true,MUTED);txt(v,M+138,y,9.5,false,INK);y+=18}
+ newPage();
+ title(L(T('Resumen de la jornada','Resum de la jornada')));
+ keyValue(L(T('Alumno/a','Alumne/a')),state.name);
+ keyValue(L(T('Empresa','Empresa')),state.company);
+ keyValue(L(T('Inicio','Inici')),new Date(state.startedAt).toLocaleString(lang==='ca'?'ca-ES':'es-ES'));
+ keyValue(L(T('Duración','Durada')),fmtTime((state.endedAt||Date.now())-state.startedAt));
+ keyValue(L(T('Expedientes','Expedients')),`${state.results.length} / ${state.sessionCases.length}`);
+ y+=10;ensure(84);
+ rect(M,y,WIDTH,76,PALE);rect(M,y,5,76,ACC);
+ txt(`${state.results.filter(r=>r.correct).length} / ${state.sessionCases.length}`,M+20,y+13,27,true,NAVY);
+ txt(L(T('Resoluciones correctas','Resolucions correctes')),M+20,y+50,9,false,MUTED);
+ txt(L(T('Evaluación de las decisiones','Avaluació de les decisions')),M+248,y+21,11,true,NAVY);
+ txt(L(T('Revisa cada justificación en los expedientes.','Revisa cada justificació als expedients.')),M+248,y+43,8.4,false,MUTED);
+ y+=94;
+ para(L(U.narrative),9.3,{color:MUTED});
+ title(L(T('Detalle de los expedientes','Detall dels expedients')));
+ state.results.forEach((r,i)=>{
+  ensure(225);rect(M,y,WIDTH,32,PALE);rect(M,y,4,32,ACC);
+  txt(`${i+1}. ${r.id}`,M+12,y+7,10.5,true,NAVY);
+  const caseInfo=CASES.find(c=>c.id===r.id);
+  const summary=wrap(r.summary,WIDTH-145,9.6,true);
+  txt(summary[0]||'',M+117,y+9,9.6,true,INK);y+=41;
+  para(`${r.name} · ${r.company}`,9.8,{bold:true,after:5});
+  const reviewed=(r.reviewed||[]).map(id=>{const doc=caseInfo?.docs?.find(d=>d.id===id);return doc?L(doc.title):id});
+  para(`${L(T('Documentos consultados','Documents consultats'))}: ${reviewed.join(' · ')||'—'}`,8.6,{color:MUTED});
+  const decision=L(U[r.decision]);
+  ensure(29);rect(M,y,WIDTH,28,r.correct?'#e5f3eb':'#fff0e7');
+  txt(`${L(T('Resolución','Resolució'))}: ${decision}`,M+11,y+7,9.2,true,r.correct?'#286b50':'#a55a39');
+  txt(r.correct?L(U.pass):L(U.fail),M+271,y+7,8.5,true,r.correct?'#286b50':'#a55a39');y+=38;
+  label(L(U.reason));para(r.reason,9.7,{indent:8,after:10});
+  label(L(T('Resolución recomendada','Resolució recomanada')));para(L(U[r.expected]),9.6,{indent:8,after:8});
+  label(L(U.supervision));para(r.feedback,9,{indent:8,after:12,color:MUTED});
+  ensure(15);rule(M,y,WIDTH);y+=18;
+ });
+ ensure(45);para(L(T('Simulación didáctica con expedientes y documentación ficticios. Las decisiones son propuestas internas; la recepción de una reclamación no depende de que se estime.','Simulació didàctica amb expedients i documentació ficticis. Les decisions són propostes internes; la recepció d’una reclamació no depèn que s’estimi.')),8.2,{color:MUTED});
+ pages.push(ops);
+ // Pies de página numerados; la cantidad de páginas ya es conocida.
+ pages.forEach((p,i)=>{
+  p.push(`${rgb(BORDER)} RG .7 w ${f(M)} 46 m ${f(R)} 46 l S`);
+  const footer=`${L(T('Oficina de Reclamaciones · Informe individual','Oficina de Reclamacions · Informe individual'))}     ${i+1} / ${pages.length}`;
+  p.push(`${rgb(MUTED)} rg BT /F1 8 Tf 1 0 0 1 ${f(M)} 31 Tm <${toHex(footer)}> Tj ET`);
+ });
+ const obj=['','',
+  '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+  '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'];
+ const ids=[];
+ for(const content of pages){const stream=content.join('\n')+'\n',streamId=obj.length+1;obj.push(`<< /Length ${encoder.encode(stream).length} >>\nstream\n${stream}endstream`);const pageId=obj.length+1;obj.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${streamId} 0 R >>`);ids.push(pageId)}
+ obj[0]='<< /Type /Catalog /Pages 2 0 R >>';obj[1]=`<< /Type /Pages /Kids [${ids.map(n=>`${n} 0 R`).join(' ')}] /Count ${pages.length} >>`;
+ const chunks=['%PDF-1.4\n%PDF-X\n'],offsets=[0];let length=encoder.encode(chunks[0]).length;
+ obj.forEach((o,i)=>{offsets.push(length);const chunk=`${i+1} 0 obj\n${o}\nendobj\n`;chunks.push(chunk);length+=encoder.encode(chunk).length});
+ const xref=length;chunks.push(`xref\n0 ${obj.length+1}\n0000000000 65535 f \n`);
+ for(let i=1;i<offsets.length;i++)chunks.push(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);
+ chunks.push(`trailer\n<< /Size ${obj.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+ return new Blob(chunks,{type:'application/pdf'});
+}
+
+function endGame(){state.endedAt=Date.now();$('#elapsedCounter').textContent=fmtTime(state.endedAt-state.startedAt);const count=state.results.filter(x=>x.correct).length;if(state.pdfUrl)URL.revokeObjectURL(state.pdfUrl);state.pdfUrl=URL.createObjectURL(makePdf());const safe=state.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/gi,'_').slice(0,32);const reportItems=state.results.map((r,i)=>`<div class="report-item"><h3>${i+1}. ${htmlEscape(r.id)} · ${htmlEscape(r.summary)}</h3><div>${htmlEscape(r.name)} — ${htmlEscape(r.company)}</div><div><strong>${htmlEscape(L(U[r.decision]))}</strong> · ${r.correct?'✓ '+L(U.pass):'× '+L(U.fail)}</div><div>${htmlEscape(L(U.reason))}: ${htmlEscape(r.reason)}</div><div>${htmlEscape(L(U.supervision))}: ${htmlEscape(r.feedback)}</div></div>`).join('');openModal(`<div class="kicker">${htmlEscape(L(T('FIN DE JORNADA','FI DE JORNADA')))}</div><h1 class="intro-title">${htmlEscape(L(U.resultsTitle))}</h1><p class="subtle">${htmlEscape(state.name)} · ${htmlEscape(state.company)}</p><div class="report-summary"><div class="big-score">${count} / ${state.sessionCases.length}</div><p>${htmlEscape(L(U.printTip))} ${htmlEscape(L(U.narrative))}</p></div><div class="report-list">${reportItems}</div><div class="report-actions"><a id="downloadPdfLink" download="Informe_Reclamaciones_${safe}.pdf" href="${state.pdfUrl}">${htmlEscape(L(U.pdf))}</a><a target="_blank" rel="noopener" href="${state.pdfUrl}">${htmlEscape(L(U.pdfOpen))}</a><button type="button" class="return-home-button" id="returnHomeBtn">${htmlEscape(L(U.returnHome))}</button></div><p class="subtle">${htmlEscape(L(U.pdfReminder))}</p>`);$('#returnHomeBtn').onclick=showReturnConfirmation;}
+function showReturnConfirmation(){if(!state.endedAt)return;$('#returnConfirm').classList.remove('hidden');$('#cancelReturnBtn').focus()}
+function closeReturnConfirmation(){$('#returnConfirm').classList.add('hidden')}
+function confirmedReturnHome(){
+ if(!state.endedAt)return;
+ closeReturnConfirmation();
+ if(state.pdfUrl){URL.revokeObjectURL(state.pdfUrl);state.pdfUrl=null}
+ Object.assign(state,{startedAt:null,endedAt:null,name:'',company:'',sessionCases:[],index:0,reviews:new Set(),decision:null,reason:'',results:[],positions:{},z:20,manualPage:0,caseFiled:false,supervisionOpen:false});
+ for(const el of ['#manualCard','#resolutionSheet','.desk-tools']){const node=$(el);for(const p of ['left','top','right','bottom','zIndex'])node.style[p]=''}
+ $('#app').classList.add('hidden');
+ $('#elapsedCounter').textContent='00:00';
+
+ intro();
+}
+function intro(saved=''){
+ const description=L(T('Tu mesa de inspección, reclamaciones diferentes en cada jornada. Examina las pruebas, consulta el manual y razona cada decisión.','La teva taula d’inspecció, reclamacions diferents a cada jornada. Examina les proves, consulta el manual i raona cada decisió.'));
+ const steps=[T('Recoge documentos del mostrador y arrástralos a tu mesa.','Recull documents del taulell i arrossega’ls a la taula.'),T('Comprueba los datos y consulta el manual.','Comprova les dades i consulta el manual.'),T('Acerca los sellos a la resolución, justifica y registra.','Acosta els segells a la resolució, justifica i registra.')];
+ const html=`<div class="intro-shell">
+ <div class="intro-visual"><div class="intro-visual-top"><span class="intro-mark brand-emoji" aria-hidden="true">🦚</span><span>${htmlEscape(L(T('DEPARTAMENTO DE CALIDAD','DEPARTAMENT DE QUALITAT')))}</span></div>
+ <div class="intro-visual-paper"><div class="iv-stamp">✓</div><div class="iv-paper-tag">EXPEDIENTE</div><div class="iv-paper-name">${htmlEscape(L(T('RECLAMACIÓN','RECLAMACIÓ')))}</div><div class="iv-lines"><i></i><i></i><i></i><i></i></div><div class="iv-paper-note">${htmlEscape(L(T('INSPECCIONAR · DECIDIR','INSPECCIONAR · DECIDIR')))}</div></div>
+ <div class="intro-visual-small"><span class="brand-emoji" aria-hidden="true">🦚</span> <span>${htmlEscape(L(T('DOCUMENTOS','DOCUMENTS')))}</span></div>
+ <div class="intro-visual-foot">${htmlEscape(L(T('SIMULADOR DIDÁCTICO · ARTES GRÁFICAS','SIMULADOR DIDÀCTIC · ARTS GRÀFIQUES')))}</div></div>
+ <div class="intro-content"><div class="intro-overline">${htmlEscape(L(T('SIMULADOR DE INSPECCIÓN DOCUMENTAL','SIMULADOR D’INSPECCIÓ DOCUMENTAL')))}</div>
+ <h1>${htmlEscape(L(T('Oficina de','Oficina de')))}<br><span>${htmlEscape(L(T('Reclamaciones','Reclamacions')))}</span></h1>
+ <p class="intro-description">${htmlEscape(description)}</p>
+ <div class="intro-steps">${steps.map((t,i)=>`<div><span class="intro-step-number">0${i+1}</span><span>${htmlEscape(L(t))}</span></div>`).join('')}</div>
+ <div class="intro-form">
+ <label for="studentInput">${htmlEscape(L(T('Nombre y apellidos','Nom i llinatges')))}</label>
+ <input id="studentInput" autocomplete="name" maxlength="64" placeholder="${htmlEscape(L(T('Escribe tu nombre','Escriu el teu nom')))}"/>
+ <label for="languageInput">${htmlEscape(L(T('Idioma','Idioma')))}</label>
+ <select id="languageInput"><option value="es">Español</option><option value="ca">Català</option></select>
+ <div class="company-label"><label for="companyInput">${htmlEscape(L(T('Nombre de la empresa','Nom de l’empresa')))}</label><button type="button" id="randomCompanyBtn" title="${htmlEscape(L(T('Proponer otro nombre de empresa','Proposar un altre nom d’empresa')))}">🎲 ${htmlEscape(L(T('Nombre al azar','Nom a l’atzar')))}</button></div>
+ <input id="companyInput" maxlength="64" placeholder="${htmlEscape(L(T('Tu imprenta ficticia','La teva impremta fictícia')))}"/>
+ </div>
+ <div class="intro-options"><div class="intro-color-header">${htmlEscape(L(T('Color de la empresa','Color de l’empresa')))}</div>
+ <div class="intro-swatches">${Object.entries(THEMES).map(([id,t])=>`<button class="theme-swatch ${state.theme===id?'selected':''}" type="button" data-theme="${id}" style="--swatch:${t.hex}" aria-label="${htmlEscape(t.name[lang])}" title="${htmlEscape(t.name[lang])}"></button>`).join('')}</div>
+ <div class="intro-logo-row"><span class="intro-color-header">${htmlEscape(L(T('Logotipo','Logotip')))}</span><div class="intro-emojis" role="group" aria-label="${htmlEscape(L(T('Seleccionar logotipo','Seleccionar logotip')))}">${LOGOS.map(emoji=>`<button type="button" class="emoji-choice ${state.logoEmoji===emoji?'selected':''}" data-emoji="${emoji}" aria-pressed="${state.logoEmoji===emoji}" aria-label="${htmlEscape(L(T('Elegir logotipo','Triar logotip')))} ${emoji}">${emoji}</button>`).join('')}</div></div>
+ <label class="intro-dark-toggle"><input id="darkModeInput" type="checkbox" ${state.dark?'checked':''}/><span>${htmlEscape(L(T('Modo oscuro','Mode fosc')))}</span></label></div>
+ <div class="intro-actions"><button id="startButton" disabled>${htmlEscape(L(T('Entrar a la oficina →','Entrar a l’oficina →')))}</button></div>
+ <p class="intro-legal">${htmlEscape(L(T('Simulación educativa ficticia. Toda reclamación se registra, con independencia de la resolución.','Simulació educativa fictícia. Tota reclamació es registra, independentment de la resolució.')))}</p>
+ </div></div>`;
+ openModal(html);
+ $('#studentInput').value=saved;
+ $('#companyInput').value=state.company||'';
+ $('#languageInput').value=lang;
+ const valid=()=>$('#studentInput').value.trim().length>=2&&$('#companyInput').value.trim().length>=2;
+ const update=()=>{$('#startButton').disabled=!valid()};
+ update();$('#startButton').onclick=startGame;
+ $('#studentInput').oninput=update;
+ $('#companyInput').oninput=()=>{state.company=$('#companyInput').value;update()};
+ $('#randomCompanyBtn').onclick=()=>{
+  let name=randomCompanyName();if(name===$('#companyInput').value)name=randomCompanyName();
+  $('#companyInput').value=name;state.company=name;update();
+ };
+ $$('.emoji-choice').forEach(b=>b.onclick=()=>{
+  state.logoEmoji=b.dataset.emoji;
+  $$('.emoji-choice').forEach(x=>{const selected=x===b;x.classList.toggle('selected',selected);x.setAttribute('aria-pressed',String(selected))});
+  applyPreferences();
+ });
+ $('#languageInput').onchange=e=>{const name=$('#studentInput').value;state.company=$('#companyInput').value;lang=e.target.value;intro(name)};
+ $$('.theme-swatch').forEach(b=>b.onclick=()=>{state.theme=b.dataset.theme;applyPreferences();$$('.theme-swatch').forEach(x=>x.classList.toggle('selected',x===b))});
+ $('#darkModeInput').onchange=e=>{state.dark=e.target.checked;applyPreferences()};
+ applyPreferences();
+}
+
+// Comportamiento clásico de la v10: posición inicial definida por CSS.
+// El panel acompaña a la hoja únicamente cuando el alumno la arrastra.
+function attachMovable(elId,handleId){
+ const item=$(elId),grip=$(handleId),zone=$('#inspectionZone');let drag=null;
+ function normalized(){const r=item.getBoundingClientRect(),z=zone.getBoundingClientRect();return {x:r.left-z.left,y:r.top-z.top};}
+ grip.addEventListener('pointerdown',e=>{if(e.button!==0)return;
+  const point=normalized();item.style.right='auto';item.style.bottom='auto';item.style.left=point.x+'px';item.style.top=point.y+'px';
+  item.style.zIndex=String(++state.z+30);drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,x:point.x,y:point.y};grip.setPointerCapture(e.pointerId);e.preventDefault();
+ });
+ grip.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;
+  const maxX=Math.max(0,zone.clientWidth-item.offsetWidth-12),maxY=Math.max(0,zone.clientHeight-item.offsetHeight-12);
+  const nx=Math.max(12,Math.min(maxX,drag.x+e.clientX-drag.sx)),ny=Math.max(14,Math.min(maxY,drag.y+e.clientY-drag.sy));
+  item.style.left=nx+'px';item.style.top=ny+'px';
+  if(elId==='#resolutionSheet'){
+   // Acompañar los sellos a la hoja: la estación de sellado se desplaza con ella.
+   const rack=$('.desk-tools'), rackW=rack.offsetWidth,rackH=rack.offsetHeight;
+   const rx=Math.max(10,Math.min(zone.clientWidth-rackW-10,nx+item.offsetWidth-rackW));
+   const ry=ny>=rackH+24?ny-rackH-13:Math.min(zone.clientHeight-rackH-10,ny+item.offsetHeight+13);
+   rack.style.right='auto';rack.style.bottom='auto';rack.style.left=rx+'px';rack.style.top=ry+'px';
+  }
+ });
+ function finish(e){if(drag&&e.pointerId===drag.id){if(grip.hasPointerCapture(e.pointerId))grip.releasePointerCapture(e.pointerId);drag=null}}
+ grip.addEventListener('pointerup',finish);grip.addEventListener('pointercancel',finish);
+}
+attachMovable('#manualCard','#manualGrip');attachMovable('#resolutionSheet','#resolutionGrip');
+// Event handlers, registered only once.
+$('#cancelReturnBtn').addEventListener('click',closeReturnConfirmation);$('#confirmReturnBtn').addEventListener('click',confirmedReturnHome);$('#returnConfirm').addEventListener('keydown',e=>{if(e.key==='Escape')closeReturnConfirmation()});
+
+$('#modal').addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeModal();if(e.target.matches('[data-manpage]')){state.manualPage=Number(e.target.dataset.manpage);renderManual()}});
+$('#organizeBtn').addEventListener('click',()=>{state.positions={};renderPapers();});$('#ruleButton').addEventListener('click',()=>{state.tutorialSeen=true;$('#guideNudge').classList.add('hidden');state.manualPage=0;renderManual()});
+$('#guideNudgeClose').addEventListener('click',()=>{state.tutorialSeen=true;$('#guideNudge').classList.add('hidden')});
+$('#gameDarkToggle').addEventListener('click',()=>{state.dark=!state.dark;applyPreferences()});
+$('#reasonText').addEventListener('input',e=>{state.reason=e.target.value;updateReady()});$('#fileDecisionBtn').addEventListener('click',submitCase);
+$$('.seal').forEach(s=>{s.addEventListener('click',()=>setDecision(s.dataset.stamp));s.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setDecision(s.dataset.stamp)}});s.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',s.dataset.stamp))});
+$('#stampTarget').addEventListener('dragover',e=>{e.preventDefault();e.currentTarget.classList.add('dragover')});$('#stampTarget').addEventListener('dragleave',e=>e.currentTarget.classList.remove('dragover'));$('#stampTarget').addEventListener('drop',e=>{e.preventDefault();e.currentTarget.classList.remove('dragover');const d=e.dataTransfer.getData('text/plain');if(['accept','reject','pending'].includes(d))setDecision(d)});
+let timer=setInterval(updateTimer,1000);intro();
+})();
+</script>
+</body>
+</html>

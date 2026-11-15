@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="TC-HQ / TCardell Headquarters — Remote Access Protocol">
+<title>TC-HQ // Remote Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#050505;--ink:#b7bab6;--green:#77c786;--amber:#d3ac6a;--red:#ed3946;--prompt-h:69px}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:var(--bg)}
+body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidden}
+.screen{position:relative;width:100%;height:100vh;height:100dvh;min-height:280px;background:var(--bg);overflow:hidden;isolation:isolate}
+/* Sutil fósforo CRT, sin filtros agresivos ni fundidos entre pantallas. */
+.screen::after{content:"";pointer-events:none;position:absolute;inset:0;z-index:8;background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,.009) 3px 4px);opacity:.55}
+.viewport{position:absolute;inset:0 0 var(--prompt-h);overflow:hidden}
+.rail{height:200%;width:100%;transition:transform .55s cubic-bezier(.21,.78,.24,1);will-change:transform}
+.rail.show-final{transform:translateY(-50%)}
+.stage{height:50%;position:relative;overflow:hidden}
+.boot{padding:clamp(13px,2vw,26px)}
+.heading{display:flex;justify-content:space-between;gap:8px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid #1b1e1b;color:#777e78;letter-spacing:.07em;font-size:clamp(15px,1.5vw,19px)}
+.log{height:calc(100% - 38px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain;font-size:clamp(19px,1.55vw,23px);line-height:1.06;letter-spacing:.012em;text-shadow:0 0 2px rgba(215,225,215,.04)}
+.log::-webkit-scrollbar{display:none}
+.line{white-space:pre;overflow:hidden;text-overflow:clip;animation:line-in .07s step-end both}
+.line.plain{color:var(--ink-local,var(--ink))}.line.ok{color:var(--green)}.line.warn{color:var(--amber)}.line.info{color:#c4b38e}.line.alert{color:var(--red)}
+.line.redirect{white-space:normal;overflow-wrap:anywhere;color:var(--red);font-size:1.18em;line-height:1.11;margin-top:3px;text-shadow:0 0 12px rgba(237,57,70,.12)}
+.line.updated{animation:line-in .085s step-end both}
+@keyframes line-in{from{opacity:.30}to{opacity:1}}
+.cursor{color:#c5c8c2;animation:blink .85s steps(1,end) infinite}@keyframes blink{50%{opacity:0}}
+/* Segunda pantalla: entra físicamente desde abajo cuando el log asciende. */
+.final{padding:clamp(14px,4vw,34px);display:flex;align-items:center;justify-content:center;text-align:center}
+.final-content{width:min(800px,100%);margin-bottom:35px}
+.eyebrow{color:#858b85;letter-spacing:.12em;font-size:clamp(17px,2vw,26px)}
+.logo{color:var(--red);line-height:1;text-shadow:0 0 20px rgba(237,57,70,.15)}
+.subtitle{color:#a8aca6;font-size:clamp(21px,2.1vw,30px)}
+.result{color:var(--green);font-size:clamp(20px,2vw,27px);margin-top:15px}
+.countdown{position:absolute;bottom:18px;left:clamp(13px,2vw,26px);right:clamp(13px,2vw,26px);margin:0;color:#e64b54;text-align:left;font-size:clamp(23px,2.7vw,34px);white-space:normal;letter-spacing:.025em}
+.final.a .final-content{width:min(690px,100%);text-align:left}
+.final.a .command{color:#c2c6bf;font-size:clamp(22px,2.7vw,34px);margin:22px 0 7px}.final.a .command .user{color:var(--green)}
+.final.a .logo{font-size:clamp(63px,11.5vw,142px);margin:4px 0}
+.final.b .logo{font-size:clamp(105px,20vw,220px);letter-spacing:-.025em;margin:11px 0;animation:glitch .36s steps(3,end) both}
+.final.b .sweep{width:min(480px,74%);height:2px;background:var(--red);margin:11px auto 18px;transform:scaleX(0);transform-origin:left;box-shadow:0 0 16px rgba(237,57,70,.3);animation:sweep .65s ease-out .22s forwards}
+@keyframes sweep{to{transform:scaleX(1)}}@keyframes glitch{0%{transform:translateX(-2px)}30%{transform:translateX(2px)}60%,100%{transform:none}}
+.mobile-wordmark{display:none}
+.final.c .ascii{display:inline-block;white-space:pre;text-align:left;margin:20px auto 14px;padding:0;max-width:100%;color:var(--red);font:400 clamp(20px,3.6vw,39px)/.98 "VT323","Courier New",monospace;letter-spacing:0;text-shadow:0 0 12px rgba(237,57,70,.18)}
+/* El prompt es real, discreto, accesible y no anuncia el secreto. */
+.prompt-area{position:absolute;bottom:0;left:0;right:0;height:var(--prompt-h);border-top:1px solid #232623;background:var(--bg);z-index:6;padding:5px clamp(13px,2vw,26px) max(7px,env(safe-area-inset-bottom));cursor:text}
+.prompt-area.selected{border-top-color:#47252a}
+.prompt-feedback{height:18px;line-height:18px;overflow:hidden;color:var(--amber);font-size:clamp(15px,1.45vw,19px)}
+.prompt-row{display:flex;align-items:center;width:100%;height:30px;gap:0;white-space:nowrap;font-size:clamp(20px,1.95vw,26px)}
+.prompt-user{color:var(--green)}.prompt-path{color:#b8b0a8;margin-left:0}.prompt-dollar{color:#ddd;margin:0 8px 0 1px}
+.prompt-input{flex:1;min-width:0;max-width:100%;border:0;outline:0;background:transparent;color:#f0f0ed;font:inherit;letter-spacing:.012em;caret-color:#e6e6e3;padding:0;margin:0;box-shadow:none;appearance:none;border-radius:0}
+.prompt-input::placeholder{color:transparent}
+.prompt-area:focus-within .prompt-feedback:empty::after{content:""}
+@media(max-width:600px){
+ :root{--prompt-h:66px}
+ .boot{padding:12px 10px}
+ .heading{font-size:15px}
+ .log{font-size:clamp(16px,4.35vw,20px);line-height:1.04}
+ .line.redirect{font-size:1.12em;white-space:pre-line;overflow-wrap:normal}
+ .final{padding:14px 9px}
+ .final.a .logo{font-size:clamp(52px,14vw,83px)}
+ .final.b .logo{font-size:clamp(87px,24vw,136px)}
+ .final.c .ascii{font-size:clamp(17px,5vw,25px)}
+ .desktop-wordmark{display:none}.mobile-wordmark{display:inline}
+ .countdown{left:10px;right:10px;bottom:18px;font-size:clamp(14px,4vw,22px);white-space:nowrap;letter-spacing:0}
+ .prompt-area{padding-left:10px;padding-right:10px}
+}
+@media(prefers-reduced-motion:reduce){.rail{transition-duration:.01ms!important}.line,.logo,.sweep{animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="screen" id="screen">
+  <div class="viewport" id="viewport">
+    <div class="rail" id="rail">
+      <section class="stage boot" id="boot" aria-label="TC-HQ boot log">
+        <header class="heading"><span>TC/OS // REMOTE BOOT</span><span id="link-status">LINK: OFFLINE</span></header>
+        <main class="log" id="log"><span class="cursor" id="boot-cursor" aria-hidden="true">█</span></main>
+      </section>
+      <section class="stage final" id="final" aria-label="TC-HQ access authorization"><div class="final-content" id="final-content"></div><p class="countdown" id="countdown" aria-live="off"></p></section>
+    </div>
+  </div>
+  <div class="prompt-area" id="prompt-area">
+    <div class="prompt-feedback" id="prompt-feedback" role="status" aria-live="polite"></div>
+    <div class="prompt-row"><span class="prompt-user">guest@tc-hq</span><span class="prompt-path">:~</span><span class="prompt-dollar">$</span><input id="command" class="prompt-input" type="text" aria-label="TC-HQ command line" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go"></div>
+  </div>
+</div>
+<noscript><a href="home.html" style="color:#ed3946;padding:20px;display:block">TC-HQ / Entrar · Enter</a></noscript>
+<script>
+(()=>{
+'use strict';
+const settings=(()=>{try{return JSON.parse(localStorage.getItem('tcos.preferences')||'{}')||{}}catch{return {}}})();
+const bootStyle=settings.bootStyle||'full';
+const BOOT_MS=bootStyle==='quick'?1750:bootStyle==='none'?1:4000;
+const HOLD_MS=bootStyle==='quick'?350:bootStyle==='none'?0:2000;
+const FINAL_MS=bootStyle==='quick'?1200:bootStyle==='none'?0:5000;
+const TOTAL_MS=BOOT_MS+HOLD_MS+FINAL_MS;
+const qs=new URLSearchParams(location.search);
+if(qs.has('v')){const clean=new URL(location.href);clean.searchParams.delete('v');history.replaceState(null,'',clean)}
+const requestedLang=qs.get('lang');
+const browserLang=(navigator.languages?.[0]||navigator.language||'en');
+const selectedLang=['es','en'].includes(settings.language)?settings.language:null;
+const lang=selectedLang||(['es','en'].includes(requestedLang)?requestedLang:(/^es(?:-|$)/i.test(browserLang)?'es':'en'));
+document.documentElement.lang=lang;
+const tr=(es,en)=>lang==='es'?es:en;
+const $=id=>document.getElementById(id);
+const log=$('log'),cursor=$('boot-cursor'),rail=$('rail'),status=$('link-status'),final=$('final'),content=$('final-content'),countdown=$('countdown');
+const prompt=$('prompt-area'),input=$('command'),feedback=$('prompt-feedback');
+let destination=settings.bootTarget==='terminal'?'terminal':'graphical',finished=false,phase='boot';
+let feedbackTimer=null;
+const timeouts=new Set();
+function later(ms,fn){let id=setTimeout(()=>{timeouts.delete(id);if(!finished)fn()},ms);timeouts.add(id);return id}
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[rnd(0,a.length-1)];
+function lines(es,en,kind='plain',smallEs=null,smallEn=null,settleEs=null,settleEn=null){return {es,en,kind,smallEs,smallEn,settleEs,settleEn}}
+const mobile=matchMedia('(max-width:600px)').matches;
+const memory=pick([8192,16384,24576,32768]);
+const hop=rnd(10,220),latency=rnd(8,37),online=rnd(20,330),archive=rnd(1700,9800).toLocaleString('en-US');
+const locale=lang==='es'?'es_ES.UTF-8':'en_US.UTF-8';
+const tzMinutes=-new Date().getTimezoneOffset();
+const tzDisplay=(tzMinutes>=0?'+':'-')+String(Math.floor(Math.abs(tzMinutes)/60)).padStart(2,'0')+String(Math.abs(tzMinutes)%60).padStart(2,'0');
+const endpoint=`203.0.113.${hop}`; // rango reservado de documentación: jamás un servidor real.
+const device=matchMedia('(pointer:coarse)').matches?'portable':'desktop';
+
+// Los ocho modos narran procesos diferentes pero ocupan siete posiciones del registro.
+// El catálogo único ofrece variantes largas y alternativas breves para móviles.
+const modes={
+ normal:{weight:34,label:'NOMINAL',lines:[
+  lines('tc-tunnel[419]: negociando ECDHE/X25519 con gateway-01; TLS_AES_256_GCM_SHA384; claves efímeras solicitadas','tc-tunnel[419]: negotiating ECDHE/X25519 with gateway-01; TLS_AES_256_GCM_SHA384; ephemeral keys requested','plain','tc-tunnel: TLS handshake...','tc-tunnel: TLS handshake...','tc-tunnel[419]: TLS 1.3 negotiated; ephemeral keys verified; AES-256-GCM active','tc-tunnel[419]: TLS 1.3 negotiated; ephemeral keys verified; AES-256-GCM active'),
+  lines('[ OK ] Túnel seguro establecido','[ OK ] Secure tunnel established','ok'),
+  lines(`tc-hq-core-01: verificando disponibilidad del mainframe; 19 servicios activos; respuesta estimada ${latency} ms`,`tc-hq-core-01: checking mainframe availability; 19 active services; estimated response ${latency} ms`,'plain','tc-hq-core-01: ONLINE','tc-hq-core-01: ONLINE'),
+  lines('[ OK ] Mainframe sincronizado','[ OK ] Mainframe synchronized','ok'),
+  lines('tc-hq-archive-01: montando /srv/tc-hq/archive en modo solo lectura; permisos ro,nosuid,nodev,noexec','tc-hq-archive-01: mounting /srv/tc-hq/archive as read-only; flags ro,nosuid,nodev,noexec','plain','archive-01: mounting /archive','archive-01: mounting /archive'),
+  lines(`[ OK ] ${archive} entradas disponibles`,`[ OK ] ${archive} entries available`,'ok'),
+  lines('tc-hq-audit: todas las rutas remotas verificadas','tc-hq-audit: all remote routes verified','plain','audit: routes verified','audit: routes verified')
+ ]},
+ maintenance:{weight:12,label:'MAINTENANCE',lines:[
+  lines('tc-maint[302]: mantenimiento programado del nodo archive-02; servicios públicos continúan en modo degradado','tc-maint[302]: scheduled maintenance on archive-02; public services remain operational in degraded mode','plain','maintenance: archive-02 unavailable','maintenance: archive-02 unavailable'),
+  lines('[ WARN ] Nodo de archivo secundario fuera de servicio','[ WARN ] Secondary archive node unavailable','warn'),
+  lines('tc-route[416]: seleccionando mirror-01 como fuente de lectura; prioridad=20; política guest/readonly confirmada','tc-route[416]: selecting mirror-01 as read source; priority=20; guest/readonly policy confirmed','plain','route: mirror-01 selected','route: mirror-01 selected'),
+  lines('[ OK ] Ruta alternativa aceptada','[ OK ] Alternate path accepted','ok'),
+  lines('tc-tunnel: iniciando túnel cifrado TLS 1.3 a través del gateway alternativo; ECDHE/X25519','tc-tunnel: opening TLS 1.3 encrypted tunnel through alternate gateway; ECDHE/X25519','plain','tc-tunnel: negotiating TLS','tc-tunnel: negotiating TLS','tc-tunnel: backup TLS tunnel verified; encrypted path established','tc-tunnel: backup TLS tunnel verified; encrypted path established'),
+  lines('[ OK ] Canal seguro restablecido','[ OK ] Secure channel restored','ok'),
+  lines('tc-hq-archive: mirror-01 publicado como archivo principal temporal, sin pérdida de datos','tc-hq-archive: mirror-01 published as temporary primary archive; no data loss detected','plain','archive: temporary mirror ONLINE','archive: temporary mirror ONLINE')
+ ]},
+ failover:{weight:11,label:'FAILOVER',lines:[
+  lines('tc-hq-heartbeat: se agota la ventana de respuesta del nodo principal core-01 (retry=2, timeout=240ms)','tc-hq-heartbeat: response window expired for primary node core-01 (retry=2, timeout=240ms)','plain','heartbeat: timeout core-01','heartbeat: timeout core-01'),
+  lines('[ WARN ] Latido principal no recibido','[ WARN ] Primary heartbeat missing','warn'),
+  lines('tc-failoverd[811]: activando nodo core-02; replicación verificada, quorum 3/3, cambio de ruta pendiente','tc-failoverd[811]: activating core-02; replication verified, quorum 3/3, route switch pending','plain','failoverd: activating core-02','failoverd: activating core-02','tc-failoverd: active route moved to core-02, quorum retained, no split-brain detected','tc-failoverd: active route moved to core-02, quorum retained, no split-brain detected'),
+  lines('[ OK ] Nodo de reserva asume el control','[ OK ] Standby node promoted','ok'),
+  lines('tc-tunnel: renegociando canal AES-256-GCM con core-02; certificados de reserva y rutas verificadas','tc-tunnel: renegotiating AES-256-GCM channel with core-02; standby certificates and routes validated','plain','tc-tunnel: renegotiating...','tc-tunnel: renegotiating...'),
+  lines('[ OK ] Conexión redundante activa','[ OK ] Redundant connection active','ok'),
+  lines('tc-hq-core-02: ONLINE; continuidad de servicio confirmada sin reiniciar sesión pública','tc-hq-core-02: ONLINE; service continuity confirmed without resetting public session','plain','core-02: ONLINE','core-02: ONLINE')
+ ]},
+ cold:{weight:10,label:'COLD START',lines:[
+  lines('tc-hq-powerd: el nodo remoto sale de suspensión; temperatura inicial 21 C, arranque en frío autorizado','tc-hq-powerd: remote node waking from standby; initial temperature 21 C, cold start authorized','plain','powerd: cold start','powerd: cold start'),
+  lines('[ OK ] Alimentación virtual estabilizada','[ OK ] Virtual power stabilized','ok'),
+  lines('systemd[1]: activando storage.mount, hq-audit.service y tc-hq-core.target en secuencia','systemd[1]: activating storage.mount, hq-audit.service and tc-hq-core.target in sequence','plain','systemd: activating targets','systemd: activating targets','systemd[1]: required targets activated; dependencies resolved; no failed units','systemd[1]: required targets activated; dependencies resolved; no failed units'),
+  lines('[ OK ] Dependencias cargadas','[ OK ] Dependencies loaded','ok'),
+  lines('tc-tunnel: preparando primer intercambio de claves; TLS 1.3; control de integridad de la imagen verificado','tc-tunnel: preparing initial key exchange; TLS 1.3; image integrity check verified','plain','tc-tunnel: key exchange','tc-tunnel: key exchange'),
+  lines('[ OK ] Primer enlace establecido','[ OK ] Initial link established','ok'),
+  lines('tc-hq-core-01: 19/19 servicios operativos tras inicio en frío; solicitudes de invitado habilitadas','tc-hq-core-01: 19/19 services operational after cold start; guest requests enabled','plain','core-01: 19/19 ONLINE','core-01: 19/19 ONLINE')
+ ]},
+ recovery:{weight:9,label:'RECOVERY',lines:[
+  lines('tc-archivefs: detectado índice de archivo desactualizado en /srv/tc-hq/archive/catalog.db (revision=41)','tc-archivefs: stale archive index detected at /srv/tc-hq/archive/catalog.db (revision=41)','plain','archivefs: stale index detected','archivefs: stale index detected'),
+  lines('[ WARN ] Se necesita revisión de índices','[ WARN ] Index replay required','warn'),
+  lines('tc-recover[221]: reproduciendo journal de 128 registros; bloqueando escrituras, preservando acceso público','tc-recover[221]: replaying journal with 128 records; writes disabled, public access preserved','plain','recovery: replaying journal...','recovery: replaying journal...','tc-recover[221]: journal replay completed; archive metadata consistent; final checksum 7C4A','tc-recover[221]: journal replay completed; archive metadata consistent; final checksum 7C4A'),
+  lines('[ OK ] Archivo restaurado correctamente','[ OK ] Archive restored successfully','ok'),
+  lines('tc-tunnel: comprobando que la recuperación no modifica las claves del canal cifrado ni la política de acceso','tc-tunnel: verifying recovery did not change encrypted-channel keys or access policy','plain','tc-tunnel: verifying keys...','tc-tunnel: verifying keys...'),
+  lines('[ OK ] Acceso seguro disponible','[ OK ] Secure access available','ok'),
+  lines('tc-hq-core: servicios normales reanudados; volumen /archive montado como ro,noexec','tc-hq-core: normal services resumed; volume /archive mounted as ro,noexec','plain','core: services resumed','core: services resumed')
+ ]},
+ traffic:{weight:9,label:'HIGH TRAFFIC',lines:[
+  lines('tc-hq-balancer: cola de conexiones entrantes superior al umbral nominal; distribución global en revisión','tc-hq-balancer: incoming connection queue above nominal threshold; global distribution under review','plain','balancer: queue elevated','balancer: queue elevated'),
+  lines('[ INFO ] Redirigiendo nuevas sesiones al nodo auxiliar','[ INFO ] New sessions redirected to auxiliary node','info'),
+  lines('tc-route[451]: aplicando reparto ponderado entre gateway-01, gateway-03 y gateway-04 (weights 40/35/25)','tc-route[451]: applying weighted distribution across gateway-01, gateway-03 and gateway-04 (weights 40/35/25)','plain','route: balancing 3 gateways','route: balancing 3 gateways','tc-route[451]: distribution accepted; waiting sessions below threshold; QoS normal','tc-route[451]: distribution accepted; waiting sessions below threshold; QoS normal'),
+  lines('[ OK ] Carga estabilizada','[ OK ] Load stabilized','ok'),
+  lines('tc-tunnel: negociando conexión de prioridad GUEST bajo política rate-limit=20/s, TLS 1.3, cifrado AES-256-GCM','tc-tunnel: negotiating GUEST-priority connection under rate-limit=20/s, TLS 1.3, AES-256-GCM','plain','tc-tunnel: TLS / GUEST','tc-tunnel: TLS / GUEST'),
+  lines('[ OK ] Sesión admitida','[ OK ] Session admitted','ok'),
+  lines('tc-hq-core-03: conexión enrutada; 28 workers disponibles y latencia de aplicación dentro de tolerancia','tc-hq-core-03: connection routed; 28 workers available and application latency within tolerance','plain','core-03: session routed','core-03: session routed')
+ ]},
+ night:{weight:11,label:'NIGHT WATCH',lines:[
+  lines(`tc-hq-nightwatch: activando perfil nocturno; reloj local UTC${tzDisplay}; modo de bajo consumo de paneles auxiliares`,`tc-hq-nightwatch: enabling night profile; local clock UTC${tzDisplay}; auxiliary display power-saving active`,'plain','nightwatch: night profile','nightwatch: night profile'),
+  lines('[ INFO ] Turno remoto sin supervisión directa','[ INFO ] Unattended remote shift active','info'),
+  lines('tc-hq-sentinel[909]: patrulla de mantenimiento programada; 3 pasarelas comprobadas; perímetro lógico sin alertas','tc-hq-sentinel[909]: maintenance patrol scheduled; 3 gateways checked; logical perimeter clear','plain','sentinel: perimeter clear','sentinel: perimeter clear'),
+  lines('[ OK ] Vigilancia pasiva operativa','[ OK ] Passive monitoring online','ok'),
+  lines('tc-tunnel: solicitando paso por el gateway silencioso; prioridad=background; cifrado TLS_AES_256_GCM_SHA384','tc-tunnel: requesting passage through quiet gateway; priority=background; TLS_AES_256_GCM_SHA384','plain','tc-tunnel: quiet gateway','tc-tunnel: quiet gateway'),
+  lines('[ OK ] Canal nocturno abierto','[ OK ] Night channel open','ok'),
+  lines('tc-hq-archive: almacén accesible; tareas de limpieza aplazadas hasta fin del turno','tc-hq-archive: storage available; cleanup tasks deferred until shift change','plain','archive: available','archive: available')
+ ]},
+ anomaly:{weight:4,label:'ANOMALY',lines:[
+  lines('tc-hq-sentinel: respuesta duplicada recibida desde un nodo no listado en el mapa de red oficial','tc-hq-sentinel: duplicate response received from a node missing from the official network map','plain','sentinel: duplicate response','sentinel: duplicate response'),
+  lines('[ WARN ] Origen de paquete sin clasificar','[ WARN ] Unclassified packet source','warn'),
+  lines('tc-hq-integrity: aislando el paquete; hash 9C21, firma desconocida, nivel de riesgo calculado: mínimo','tc-hq-integrity: quarantining packet; hash 9C21, unknown signature, calculated risk level: minimal','plain','integrity: isolating packet','integrity: isolating packet','tc-hq-integrity: packet isolated; no persistent anomaly detected; access rules unchanged','tc-hq-integrity: packet isolated; no persistent anomaly detected; access rules unchanged'),
+  lines('[ INFO ] Incidente archivado como fenómeno improbable','[ INFO ] Incident filed as improbable phenomenon','info'),
+  lines('tc-tunnel: restableciendo ruta autorizada al core-01; ECDHE/X25519; certificados y relojes correctos','tc-tunnel: restoring authorized path to core-01; ECDHE/X25519; certificates and clocks valid','plain','tc-tunnel: restoring route','tc-tunnel: restoring route'),
+  lines('[ OK ] Conexión autorizada recuperada','[ OK ] Authorized connection restored','ok'),
+  lines('tc-hq-audit: anomalía cerrada; ningún observador puede confirmar haberla visto','tc-hq-audit: anomaly closed; no observer can confirm having seen it','plain','audit: anomaly closed','audit: anomaly closed')
+ ]}
+};
+function selectMode(){let forced=(qs.get('mode')||'').toLowerCase();if(forced==='normal')return 'normal';if(forced in modes)return forced;const hour=new Date().getHours();const pools=Object.entries(modes).map(([key,obj])=>({key,w:obj.weight*(key==='night'&&hour>=22||key==='night'&&hour<6?1.6:1)}));let r=Math.random()*pools.reduce((s,p)=>s+p.w,0);for(const p of pools){r-=p.w;if(r<0)return p.key}return 'normal'}
+const mode=selectMode();document.body.dataset.bootMode=mode;
+const misc=[
+ [lines('tc-hq-physics: verificando las constantes fundamentales del universo local...','tc-hq-physics: verifying fundamental constants of the local universe...','plain','physics: consistency check','physics: consistency check'),lines('[ OK ] Las leyes de la física continúan vigentes.','[ OK ] Laws of physics remain in effect.','ok')],
+ [lines('tc-hq-coffee.service: iniciando...', 'tc-hq-coffee.service: starting...','plain','coffee.service: starting','coffee.service: starting'),lines('[ INFO ] Administrador ausente. Café en espera.', '[ INFO ] Administrator absent. Coffee pending.','info')],
+ [lines('tc-hq-reality: comparando el checksum del entorno con /hq/universe/stable.snapshot','tc-hq-reality: comparing environment checksum against /hq/universe/stable.snapshot','plain','reality: checksum validation','reality: checksum validation'),lines('[ OK ] Realidad coherente. De momento.','[ OK ] Reality consistent. For now.','ok')],
+ [lines('tc-hq-archive: buscando el sentido de todo...', 'tc-hq-archive: searching for the meaning of everything...','plain','archive: searching for meaning','archive: searching for meaning'),lines('[ INFO ] 42. No se encontraron anexos.','[ INFO ] 42. No attachments found.','info')],
+ [lines('tc-hq-operator: solicitando autorización al administrador en turno de guardia...','tc-hq-operator: requesting authorization from on-duty administrator...','plain','operator: awaiting admin','operator: awaiting admin'),lines('[ WARN ] No responde. La política permite continuar.','[ WARN ] No response. Policy allows continuation.','warn')],
+ [lines('tc-hq-time: comprobando consistencia de relojes en líneas temporales adyacentes...','tc-hq-time: validating clocks across adjacent timelines...','plain','time: checking clocks','time: checking clocks'),lines('[ INFO ] El futuro sigue sin confirmar asistencia.','[ INFO ] The future has not confirmed attendance.','info')],
+ [lines('tc-hq-audit: analizando curiosidad entrante; origen declarado: navegador web','tc-hq-audit: analyzing incoming curiosity; declared origin: web browser','plain','audit: incoming curiosity','audit: incoming curiosity'),lines('[ OK ] Curiosidad aceptada.','[ OK ] Curiosity accepted.','ok')],
+ [lines('tc-hq-bugs: contando incidencias conocidas en el subsistema de ironía','tc-hq-bugs: counting known incidents in irony subsystem','plain','bugs: scanning irony subsystem','bugs: scanning irony subsystem'),lines('[ WARN ] Tres errores reclasificados como funciones.','[ WARN ] Three bugs reclassified as features.','warn')],
+ [lines('tc-hq-display: comprobando origen del terminal remoto y la configuración visual...', 'tc-hq-display: inspecting remote terminal origin and display configuration...','plain','display: probing terminal','display: probing terminal'),lines(`[ INFO ] Perfil ${device}, ${locale}; interfaz compatible.`,`[ INFO ] ${device} profile, ${locale}; interface compatible.`,'info',`[ INFO ] ${device}: OK`,`[ INFO ] ${device}: OK`)]
+];
+const rareEvents=[
+ [lines('[ ANOMALÍA ] Un segundo TCardell ha solicitado acceso desde la línea temporal de respaldo...','[ ANOMALY ] A second TCardell requested access from the backup timeline...','alert','[ ANOMALÍA ] Segundo TCardell','[ ANOMALY ] Second TCardell'),lines('[ OK ] Conflicto de identidad resuelto. Probablemente.','[ OK ] Identity conflict resolved. Probably.','ok')],
+ [lines('[ ANOMALÍA ] El servidor ha respondido antes de que la solicitud fuera enviada.','[ ANOMALY ] Server responded before the request was sent.','alert','[ ANOMALÍA ] Respuesta prematura','[ ANOMALY ] Early response'),lines('[ INFO ] La causalidad ha sido notificada.','[ INFO ] Causality has been notified.','info')],
+ [lines('[ ANOMALÍA ] Archivo fechado en el año 2096 encontrado en la caché temporal.','[ ANOMALY ] File dated 2096 found in the temporal cache.','alert','[ ANOMALÍA ] Archivo de 2096','[ ANOMALY ] File from 2096'),lines('[ OK ] Acceso al futuro denegado por mantenimiento.','[ OK ] Access to the future denied for maintenance.','ok')]
+];
+const egg=qs.get('egg')==='rare'?pick(rareEvents):qs.get('egg')==='off'?misc[0]:Math.random()<.018?pick(rareEvents):pick(misc);
+// Exactamente 26 posiciones, con un núcleo común, siete eventos de modo y una historia secundaria.
+const rows=[
+ lines('TC/OS Remote Bootstrap v1.5.0','TC/OS Remote Bootstrap v1.5.0'),
+ lines('Linux version 6.12.8-tchq (builder@hq-build-02) #81 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux', 'Linux version 6.12.8-tchq (builder@hq-build-02) #81 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux','plain','Linux 6.12.8-tchq / x86_64','Linux 6.12.8-tchq / x86_64'),
+ lines(pick(['DMI: TC Systems / REMOTE-NODE-07; firmware TC-FW 2.6.1','DMI: TC Systems / HQ-REMOTE-MACHINE; BIOS rev 2026.11']), 'DMI: TC Systems / HQ Remote Node; firmware revision 2026.11','plain','DMI: TC Systems / REMOTE','DMI: TC Systems / REMOTE'),
+ lines('BIOS-e820: [mem 0x0000000000000000-0x000000000009ffff] usable; [mem 0x0000000000100000-0x00000000bfffffff] usable','BIOS-e820: [mem 0x0000000000000000-0x000000000009ffff] usable; [mem 0x0000000000100000-0x00000000bfffffff] usable','plain','BIOS-e820: virtual RAM map OK','BIOS-e820: virtual RAM map OK'),
+ lines('ACPI: intérprete habilitado','ACPI: interpreter enabled','plain','ACPI: listo','ACPI: ready'),
+ lines('x86/fpu: xstate_offset[2]: 576; xstate_sizes[2]: 256; XSAVE and virtual APIC flags enabled','x86/fpu: xstate_offset[2]: 576; xstate_sizes[2]: 256; XSAVE and virtual APIC flags enabled','plain','x86/fpu: registers OK','x86/fpu: registers OK'),
+ lines(`Memory: ${memory} MiB`,`Memory: ${memory} MiB`),
+ lines('[ OK ] Módulos del núcleo cargados','[ OK ] Kernel modules loaded','ok','[ OK ] Kernel','[ OK ] Kernel'),
+ lines('virtio_net 0000:00:03.0 eth0: transmit queues 4/4 initialized; 1000 Mbps full duplex; carrier detected','virtio_net 0000:00:03.0 eth0: transmit queues 4/4 initialized; 1000 Mbps full duplex; carrier detected','plain','eth0: link 1000 Mbps','eth0: link 1000 Mbps'),
+ lines('systemd[1]: Reached target Network Preparation.','systemd[1]: Reached target Network Preparation.','plain','systemd: network ready','systemd: network ready'),
+ lines('tc-resolver[318]: consultando DNS A/AAAA para tc-hq.gateway.internal; caché local validada, ttl=300, fallback=02','tc-resolver[318]: querying A/AAAA for tc-hq.gateway.internal; local cache validated, ttl=300, fallback=02','plain','resolver: locating TC-HQ...','resolver: locating TC-HQ...',`tc-resolver[318]: TC-HQ gateway resolved to ${endpoint}; route metric=10; ${latency} ms`,`tc-resolver[318]: TC-HQ gateway resolved to ${endpoint}; route metric=10; ${latency} ms`),
+ lines(`[ OK ] Pasarela localizada: ${endpoint}`,`[ OK ] Gateway resolved: ${endpoint}`,'ok','[ OK ] Gateway conectado','[ OK ] Gateway connected'),
+ ...modes[mode].lines,
+ lines('tc-authd[772]: evaluando política PUBLIC_ACCESS; perfil guest / ro, token efímero local, auditoría activa','tc-authd[772]: evaluating PUBLIC_ACCESS policy; guest / ro profile, local ephemeral token, audit enabled','plain','authd: verifying guest','authd: verifying guest','tc-authd[772]: PUBLIC_ACCESS accepted; guest privilege set; audit enabled','tc-authd[772]: PUBLIC_ACCESS accepted; guest privilege set; audit enabled'),
+ lines('[ OK ] Acceso público autorizado','[ OK ] Public access authorized','ok'),
+ ...egg,
+ lines(`tc-shell: HOME=/home/guest; LANG=${locale}; TERM=vt100; perfil público operativo`,`tc-shell: HOME=/home/guest; LANG=${locale}; TERM=vt100; public profile operational`,'plain',`tc-shell: LANG=${locale}`,`tc-shell: LANG=${locale}`),
+ lines('tc-ui: servicios preparados; transfiriendo control a la interfaz TC-HQ','tc-ui: services ready; handing control over to the TC-HQ interface','plain','tc-ui: interfaz preparada','tc-ui: interface ready'),
+ lines('PROCESO DE REDIRECCIÓN INICIADO. ENTRANDO A TC-HQ...','REDIRECTION PROCESS STARTED. ENTERING TC-HQ...','redirect')
+];
+if(rows.length!==26)throw new Error('TC/OS: expected 26 boot lines, got '+rows.length);
+
+// Tiempos relativos a la complejidad del proceso y distintos en cada carga.
+const weights=[65,45,60,40,50,36,52,58,46,70,235,100,240,80,200,70,62,195,92,222,70,85,60,165,122];
+if(mode==='failover'){weights[12]*=1.5;weights[13]*=.7;weights[14]*=1.35}
+if(mode==='recovery'){weights[14]*=1.65;weights[15]*=.65}
+if(mode==='cold'){weights[12]*=1.3;weights[14]*=1.3}
+if(mode==='traffic'){weights[14]*=1.5;weights[15]*=.7}
+const intervals=weights.map(w=>w*(.80+Math.random()*.42));
+const sum=intervals.reduce((a,b)=>a+b,0);
+const offsets=[35];let elapsed=35;
+intervals.forEach((w,i)=>{elapsed+=w/sum*(BOOT_MS-35);offsets.push(i===intervals.length-1?BOOT_MS:Math.round(elapsed))});
+
+function fitMobile(text){
+ if(!mobile)return text;
+ const limit=Math.max(27,Math.floor((window.innerWidth-24)/10));
+ if(text.length<=limit)return text;
+ let head=text.slice(0,limit-3);
+ const space=head.lastIndexOf(' ');
+ if(space>limit*.60)head=head.slice(0,space);
+ return head.trimEnd()+'...';
+}
+function shortSettled(shortText,fullText){
+ // El estado pasa de pendiente a completo en la misma línea también en móvil.
+ if(!shortText)return fullText;
+ const root=shortText.replace(/\.{3}$/, '').replace(/\s*\(pending\)$/i,'').trim();
+ return fitMobile(root.length>22?root.slice(0,23)+' OK':root+' OK');
+}
+let previousPending=null;
+function appendLine(row,index){
+ if(previousPending){
+  const {node,source}=previousPending;
+  node.textContent=tr(mobile?shortSettled(source.smallEs,source.settleEs):source.settleEs,mobile?shortSettled(source.smallEn,source.settleEn):source.settleEn);
+  node.classList.remove('updated');void node.offsetWidth;node.classList.add('updated');previousPending=null;
+ }
+ if(cursor.isConnected)cursor.remove();
+ const n=document.createElement('div');n.className='line '+row.kind;
+ n.textContent=row.kind==='redirect'?(mobile?tr('PROCESO DE REDIRECCIÓN INICIADO.\nENTRANDO A TC-HQ...','REDIRECTION PROCESS STARTED.\nENTERING TC-HQ...'):tr(row.es,row.en)):fitMobile(tr(mobile?(row.smallEs||row.es):row.es,mobile?(row.smallEn||row.en):row.en));
+ if(row.kind==='plain'){
+  const f=index/24,from=[143,148,144],to=[207,210,205];
+  n.style.setProperty('--ink-local',`rgb(${from.map((x,i)=>Math.round(x+(to[i]-x)*f)).join(',')})`);
+ }
+ log.append(n);log.scrollTop=log.scrollHeight;
+ if(row.settleEs)previousPending={node:n,source:row};
+ if(index===9)status.textContent='LINK: SEARCHING';
+ if(index===13)status.textContent='LINK: NEGOTIATING';
+ if(index===20)status.textContent='LINK: SECURE';
+ if(index===24)status.textContent='LINK: CONNECTED';
+}
+rows.forEach((r,i)=>later(offsets[i],()=>appendLine(r,i)));
+
+function chooseFinal(){const forced=(qs.get('final')||'').toLowerCase();return ['a','b','c'].includes(forced)?forced:pick(['a','b','c'])}
+function ascii(label,width=22){const b='+'+'-'.repeat(width)+'+',blank='|'+' '.repeat(width)+'|';const leading=Math.floor((width-label.length)/2);return[b,blank,'|'+' '.repeat(leading)+label+' '.repeat(width-leading-label.length)+'|',blank,b].join('\n')}
+function showFinal(){
+ phase='final';const kind=chooseFinal();final.className='stage final '+kind;
+ const terminal=destination==='terminal';
+ const message=terminal?tr('INICIALIZANDO SESIÓN DE TERMINAL...','INITIALIZING TERMINAL SESSION...'):tr('ACCESO CONCEDIDO','ACCESS GRANTED');
+ if(kind==='a') content.innerHTML=`<div class="eyebrow">TC/OS // ${tr('CONSOLA REMOTA','REMOTE CONSOLE')}</div><div class="command"><span class="user">guest@tc-hq</span>:~$ ./open-session<span class="cursor">█</span></div><div class="logo">TCARDELL_</div><div class="subtitle">TCardell Headquarters</div><div class="result" id="final-result">[ OK ] ${message}</div>`;
+ else if(kind==='b') content.innerHTML=`<div class="eyebrow">${tr('ACCESO REMOTO AUTORIZADO','REMOTE ACCESS AUTHORIZED')}</div><div class="logo">TC-HQ</div><div class="sweep"></div><div class="subtitle"><span class="desktop-wordmark">T C A R D E L L&nbsp; H E A D Q U A R T E R S</span><span class="mobile-wordmark">TCardell Headquarters</span></div><div class="result" id="final-result">${message}_</div>`;
+ else{content.innerHTML=`<div class="eyebrow">TC/OS // MAINFRAME</div><pre class="ascii" id="ascii" aria-label="TC-HQ"></pre><div class="subtitle">TCardell Headquarters</div><div class="result" id="final-result">[ OK ] ${message}</div>`;$('ascii').textContent=ascii('T C - H Q')}
+ rail.classList.add('show-final');
+ for(let s=0;s<5;s++)later(s*1000,()=>{
+ countdown.textContent=tr('Redirigiendo en:','Redirecting in:')+' '+[5,4,3,2,1].slice(0,s+1).join('... ')+'...';
+ if(innerWidth<=600){let font=22;countdown.style.fontSize=font+'px';while(countdown.scrollWidth>countdown.clientWidth&&font>10){font--;countdown.style.fontSize=font+'px'}}
+});
+}
+function updateFinalResult(){const el=$('final-result');if(!el)return;const m=destination==='terminal'?tr('INICIALIZANDO SESIÓN DE TERMINAL...','INITIALIZING TERMINAL SESSION...'):tr('ACCESO CONCEDIDO','ACCESS GRANTED');el.textContent=(final.classList.contains('b')?'':'[ OK ] ')+m+(final.classList.contains('b')?'_':'')}
+function selectTerminal(){if(finished)return;destination='terminal';prompt.classList.add('selected');if(phase==='final')updateFinalResult()}
+function showError(){feedback.textContent=tr('[ ERROR ] Sistema no preparado. Arranque en curso.','[ ERROR ] System not ready. Boot in progress.');if(feedbackTimer)clearTimeout(feedbackTimer);feedbackTimer=setTimeout(()=>{feedback.textContent=''},2200)}
+function goGraphical(){if(finished)return;destination='graphical';navigate()}
+function navigate(){if(finished)return;finished=true;timeouts.forEach(clearTimeout);timeouts.clear();if(feedbackTimer)clearTimeout(feedbackTimer);try{sessionStorage.setItem('tcos.boot',JSON.stringify({
+  mode,lang,timestamp:new Date().toISOString(),destination,
+  lines:[...log.querySelectorAll('.line')].map(line=>line.textContent)
+ }))}catch(_){/* storage may be disabled */}
+ const query=new URLSearchParams();if(['es','en'].includes(requestedLang))query.set('lang',requestedLang);location.replace((destination==='terminal'?'terminal.html':'home.html')+(query.size?'?'+query.toString():''))}
+
+// Acceso oculto: tocar el prompt o escribir selecciona terminal SIN saltar boot.
+prompt.addEventListener('pointerdown',e=>{e.stopPropagation();selectTerminal();if(e.target!==input)input.focus({preventScroll:true})});
+prompt.addEventListener('click',e=>e.stopPropagation());
+input.addEventListener('input',()=>{if(input.value.length)selectTerminal()});
+input.addEventListener('keydown',e=>{
+ if(e.key==='Enter'){
+  e.preventDefault();e.stopPropagation();
+  if(!input.value.trim()){goGraphical();return}
+  selectTerminal();showError();input.value='';
+ }
+ if(e.key==='Escape'){e.preventDefault();e.stopPropagation();goGraphical()}
+});
+// En ordenador, también se puede empezar a escribir SIN clicar primero el prompt.
+document.addEventListener('keydown',e=>{
+ if(finished||e.target===input||e.ctrlKey||e.altKey||e.metaKey||e.isComposing)return;
+ if(e.key==='Enter'){e.preventDefault();goGraphical();return}
+ if(e.key==='Escape'){e.preventDefault();goGraphical();return}
+ if(e.key.length===1){e.preventDefault();selectTerminal();input.focus({preventScroll:true});input.value+=e.key;input.dispatchEvent(new Event('input',{bubbles:true}))}
+});
+document.addEventListener('pointerdown',e=>{if(!prompt.contains(e.target)&&destination!=='terminal')goGraphical()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&performance.now()-startedAt>=TOTAL_MS)navigate()});
+
+// Se conserva el pitido POST de la v1.3 (el autoplay puede bloquearlo).
+function beep(){if(qs.get('sound')==='off'||(settings.sound!==true&&qs.get('sound')!=='on'))return;try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;const a=new A();if(a.state!=='running'){a.close().catch(()=>{});return}const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=950;g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.035,a.currentTime+.008);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.088);o.connect(g);g.connect(a.destination);o.onended=()=>a.close().catch(()=>{});o.start();o.stop(a.currentTime+.09)}catch(_){}}
+const startedAt=performance.now();beep();
+later(BOOT_MS+HOLD_MS,showFinal);later(TOTAL_MS,navigate);
+if(settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches){
+ // Mantener accesible el prompt: sin animaciones, ir directamente a la home.
+ later(0,navigate);
+}
+})();
+</script>
+</body>
+</html>

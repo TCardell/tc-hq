@@ -1,0 +1,442 @@
+{
+  "version": "1.7.4",
+  "programs": [
+    {
+      "id": "system-info",
+      "name": {
+        "es": "Mi PC",
+        "en": "My Computer"
+      },
+      "description": {
+        "es": "Información del sistema y del navegador",
+        "en": "System and browser information"
+      },
+      "icon": "computer",
+      "type": "system",
+      "desktop": true,
+      "menu": true,
+      "terminal": true,
+      "command": "sysinfo",
+      "folder": "system"
+    },
+    {
+      "id": "explorer",
+      "name": {
+        "es": "Explorador",
+        "en": "File Explorer"
+      },
+      "description": {
+        "es": "Explora archivos, aplicaciones y enlaces",
+        "en": "Browse files, applications and links"
+      },
+      "icon": "folder",
+      "type": "system",
+      "desktop": true,
+      "menu": true,
+      "terminal": true,
+      "command": "explorer",
+      "folder": "system"
+    },
+    {
+      "id": "terminal",
+      "name": {
+        "es": "Terminal",
+        "en": "Terminal"
+      },
+      "description": {
+        "es": "Consola de TC/OS",
+        "en": "TC/OS command terminal"
+      },
+      "icon": "terminal",
+      "type": "system",
+      "desktop": true,
+      "menu": true,
+      "terminal": false,
+      "command": "terminal",
+      "folder": "system"
+    },
+    {
+      "id": "notepad",
+      "name": {
+        "es": "Bloc de notas",
+        "en": "Notepad"
+      },
+      "description": {
+        "es": "Escribe y guarda notas en este navegador",
+        "en": "Write and save notes in this browser"
+      },
+      "icon": "note",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": false,
+      "command": "notepad",
+      "folder": "tools"
+    },
+    {
+      "id": "calculator",
+      "name": {
+        "es": "Calculadora",
+        "en": "Calculator"
+      },
+      "description": {
+        "es": "Calculadora clásica",
+        "en": "Classic calculator"
+      },
+      "icon": "calculator",
+      "type": "page",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "calc",
+      "folder": "tools",
+      "url": "programs/calculator/index.html",
+      "openMode": "internal"
+    },
+    {
+      "id": "boot-logs",
+      "name": {
+        "es": "Registro de arranque",
+        "en": "Boot Logs"
+      },
+      "description": {
+        "es": "Historial del último acceso a TC-HQ",
+        "en": "Last TC-HQ connection log"
+      },
+      "icon": "logs",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "logs",
+      "folder": "system"
+    },
+    {
+      "id": "software-center",
+      "name": {
+        "es": "Gestor de programas",
+        "en": "Software Manager"
+      },
+      "description": {
+        "es": "Catálogo de aplicaciones y páginas del sistema",
+        "en": "Application and page catalog"
+      },
+      "icon": "archive",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": false,
+      "command": "software",
+      "folder": "system"
+    },
+    {
+      "id": "settings",
+      "name": {
+        "es": "Panel de control",
+        "en": "Control Panel"
+      },
+      "description": {
+        "es": "Preferencias del sistema, sonido y administrador",
+        "en": "System, sound and administrator preferences"
+      },
+      "icon": "settings",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": false,
+      "command": "settings",
+      "folder": "system"
+    },
+    {
+      "id": "welcome",
+      "name": {
+        "es": "Bienvenido",
+        "en": "Welcome"
+      },
+      "description": {
+        "es": "Página de ejemplo editable",
+        "en": "Editable example page"
+      },
+      "icon": "globe",
+      "type": "page",
+      "url": "pages/welcome.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "welcome",
+      "folder": "projects",
+      "openMode": "internal"
+    },
+    {
+      "id": "clock",
+      "name": {
+        "es": "Reloj TC-HQ",
+        "en": "TC-HQ Clock"
+      },
+      "description": {
+        "es": "Reloj y fecha en directo",
+        "en": "Live clock and date"
+      },
+      "icon": "clock",
+      "type": "page",
+      "url": "programs/clock.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "clock",
+      "folder": "tools",
+      "openMode": "internal"
+    },
+    {
+      "id": "music-player",
+      "name": {
+        "es": "Reproductor de música",
+        "en": "Music Player"
+      },
+      "description": {
+        "es": "Escucha tus archivos y la biblioteca musical de TC-HQ",
+        "en": "Play your audio files and the TC-HQ music library"
+      },
+      "icon": "music",
+      "type": "page",
+      "url": "programs/music-player/index.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "music",
+      "folder": "tools",
+      "openMode": "internal"
+    },
+    {
+      "id": "formulation-1997",
+      "name": {
+        "es": "Formulación inorgánica 1997",
+        "en": "Inorganic Formulation 1997"
+      },
+      "description": {
+        "es": "Prototipo educativo de formulación inorgánica",
+        "en": "Inorganic chemistry educational prototype"
+      },
+      "icon": "flask",
+      "type": "page",
+      "url": "programs/formulacion_inorganica_1997_prototipo.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "formulacion",
+      "folder": "chemistry",
+      "openMode": "ask"
+    },
+    {
+      "id": "personalization",
+      "name": {
+        "es": "Personalización",
+        "en": "Personalization"
+      },
+      "description": {
+        "es": "Personalización de TC/OS",
+        "en": "Personalization for TC/OS"
+      },
+      "icon": "palette",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": false,
+      "command": "personalize",
+      "folder": "system"
+    },
+    {
+      "id": "calendar",
+      "name": {
+        "es": "Calendario",
+        "en": "Calendar"
+      },
+      "description": {
+        "es": "Calendario de TC/OS",
+        "en": "Calendar for TC/OS"
+      },
+      "icon": "calendar",
+      "type": "page",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "calendar",
+      "folder": "tools",
+      "url": "programs/calendar/index.html",
+      "openMode": "internal"
+    },
+    {
+      "id": "recycle-bin",
+      "name": {
+        "es": "Papelera",
+        "en": "Recycle Bin"
+      },
+      "description": {
+        "es": "Papelera de TC/OS",
+        "en": "Recycle Bin for TC/OS"
+      },
+      "icon": "trash",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": false,
+      "command": "trash",
+      "folder": "system"
+    },
+    {
+      "id": "satellite-view",
+      "name": {
+        "es": "Vista de satélite",
+        "en": "Satellite View"
+      },
+      "description": {
+        "es": "Cartografía de PirateCraft",
+        "en": "PirateCraft live map"
+      },
+      "icon": "globe",
+      "type": "page",
+      "url": "https://map.piratemc.com/survival#PirateCraft_1;surface;-14107,64,782;6",
+      "embed": true,
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "satellite",
+      "folder": "projects",
+      "openMode": "internal"
+    },
+    {
+      "id": "help",
+      "name": {
+        "es": "Ayuda de TC/OS",
+        "en": "TC/OS Help"
+      },
+      "description": {
+        "es": "Guía del escritorio, terminal, programas y atajos",
+        "en": "Desktop, terminal, applications and shortcuts guide"
+      },
+      "icon": "book",
+      "type": "system",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "helpdesk",
+      "folder": "system"
+    }
+  ],
+  "folders": [
+    {
+      "id": "system",
+      "name": {
+        "es": "Sistema",
+        "en": "System"
+      },
+      "parent": null,
+      "icon": "computer",
+      "desktop": true,
+      "menu": true,
+      "protected": true
+    },
+    {
+      "id": "tools",
+      "name": {
+        "es": "Herramientas",
+        "en": "Utilities"
+      },
+      "parent": null,
+      "icon": "calculator",
+      "desktop": true,
+      "menu": true,
+      "protected": true
+    },
+    {
+      "id": "education",
+      "name": {
+        "es": "Educación",
+        "en": "Education"
+      },
+      "parent": null,
+      "icon": "book",
+      "desktop": true,
+      "menu": true,
+      "protected": true
+    },
+    {
+      "id": "chemistry",
+      "name": {
+        "es": "Química",
+        "en": "Chemistry"
+      },
+      "parent": "education",
+      "icon": "flask",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "physics",
+      "name": {
+        "es": "Física",
+        "en": "Physics"
+      },
+      "parent": "education",
+      "icon": "atom",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "mathematics",
+      "name": {
+        "es": "Matemáticas",
+        "en": "Mathematics"
+      },
+      "parent": "education",
+      "icon": "sigma",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "technology",
+      "name": {
+        "es": "Tecnología",
+        "en": "Technology"
+      },
+      "parent": "education",
+      "icon": "gear",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "computing",
+      "name": {
+        "es": "Informática",
+        "en": "Computing"
+      },
+      "parent": "education",
+      "icon": "code",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "graphics",
+      "name": {
+        "es": "Artes gráficas",
+        "en": "Graphic Arts"
+      },
+      "parent": "education",
+      "icon": "palette",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "projects",
+      "name": {
+        "es": "Proyectos y páginas",
+        "en": "Projects & pages"
+      },
+      "parent": null,
+      "icon": "folder",
+      "desktop": true,
+      "menu": true,
+      "protected": true
+    }
+  ]
+}

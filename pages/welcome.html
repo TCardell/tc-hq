@@ -1,0 +1,14 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TC-HQ // Welcome</title><style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#101115;color:#e5e3e4;font:14px/1.65 Tahoma,Verdana,sans-serif;padding:clamp(18px,6vw,58px)}.wrap{max-width:700px;margin:auto}.line{height:2px;background:#c43b47;width:120px;margin:25px 0}small{letter-spacing:.2em;color:#d95a63}h1{font-size:clamp(34px,6vw,66px);color:#e74851;margin:3px 0 12px;letter-spacing:-.06em}p{color:#c1c0c3}code{font-family:monospace;color:#f38891;background:#242024;padding:2px 5px}a{color:#ff9ea5}
+</style></head><body><div class="wrap"><small>TC/OS / TCARDELL HEADQUARTERS</small><h1>TC-HQ</h1><div class="line"></div><h2 id="welcome-heading">Bienvenido</h2><p>Esta es una página de ejemplo. Puedes sustituir su contenido por una página personal, una galería o uno de tus proyectos.</p><p>Para incorporar más páginas, súbelas a <code>pages/</code> y añade su entrada en <code>programs.json</code>. El escritorio y la terminal compartirán ese catálogo.</p></div><script>
+let p={};try{p=JSON.parse(localStorage.getItem('tcos.preferences')||'{}')||{}}catch{}
+const l=['es','en'].includes(p.language)?p.language:(/^es(?:-|$)/i.test(navigator.language)?'es':'en');document.documentElement.lang=l;
+if(l==='en'){
+ document.getElementById('welcome-heading').textContent='Welcome';
+ document.querySelectorAll('.wrap p')[0].textContent='A selection of TC-HQ programs, tools and projects is ready to explore.';
+ document.querySelectorAll('.wrap p')[1].innerHTML='More applications are available from the desktop and File Explorer. Choose a tool and start exploring.';
+}else{
+ document.querySelectorAll('.wrap p')[0].textContent='TC-HQ reúne programas, herramientas y proyectos que puedes descubrir y utilizar.';
+ document.querySelectorAll('.wrap p')[1].textContent='Encontrarás más aplicaciones desde el escritorio y el Explorador. Elige una y empieza a explorar.';
+}
+</script></body></html>

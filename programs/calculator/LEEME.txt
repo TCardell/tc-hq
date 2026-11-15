@@ -1,0 +1,92 @@
+TC-HQ Scientific v0.1 — Calculadora modular para TC/OS
+=======================================================
+
+INSTALACIÓN (TC-HQ v1.7.3 y posteriores compatibles)
+---------------------------------------------------
+1. Haz una copia de seguridad de la carpeta anterior programs/calculator/.
+2. Sube el contenido de esta carpeta a la ruta de Neocities:
+   programs/calculator/
+   respetando todos sus archivos y subcarpetas.
+3. El catálogo de TC-HQ v1.7.3 ya tiene registrada la calculadora con la ruta
+   programs/calculator/index.html. NO necesitas modificar programs.json.
+4. Recarga la web; si persiste la versión antigua, fuerza recarga de caché.
+5. También puedes abrir directamente la dirección:
+   https://TU-SITIO.neocities.org/programs/calculator/index.html
+
+No sustituyas el programs.json del sitio ni borres tus otros HTML educativos.
+El resto de TC/OS no ha sido modificado en esta entrega.
+
+QUÉ FUNCIONA EN ESTA VERSIÓN
+---------------------------
+- Científica: operaciones, potencias, raíces, trigonometría DEG/RAD, logaritmos,
+  factorial, combinatoria, porcentaje (como división por 100), paréntesis,
+  producto implícito como 2pi o 2(3+4), Ans, memoria y cálculos anteriores.
+- Fracciones exactas de operaciones racionales sencillas, además del decimal.
+- Matrices reales de 2x2, 3x3 y 4x4: suma, resta, producto, inversa,
+  determinante y transpuesta.
+- Integrales DEFINIDAS NUMÉRICAS y derivadas numéricas de funciones en x.
+- Conversor de unidades por categorías, con temperaturas correctas.
+- Constantes físicas y químicas con origen SI y datos de referencia.
+- Mini-calculadoras: efecto fotoeléctrico y gas ideal (PV=nRT).
+- Tema visual integrado con preferencias del escritorio (negro, synthwave,
+  fósforo, clásico, etc.) y diseño adaptable a móviles.
+- Sin bibliotecas externas, sin llamadas de red, sin backend y sin eval().
+
+TECLADO Y FORMATO DE EXPRESIONES
+-------------------------------
+El teclado numérico/físico también funciona: escribe una expresión y pulsa
+Intro. Usa punto para decimales y coma para separar argumentos de funciones.
+Ejemplos:
+  2+2                = 4
+  1/3+1/6            = 0.5 (y fracción exacta 1/2)
+  sin(30)            = 0.5 en DEG
+  sin(pi/2)          = 1 en RAD
+  sqrt(2)           = 1.41421356237...
+  log(100)           = 2
+  log(8,2)           = 3
+  nCr(10,3)          = 120
+  3!                 = 6
+  2*pi               = 6.283...
+  2x                 = 2 por x (en el módulo Cálculo)
+  2^3^2              = 512
+
+El resultado de ciertas operaciones puede ser aproximado por trabajar con
+números de coma flotante. No tiene aún entrada matemática bidimensional
+(fracciones apiladas, raíces dibujadas) ni álgebra simbólica general.
+
+ORGANIZACIÓN INTERNA
+--------------------
+  index.html             Interfaz HTML
+  calculator.css         Estilos y temas
+  calculator.js          Interacción, estados e integración de módulos
+  core/engine.js         Analizador y evaluador matemático seguro
+  modules/matrices.js    Álgebra lineal
+  modules/calculus.js    Derivadas e integración numérica
+  modules/units.js       Magnitudes y conversiones
+  data/constants.js      Constantes y unidades SI
+  tools/photoelectric.js Efecto fotoeléctrico
+  tools/ideal-gas.js     Ley de gases ideales
+
+Los módulos se cargan al abrir su pestaña. Para añadir una nueva minicalculadora
+se crea un módulo en tools/ y se enlaza desde calculator.js y la pestaña.
+
+PRECISIÓN Y LIMITACIONES
+-----------------------
+- Integración: Simpson adaptativo; no garantiza precisión cerca de
+  singularidades, discontinuidades o funciones oscilatorias difíciles.
+- Derivadas: aproximación central de cinco puntos; no son simbólicas.
+- Matrices: valores reales; esta versión no incluye números complejos.
+- Las constantes se insertan como valores numéricos; el motor general no
+  comprueba dimensiones físicas al evaluar expresiones.
+- El historial se guarda localmente en el navegador; no se sincroniza.
+- Los módulos no necesitan acceso remoto, pero debes abrir la aplicación desde
+  un servidor HTTPS; file:// puede bloquear los import de JavaScript.
+
+PRÓXIMAS AMPLIACIONES POSIBLES
+-----------------------------
+Gráficas, sistemas de ecuaciones, más herramientas de Física y Química,
+selector de precisión, mejor tipografía matemática y operaciones simbólicas.
+
+ESTADO: primera versión funcional (v0.1), probada con casos matemáticos y
+pruebas de interfaz; conviene comprobar también en tu Neocities antes de
+considerarla definitiva.

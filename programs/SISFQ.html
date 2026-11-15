@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISFQ — Simple Image Study Fast Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #eef2ff 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.08);
+        }
+
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .pop-in {
+            animation: popIn 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .drop-zone {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .drop-zone.dragover {
+            border-color: #7c3aed;
+            background-color: #f5f3ff;
+            transform: scale(1.01);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(124, 58, 237, 0.4);
+        }
+
+        /* Modo oscuro. También se aplica a las filas generadas durante el quiz. */
+        html.dark body { background: linear-gradient(145deg, #070c1b 0%, #15132c 55%, #101b33 100%); color: #e2e8f0; }
+        html.dark .glass-card { background: rgba(18, 26, 46, .96); border-color: rgba(148, 163, 184, .15); box-shadow: 0 20px 50px rgba(0,0,0,.24); }
+        html.dark .dark-title { background-image: linear-gradient(to right, #c4b5fd, #93c5fd); }
+        html.dark [class~="text-slate-800"] { color: #f1f5f9; }
+        html.dark [class~="text-slate-700"] { color: #e2e8f0; }
+        html.dark [class~="text-slate-600"] { color: #cbd5e1; }
+        html.dark [class~="text-slate-500"], html.dark [class~="text-slate-400"] { color: #9caec7; }
+        html.dark [class~="text-brand-900"], html.dark [class~="text-brand-700"], html.dark [class~="text-brand-600"], html.dark [class~="text-indigo-600"] { color: #c4b5fd; }
+        html.dark [class~="text-rose-600"], html.dark [class~="text-rose-700"] { color: #fda4af; }
+        html.dark [class~="text-emerald-700"], html.dark [class~="text-emerald-600"] { color: #6ee7b7; }
+        html.dark [class~="text-amber-700"] { color: #fcd34d; }
+        html.dark [class~="bg-white"], html.dark [class~="bg-white/80"], html.dark [class~="bg-white/70"], html.dark [class~="bg-white/50"] { background-color: #1e293b; }
+        html.dark [class~="bg-slate-100"], html.dark [class~="bg-slate-900/5"], html.dark [class~="bg-slate-200"] { background-color: #273449; }
+        html.dark [class~="bg-slate-300"] { background-color: #374151; }
+        html.dark [class~="bg-brand-50"], html.dark [class~="bg-brand-50/70"], html.dark [class~="bg-brand-100"], html.dark [class~="bg-indigo-50"], html.dark [class~="bg-indigo-100"] { background-color: #33294f; }
+        html.dark [class~="bg-rose-50/80"], html.dark [class~="bg-rose-50/50"], html.dark [class~="bg-rose-100"] { background-color: #442535; }
+        html.dark [class~="bg-emerald-50/50"], html.dark [class~="bg-emerald-100"] { background-color: #143b36; }
+        html.dark [class~="bg-amber-100"] { background-color: #493b21; }
+        html.dark [class~="border-slate-200"], html.dark [class~="border-slate-200/80"], html.dark [class~="border-slate-200/60"] { border-color: #39465b; }
+        html.dark [class~="border-brand-200"], html.dark [class~="border-indigo-200"] { border-color: #5c4a88; }
+        html.dark [class~="border-rose-200"] { border-color: #7b3d55; }
+        html.dark [class~="border-emerald-200"] { border-color: #287562; }
+        html.dark [class~="border-amber-300"] { border-color: #8c692d; }
+        html.dark .intro-panel { background: rgba(77, 57, 116, .22); }
+        html.dark .drop-zone:hover, html.dark .drop-zone.dragover { background: #2c2648; border-color: #a78bfa; }
+        html.dark input[type="text"], html.dark select { background: #172138; color: #f1f5f9; border-color: #475569; }
+        html.dark input[type="text"]::placeholder { color: #91a2b9; }
+        html.dark .key-input { background: transparent !important; color: #ede9fe; border-color: #8072a9; }
+        html.dark .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        html.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #55506f; }
+        html.dark .ui-control { background: #1e293b; color: #e2e8f0; border-color: #475569; }
+        html.dark .ui-control:hover { border-color: #a78bfa; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col justify-between min-h-screen p-3 md:p-6 select-none">
+
+    <header class="max-w-4xl mx-auto w-full mb-5 flex flex-col sm:flex-row gap-4 sm:items-center justify-between px-2">
+        <div class="flex items-center gap-3 min-w-0">
+            <div class="p-2.5 bg-brand-600 text-white rounded-2xl shadow-lg shadow-brand-500/30 shrink-0">
+                <i data-lucide="brain-circuit" class="w-7 h-7"></i>
+            </div>
+            <div class="min-w-0">
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-700 to-indigo-600 dark-title">SISFQ</h1>
+                <p class="text-[11px] md:text-sm text-slate-500 font-semibold tracking-tight">Simple Image Study Fast Quiz</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 justify-between sm:justify-end">
+            <div id="statsHeaderBadge" class="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-xl border border-slate-200/80 text-xs font-semibold text-slate-600">
+                <i data-lucide="layers" class="w-4 h-4 text-brand-500"></i>
+                <span id="badgeCount">0 imágenes</span>
+            </div>
+            <label class="sr-only" for="languageSelect" data-i18n="languageLabel">Idioma</label>
+            <select id="languageSelect" aria-label="Idioma / Language" class="ui-control text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 bg-white/80 text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-400">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+            </select>
+            <button type="button" id="themeToggle" class="ui-control flex gap-1.5 items-center px-3 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white/80 text-slate-700 hover:border-brand-400 transition-colors" aria-label="Activar modo oscuro" title="Activar modo oscuro">
+                <i id="themeIcon" data-lucide="moon" class="w-4 h-4"></i><span id="themeLabel">Oscuro</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main class="max-w-3xl mx-auto w-full flex-1 flex flex-col justify-center my-2">
+
+        <!-- PANTALLA 1: CONFIGURACIÓN -->
+        <section id="screenSetup" class="glass-card rounded-3xl p-5 md:p-8 pop-in">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2" data-i18n="setupTitle">Memoriza nombres con imágenes</h2>
+                <p class="text-slate-600 text-sm max-w-xl mx-auto leading-relaxed" data-i18n="setupIntro">
+                    SISFQ te ayuda a asociar una imagen con su nombre y recordarlo de manera rápida mediante preguntas y repeticiones.
+                </p>
+            </div>
+            <div class="intro-panel rounded-2xl border border-brand-200 bg-brand-50/70 p-4 mb-6">
+                <p class="font-bold text-sm text-brand-700 flex items-center gap-2 mb-1.5"><i data-lucide="lightbulb" class="w-4 h-4 shrink-0"></i><span data-i18n="useTitle">¿Para qué puedes utilizarlo?</span></p>
+                <p class="text-slate-700 text-xs sm:text-sm leading-relaxed" data-i18n="useExamples">Para aprender los nombres de tus estudiantes a partir de sus fotografías, identificar herramientas de un taller de serigrafía o memorizar especies de plantas, obras de arte y monumentos.</p>
+                <p class="text-slate-500 text-xs mt-2" data-i18n="howItWorks">Carga imágenes, asigna a cada una el nombre o respuesta que quieras recordar y practica hasta acertarlas todas. Puedes repasar solo las que falles.</p>
+            </div>
+
+            <!-- Opciones de carga -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Zona Drag & Drop -->
+                <div id="dropZone" class="drop-zone border-2 border-dashed border-brand-200 rounded-2xl p-6 text-center flex flex-col items-center justify-center cursor-pointer hover:border-brand-500 hover:bg-brand-50/50 group">
+                    <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+                    <div class="p-3 bg-brand-100 text-brand-600 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                        <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+                    </div>
+                    <p class="font-semibold text-sm text-slate-700"><span data-i18n="dropTitle">Arrastra tus imágenes aquí</span></p>
+                    <p class="text-xs text-slate-400 mt-1"><span data-i18n="dropSubtitle">o haz clic para buscar en tu equipo</span></p>
+                </div>
+
+                <!-- Carga Predeterminada -->
+                <div class="border border-slate-200 rounded-2xl p-6 text-center flex flex-col items-center justify-center bg-white/50">
+                    <div class="p-3 bg-indigo-100 text-indigo-600 rounded-full mb-3">
+                        <i data-lucide="sparkles" class="w-8 h-8"></i>
+                    </div>
+                    <p class="font-semibold text-sm text-slate-700"><span data-i18n="sampleTitle">Usar 15 Imágenes de Ejemplo</span></p>
+                    <p class="text-xs text-slate-400 mt-1 mb-3"><span data-i18n="sampleDescription">Ejemplos con animales, objetos y arquitectura</span></p>
+                    <button id="btnLoadDefaults" class="px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold rounded-xl text-xs transition-colors border border-indigo-200 flex items-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> <span data-i18n="loadSample">Cargar Predeterminados</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista interactiva de imágenes e ingresos de palabras esperadas -->
+            <div id="filePreviewContainer" class="hidden mb-6">
+                <div class="flex items-center justify-between mb-3 px-1">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                        <i data-lucide="edit-3" class="w-4 h-4 text-brand-600"></i> <span data-i18n="customize">Personalizar respuestas</span> (<span id="loadedCount">0</span>)
+                    </h3>
+                    <button id="btnClearFiles" class="text-xs font-medium text-rose-500 hover:text-rose-600 flex items-center gap-1">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> <span data-i18n="clearList">Limpiar lista</span>
+                    </button>
+                </div>
+
+                <div id="fileList" class="max-h-56 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <!-- Filas dinámicas -->
+                </div>
+            </div>
+
+            <!-- Botón Iniciar -->
+            <button id="btnStartQuiz" disabled class="w-full py-3.5 px-6 bg-slate-300 text-slate-500 font-bold rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-not-allowed">
+                <i data-lucide="play" class="w-5 h-5"></i> <span data-i18n="startQuiz">Comenzar Quiz</span>
+            </button>
+        </section>
+
+        <!-- PANTALLA 2: QUIZ INTERACTIVO -->
+        <section id="screenQuiz" class="hidden glass-card rounded-3xl p-4 md:p-6 relative overflow-hidden">
+            
+            <!-- OVERLAY DE FEEDBACK 100% TRANSLÚCIDO -->
+            <div id="feedbackOverlay" class="hidden absolute inset-0 z-30 flex flex-col items-center justify-center p-6 text-center text-white cursor-pointer select-none transition-all duration-150">
+                <div id="overlayContent" class="flex flex-col items-center pop-in max-w-md mx-auto pointer-events-none">
+                    <!-- Icono Gigante -->
+                    <div id="overlayIconBg" class="w-24 h-24 rounded-full flex items-center justify-center mb-3 shadow-2xl backdrop-blur-md">
+                        <i id="overlayIcon" class="w-16 h-16 text-white stroke-[3]"></i>
+                    </div>
+
+                    <!-- Mensaje Principal -->
+                    <h2 id="overlayTitle" class="text-3xl md:text-4xl font-black tracking-tight mb-1 drop-shadow-md"></h2>
+                    
+                    <!-- Detalle de Respuesta (Si falla) -->
+                    <div id="overlayDetailBox" class="hidden my-2 w-full bg-slate-950/70 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-left space-y-2 text-sm shadow-2xl">
+                        <p class="flex justify-between items-center text-rose-200">
+                            <span class="opacity-80 font-medium"><span data-i18n="youWrote">Escribiste:</span></span>
+                            <span id="overlayUserText" class="font-extrabold line-through decoration-rose-400"></span>
+                        </p>
+                        <p class="flex justify-between items-center text-emerald-300 border-t border-white/10 pt-2">
+                            <span class="opacity-80 font-medium"><span data-i18n="correctAnswer">Respuesta correcta:</span></span>
+                            <span id="overlayCorrectText" class="font-black text-base uppercase tracking-wide"></span>
+                        </p>
+                    </div>
+
+                    <!-- Indicador ágil -->
+                    <div class="mt-3 bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-4 py-2 rounded-full shadow-xl flex items-center gap-2">
+                        <kbd class="px-2 py-0.5 bg-white/20 rounded text-[10px] uppercase font-mono">ENTER</kbd>
+                        <span><span data-i18n="continueText">o clic para continuar al instante</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra superior del Quiz -->
+            <div class="mb-4">
+                <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-2">
+                    <span id="questionProgressText">Pregunta 1 de 15</span>
+                    <div class="flex items-center gap-3">
+                        <span id="loopModeBadge" class="hidden bg-amber-100 text-amber-700 text-[10px] uppercase font-extrabold px-2.5 py-0.5 rounded-full border border-amber-300 flex items-center gap-1">
+                            <i data-lucide="repeat" class="w-3 h-3"></i> <span data-i18n="reviewing">Repasando Fallos</span>
+                        </span>
+                        <span class="text-emerald-600 flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4"></i> <span id="scoreHits">0</span></span>
+                        <span class="text-rose-500 flex items-center gap-1"><i data-lucide="x-circle" class="w-4 h-4"></i> <span id="scoreMisses">0</span></span>
+                    </div>
+                </div>
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-brand-500 to-indigo-600 h-full w-0 transition-all duration-300 rounded-full"></div>
+                </div>
+            </div>
+
+            <!-- Visor de Imagen sin revelar el nombre de archivo -->
+            <div class="relative bg-slate-900/5 rounded-2xl overflow-hidden mb-5 border border-slate-200/60 flex items-center justify-center min-h-[260px] max-h-[360px]">
+                <img id="quizImage" src="" alt="Imagen del cuestionario" data-i18n-alt="quizImageAlt" class="max-h-[350px] w-auto object-contain transition-all duration-300">
+            </div>
+
+            <!-- Formulario y Respuestas -->
+            <div class="space-y-4">
+                <form id="quizForm" onsubmit="return false;" class="flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1">
+                        <input type="text" id="answerInput" autocomplete="off" placeholder="Escribe la respuesta y pulsa Enter..." data-i18n-placeholder="answerPlaceholder" 
+                               class="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 text-base font-medium outline-none transition-all pr-10">
+                        <button type="button" id="btnHint" title="Mostrar pista" data-i18n-title="hintTitle" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-600 p-1">
+                            <i data-lucide="help-circle" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <button type="submit" id="btnSubmit" class="py-3.5 px-6 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold rounded-xl shadow-lg shadow-brand-500/25 transition-all flex items-center justify-center gap-2">
+                        <span><span data-i18n="check">Comprobar</span></span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+
+                <!-- Pista opcional -->
+                <div id="hintBox" class="hidden text-xs text-brand-700 bg-brand-50 border border-brand-200 rounded-xl p-2.5 text-center font-medium">
+                    💡 <span data-i18n="hintPrefix">Pista: la respuesta empieza por</span> "<span id="hintLetter" class="font-extrabold uppercase"></span>" <span data-i18n="hintMiddle">y tiene</span> <span id="hintLength" class="font-extrabold"></span> <span data-i18n="hintSuffix">caracteres.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: RESULTADOS -->
+        <section id="screenResults" class="hidden glass-card rounded-3xl p-6 md:p-8 pop-in text-center">
+            <div id="resultsHeaderIcon" class="inline-flex p-4 bg-brand-100 text-brand-600 rounded-3xl mb-4 shadow-inner">
+                <i id="resultsTrophyIcon" data-lucide="trophy" class="w-12 h-12"></i>
+            </div>
+            
+            <h2 id="resultsTitle" class="text-2xl font-extrabold text-slate-800 mb-1">¡Quiz completado!</h2>
+            <p id="resultsSubtitle" class="text-xs text-slate-500 mb-6">Aquí tienes el resumen de tus resultados</p>
+
+            <!-- Score Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-white/70 border border-slate-200/80 p-3 rounded-2xl">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"><span data-i18n="hits">Aciertos</span></p>
+                    <p id="resHits" class="text-2xl font-extrabold text-emerald-600">0</p>
+                </div>
+                <div class="bg-white/70 border border-slate-200/80 p-3 rounded-2xl">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"><span data-i18n="percentage">Porcentaje</span></p>
+                    <p id="resPercent" class="text-2xl font-extrabold text-brand-600">0%</p>
+                </div>
+                <div class="bg-white/70 border border-slate-200/80 p-3 rounded-2xl">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider"><span data-i18n="time">Tiempo</span></p>
+                    <p id="resTime" class="text-2xl font-extrabold text-indigo-600">0s</p>
+                </div>
+            </div>
+
+            <!-- Sección destacada para Errores / Fallos -->
+            <div id="failedSection" class="hidden mb-6 text-left bg-rose-50/80 border-2 border-rose-200 p-4 rounded-2xl">
+                <div class="flex items-center gap-2 mb-3 text-rose-700">
+                    <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                    <h3 class="text-sm font-extrabold"><span data-i18n="reviewQuestions">Preguntas para repasar</span> (<span id="failedCountBadge">0</span>)</h3>
+                </div>
+                <p class="text-xs text-rose-600 mb-3"><span data-i18n="reviewTip">Has fallado en estas imágenes. Compara lo que escribiste con la respuesta real y repásalas:</span></p>
+                <div id="failedList" class="max-h-56 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <!-- Items de fallos con comparación -->
+                </div>
+            </div>
+
+            <!-- Desglose Completo de Respuestas -->
+            <div class="mb-6 text-left">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-1"><span data-i18n="fullHistory">Historial Completo</span></h3>
+                <div id="resultsBreakdown" class="max-h-48 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <!-- Items dinámicos -->
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button id="btnPracticeFailed" class="hidden flex-1 py-3.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl shadow-lg shadow-rose-500/25 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="repeat" class="w-4 h-4"></i> <span data-i18n="reviewMistakes">Repasar solo fallos</span> (<span id="btnFailedCount">0</span>)
+                </button>
+                <button id="btnRetry" class="flex-1 py-3.5 px-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-500/25 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> <span data-i18n="restartQuiz">Reiniciar Todo el Quiz</span>
+                </button>
+                <button id="btnNewQuiz" class="flex-1 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all flex items-center justify-center gap-2 border border-slate-200">
+                    <i data-lucide="folder-plus" class="w-4 h-4"></i> <span data-i18n="newImages">Nuevas Imágenes</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-4xl mx-auto w-full text-center py-2 text-xs text-slate-400">
+        SISFQ &copy; 2026 · <span data-i18n="footer">Aprende y recuerda con imágenes</span>
+    </footer>
+
+    <script>
+        // --- IDIOMA Y APARIENCIA ---
+        const TRANSLATIONS = {
+            es: {
+                languageLabel: 'Idioma', themeDark: 'Oscuro', themeLight: 'Claro',
+                themeToDark: 'Activar modo oscuro', themeToLight: 'Activar modo claro',
+                imageCount: '{n} {noun}', setupTitle: 'Memoriza nombres con imágenes',
+                setupIntro: 'SISFQ te ayuda a asociar una imagen con su nombre y recordarlo de manera rápida mediante preguntas y repeticiones.',
+                useTitle: '¿Para qué puedes utilizarlo?',
+                useExamples: 'Para aprender los nombres de tus estudiantes a partir de sus fotografías, identificar herramientas de un taller de serigrafía o memorizar especies de plantas, obras de arte y monumentos.',
+                howItWorks: 'Carga imágenes, asigna a cada una el nombre o respuesta que quieras recordar y practica hasta acertarlas todas. Puedes repasar solo las que falles.',
+                dropTitle: 'Arrastra tus imágenes aquí', dropSubtitle: 'o haz clic para buscar en tu equipo',
+                sampleTitle: 'Usar 15 imágenes de ejemplo', sampleDescription: 'Ejemplos con animales, objetos y arquitectura',
+                loadSample: 'Cargar ejemplos', customize: 'Personalizar respuestas', clearList: 'Limpiar lista',
+                startQuiz: 'Comenzar quiz', youWrote: 'Escribiste:', correctAnswer: 'Respuesta correcta:',
+                continueText: 'o clic para continuar', reviewing: 'Repasando fallos',
+                check: 'Comprobar', hits: 'Aciertos', percentage: 'Porcentaje', time: 'Tiempo',
+                reviewQuestions: 'Preguntas para repasar',
+                reviewTip: 'Has fallado en estas imágenes. Compara tus respuestas y vuelve a practicarlas:',
+                fullHistory: 'Historial completo', reviewMistakes: 'Repasar solo fallos',
+                restartQuiz: 'Reiniciar todo el quiz', newImages: 'Nuevas imágenes',
+                footer: 'Aprende y recuerda con imágenes', answerPlaceholder: 'Escribe la respuesta y pulsa Enter...',
+                hintTitle: 'Mostrar pista', hintPrefix: 'Pista: la respuesta empieza por',
+                hintMiddle: 'y tiene', hintSuffix: 'caracteres.', quizImageAlt: 'Imagen del cuestionario',
+                item: 'Elemento', key: 'Nombre:', expectedPlaceholder: 'Respuesta esperada',
+                removeTitle: 'Eliminar imagen', thumbnailAlt: 'Vista previa',
+                question: 'Pregunta {current} de {total}', correct: '¡CORRECTO!', incorrect: '¡INCORRECTO!',
+                empty: '(vacío)', loopPerfect: '¡Repaso superado!', perfect: '¡Resultado perfecto!',
+                perfectSubtitle: 'Has acertado todas las imágenes. ¡Excelente memoria!',
+                needsReview: 'Repaso necesario', missesSubtitle: 'Has fallado {n} {noun}. ¡Revisa tus respuestas e inténtalo de nuevo!',
+                solution: 'Solución:', yourAnswer: 'Tu respuesta:', failed: 'Fallado', correctLabel: '¡Correcto!'
+            },
+            en: {
+                languageLabel: 'Language', themeDark: 'Dark', themeLight: 'Light',
+                themeToDark: 'Enable dark mode', themeToLight: 'Enable light mode',
+                imageCount: '{n} {noun}', setupTitle: 'Memorize names through images',
+                setupIntro: 'SISFQ helps you associate an image with its name and recall it quickly through questions and repetition.',
+                useTitle: 'What can you use it for?',
+                useExamples: 'Learn your students’ names from their photos, identify tools in a screen-printing workshop, or memorize plant species, artworks, and monuments.',
+                howItWorks: 'Upload images, give each one the name or answer you want to remember, and practice until you know them all. You can review only the ones you missed.',
+                dropTitle: 'Drop your images here', dropSubtitle: 'or click to browse your files',
+                sampleTitle: 'Use 15 sample images', sampleDescription: 'Animals, objects and architecture',
+                loadSample: 'Load samples', customize: 'Customize answers', clearList: 'Clear list',
+                startQuiz: 'Start quiz', youWrote: 'You entered:', correctAnswer: 'Correct answer:',
+                continueText: 'or click to continue', reviewing: 'Reviewing mistakes',
+                check: 'Check', hits: 'Correct', percentage: 'Percentage', time: 'Time',
+                reviewQuestions: 'Questions to review',
+                reviewTip: 'You missed these images. Compare your answers and practice them again:',
+                fullHistory: 'Full history', reviewMistakes: 'Review mistakes only',
+                restartQuiz: 'Restart entire quiz', newImages: 'New images',
+                footer: 'Learn and remember with images', answerPlaceholder: 'Type your answer and press Enter...',
+                hintTitle: 'Show hint', hintPrefix: 'Hint: the answer starts with',
+                hintMiddle: 'and has', hintSuffix: 'characters.', quizImageAlt: 'Quiz image',
+                item: 'Item', key: 'Name:', expectedPlaceholder: 'Expected answer',
+                removeTitle: 'Remove image', thumbnailAlt: 'Thumbnail',
+                question: 'Question {current} of {total}', correct: 'CORRECT!', incorrect: 'INCORRECT!',
+                empty: '(empty)', loopPerfect: 'Review mastered!', perfect: 'Perfect score!',
+                perfectSubtitle: 'You got every image right. Excellent memory!',
+                needsReview: 'Review needed', missesSubtitle: 'You missed {n} {noun}. Check your answers and try again!',
+                solution: 'Answer:', yourAnswer: 'Your answer:', failed: 'Missed', correctLabel: 'Correct!'
+            }
+        };
+        const SAMPLE_WORDS = {
+            es: ['Perro', 'Gato', 'Coche', 'Casa', 'Leon', 'Guitarra', 'Avion', 'Montaña', 'Reloj', 'Cafetera', 'Libro', 'Flor', 'Platano', 'Taza', 'Castillo'],
+            en: ['Dog', 'Cat', 'Car', 'House', 'Lion', 'Guitar', 'Plane', 'Mountain', 'Watch', 'Coffee maker', 'Book', 'Flower', 'Banana', 'Cup', 'Castle']
+        };
+        const readPreference = (key, fallback) => {
+            try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
+        };
+        const savePreference = (key, value) => {
+            try { localStorage.setItem(key, value); } catch { /* private browsing / blocked storage */ }
+        };
+        let currentLanguage = readPreference('sisfq-language', 'es') === 'en' ? 'en' : 'es';
+        let darkMode = readPreference('sisfq-theme', 'light') === 'dark';
+        function tr(key, vars = {}) {
+            let text = TRANSLATIONS[currentLanguage][key] || TRANSLATIONS.es[key] || key;
+            for (const [k, value] of Object.entries(vars)) text = text.replaceAll(`{${k}}`, value);
+            return text;
+        }
+        function countText(n, key = 'imageCount') {
+            return tr(key, { n, noun: currentLanguage === 'es' ? (n === 1 ? 'imagen' : 'imágenes') : (n === 1 ? 'image' : 'images') });
+        }
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+        }
+        function applyTheme() {
+            document.documentElement.classList.toggle('dark', darkMode);
+            const label = document.getElementById('themeLabel');
+            const button = document.getElementById('themeToggle');
+            const icon = document.getElementById('themeIcon');
+            label.textContent = tr(darkMode ? 'themeLight' : 'themeDark');
+            const action = tr(darkMode ? 'themeToLight' : 'themeToDark');
+            button.setAttribute('title', action);
+            button.setAttribute('aria-label', action);
+            icon.setAttribute('data-lucide', darkMode ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+        function applyLanguage() {
+            document.documentElement.lang = currentLanguage;
+            document.getElementById('languageSelect').value = currentLanguage;
+            document.querySelectorAll('[data-i18n]').forEach(node => node.textContent = tr(node.dataset.i18n));
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(node => node.placeholder = tr(node.dataset.i18nPlaceholder));
+            document.querySelectorAll('[data-i18n-title]').forEach(node => node.title = tr(node.dataset.i18nTitle));
+            document.querySelectorAll('[data-i18n-alt]').forEach(node => node.alt = tr(node.dataset.i18nAlt));
+            // Sample answers track the interface language unless the user has edited one.
+            loadedItems.forEach(item => {
+                if (item.sampleAuto && item.sampleIndex !== undefined) item.firstWord = SAMPLE_WORDS[currentLanguage][item.sampleIndex];
+            });
+            updateFileListUI();
+            if (!screenQuiz.classList.contains('hidden')) {
+                refreshQuestionLabels();
+                if (isOverlayActive && quizHistory.length) {
+                    const last = quizHistory[quizHistory.length - 1];
+                    overlayTitle.textContent = tr(last.isCorrect ? 'correct' : 'incorrect');
+                    overlayUserText.textContent = last.userAnswer.trim() || tr('empty');
+                }
+            }
+            if (!screenResults.classList.contains('hidden')) renderResults();
+            applyTheme();
+        }
+        document.getElementById('languageSelect').addEventListener('change', e => {
+            currentLanguage = e.target.value === 'en' ? 'en' : 'es';
+            savePreference('sisfq-language', currentLanguage);
+            applyLanguage();
+        });
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            darkMode = !darkMode;
+            savePreference('sisfq-theme', darkMode ? 'dark' : 'light');
+            applyTheme();
+        });
+
+        // --- BASE DE DATOS PREDETERMINADA DE EJEMPLO ---
+        const DEFAULT_IMAGES = [
+            { name: "Perro_San_Bernardo.jpg", url: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" },
+            { name: "Gato_Persa_Blanco.png", url: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" },
+            { name: "Coche_Deportivo_Rojo.jpg", url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" },
+            { name: "Casa_Campo_Rustica.jpg", url: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=600&q=80" },
+            { name: "Leon_Sabana_Africana.jpg", url: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=600&q=80" },
+            { name: "Guitarra_Acustica_Madera.jpg", url: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80" },
+            { name: "Avion_Comercial_Vuelo.jpg", url: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" },
+            { name: "Montaña_Nevada_Alpes.jpg", url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" },
+            { name: "Reloj_Pulsera_Lujo.jpg", url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" },
+            { name: "Cafetera_Espresso_Italiana.jpg", url: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=600&q=80" },
+            { name: "Libro_Antiguo_Biblioteca.jpg", url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80" },
+            { name: "Flor_Girasol_Campo.jpg", url: "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?auto=format&fit=crop&w=600&q=80" },
+            { name: "Platano_Maduro_Amarillo.jpg", url: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80" },
+            { name: "Taza_Cafe_Caliente.jpg", url: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" },
+            { name: "Castillo_Medieval_Piedra.jpg", url: "https://images.unsplash.com/photo-1520637102910-081c13222775?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        // --- ESTADO DE LA APLICACIÓN ---
+        let loadedItems = [];          
+        let currentQuiz = [];          
+        let failedItemsInRound = [];   
+        let currentIndex = 0;
+        let hits = 0;
+        let misses = 0;
+        let quizHistory = [];          
+        let startTime = null;
+        let isLoopMode = false;        
+        let isOverlayActive = false;   
+
+        // --- REFERENCIAS DOM ---
+        const screenSetup = document.getElementById('screenSetup');
+        const screenQuiz = document.getElementById('screenQuiz');
+        const screenResults = document.getElementById('screenResults');
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const filePreviewContainer = document.getElementById('filePreviewContainer');
+        const fileList = document.getElementById('fileList');
+        const loadedCount = document.getElementById('loadedCount');
+        const btnClearFiles = document.getElementById('btnClearFiles');
+        const btnLoadDefaults = document.getElementById('btnLoadDefaults');
+        const btnStartQuiz = document.getElementById('btnStartQuiz');
+
+        const badgeCount = document.getElementById('badgeCount');
+        const questionProgressText = document.getElementById('questionProgressText');
+        const loopModeBadge = document.getElementById('loopModeBadge');
+        const scoreHits = document.getElementById('scoreHits');
+        const scoreMisses = document.getElementById('scoreMisses');
+        const progressBar = document.getElementById('progressBar');
+        const quizImage = document.getElementById('quizImage');
+
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
+        const overlayIconBg = document.getElementById('overlayIconBg');
+        const overlayIcon = document.getElementById('overlayIcon');
+        const overlayTitle = document.getElementById('overlayTitle');
+        const overlayDetailBox = document.getElementById('overlayDetailBox');
+        const overlayUserText = document.getElementById('overlayUserText');
+        const overlayCorrectText = document.getElementById('overlayCorrectText');
+
+        const quizForm = document.getElementById('quizForm');
+        const answerInput = document.getElementById('answerInput');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnHint = document.getElementById('btnHint');
+        const hintBox = document.getElementById('hintBox');
+        const hintLetter = document.getElementById('hintLetter');
+        const hintLength = document.getElementById('hintLength');
+
+        const resultsHeaderIcon = document.getElementById('resultsHeaderIcon');
+        const resultsTrophyIcon = document.getElementById('resultsTrophyIcon');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const resultsSubtitle = document.getElementById('resultsSubtitle');
+        const resHits = document.getElementById('resHits');
+        const resPercent = document.getElementById('resPercent');
+        const resTime = document.getElementById('resTime');
+        
+        const failedSection = document.getElementById('failedSection');
+        const failedCountBadge = document.getElementById('failedCountBadge');
+        const failedList = document.getElementById('failedList');
+        const resultsBreakdown = document.getElementById('resultsBreakdown');
+        
+        const btnPracticeFailed = document.getElementById('btnPracticeFailed');
+        const btnFailedCount = document.getElementById('btnFailedCount');
+        const btnRetry = document.getElementById('btnRetry');
+        const btnNewQuiz = document.getElementById('btnNewQuiz');
+
+        function extractFirstWord(filename) {
+            let clean = filename.replace(/\.[^/.]+$/, "");
+            clean = clean.replace(/[-_.]+/g, " ").trim();
+            let words = clean.split(/\s+/);
+            return words[0] || "Imagen";
+        }
+
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .trim()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function addFiles(files) {
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                const url = URL.createObjectURL(file);
+                const firstWord = extractFirstWord(file.name);
+                loadedItems.push({
+                    id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                    originalName: file.name,
+                    firstWord: firstWord,
+                    url: url,
+                    localURL: true
+                });
+            });
+            updateFileListUI();
+        }
+
+        function loadDefaultImages() {
+            loadedItems.forEach(item => { if (item.localURL) URL.revokeObjectURL(item.url); });
+            loadedItems = DEFAULT_IMAGES.map((img, idx) => ({
+                id: 'def_' + idx,
+                originalName: img.name,
+                firstWord: SAMPLE_WORDS[currentLanguage][idx],
+                sampleIndex: idx,
+                sampleAuto: true,
+                url: img.url
+            }));
+            updateFileListUI();
+        }
+
+        function updateFileListUI() {
+            fileList.innerHTML = '';
+            if (loadedItems.length > 0) {
+                filePreviewContainer.classList.remove('hidden');
+                btnStartQuiz.disabled = false;
+                btnStartQuiz.className = "w-full py-3.5 px-6 bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-bold rounded-2xl shadow-lg shadow-brand-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer";
+            } else {
+                filePreviewContainer.classList.add('hidden');
+                btnStartQuiz.disabled = true;
+                btnStartQuiz.className = "w-full py-3.5 px-6 bg-slate-300 text-slate-500 font-bold rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-not-allowed";
+            }
+
+            loadedCount.textContent = loadedItems.length;
+            badgeCount.textContent = countText(loadedItems.length);
+
+            loadedItems.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl bg-white/80 border border-slate-200/80 gap-2 text-xs shadow-sm";
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5 overflow-hidden flex-1">
+                        <img src="${escapeHTML(item.url)}" class="w-9 h-9 rounded-lg object-cover bg-slate-100 flex-shrink-0" alt="${tr('thumbnailAlt')}">
+                        <div class="truncate">
+                            <p class="font-semibold text-slate-700 truncate" title="${escapeHTML(item.originalName)}">${escapeHTML(item.originalName)}</p>
+                            <p class="text-[10px] text-slate-400">${tr('item')} ${index + 1}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <div class="flex items-center gap-1.5 bg-brand-50 border border-brand-200 px-2 py-1 rounded-lg">
+                            <span class="text-[10px] font-bold text-brand-700">${tr('key')}</span>
+                            <input type="text" value="${escapeHTML(item.firstWord)}" oninput="updateItemWord('${item.id}', this.value)"
+                                   class="key-input bg-transparent font-bold text-brand-900 border-b border-brand-300 focus:border-brand-600 outline-none w-28 sm:w-36 text-xs py-0.5"
+                                   aria-label="${tr('expectedPlaceholder')}" placeholder="${tr('expectedPlaceholder')}">
+                        </div>
+                        <button onclick="removeItem('${item.id}')" class="text-slate-400 hover:text-rose-500 p-1 flex-shrink-0" title="${tr('removeTitle')}">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                fileList.appendChild(row);
+            });
+
+            lucide.createIcons();
+        }
+
+        window.updateItemWord = function(id, newWord) {
+            const item = loadedItems.find(i => i.id === id);
+            if (item) {
+                item.firstWord = newWord.trim() || extractFirstWord(item.originalName);
+                item.sampleAuto = false;
+            }
+        };
+
+        window.removeItem = function(id) {
+            const removed = loadedItems.find(item => item.id === id);
+            if (removed?.localURL) URL.revokeObjectURL(removed.url);
+            loadedItems = loadedItems.filter(item => item.id !== id);
+            updateFileListUI();
+        };
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                addFiles(e.target.files);
+                fileInput.value = '';
+            }
+        });
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        ['dragleave', 'dragend'].forEach(type => {
+            dropZone.addEventListener(type, () => dropZone.classList.remove('dragover'));
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                addFiles(e.dataTransfer.files);
+            }
+        });
+
+        btnLoadDefaults.addEventListener('click', loadDefaultImages);
+        btnClearFiles.addEventListener('click', () => {
+            loadedItems.forEach(item => { if (item.localURL) URL.revokeObjectURL(item.url); });
+            loadedItems = [];
+            updateFileListUI();
+        });
+
+        btnStartQuiz.addEventListener('click', () => startQuiz(loadedItems, false));
+
+        function startQuiz(itemsToPlay, loopMode = false) {
+            if (!itemsToPlay || itemsToPlay.length === 0) return;
+
+            isLoopMode = loopMode;
+            currentQuiz = shuffleArray(itemsToPlay);
+            failedItemsInRound = [];
+            currentIndex = 0;
+            hits = 0;
+            misses = 0;
+            quizHistory = [];
+            startTime = new Date();
+
+            screenSetup.classList.add('hidden');
+            screenResults.classList.add('hidden');
+            screenQuiz.classList.remove('hidden');
+
+            if (isLoopMode) {
+                loopModeBadge.classList.remove('hidden');
+            } else {
+                loopModeBadge.classList.add('hidden');
+            }
+
+            renderCurrentQuestion();
+        }
+
+        function renderCurrentQuestion() {
+            const item = currentQuiz[currentIndex];
+
+            isOverlayActive = false;
+            feedbackOverlay.classList.add('hidden');
+            answerInput.value = '';
+            answerInput.disabled = false;
+            btnSubmit.disabled = false;
+            hintBox.classList.add('hidden');
+            
+            setTimeout(() => {
+                answerInput.focus();
+            }, 50);
+
+            refreshQuestionLabels();
+            scoreHits.textContent = hits;
+            scoreMisses.textContent = misses;
+            
+            const progressPercent = ((currentIndex) / currentQuiz.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            // Imagen limpia sin el nombre
+            quizImage.src = item.url;
+
+            hintLetter.textContent = item.firstWord.charAt(0);
+            hintLength.textContent = item.firstWord.length;
+        }
+
+        function refreshQuestionLabels() {
+            if (!currentQuiz.length || currentIndex >= currentQuiz.length) return;
+            const item = currentQuiz[currentIndex];
+            questionProgressText.textContent = tr('question', { current: currentIndex + 1, total: currentQuiz.length });
+            hintLetter.textContent = item.firstWord.charAt(0);
+            hintLength.textContent = item.firstWord.length;
+        }
+
+        btnHint.addEventListener('click', () => {
+            hintBox.classList.toggle('hidden');
+        });
+
+        // CONTROL GLOBAL DE TECLADO RÁPIDO PARA ENTER / ESPACIO
+        window.addEventListener('keydown', (e) => {
+            if (screenQuiz.classList.contains('hidden')) return;
+
+            if (isOverlayActive) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    nextQuestion();
+                }
+            } else if (e.key === 'Enter' && document.activeElement !== answerInput) {
+                e.preventDefault();
+                checkAnswer();
+            }
+        });
+
+        quizForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isOverlayActive) {
+                nextQuestion();
+            } else {
+                checkAnswer();
+            }
+        });
+
+        function checkAnswer() {
+            if (answerInput.disabled || isOverlayActive) return;
+
+            const userText = answerInput.value;
+            const currentItem = currentQuiz[currentIndex];
+            
+            const normalizedUser = normalizeText(userText);
+            const normalizedTarget = normalizeText(currentItem.firstWord);
+
+            const isCorrect = normalizedUser === normalizedTarget && normalizedUser.length > 0;
+
+            answerInput.disabled = true;
+            btnSubmit.disabled = true;
+
+            quizHistory.push({
+                item: currentItem,
+                userAnswer: userText,
+                isCorrect: isCorrect
+            });
+
+            isOverlayActive = true;
+
+            if (isCorrect) {
+                hits++;
+                scoreHits.textContent = hits;
+
+                // REAL TRANSLUCENT OVERLAY (Emerald 950 con 40% opacidad para ver la foto detrás)
+                feedbackOverlay.className = "absolute inset-0 z-30 bg-emerald-950/40 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white cursor-pointer transition-all duration-150";
+                overlayIconBg.className = "w-24 h-24 rounded-full bg-emerald-500/80 border-2 border-emerald-300 flex items-center justify-center mb-3 shadow-2xl backdrop-blur-md pop-in";
+                overlayIcon.setAttribute('data-lucide', 'check');
+                overlayTitle.textContent = tr('correct');
+                overlayTitle.className = "text-3xl md:text-4xl font-black tracking-tight mb-1 drop-shadow-lg text-emerald-300";
+                overlayDetailBox.classList.add('hidden');
+            } else {
+                misses++;
+                scoreMisses.textContent = misses;
+                
+                if (!failedItemsInRound.some(f => f.id === currentItem.id)) {
+                    failedItemsInRound.push(currentItem);
+                }
+
+                // REAL TRANSLUCENT OVERLAY (Rose 950 con 50% opacidad para ver la foto detrás)
+                feedbackOverlay.className = "absolute inset-0 z-30 bg-rose-950/50 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white cursor-pointer transition-all duration-150";
+                overlayIconBg.className = "w-24 h-24 rounded-full bg-rose-600/80 border-2 border-rose-300 flex items-center justify-center mb-3 shadow-2xl backdrop-blur-md shake";
+                overlayIcon.setAttribute('data-lucide', 'x');
+                overlayTitle.textContent = tr('incorrect');
+                overlayTitle.className = "text-3xl md:text-4xl font-black tracking-tight mb-1 drop-shadow-lg text-rose-300";
+                
+                overlayDetailBox.classList.remove('hidden');
+                overlayUserText.textContent = userText.trim() || tr('empty');
+                overlayCorrectText.textContent = currentItem.firstWord;
+            }
+
+            lucide.createIcons();
+            feedbackOverlay.classList.remove('hidden');
+        }
+
+        // Clic en cualquier punto del overlay translúcido para avanzar
+        feedbackOverlay.addEventListener('click', () => {
+            if (isOverlayActive) {
+                nextQuestion();
+            }
+        });
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuiz.length) {
+                renderCurrentQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        let completedDuration = 0;
+        function finishQuiz() {
+            completedDuration = Math.round((new Date() - startTime) / 1000);
+            screenQuiz.classList.add('hidden');
+            screenResults.classList.remove('hidden');
+            renderResults();
+        }
+
+        function renderResults() {
+            const total = currentQuiz.length;
+            const percentage = total ? Math.round((hits / total) * 100) : 0;
+            resHits.textContent = `${hits}/${total}`;
+            resPercent.textContent = `${percentage}%`;
+            resTime.textContent = `${completedDuration}s`;
+
+            if (failedItemsInRound.length === 0) {
+                resultsHeaderIcon.className = "inline-flex p-4 bg-emerald-100 text-emerald-600 rounded-3xl mb-4 shadow-inner";
+                resultsTrophyIcon.setAttribute('data-lucide', 'trophy');
+                resultsTitle.textContent = tr(isLoopMode ? 'loopPerfect' : 'perfect');
+                resultsSubtitle.textContent = tr('perfectSubtitle');
+                failedSection.classList.add('hidden');
+                btnPracticeFailed.classList.add('hidden');
+            } else {
+                resultsHeaderIcon.className = "inline-flex p-4 bg-rose-100 text-rose-600 rounded-3xl mb-4 shadow-inner";
+                resultsTrophyIcon.setAttribute('data-lucide', 'target');
+                resultsTitle.textContent = tr('needsReview');
+                resultsSubtitle.textContent = tr('missesSubtitle', { n: failedItemsInRound.length, noun: currentLanguage === 'es' ? (failedItemsInRound.length === 1 ? 'imagen' : 'imágenes') : (failedItemsInRound.length === 1 ? 'image' : 'images') });
+                
+                failedSection.classList.remove('hidden');
+                failedCountBadge.textContent = failedItemsInRound.length;
+                failedList.innerHTML = '';
+
+                // Renderizar lista comparativa explícita para fallos
+                quizHistory.filter(h => !h.isCorrect).forEach(hist => {
+                    const failEl = document.createElement('div');
+                    failEl.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white rounded-xl border border-rose-200 text-xs shadow-sm gap-2";
+                    failEl.innerHTML = `
+                        <div class="flex items-center gap-3 overflow-hidden">
+                            <img src="${escapeHTML(hist.item.url)}" class="w-10 h-10 rounded-lg object-cover bg-slate-100 flex-shrink-0">
+                            <div class="truncate">
+                                <p class="font-extrabold text-slate-800">${escapeHTML(hist.item.firstWord)}</p>
+                                <p class="text-[11px] text-rose-600">
+                                    ${tr('youWrote')} <span class="font-bold line-through decoration-rose-400">${escapeHTML(hist.userAnswer.trim() || tr('empty'))}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 self-end sm:self-center">
+                            <span class="text-[10px] bg-rose-100 text-rose-700 font-extrabold px-2.5 py-1 rounded-md">
+                                ${tr('solution')} ${escapeHTML(hist.item.firstWord)}
+                            </span>
+                        </div>
+                    `;
+                    failedList.appendChild(failEl);
+                });
+
+                btnPracticeFailed.classList.remove('hidden');
+                btnFailedCount.textContent = failedItemsInRound.length;
+            }
+
+            // Desglose Histórico Completo
+            resultsBreakdown.innerHTML = '';
+            quizHistory.forEach((hist) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = `flex items-center justify-between p-2.5 rounded-xl border text-xs ${
+                    hist.isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'
+                }`;
+
+                itemEl.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <img src="${escapeHTML(hist.item.url)}" class="w-9 h-9 rounded-lg object-cover bg-slate-100 flex-shrink-0">
+                        <div class="truncate">
+                            <p class="font-bold text-slate-800 truncate">${escapeHTML(hist.item.firstWord)}</p>
+                            <p class="text-[11px] ${hist.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                                ${tr('yourAnswer')} <span class="font-bold">${escapeHTML(hist.userAnswer.trim() || tr('empty'))}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0 ml-2">
+                        <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold ${
+                            hist.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+                        }">
+                            ${tr(hist.isCorrect ? 'correctLabel' : 'failed')}
+                        </span>
+                    </div>
+                `;
+                resultsBreakdown.appendChild(itemEl);
+            });
+
+            lucide.createIcons();
+        }
+
+        btnPracticeFailed.addEventListener('click', () => {
+            startQuiz(failedItemsInRound, true);
+        });
+
+        btnRetry.addEventListener('click', () => {
+            startQuiz(loadedItems, false);
+        });
+
+        btnNewQuiz.addEventListener('click', () => {
+            screenResults.classList.add('hidden');
+            screenSetup.classList.remove('hidden');
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLanguage();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

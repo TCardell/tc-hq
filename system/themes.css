@@ -1,0 +1,147 @@
+/* TC/OS 1.7: central visual theme tokens. Each theme styles all chrome, not app contents in iframes. */
+:root,html[data-theme="hq-black"]{
+ --bg:#050506;--surface:#101013;--surface-raised:#1b1b20;--surface-low:#0c0c0f;
+ --ink:#eeebea;--muted:#a6a2a4;--border:#39363d;--border-bright:#72646a;
+ --accent:#ed3043;--accent-dark:#8b1425;--green:#79cd8e;--amber:#dfb36c;
+ --desk:#050506;--chrome:#0c0c0f;--chrome-raised:#161519;--title-a:#9b1728;--title-b:#d42d41;
+ --task-a:#151417;--task-b:#060607;--btn-a:#302b2f;--btn-b:#141317;--brand:#e33546;
+ --wallpaper-color:#050506;color-scheme:dark;
+}
+html[data-theme="blackout"]{--bg:#010102;--surface:#08090b;--surface-raised:#101114;--surface-low:#050506;--ink:#f0ebeb;--muted:#aaa4a4;--border:#333033;--border-bright:#656065;--accent:#d8273a;--accent-dark:#690a17;--desk:#010102;--chrome:#050507;--chrome-raised:#101012;--title-a:#790d1b;--title-b:#af172a;--task-a:#09090a;--task-b:#010102;--btn-a:#262126;--btn-b:#080709;--brand:#cb1c30}
+html[data-theme="graphite"]{--bg:#18191d;--surface:#25262b;--surface-raised:#303138;--surface-low:#202126;--ink:#eae9e8;--muted:#b0b1b5;--border:#4c4d53;--border-bright:#87878b;--accent:#c4434d;--accent-dark:#6b2b36;--desk:#17181e;--chrome:#25262b;--chrome-raised:#33333b;--title-a:#622934;--title-b:#9d3642;--task-a:#37383e;--task-b:#24252b;--btn-a:#44454b;--btn-b:#292a30;--brand:#bd4553}
+html[data-theme="phosphor"]{--bg:#050b07;--surface:#0e1710;--surface-raised:#1b2b1e;--surface-low:#0a130b;--ink:#dcf0d9;--muted:#a2b79f;--border:#425a44;--border-bright:#7d9e80;--accent:#67b879;--accent-dark:#295936;--desk:#071108;--chrome:#0b170d;--chrome-raised:#1c301f;--title-a:#275a37;--title-b:#478b57;--task-a:#132719;--task-b:#07100a;--btn-a:#2d4a33;--btn-b:#14271a;--brand:#5caa6e}
+html[data-theme="midnight"]{--bg:#0d0911;--surface:#17131d;--surface-raised:#292134;--surface-low:#100e15;--ink:#eae5f1;--muted:#bbb0c5;--border:#4d4057;--border-bright:#897494;--accent:#ad7ad8;--accent-dark:#4b2c68;--desk:#0e0a14;--chrome:#17121d;--chrome-raised:#2c2237;--title-a:#4b2b63;--title-b:#8053aa;--task-a:#22192a;--task-b:#0e0a14;--btn-a:#3c3048;--btn-b:#211827;--brand:#9264b9}
+html[data-theme="classic"]{color-scheme:light;--bg:#c8c6bc;--surface:#d9d7ce;--surface-raised:#f0eee5;--surface-low:#d0cdc3;--ink:#1c2229;--muted:#424951;--border:#8a8b8a;--border-bright:#fefefe;--accent:#2d568c;--accent-dark:#142f65;--green:#2c663f;--amber:#91601f;--desk:#39586a;--chrome:#d0cec4;--chrome-raised:#e7e5db;--title-a:#163a74;--title-b:#577da8;--task-a:#e4e1d7;--task-b:#bebbb1;--btn-a:#eeece3;--btn-b:#bab9b2;--brand:#e7e9ea}
+/* High-specificity overrides are intentional: v1.6 included many legacy hardcoded hues. */
+html[data-theme] body.tcos-body{background:var(--bg);color:var(--ink)}
+html[data-theme] .desktop{background:var(--desk)}
+html[data-theme] .desktop[data-wallpaper="original"]{background:radial-gradient(circle at 78% 27%,color-mix(in srgb,var(--brand),transparent 87%),var(--desk) 52%)}
+html[data-theme] .desktop[data-wallpaper="headquarters"]{background:radial-gradient(ellipse at 75% 72%,color-mix(in srgb,var(--brand),transparent 84%),transparent 62%),linear-gradient(135deg,var(--desk),var(--bg))}
+html[data-theme] .desktop[data-wallpaper="grid"]{background:linear-gradient(90deg,transparent 95%,color-mix(in srgb,var(--accent),transparent 92%) 100%) 0 0/44px 44px,linear-gradient(transparent 95%,color-mix(in srgb,var(--accent),transparent 92%) 100%) 0 0/44px 44px,var(--desk)}
+html[data-theme] .desktop[data-wallpaper="mainframe"]{background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--brand),transparent 92%),transparent 63%),var(--desk)}
+html[data-theme] .desktop[data-wallpaper="solid"]{background:var(--desk)}
+html[data-theme] .desktop-brand strong{color:var(--brand)}
+html[data-theme] .taskbar{background:linear-gradient(var(--task-a),var(--task-b));border-top:1px solid var(--border-bright);box-shadow:inset 0 1px color-mix(in srgb,var(--border-bright),transparent 55%)}
+html[data-theme] .start-mark{background:var(--accent-dark);border-color:var(--accent);color:#fff}
+html[data-theme] .start-menu,html[data-theme] .start-submenu,html[data-theme] .context-menu{background:var(--chrome);border-color:var(--border-bright);color:var(--ink)}
+html[data-theme] .start-side{background:linear-gradient(0deg,var(--accent-dark),var(--chrome-raised))}
+html[data-theme] .start-item,html[data-theme] .context-menu button{color:var(--ink)}
+html[data-theme] .start-item:hover,html[data-theme] .context-menu button:hover{background:var(--accent-dark);color:#fff}
+html[data-theme] .start-submenu{background:var(--chrome-raised)}
+html[data-theme] .window{background:var(--surface);border-top-color:var(--border-bright);border-left-color:var(--border-bright)}
+html[data-theme] .window-title{background:linear-gradient(90deg,var(--title-a),var(--title-b) 56%,var(--title-a));color:#fff}
+html[data-theme] .window:not(.active) .window-title{background:linear-gradient(90deg,var(--chrome-raised),var(--chrome))}
+html[data-theme] .window-content,html[data-theme] .explorer-files{background:var(--surface)}
+html[data-theme] .explorer-top,html[data-theme] .sys-panel{background:var(--chrome-raised);border-color:var(--border)}
+html[data-theme] .explorer-path,html[data-theme] .sys-input,html[data-theme] .sys-select,html[data-theme] .sys-textarea,html[data-theme] .editor textarea{background:var(--surface-low);color:var(--ink);border-color:var(--border-bright)}
+html[data-theme] .sys-button{color:var(--ink);background:linear-gradient(var(--btn-a),var(--btn-b));border-top-color:var(--border-bright);border-left-color:var(--border-bright)}
+html[data-theme] .sys-button:hover{background:color-mix(in srgb,var(--btn-a),var(--accent) 20%)}
+html[data-theme] .sys-tab{background:var(--surface-raised);color:var(--ink);border-color:var(--border)}
+html[data-theme] .sys-tab.active{background:var(--accent-dark);color:#fff;border-bottom-color:var(--accent)}
+html[data-theme] .sys-card,html[data-theme] .software-entry{background:var(--surface-low);border-color:var(--border)}
+html[data-theme] .sys-section-title,html[data-theme] .software-icon{color:var(--accent)}
+html[data-theme] .sys-muted,html[data-theme] .sys-kv span:first-child{color:var(--muted)}
+html[data-theme] .sys-status{background:var(--chrome);color:var(--muted)}
+html[data-theme] .embedded-banner{background:var(--chrome-raised)}
+html[data-theme] .standalone-shell,html[data-theme] .standalone-header{background:var(--bg);color:var(--ink)}
+html[data-theme] .standalone-header{border-color:var(--border)}
+html[data-theme] .desktop-icon:hover,html[data-theme] .desktop-icon.selected{background:color-mix(in srgb,var(--accent),transparent 80%)}
+html[data-theme] .icon-tile{color:var(--ink)}
+html[data-theme] .desktop.grid-on::before{background-image:linear-gradient(color-mix(in srgb,var(--accent),transparent 92%) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--accent),transparent 92%) 1px,transparent 1px)}
+html[data-theme="classic"] .desktop-icon .icon-title{color:#fff}
+html[data-theme="classic"] .start-item:hover{color:white}
+html[data-theme="classic"] .window-title .window-label{color:#fff}
+html[data-theme="classic"] .about-logo{background:#efede5}
+html[data-theme="classic"] .sys-note{color:#282d35;background:#e8e3d9}
+html[data-theme="classic"] .sys-success{color:#27623a}
+/* New TC/OS app controls */
+.theme-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:12px;margin:10px 0 17px}
+.theme-option{background:var(--surface-low);color:var(--ink);border:1px solid var(--border);display:flex;flex-direction:column;gap:7px;padding:10px;text-align:center;min-width:0}
+.theme-option.chosen{outline:2px solid var(--accent)}
+.theme-swatch,.wallpaper-swatch{display:block;width:100%;height:63px;border:1px solid var(--border-bright);position:relative}
+.theme-swatch>span{position:absolute;top:8px;left:8px;right:8px;height:13px}
+.wallpaper-swatch{display:grid;place-items:center;color:#c74452;background:#060607;font:20px var(--font-term)}
+.wp-headquarters{background:radial-gradient(circle at right,#310e15,#050506)}.wp-grid{background:linear-gradient(90deg,#333 1px,transparent 1px) 0 0/14px 14px,linear-gradient(#333 1px,transparent 1px) 0 0/14px 14px,#08090a}.wp-mainframe{background:radial-gradient(circle,#35181c,#050506)}.wp-solid{background:#000}
+.control-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px;margin-bottom:14px}
+.control-category{background:var(--surface-raised);border:1px solid var(--border);padding:9px 7px;color:var(--ink);text-align:left}
+.control-category.active{border-color:var(--accent);background:var(--accent-dark);color:#fff}
+.control-area{background:var(--surface-low);border:1px solid var(--border);padding:12px;min-height:170px}
+.control-area .sys-button{margin:8px 6px 8px 0}
+.control-heading{margin:3px 0 12px;color:var(--accent);font-size:16px}
+.setting-row{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--border);min-width:0}
+.setting-row>*:first-child{flex:1;min-width:0}.setting-row .sys-select{width:auto;max-width:55%;min-width:135px}
+.setting-row small{display:block;margin-top:4px}
+.cal-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.cal-dow{text-align:center;color:var(--muted);padding:7px 0;font-weight:bold}.cal-blank{min-height:39px}
+.cal-day{border:1px solid var(--border);background:var(--surface-raised);color:var(--ink);min-height:39px}
+.cal-day.today{border-color:var(--accent)}.cal-day.selected{background:var(--accent-dark);color:#fff}
+.desktop-icons{right:0;bottom:44px;width:calc(100% - 12px);height:calc(100% - 70px);max-width:none;overflow-x:auto;overflow-y:hidden;align-content:start;grid-auto-flow:column;grid-auto-columns:92px;touch-action:pan-x pan-y}
+.desktop-icon{user-select:none;touch-action:pan-x pan-y}
+.desktop.no-animations .window{transition:none!important;animation:none!important}
+html.reduce-motion *,html.reduce-motion *::before,html.reduce-motion *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+.tcos-terminal{font-size:var(--terminal-size,23px)!important}
+html[data-cursor="bar"] .term-input{caret-color:var(--accent)}
+html[data-cursor="underline"] .term-input{caret-color:var(--accent)}
+@media(max-width:700px){.desktop-icons{left:8px;right:0;top:12px;width:calc(100% - 8px);height:calc(100% - 56px);overflow-x:auto;overflow-y:hidden;grid-auto-columns:88px}.control-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.setting-row{align-items:flex-start;flex-wrap:wrap}.setting-row .sys-select{max-width:100%;width:100%}}
+/* TC/OS 1.7.2: Synthwave theme and additional desktop wallpapers. */
+html[data-theme="synthwave"]{--bg:#0c0717;--surface:#1a0e2c;--surface-raised:#2c1740;--surface-low:#12091e;--ink:#f7e7ff;--muted:#bfa4d3;--border:#57306c;--border-bright:#ad5db9;--accent:#ff56b5;--accent-dark:#712466;--green:#48e4d7;--amber:#f6bb69;--desk:#0e0819;--chrome:#1b1029;--chrome-raised:#2c1840;--title-a:#762477;--title-b:#c83a9d;--task-a:#381b4a;--task-b:#130a21;--btn-a:#432655;--btn-b:#211331;--brand:#ff52bd}
+html[data-theme="synthwave"] .desktop-brand strong{text-shadow:0 0 24px #ff299c40;color:#ff61b9}
+html[data-theme="synthwave"] .desktop-brand span{color:#be8dca}
+html[data-theme] .desktop[data-wallpaper="synth-sunset"]{background:radial-gradient(circle at 77% 47%,#ff8a6c 0 4%,#fa3da7 4.3% 7%,#9b2c96 7.4% 11%,transparent 11.4%),linear-gradient(180deg,#09051a 2%,#2b134d 43%,#491e65 61%,#13091d 100%)}
+html[data-theme] .desktop[data-wallpaper="synth-grid"]{background:linear-gradient(155deg,transparent 52%,#60227d70 52.2% 52.6%,transparent 53%) 0 0/56px 56px,linear-gradient(25deg,transparent 52%,#e83ec268 52.2% 52.6%,transparent 53%) 0 0/56px 56px,radial-gradient(ellipse at 70% 30%,#5c2078,#0c071d 70%)}
+html[data-theme] .desktop[data-wallpaper="synth-neon"]{background:repeating-linear-gradient(120deg,transparent 0 38px,#d13bca18 39px 40px,transparent 41px 80px),radial-gradient(ellipse at 75% 65%,#8e1b8b88,#13081c 65%)}
+html[data-theme] .desktop[data-wallpaper="red-circuit"]{background:linear-gradient(90deg,transparent 97%,#bb1b3560 98%) 0 0/65px 65px,linear-gradient(0deg,transparent 97%,#9a173555 98%) 0 0/65px 65px,radial-gradient(ellipse at 65% 60%,#301019,#030304 70%)}
+html[data-theme] .desktop[data-wallpaper="dark-stars"]{background:radial-gradient(1px 1px at 11% 15%,#d2c9e5 98%,transparent),radial-gradient(1px 1px at 48% 27%,#bdaee0 98%,transparent),radial-gradient(2px 2px at 71% 45%,#d5aadd 98%,transparent),radial-gradient(1px 1px at 89% 19%,#c8a7d1 98%,transparent),radial-gradient(1px 1px at 57% 82%,#bba8ce 98%,transparent),radial-gradient(ellipse at 66% 48%,#21142f,#03030a 70%)}
+html[data-theme] .desktop[data-wallpaper="aurora"]{background:radial-gradient(ellipse at 63% 35%,#1d526a55,transparent 45%),radial-gradient(ellipse at 80% 58%,#5c165e55,transparent 45%),linear-gradient(140deg,#02050b,#110d22 75%)}
+html[data-theme] .desktop[data-wallpaper="scanline"]{background:repeating-linear-gradient(0deg,transparent 0 3px,#93334426 3px 4px),radial-gradient(ellipse at 70% 40%,#251018,#030305 70%)}
+.wp-synth-sunset{background:radial-gradient(circle at 75% 43%,#ff8b74 0 10%,#fc43ab 10% 20%,transparent 22%),linear-gradient(#1e0b36,#60235e,#160918)}
+.wp-synth-grid{background:repeating-linear-gradient(95deg,transparent 0 17px,#a737e740 18px 19px),linear-gradient(#190b28,#692183)}
+.wp-synth-neon{background:repeating-linear-gradient(135deg,transparent 0 15px,#ea4fca55 16px 17px),#241032}
+.wp-red-circuit{background:linear-gradient(90deg,transparent 95%,#b41e3380 96%) 0 0/18px 18px,linear-gradient(transparent 95%,#b41e3380 96%) 0 0/18px 18px,#15090d}
+.wp-dark-stars{background:radial-gradient(2px 2px at 20% 25%,white,transparent),radial-gradient(2px 2px at 70% 40%,white,transparent),#0a071c}
+.wp-aurora{background:linear-gradient(125deg,#082024,#1c3b48,#40134a)}
+.wp-scanline{background:repeating-linear-gradient(0deg,#1a0710 0 3px,#4e1938 3px 4px)}
+/* SVG cursors are locally defined as small data assets, no external downloads. */
+html[data-pointer="red"] .desktop,html[data-pointer="red"] .window,html[data-pointer="red"] .start-menu,html[data-pointer="red"] .taskbar{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 2v22l6-7 5 9 4-2-5-9 9-2z' fill='%23f23c4c' stroke='%230b070a' stroke-width='1.7'/%3E%3C/svg%3E") 3 2,auto}
+html[data-pointer="phosphor"] .desktop,html[data-pointer="phosphor"] .window,html[data-pointer="phosphor"] .start-menu,html[data-pointer="phosphor"] .taskbar{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 2v22l6-7 5 9 4-2-5-9 9-2z' fill='%2366e090' stroke='%230b160d' stroke-width='1.7'/%3E%3C/svg%3E") 3 2,auto}
+html[data-pointer="crosshair"] .desktop,html[data-pointer="crosshair"] .window,html[data-pointer="crosshair"] .start-menu{cursor:crosshair}
+/* Buttons and text editing preserve standard affordances. */
+html[data-pointer] button,html[data-pointer] a{cursor:pointer}html[data-pointer] input,html[data-pointer] textarea{cursor:text}
+/* Lower the TC-HQ brand without colliding with the anchored bottom-right recycle bin. */
+.desktop-brand{bottom:clamp(112px,16vh,195px);right:6vw}
+@media(max-width:700px){.desktop-brand{bottom:clamp(116px,18vh,180px)}}
+@media(max-width:430px){.desktop-brand{right:8vw;bottom:125px}.desktop-brand strong{font-size:clamp(45px,14vw,65px)}}
+
+/* Reserve rightmost desktop column for the bin, while moving branding near the taskbar. */
+.desktop-brand{right:clamp(145px,12.5vw,220px);bottom:clamp(74px,11vh,124px)}
+@media(max-width:700px){.desktop-brand{right:105px;bottom:95px}}
+@media(max-width:430px){.desktop-brand{right:95px;bottom:95px}}
+/* Small screens reserve the bottom-right icon area entirely. */
+@media(max-width:700px){.desktop-brand{bottom:150px;right:98px}}
+@media(max-width:430px){.desktop-brand{bottom:155px;right:98px}}
+
+/* TC/OS 1.7.4: original animated wallpapers. No assets or network downloads. */
+html[data-theme] .desktop[data-wallpaper="living-synth"]{
+ background:radial-gradient(circle at 75% 41%,#ffcd9077 0 3%,#f650b788 4% 9%,transparent 10%),linear-gradient(180deg,#100625,#321b5d 56%,#0b0618 95%);
+}
+html[data-theme] .desktop[data-wallpaper="living-stars"]{
+ background:radial-gradient(ellipse at 25% 30%,#371a615a,transparent 54%),radial-gradient(ellipse at 80% 60%,#294a8152,transparent 48%),#060610;
+}
+.desktop[data-wallpaper^="living-"] .desktop-ambient{display:block;position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.52;will-change:transform,opacity}
+.desktop[data-wallpaper="living-synth"] .desktop-ambient{
+ background:repeating-linear-gradient(90deg,transparent 0 95px,#ec61ef43 97px 99px,transparent 101px 140px),repeating-linear-gradient(0deg,transparent 0 51px,#fc79d332 52px 54px,transparent 55px 101px);
+ transform-origin:50% 90%;mask-image:linear-gradient(transparent 5%,black 85%);animation:tcos-neon-drift 15s ease-in-out infinite alternate;
+}
+.desktop[data-wallpaper="living-stars"] .desktop-ambient{
+ background-image:radial-gradient(2px 2px at 12% 10%,#ebdfff 99%,transparent),radial-gradient(1px 1px at 73% 21%,#fdefff 99%,transparent),radial-gradient(2px 2px at 39% 77%,#baebff 99%,transparent),radial-gradient(1px 1px at 85% 81%,#e6a8ff 99%,transparent),radial-gradient(2px 2px at 61% 45%,#a5c6ff 99%,transparent),radial-gradient(1px 1px at 16% 58%,#fff 99%,transparent);
+ background-size:180px 210px,280px 260px,210px 290px,320px 245px,245px 185px,365px 340px;animation:tcos-stars-drift 30s linear infinite;
+}
+@keyframes tcos-neon-drift{from{transform:perspective(750px) rotateX(16deg) translateY(3%) scale(1.05);opacity:.21}to{transform:perspective(750px) rotateX(10deg) translateY(-3%) scale(1.12);opacity:.5}}
+@keyframes tcos-stars-drift{from{background-position:0 0;opacity:.26}to{background-position:70px 45px;opacity:.75}}
+.desktop.ambient-off[data-wallpaper^="living-"] .desktop-ambient,html.reduce-motion .desktop[data-wallpaper^="living-"] .desktop-ambient{animation:none!important;will-change:auto}
+@media(prefers-reduced-motion:reduce){.desktop[data-wallpaper^="living-"] .desktop-ambient{animation:none!important;will-change:auto}}
+.wallpaper-swatch.wp-living-synth{background:radial-gradient(circle at 70% 45%,#ff5ec5 0 13%,transparent 14%),linear-gradient(#17082f,#572b85,#100723);color:#ffd4f1}
+.wallpaper-swatch.wp-living-stars{background:radial-gradient(1px 1px at 10% 20%,#fff 99%,transparent),radial-gradient(2px 2px at 73% 57%,#ddd 99%,transparent),linear-gradient(130deg,#0a0b1e,#30205a);color:#d7b9ff}
+
+.desktop-ambient{display:none}

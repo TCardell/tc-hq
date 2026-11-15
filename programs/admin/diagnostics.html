@@ -1,0 +1,20 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TC-HQ Diagnostics</title><link rel="stylesheet" href="../app-shell.css?v=174"><script type="module" src="../app-theme.js?v=174"></script></head><body><main class="stack"><header class="row"><div class="fill"><h1>TC-HQ SYSTEM DIAGNOSTICS</h1><small>ADMINISTRATIVE TOOLS / CATALOG INTEGRITY</small></div><span class="mono red">CHECK</span></header><div class="card"><button class="btn-accent" id="run">Ejecutar diagnóstico</button><span class="muted" id="summary" style="margin-left:12px">Preparado.</span></div><div class="card"><table class="table"><thead><tr><th>Estado</th><th>Recurso / Comprobación</th><th>Resultado</th></tr></thead><tbody id="results"></tbody></table></div><small>Las verificaciones HTTP pueden depender de la configuración del alojamiento. Las comprobaciones del catálogo son independientes de la red.</small></main><script type="module">
+import {ICON_NAMES} from '../../system/icons.js?v=174-iconpack2';
+const result=document.getElementById('results'),summary=document.getElementById('summary');
+function item(what,ok,details){const tr=document.createElement('tr');for(const text of [ok?'OK':'WARN',what,details]){const td=document.createElement('td');td.textContent=text;tr.append(td)}tr.children[0].style.color=ok?'var(--green)':'var(--accent)';result.append(tr)}
+async function check(){result.replaceChildren();let good=0,bad=0;const add=(label,ok,details)=>{item(label,ok,details);ok?good++:bad++};let catalog;try{const res=await fetch('../../programs.json?v=174',{cache:'no-store'});catalog=await res.json();add('programs.json',res.ok&&Array.isArray(catalog.programs)&&Array.isArray(catalog.folders),res.status+' / catálogo leído')}catch(e){add('programs.json',false,e.message);summary.textContent='No se puede continuar.';return}
+const ids=new Set(),folderMap=new Map(catalog.folders.map(f=>[f.id,f]));for(const f of catalog.folders){
+ const seen=new Set();let cur=f,cycle=false;
+ while(cur){if(seen.has(cur.id)){cycle=true;break}seen.add(cur.id);cur=folderMap.get(cur.parent)}
+ const ok=/^[a-z0-9][a-z0-9_-]{1,40}$/.test(f.id)&&(!f.parent||folderMap.has(f.parent))&&!cycle;
+ add('Carpeta '+f.id,ok,ok?'Árbol válido':'ID, carpeta padre o estructura circular inválidos')
+}
+for(const p of catalog.programs){const validId=/^[a-z0-9][a-z0-9_-]+$/.test(p.id)&&!ids.has(p.id);ids.add(p.id);add('ID '+p.id,validId,validId?'Identificador único':'Duplicado o inválido');add('Icono '+p.id,ICON_NAMES.includes(p.icon),'Icono: '+p.icon);if(p.folder)add('Carpeta '+p.id,folderMap.has(p.folder),p.folder);if(p.type==='page'&&p.url){try{
+ const external=/^https?:\/\//i.test(p.url);const u=external?new URL(p.url):new URL('../../'+p.url,location.href);
+ if(external){add('Enlace '+p.id,u.protocol==='https:',u.hostname+' · destino externo registrado');continue}
+ if(u.origin!==location.origin){add('Ruta '+p.id,false,'Destino incompatible');continue}
+ const r=await fetch(u,{method:'HEAD',cache:'no-store'});add('Archivo '+p.id,r.ok,p.url+' — HTTP '+r.status)
+ }catch(e){add('Archivo '+p.id,false,e.message)}}}
+summary.textContent=good+' correctas · '+bad+' avisos';}
+document.getElementById('run').onclick=check;check();
+</script><script defer src="../../system/english-ui.js?v=174-lang1"></script></body></html>

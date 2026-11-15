@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07080a">
+<meta name="robots" content="noindex,nofollow">
+<title>TC-HQ // 404</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#07080a;--panel:#111216;--red:#f24652;--line:#3b3036;--grey:#b5b5bc;--green:#87c7a0}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg)}
+body{min-height:100vh;min-height:100dvh;display:flex;justify-content:center;align-items:center;position:relative;overflow-x:hidden;color:#e5e5ea;font-family:Tahoma,Segoe UI,Arial,sans-serif;padding:clamp(18px,5vw,46px)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 53% 22%,#461a263f,transparent 53%),linear-gradient(90deg,transparent 49.95%,#73293413 50%,transparent 50.05%);z-index:0}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(180deg,transparent 0px,transparent 3px,#fff 4px);opacity:.017}
+.shell{position:relative;z-index:1;width:min(820px,100%);border:1px solid #564149;box-shadow:0 26px 85px #0009,0 0 80px #ce314216;background:var(--panel)}
+.bar{display:flex;align-items:center;gap:9px;background:linear-gradient(90deg,#8b2330,#bd3443);padding:9px 13px;color:white;font-size:12px;font-weight:700;letter-spacing:.06em}
+.mark{display:grid;place-items:center;width:22px;height:22px;border:1px solid #ffffff8c;font-weight:700}.bar .right{margin-left:auto;color:#ffedf0;font:16px VT323,monospace}
+.screen{padding:clamp(22px,6vw,48px)}.eyebrow{font:clamp(16px,3vw,19px) VT323,monospace;color:#a3a3ae;letter-spacing:.1em}
+.error{display:flex;align-items:center;gap:16px;margin:13px 0 8px;flex-wrap:wrap}
+.number{font:clamp(100px,25vw,194px)/.9 VT323,monospace;color:var(--red);text-shadow:0 0 32px #f2465228;letter-spacing:-.07em}
+.caution{border:1px solid #9d3b46;color:#ffb4bb;background:#50232a55;border-radius:3px;padding:9px 12px;font:16px VT323,monospace;letter-spacing:.05em}
+h1{font-size:clamp(22px,4.5vw,31px);margin:0 0 12px;font-weight:600;letter-spacing:-.02em}
+.desc{font-size:15px;line-height:1.75;color:var(--grey);max-width:610px;margin:0}
+.pathbox{background:#08090c;border:1px solid var(--line);padding:16px 19px;margin:26px 0;font:clamp(15px,3vw,20px)/1.5 VT323,monospace;overflow-wrap:anywhere}
+.pathbox .prompt{color:var(--green)}.pathbox .path{color:#ececef}.pathbox .answer{color:var(--red)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}.actions a,.actions button{appearance:none;text-decoration:none;border:1px solid #5d4b52;background:#242328;color:#f4f4f5;padding:11px 17px;min-width:144px;cursor:pointer;text-align:center;font:600 13px Tahoma,Segoe UI,Arial,sans-serif;transition:background .18s,border-color .18s}
+.actions a.primary{background:#aa2a38;border-color:#cf4353;color:white}.actions :is(a,button):hover,.actions :is(a,button):focus-visible{background:#52242d;border-color:#fa6270;outline:none}.actions a.primary:hover{background:#c12e40}
+.footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid #393038;color:#89858c;font:16px VT323,monospace;padding:11px 18px}.led{color:var(--green)}
+@media(max-width:560px){.screen{padding:24px 18px}.error{gap:8px}.number{font-size:116px}.caution{font-size:15px}.actions a,.actions button{flex:1 1 100%;min-width:0}.pathbox{padding:13px}}
+@media(prefers-reduced-motion:reduce){.actions a,.actions button{transition:none}}
+</style>
+</head>
+<body>
+<main class="shell" role="main">
+  <div class="bar"><span class="mark">TC</span><span>TC/OS PROFESSIONAL</span><span class="right">TC-HQ / SYSTEM</span></div>
+  <section class="screen">
+    <div class="eyebrow" id="eyebrow">TC-HQ / ERROR DE ACCESO</div>
+    <div class="error"><span class="number">404</span><span class="caution" id="badge">[ ERROR ] RUTA NO ENCONTRADA</span></div>
+    <h1 id="heading">No se encuentra el recurso solicitado.</h1>
+    <p class="desc" id="description">La dirección indicada no corresponde a ningún archivo o programa disponible. Puedes regresar al escritorio y continuar explorando TC-HQ.</p>
+    <div class="pathbox" role="status" aria-live="polite"><div><span class="prompt">guest@tc-hq:~$ </span><span>locate </span><span class="path" id="missing-path">/</span></div><div class="answer" id="result">[ FAIL ] Recurso no localizado.</div></div>
+    <div class="actions">
+      <a class="primary" href="/home.html" id="desktop">Volver al escritorio</a>
+      <a href="/index.html" id="reconnect">Reiniciar conexión</a>
+      <button type="button" id="back">Página anterior</button>
+    </div>
+  </section>
+  <div class="footer"><span>TC-HQ / TCardell Headquarters</span><span class="led">● SYSTEM ONLINE</span></div>
+</main>
+<script>
+(()=>{
+ let p={};try{p=JSON.parse(localStorage.getItem('tcos.preferences')||'{}')||{}}catch{}
+ const en=['es','en'].includes(p.language)?p.language==='en':!/^es(?:-|$)/i.test(navigator.languages?.[0]||navigator.language||'es');
+ document.documentElement.lang=en?'en':'es';
+ if(en){const labels={eyebrow:'TC-HQ / ACCESS ERROR',badge:'[ ERROR ] PATH NOT FOUND',heading:'Requested resource not found.',description:'The requested address does not match an available file or application. Return to the desktop to keep exploring TC-HQ.',result:'[ FAIL ] Resource not located.',desktop:'Return to desktop',reconnect:'Restart connection',back:'Previous page'};for(const [id,value] of Object.entries(labels))document.getElementById(id).textContent=value}
+ let path=location.pathname||'/';try{path=decodeURIComponent(path)}catch{}document.getElementById('missing-path').textContent=path.length>180?path.slice(0,180)+'…':path;
+ document.getElementById('back').addEventListener('click',()=>{if(history.length>1)history.back();else location.assign('/home.html')});
+})();
+</script>
+</body>
+</html>
