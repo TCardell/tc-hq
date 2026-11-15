@@ -15,7 +15,7 @@ La copia exportada de Neocities se organiza principalmente así:
 - `programs.json` — catálogo de aplicaciones y carpetas.
 - `pages/`, `media/`, `style.css` y `robots.txt` — contenidos y recursos adicionales.
 
-> **Estado:** inicialmente el repositorio contiene documentación; hay que importar los archivos reales del sitio desde la exportación de Neocities. No se debe considerar este repositorio una copia completa del sitio hasta terminar esa importación.
+> **Estado:** importación inicial completada el 15/11/2026 a partir de la exportación de Neocities (54 archivos del sitio, además de README.md y AGENTS.md). A partir de aquí, se recomienda trabajar con ramas y pull requests antes de integrar cambios en `main`.
 
 ## Reglas de colaboración con Codex
 
