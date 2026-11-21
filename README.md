@@ -1,32 +1,48 @@
-# TC-HQ / TC-OS
+# TC-HQ / TC/OS
 
-Repositorio privado para desarrollar y mantener **TC-HQ**, una web personal con un escritorio virtual de estilo retro y aplicaciones independientes.
+**TC-HQ (TCardell Headquarters)** es una web personal con un escritorio virtual retro, ventanas, carpetas, terminal y aplicaciones independientes. El repositorio es **público** y contiene los archivos fuente de la web estática (HTML, CSS y JavaScript).
 
-**Web publicada:** https://tcardell.neocities.org/
+**Enlaces**
+- **Web de pruebas publicada con GitHub Pages:** https://tcardell.github.io/tc-hq/
+- **Web de Neocities:** https://tcardell.neocities.org/
+- **Código fuente:** https://github.com/TCardell/tc-hq
 
-## Estructura del sitio
+> GitHub Pages se publica desde la rama `main`, carpeta `/(root)`, mediante **Settings → Pages → Deploy from a branch**. El archivo `.nojekyll` evita el procesamiento con Jekyll. Los cambios en GitHub Pages **no actualizan automáticamente Neocities**.
 
-La copia exportada de Neocities se organiza principalmente así:
+## Organización del proyecto
 
-- `index.html` — entrada principal del sitio.
-- `home.html`, `iconos.html`, `terminal.html`, `not_found.html` — páginas auxiliares.
-- `system/` — núcleo de TC/OS, escritorio, ventanas, temas, iconos y aplicaciones del sistema.
-- `programs/` — aplicaciones independientes, incluidas calculadora científica, SISFQ y otras herramientas.
-- `programs.json` — catálogo de aplicaciones y carpetas.
-- `pages/`, `media/`, `style.css` y `robots.txt` — contenidos y recursos adicionales.
+| Archivo o carpeta | Función |
+| --- | --- |
+| `index.html` | Entrada y simulación de arranque (bootstrap); permite acceder al escritorio o a la terminal. |
+| `home.html` | Escritorio gráfico TC/OS, barra de tareas y menú Inicio. |
+| `terminal.html` | Terminal independiente. |
+| `system/` | Núcleo, preferencias, escritorio, ventanas, estilos, iconos, audio y aplicaciones del sistema. |
+| `system/boot-audio.js` | Efectos originales sintetizados para el arranque, sujetos a las políticas de audio del navegador. |
+| `system/sound.js` y `system/tray-sound.js` | Sonidos de interfaz y control rápido de volumen/silencio en la barra de tareas. |
+| `programs/` | Aplicaciones independientes: archivos HTML individuales o proyectos con varias carpetas (por ejemplo, `programs/calculator/`). |
+| `programs.json` | Catálogo de programas y carpetas utilizado por TC/OS. |
+| `pages/`, `media/` | Otras páginas y recursos. |
+| `iconos.html`, `not_found.html`, `style.css`, `robots.txt` | Páginas y recursos auxiliares. |
 
-> **Estado:** importación inicial completada el 15/11/2026 a partir de la exportación de Neocities (54 archivos del sitio, además de README.md y AGENTS.md). A partir de aquí, se recomienda trabajar con ramas y pull requests antes de integrar cambios en `main`.
+## Uso y desarrollo
 
-## Reglas de colaboración con Codex
+1. Para visitar la web, abre el enlace de GitHub Pages de arriba; la portada redirige al escritorio o a la terminal según las preferencias y la interacción.
+2. Para trabajar en local, abre un servidor HTTP estático desde la raíz del repositorio (por ejemplo, `python3 -m http.server 8000`) y visita `http://localhost:8000/`. No se necesita compilación ni servidor de aplicaciones.
+3. Realiza los cambios en una rama y revísalos mediante un *pull request* antes de integrarlos en `main`. Un cambio integrado en `main` puede desencadenar un despliegue automático de GitHub Pages.
+4. Para desarrollar con Codex u otros asistentes, lee [AGENTS.md](AGENTS.md). Preserva rutas relativas y compatibilidad con alojamiento estático. No añadas tokens, contraseñas ni claves API.
 
-Consulta [AGENTS.md](AGENTS.md) antes de introducir cambios. Preserva la compatibilidad con alojamiento estático, las rutas relativas y el funcionamiento de las aplicaciones existentes.
+## Sonido y preferencias
 
-## Importación inicial de Neocities
+TC/OS utiliza preferencias locales del navegador (`localStorage`, clave `tcos.preferences`). El sonido del sistema está activado por defecto, con volumen general inicial del 50 % y control de efectos independiente. El icono de altavoz de la bandeja permite ajustar el volumen o silenciar rápidamente. En el arranque, los navegadores pueden bloquear la reproducción automática; en ese caso aparece un botón de altavoz para habilitar el audio y repetir el bootstrap.
 
-1. Descomprime la exportación ZIP del sitio en tu ordenador.
-2. Desde GitHub, abre **Add file → Upload files** en la rama principal.
-3. Arrastra **todo el contenido interior** de la carpeta extraída: `index.html`, `programs/`, `system/` y demás archivos al **nivel raíz** del repositorio, no dentro de otra carpeta contenedora.
-4. Confirma los cambios y verifica que `index.html`, `programs.json`, `programs/` y `system/` aparecen en la raíz.
-5. No subas contraseñas, tokens, claves API ni archivos locales con datos privados.
+Las preferencias guardadas en GitHub Pages y Neocities no se comparten: cada origen web tiene su propio almacenamiento.
 
-El repositorio puede seguir siendo privado aunque la web publicada sea accesible al público.
+## Comprobaciones antes de publicar
+
+- Verificar que `index.html` abre correctamente la portada y da acceso a `home.html` y `terminal.html`.
+- Probar menú Inicio, ventanas y aplicaciones afectadas.
+- Si cambias `programs.json`, comprobar su sintaxis y que sus rutas apuntan a archivos existentes.
+- Probar el sonido tras una interacción y verificar que volumen y silencio se sincronizan con el Panel de control.
+- Revisar en **Actions** que el despliegue de GitHub Pages finaliza correctamente.
+
+**Historial:** importación inicial desde Neocities realizada el 15/11/2026; GitHub Pages habilitado posteriormente para visualizar y probar el desarrollo.
