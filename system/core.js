@@ -1,6 +1,6 @@
 /** TC/OS shared core — front-end only, no server-side execution. */
-import {readPreferences,savePreferences,applyPreferences,defaults} from './preferences.js?v=174';
-export const VERSION = '1.7.4';
+import {readPreferences,savePreferences,applyPreferences,defaults} from './preferences.js?v=175';
+export const VERSION = '1.7.5';
 export const PALETTE = {red:'#f03b47',background:'#050506'};
 const hasStorage = (key) => { try {return window[key]} catch{return null} };
 export const safeGet = (key, fallback = null, type='localStorage') => {
