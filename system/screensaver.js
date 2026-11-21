@@ -1,5 +1,5 @@
 /** TC/OS screensaver: local, accessible, no remote resources. */
-import {tr,getPreferences} from './core.js?v=174';
+import {tr,getPreferences} from './core.js?v=175';
 export function installScreensaver(desktop){
  const node=document.createElement('div');node.className='tcos-screensaver';node.setAttribute('role','dialog');node.setAttribute('aria-label',tr('Salvapantallas','Screensaver'));node.tabIndex=-1;
  const stars=document.createElement('div');stars.className='tcos-screensaver-stars';

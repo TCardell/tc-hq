@@ -1,6 +1,6 @@
-import {lang,tr,loadCatalog,localized,icon,applyTheme} from './core.js?v=174';
-import {VirtualFS} from './filesystem.js?v=174';
-import {TerminalUI} from './terminal-ui.js?v=174';
+import {lang,tr,loadCatalog,localized,icon,applyTheme} from './core.js?v=175';
+import {VirtualFS} from './filesystem.js?v=175';
+import {TerminalUI} from './terminal-ui.js?v=175';
 if(new URLSearchParams(location.search).has('v')){const clean=new URL(location.href);clean.searchParams.delete('v');history.replaceState(null,'',clean)}
 document.documentElement.lang=lang;applyTheme();window.addEventListener('tcos-preferences',applyTheme);
 const terminal=document.getElementById('terminal-output');

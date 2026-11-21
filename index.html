@@ -23,7 +23,11 @@ body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidde
 .rail.show-final{transform:translateY(-50%)}
 .stage{height:50%;position:relative;overflow:hidden}
 .boot{padding:clamp(13px,2vw,26px)}
-.heading{display:flex;justify-content:space-between;gap:8px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid #1b1e1b;color:#777e78;letter-spacing:.07em;font-size:clamp(15px,1.5vw,19px)}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid #1b1e1b;color:#777e78;letter-spacing:.07em;font-size:clamp(15px,1.5vw,19px)}
+.heading-tools{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
+.boot-audio-button{background:#201315;color:#f0a6ad;border:1px solid #82434b;border-radius:2px;font:inherit;letter-spacing:.02em;font-size:.9em;padding:1px 6px;white-space:nowrap;cursor:pointer}
+.boot-audio-button:hover,.boot-audio-button:focus-visible{color:white;border-color:#ec6772}
+.boot-audio-button[hidden]{display:none}
 .log{height:calc(100% - 38px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain;font-size:clamp(19px,1.55vw,23px);line-height:1.06;letter-spacing:.012em;text-shadow:0 0 2px rgba(215,225,215,.04)}
 .log::-webkit-scrollbar{display:none}
 .line{white-space:pre;overflow:hidden;text-overflow:clip;animation:line-in .07s step-end both}
@@ -79,7 +83,7 @@ body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidde
   <div class="viewport" id="viewport">
     <div class="rail" id="rail">
       <section class="stage boot" id="boot" aria-label="TC-HQ boot log">
-        <header class="heading"><span>TC/OS // REMOTE BOOT</span><span id="link-status">LINK: OFFLINE</span></header>
+        <header class="heading"><span>TC/OS // REMOTE BOOT</span><span class="heading-tools"><span id="link-status">LINK: OFFLINE</span><button type="button" id="boot-audio-button" class="boot-audio-button" hidden></button></span></header>
         <main class="log" id="log"><span class="cursor" id="boot-cursor" aria-hidden="true">█</span></main>
       </section>
       <section class="stage final" id="final" aria-label="TC-HQ access authorization"><div class="final-content" id="final-content"></div><p class="countdown" id="countdown" aria-live="off"></p></section>
@@ -91,6 +95,7 @@ body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidde
   </div>
 </div>
 <noscript><a href="home.html" style="color:#ed3946;padding:20px;display:block">TC-HQ / Entrar · Enter</a></noscript>
+<script src="system/boot-audio.js?v=175"></script>
 <script>
 (()=>{
 'use strict';
@@ -101,6 +106,7 @@ const HOLD_MS=bootStyle==='quick'?350:bootStyle==='none'?0:2000;
 const FINAL_MS=bootStyle==='quick'?1200:bootStyle==='none'?0:5000;
 const TOTAL_MS=BOOT_MS+HOLD_MS+FINAL_MS;
 const qs=new URLSearchParams(location.search);
+const bootAudio=window.TCBootAudio?.create(settings,qs);
 if(qs.has('v')){const clean=new URL(location.href);clean.searchParams.delete('v');history.replaceState(null,'',clean)}
 const requestedLang=qs.get('lang');
 const browserLang=(navigator.languages?.[0]||navigator.language||'en');
@@ -110,7 +116,7 @@ document.documentElement.lang=lang;
 const tr=(es,en)=>lang==='es'?es:en;
 const $=id=>document.getElementById(id);
 const log=$('log'),cursor=$('boot-cursor'),rail=$('rail'),status=$('link-status'),final=$('final'),content=$('final-content'),countdown=$('countdown');
-const prompt=$('prompt-area'),input=$('command'),feedback=$('prompt-feedback');
+const prompt=$('prompt-area'),input=$('command'),feedback=$('prompt-feedback'),audioButton=$('boot-audio-button');
 let destination=settings.bootTarget==='terminal'?'terminal':'graphical',finished=false,phase='boot';
 let feedbackTimer=null;
 const timeouts=new Set();
@@ -292,13 +298,16 @@ function appendLine(row,index){
  if(index===13)status.textContent='LINK: NEGOTIATING';
  if(index===20)status.textContent='LINK: SECURE';
  if(index===24)status.textContent='LINK: CONNECTED';
+ if(index===1)bootAudio?.play('post');
+ else if(row.kind==='warn'||row.kind==='alert')bootAudio?.play('warn');
+ else if([10,11,13,20].includes(index))bootAudio?.play('link');
+ else if([3,7,15,23].includes(index))bootAudio?.play('tick');
 }
-rows.forEach((r,i)=>later(offsets[i],()=>appendLine(r,i)));
 
 function chooseFinal(){const forced=(qs.get('final')||'').toLowerCase();return ['a','b','c'].includes(forced)?forced:pick(['a','b','c'])}
 function ascii(label,width=22){const b='+'+'-'.repeat(width)+'+',blank='|'+' '.repeat(width)+'|';const leading=Math.floor((width-label.length)/2);return[b,blank,'|'+' '.repeat(leading)+label+' '.repeat(width-leading-label.length)+'|',blank,b].join('\n')}
 function showFinal(){
- phase='final';const kind=chooseFinal();final.className='stage final '+kind;
+ phase='final';bootAudio?.play('ready');const kind=chooseFinal();final.className='stage final '+kind;
  const terminal=destination==='terminal';
  const message=terminal?tr('INICIALIZANDO SESIÓN DE TERMINAL...','INITIALIZING TERMINAL SESSION...'):tr('ACCESO CONCEDIDO','ACCESS GRANTED');
  if(kind==='a') content.innerHTML=`<div class="eyebrow">TC/OS // ${tr('CONSOLA REMOTA','REMOTE CONSOLE')}</div><div class="command"><span class="user">guest@tc-hq</span>:~$ ./open-session<span class="cursor">█</span></div><div class="logo">TCARDELL_</div><div class="subtitle">TCardell Headquarters</div><div class="result" id="final-result">[ OK ] ${message}</div>`;
@@ -318,7 +327,7 @@ function navigate(){if(finished)return;finished=true;timeouts.forEach(clearTimeo
   mode,lang,timestamp:new Date().toISOString(),destination,
   lines:[...log.querySelectorAll('.line')].map(line=>line.textContent)
  }))}catch(_){/* storage may be disabled */}
- const query=new URLSearchParams();if(['es','en'].includes(requestedLang))query.set('lang',requestedLang);location.replace((destination==='terminal'?'terminal.html':'home.html')+(query.size?'?'+query.toString():''))}
+ bootAudio?.close();const query=new URLSearchParams();if(['es','en'].includes(requestedLang))query.set('lang',requestedLang);location.replace((destination==='terminal'?'terminal.html':'home.html')+(query.size?'?'+query.toString():''))}
 
 // Acceso oculto: tocar el prompt o escribir selecciona terminal SIN saltar boot.
 prompt.addEventListener('pointerdown',e=>{e.stopPropagation();selectTerminal();if(e.target!==input)input.focus({preventScroll:true})});
@@ -334,7 +343,7 @@ input.addEventListener('keydown',e=>{
 });
 // En ordenador, también se puede empezar a escribir SIN clicar primero el prompt.
 document.addEventListener('keydown',e=>{
- if(finished||e.target===input||e.ctrlKey||e.altKey||e.metaKey||e.isComposing)return;
+ if(finished||e.target===input||e.target===audioButton||e.ctrlKey||e.altKey||e.metaKey||e.isComposing)return;
  if(e.key==='Enter'){e.preventDefault();goGraphical();return}
  if(e.key==='Escape'){e.preventDefault();goGraphical();return}
  if(e.key.length===1){e.preventDefault();selectTerminal();input.focus({preventScroll:true});input.value+=e.key;input.dispatchEvent(new Event('input',{bubbles:true}))}
@@ -342,14 +351,37 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('pointerdown',e=>{if(!prompt.contains(e.target)&&destination!=='terminal')goGraphical()});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&performance.now()-startedAt>=TOTAL_MS)navigate()});
 
-// Se conserva el pitido POST de la v1.3 (el autoplay puede bloquearlo).
-function beep(){if(qs.get('sound')==='off'||(settings.sound!==true&&qs.get('sound')!=='on'))return;try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;const a=new A();if(a.state!=='running'){a.close().catch(()=>{});return}const o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=950;g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.035,a.currentTime+.008);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.088);o.connect(g);g.connect(a.destination);o.onended=()=>a.close().catch(()=>{});o.start();o.stop(a.currentTime+.09)}catch(_){}}
-const startedAt=performance.now();beep();
-later(BOOT_MS+HOLD_MS,showFinal);later(TOTAL_MS,navigate);
-if(settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches){
- // Mantener accesible el prompt: sin animaciones, ir directamente a la home.
- later(0,navigate);
+// Keep automatic boot intact. Browsers may require a user gesture for Web Audio.
+let startedAt=0;
+function beginBoot(restart=false){
+ if(restart){
+  timeouts.forEach(clearTimeout);timeouts.clear();
+  if(feedbackTimer)clearTimeout(feedbackTimer);
+  feedbackTimer=null;finished=false;phase='boot';previousPending=null;
+  log.replaceChildren(cursor);status.textContent='LINK: OFFLINE';
+  rail.classList.remove('show-final');final.className='stage final';
+  content.replaceChildren();countdown.textContent='';
+ }
+ startedAt=performance.now();
+ bootAudio?.play('power');
+ rows.forEach((row,i)=>later(offsets[i],()=>appendLine(row,i)));
+ later(BOOT_MS+HOLD_MS,showFinal);later(TOTAL_MS,navigate);
+ if(settings.reduceMotion||matchMedia('(prefers-reduced-motion: reduce)').matches){
+  later(0,navigate);
+ }
 }
+audioButton.textContent=tr('🔊 ACTIVAR AUDIO','🔊 ENABLE AUDIO');
+audioButton.title=tr('Activar sonido y repetir el arranque desde el principio','Enable audio and replay the boot from the beginning');
+audioButton.setAttribute('aria-label',audioButton.title);
+audioButton.addEventListener('pointerdown',e=>e.stopPropagation());
+audioButton.addEventListener('click',e=>{
+ e.preventDefault();e.stopPropagation();
+ bootAudio?.unlock().then(ok=>{
+  if(ok){audioButton.hidden=true;beginBoot(true)}
+ });
+});
+beginBoot();
+if(bootAudio?.available()&&!bootAudio.isRunning())audioButton.hidden=false;
 })();
 </script>
 </body>

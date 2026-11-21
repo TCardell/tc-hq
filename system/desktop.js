@@ -1,11 +1,12 @@
-import {lang,tr,icon,loadCatalog,getPreferences,localized,programTitle,formatTime,openSafeURL,getDisabledPrograms,folderPath,getFavoriteIds,toggleFavorite,openModeOf} from './core.js?v=174';
-import {VirtualFS} from './filesystem.js?v=174';
-import {createApp,makeTextViewer} from './apps.js?v=174-patch1';
-import {Shortcuts,pKey,fKey} from './shortcuts.js?v=174';
-import {safeGet,safeSet} from './core.js?v=174';
-import {makeAdminLogin} from './apps/admin.js?v=174';
-import {installSoundEngine} from './sound.js?v=174';
-import {installScreensaver} from './screensaver.js?v=174';
+import {lang,tr,icon,loadCatalog,getPreferences,localized,programTitle,formatTime,openSafeURL,getDisabledPrograms,folderPath,getFavoriteIds,toggleFavorite,openModeOf} from './core.js?v=175';
+import {VirtualFS} from './filesystem.js?v=175';
+import {createApp,makeTextViewer} from './apps.js?v=175';
+import {Shortcuts,pKey,fKey} from './shortcuts.js?v=175';
+import {safeGet,safeSet} from './core.js?v=175';
+import {makeAdminLogin} from './apps/admin.js?v=175';
+import {installSoundEngine} from './sound.js?v=175';
+import {installSoundTray} from './tray-sound.js?v=175';
+import {installScreensaver} from './screensaver.js?v=175';
 const qs=new URLSearchParams(location.search);
 if(qs.has('v')){const clean=new URL(location.href);clean.searchParams.delete('v');history.replaceState(null,'',clean)}
 document.documentElement.lang=lang;
@@ -16,6 +17,8 @@ installSoundEngine(document);
 const $=id=>document.getElementById(id);
 const desktop=$('desktop'),workspace=$('workspace'),icons=$('desktop-icons'),menu=$('start-menu'),items=$('start-items'),tasks=$('tasks'),ctxMenu=$('context-menu'),start=$('start-button');
 const el=(tag,cls='',text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+installSoundTray(document.querySelector('.tray'));
+
 const ambient=el('div','desktop-ambient');ambient.setAttribute('aria-hidden','true');desktop.prepend(ambient);
 const applyPreferences=()=>{const p=getPreferences();desktop.classList.toggle('grid-on',p.grid);desktop.classList.toggle('crt-on',p.crt);desktop.dataset.wallpaper=p.wallpaper;desktop.classList.toggle('no-animations',!p.windowAnimations);desktop.classList.toggle('ambient-off',!p.ambientMotion||p.reduceMotion)};
 applyPreferences();window.addEventListener('tcos-preferences',applyPreferences);installScreensaver(desktop);

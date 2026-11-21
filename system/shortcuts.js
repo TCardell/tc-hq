@@ -1,5 +1,5 @@
 /** TC/OS Desktop shortcuts. Stores REFERENCES, never removes applications. */
-import {safeGet,safeSet,getDisabledPrograms} from './core.js?v=174';
+import {safeGet,safeSet,getDisabledPrograms} from './core.js?v=175';
 export const pKey=id=>'p:'+id;
 export const fKey=id=>'f:'+id;
 const normalKeys=['p:system-info','p:explorer','p:terminal','f:education','f:projects','p:recycle-bin'];

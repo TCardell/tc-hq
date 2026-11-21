@@ -156,3 +156,19 @@ html:not([data-theme="graphite"]) .desktop-brand{opacity:.88}
 @keyframes tcos-screen-float{from{transform:translate(-3vw,-2vh)}to{transform:translate(4vw,3vh)}}
 html.reduce-motion .tcos-screensaver *{animation:none!important}@media(prefers-reduced-motion:reduce){.tcos-screensaver *{animation:none!important}}
 @media(max-width:450px){.open-choice-actions{grid-template-columns:1fr}.open-choice-actions button{min-height:53px;flex-direction:row}.explorer-top .sys-toolbar{gap:3px}.explorer-top .sys-toolbar .sys-button{padding:5px 7px}}
+
+
+/* Quick sound settings in the TC/OS tray. */
+.sound-tray{position:relative;display:flex;align-items:center;flex:none}
+.tray-audio-button{position:relative;width:30px;height:28px;border:1px solid transparent;border-radius:2px;color:#e2e2e5;background:transparent;display:grid;place-items:center;padding:3px}
+.tray-audio-button:hover,.tray-audio-button[aria-expanded="true"]{background:#493139;border-color:#794b52}
+.tray-audio-button.muted{color:#c8868b}
+.tray-audio-button.muted::after{content:"";position:absolute;width:21px;height:2px;background:#ff777d;transform:rotate(-45deg);box-shadow:0 0 0 1px #19191d}
+.sound-popover{position:absolute;bottom:calc(100% + 10px);right:-90px;z-index:20040;width:min(270px,calc(100vw - 20px));padding:15px;display:flex;flex-direction:column;gap:13px;background:#202126;color:var(--ink);border:1px solid #8a5b63;box-shadow:2px 3px 0 #070709,0 14px 32px #000b}
+.sound-popover[hidden]{display:none}
+.sound-popover strong{font-size:13px;color:#f1d5d9}
+.sound-popover-line{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px}
+.sound-popover input[type="range"]{width:100%;accent-color:#ec5867;cursor:pointer}
+.sound-popover .sound-mute{align-self:flex-start;min-width:110px}
+.sound-popover small{line-height:1.45}
+@media(max-width:700px){.sound-popover{right:-70px}.tray-audio-button{width:27px}}

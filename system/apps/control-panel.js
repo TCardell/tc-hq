@@ -1,6 +1,6 @@
-import {tr,getPreferences,setPreferences,VERSION,localized} from '../core.js?v=174';
-import {resetAppearance,factoryReset} from '../preferences.js?v=174';
-import {playCue} from '../sound.js?v=174';
+import {tr,getPreferences,setPreferences,VERSION,localized} from '../core.js?v=175';
+import {resetAppearance,factoryReset} from '../preferences.js?v=175';
+import {playCue} from '../sound.js?v=175';
 const el=(tag,cls='',txt)=>{const n=document.createElement(tag);n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
 const button=(txt,fn)=>{const b=el('button','sys-button',txt);b.type='button';b.onclick=fn;return b};
 const categories=[
@@ -19,7 +19,7 @@ export function makeControlPanel(ctx){
  function check(label,key,desc=''){const row=el('div','setting-row');const copy=el('div');copy.append(el('strong','',label));if(desc)copy.append(el('small','sys-muted',desc));const c=el('input');c.type='checkbox';c.checked=!!getPreferences()[key];c.onchange=()=>setPreferences({[key]:c.checked});row.append(copy,c);area.append(row)}
  function subsection(title){area.append(el('h3','control-heading',title))}
  function message(text){area.append(el('p','sys-muted',text))}
- function slider(label,key){const row=el('div','setting-row');const copy=el('span','',label);const wrap=el('div','sys-flex');const input=el('input');input.type='range';input.min='0';input.max='100';input.step='5';input.style.width='180px';const value=el('span','sys-muted');input.value=getPreferences()[key]??50;value.textContent=input.value+'%';input.oninput=()=>{value.textContent=input.value+'%';setPreferences({[key]:Number(input.value)})};wrap.append(input,value);row.append(copy,wrap);area.append(row)}
+ function slider(label,key){const row=el('div','setting-row');const copy=el('span','',label);const wrap=el('div','sys-flex');const input=el('input');input.type='range';input.min='0';input.max='100';input.step=key==='volume'?'1':'5';input.style.width='180px';const value=el('span','sys-muted');input.value=getPreferences()[key]??50;value.textContent=input.value+'%';input.oninput=()=>{value.textContent=input.value+'%';setPreferences({[key]:Number(input.value)})};wrap.append(input,value);row.append(copy,wrap);area.append(row)}
  function show(cat){current=cat;nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.category===cat));area.replaceChildren();
   const definition=categories.find(x=>x[0]===cat);subsection(tr(definition[2],definition[3]));
   switch(cat){
@@ -53,6 +53,7 @@ export function makeControlPanel(ctx){
     check(tr('Sonidos de TC/OS','TC/OS sounds'),'sound',tr('Efectos clásicos al utilizar botones y ventanas.','Classic cues for buttons and windows.'));
     slider(tr('Volumen general','Master volume'),'volume');slider(tr('Volumen de efectos','Effects volume'),'effectsVolume');
     area.append(button(tr('Probar sonido','Test sound'),()=>playCue('open')));
+    message(tr('Nuevo rango: el 33 % equivale aproximadamente al antiguo 100 %. El volumen predeterminado es 50 %.','New range: 33% is approximately the former 100%. Default master volume is 50%.'));
     message(tr('El navegador puede requerir una primera interacción para habilitar el audio.','Your browser may require an initial interaction to enable audio.'));break;
    case 'accessibility':
     check(tr('Reducir movimiento','Reduce motion'),'reduceMotion');
