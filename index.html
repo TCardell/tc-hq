@@ -25,7 +25,7 @@ body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidde
 .boot{padding:clamp(13px,2vw,26px)}
 .heading{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid #1b1e1b;color:#777e78;letter-spacing:.07em;font-size:clamp(15px,1.5vw,19px)}
 .heading-tools{display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap}
-.boot-audio-button{background:#201315;color:#f0a6ad;border:1px solid #82434b;border-radius:2px;font:inherit;letter-spacing:.02em;font-size:.9em;padding:1px 6px;white-space:nowrap;cursor:pointer}
+.boot-audio-button{display:grid;place-items:center;width:30px;height:27px;flex:none;background:#201315;color:#f0a6ad;border:1px solid #82434b;border-radius:2px;font:inherit;font-size:19px;line-height:1;padding:0;cursor:pointer}
 .boot-audio-button:hover,.boot-audio-button:focus-visible{color:white;border-color:#ec6772}
 .boot-audio-button[hidden]{display:none}
 .log{height:calc(100% - 38px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain;font-size:clamp(19px,1.55vw,23px);line-height:1.06;letter-spacing:.012em;text-shadow:0 0 2px rgba(215,225,215,.04)}
@@ -63,6 +63,8 @@ body{font-family:"VT323","Courier New",monospace;color:var(--ink);overflow:hidde
 .prompt-area:focus-within .prompt-feedback:empty::after{content:""}
 @media(max-width:600px){
  :root{--prompt-h:66px}
+ .heading{font-size:clamp(12px,3.7vw,15px);gap:5px}
+ .heading-tools{gap:4px}
  .boot{padding:12px 10px}
  .heading{font-size:15px}
  .log{font-size:clamp(16px,4.35vw,20px);line-height:1.04}
@@ -370,7 +372,7 @@ function beginBoot(restart=false){
   later(0,navigate);
  }
 }
-audioButton.textContent=tr('🔊 ACTIVAR AUDIO','🔊 ENABLE AUDIO');
+audioButton.textContent='🔊';
 audioButton.title=tr('Activar sonido y repetir el arranque desde el principio','Enable audio and replay the boot from the beginning');
 audioButton.setAttribute('aria-label',audioButton.title);
 audioButton.addEventListener('pointerdown',e=>e.stopPropagation());
