@@ -1,7 +1,7 @@
 # Instrucciones para Codex — TC-HQ / TC-OS
 
 ## Propósito
-Este repositorio es el código fuente de TC-HQ, un sitio personal con escritorio web interactivo de estética retro y diversas aplicaciones integradas. Web publicada: https://tcardell.neocities.org/
+Este repositorio es el código fuente de TC-HQ, un sitio personal con escritorio web interactivo de estética retro y diversas aplicaciones integradas. Vista de desarrollo publicada en GitHub Pages: https://tcardell.github.io/tc-hq/ . Web de Neocities: https://tcardell.neocities.org/ (no se sincroniza automáticamente).
 
 ## Principios de trabajo
 - Preserva la versión funcional del sitio. Realiza cambios pequeños y localizados; no reescribas la aplicación entera si no se solicita.
