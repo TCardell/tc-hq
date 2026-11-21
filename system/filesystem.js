@@ -1,4 +1,4 @@
-import {safeGet,safeSet,boot,tr,localized,VERSION,folderPath,getDisabledPrograms} from './core.js?v=174';
+import {safeGet,safeSet,boot,tr,localized,VERSION,folderPath,getDisabledPrograms} from './core.js?v=175';
 const HOME='/home/guest';
 const STATIC_DIRS=['/','/home',HOME,HOME+'/notes','/etc','/etc/tc-hq','/var','/var/log','/srv','/srv/programs'];
 export class VirtualFS {
