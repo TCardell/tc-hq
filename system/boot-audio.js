@@ -6,7 +6,10 @@
   const requested=search.get('sound');
   const enabled=requested==='on'||(requested!=='off'&&preferences.sound!==false);
   const percent=(value,fallback)=>Math.max(0,Math.min(100,Number.isFinite(Number(value))?Number(value):fallback));
-  const master=percent(preferences.volume,50)/100;
+  const oldVolume=Number(preferences.volume);
+  const masterLevel=preferences.volumeScaleVersion===2?preferences.volume:
+   (!Number.isFinite(oldVolume)||oldVolume===35?50:Math.round(oldVolume/3));
+  const master=percent(masterLevel,50)/100;
   const effects=percent(preferences.effectsVolume,55)/100;
   // One third of the new slider has the former full-scale amplitude.
   const maxGain=0.07*3*master*effects;
