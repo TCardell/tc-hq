@@ -23,8 +23,8 @@ export function installSoundTray(tray){
   toggle.classList.toggle('muted',muted);
   toggle.title=tr('Sonido: clic para volumen, clic derecho para silenciar','Sound: click for volume, right-click to mute');
   toggle.setAttribute('aria-label',muted?tr('Sonido silenciado. Abrir volumen','Sound muted. Open volume'):tr('Sonido activado. Abrir volumen','Sound on. Open volume'));
-  mute.textContent=p.sound?tr('Silenciar','Mute'):tr('Activar sonido','Unmute');
-  mute.setAttribute('aria-pressed',String(!p.sound));
+  mute.textContent=muted?tr('Activar sonido','Unmute'):tr('Silenciar','Mute');
+  mute.setAttribute('aria-pressed',String(muted));
   number.value=p.volume+'%';number.textContent=p.volume+'%';
   if(document.activeElement!==range)range.value=String(p.volume);
  }
