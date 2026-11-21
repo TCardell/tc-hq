@@ -1,5 +1,5 @@
-import {lang,tr,localized,programByName,boot,formatDate,icon,VERSION,getDisabledPrograms,getPreferences,safeGet,safeSet} from './core.js?v=174';
-import {calculate} from './math.js?v=174';
+import {lang,tr,localized,programByName,boot,formatDate,icon,VERSION,getDisabledPrograms,getPreferences,safeGet,safeSet} from './core.js?v=175';
+import {calculate} from './math.js?v=175';
 export class TerminalUI {
  constructor({host,fs,catalog,onProgram,onGUI,onReboot,standalone=false}){
   this.host=host;this.fs=fs;this.catalog=catalog;this.onProgram=onProgram;this.onGUI=onGUI;this.onReboot=onReboot;this.standalone=standalone;
