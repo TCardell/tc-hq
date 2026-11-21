@@ -1,4 +1,4 @@
-import {tr,getPreferences,setPreferences,icon} from '../core.js?v=174';
+import {tr,getPreferences,setPreferences,icon} from '../core.js?v=175';
 const el=(tag,cls='',text)=>{const n=document.createElement(tag);n.className=cls;if(text!==undefined)n.textContent=text;return n};
 const btn=(label,handler)=>{const n=el('button','sys-button',label);n.type='button';n.addEventListener('click',handler);return n};
 const THEMES=[['hq-black','TC-HQ Black','#050506','#d82b3f'],['graphite','Graphite Classic','#24252b','#95323c'],['phosphor','Phosphor Green','#0a120b','#33754b'],['midnight','Midnight Purple','#100d16','#754b91'],['classic','Windows Classic','#ccc9be','#26548d'],['blackout','Blackout','#010102','#b51d2f'],['synthwave','Synthwave 1986','#110820','#ff4eaf']];
