@@ -1,4 +1,4 @@
-import {tr,icon,localized,programTitle} from '../core.js?v=174';
+import {tr,icon,localized,programTitle} from '../core.js?v=175';
 const el=(tag,cls='',txt)=>{const n=document.createElement(tag);n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
 export function makeRecycleBin(ctx){
  const wrap=el('div','sys-app');wrap.append(el('h2','',tr('Papelera de accesos directos','Shortcut Recycle Bin')),
