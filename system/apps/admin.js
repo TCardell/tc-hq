@@ -1,4 +1,4 @@
-import {tr} from '../core.js?v=174';
+import {tr} from '../core.js?v=175';
 const el=(tag,cls='',txt)=>{const n=document.createElement(tag);n.className=cls;if(txt!==undefined)n.textContent=txt;return n};
 export function makeAdminLogin(onAccept){
  const wrap=el('form','sys-app tcos-admin-login'),title=el('h2','',tr('Acceso administrativo TC-HQ','TC-HQ Administrative Access')),
