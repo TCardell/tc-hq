@@ -6,7 +6,7 @@ export const defaults=Object.freeze({
   termSize:23,termCursor:'underline',termHistory:true,termScrollback:1000,
   language:'auto',time24:true,weekStart:'monday',showExtensions:true,showHidden:false,
   ambientMotion:true,screensaverEnabled:false,screensaverMinutes:5,screensaverStyle:'clock',
-  bootStyle:'full',bootTarget:'automatic',sound:true,volume:35,effectsVolume:55,cursorTheme:'classic',reduceMotion:false
+  bootStyle:'full',bootTarget:'automatic',sound:true,volume:50,effectsVolume:55,volumeScaleVersion:2,cursorTheme:'classic',reduceMotion:false
 });
 const allowedThemes=['hq-black','graphite','phosphor','midnight','classic','blackout','synthwave'];
 const allowedWallpapers=['original','headquarters','grid','mainframe','solid','synth-sunset','synth-grid','synth-neon','red-circuit','dark-stars','aurora','scanline','living-synth','living-stars'];
@@ -22,7 +22,15 @@ export function readPreferences(){
   p.screensaverEnabled=!!p.screensaverEnabled;p.ambientMotion=p.ambientMotion!==false;
   p.screensaverMinutes=[1,2,5,10,15,30].includes(Number(p.screensaverMinutes))?Number(p.screensaverMinutes):5;
   if(!['clock','logo','stars'].includes(p.screensaverStyle))p.screensaverStyle='clock';
-  p.volume=Math.max(0,Math.min(100,Number(p.volume??35)));
+  // Previous full volume corresponds to about 33% of the new 3x scale.
+  // Preserve custom loudness, but upgrade the previous default (35%) to 50%.
+  const oldVolume=Object.prototype.hasOwnProperty.call(saved,'volume')?Number(saved.volume):NaN;
+  if(saved.volumeScaleVersion!==2){
+   p.volume=!Number.isFinite(oldVolume)||oldVolume===35?50:Math.round(oldVolume/3);
+  }
+  p.volumeScaleVersion=2;
+  p.sound=saved.sound!==false;
+  p.volume=Math.max(0,Math.min(100,Number(p.volume??50)));
   p.effectsVolume=Math.max(0,Math.min(100,Number(p.effectsVolume??55)));
   if(!['classic','red','phosphor','crosshair'].includes(p.cursorTheme))p.cursorTheme='classic';
   p.termSize=Math.max(16,Math.min(34,Number(p.termSize)||23));
