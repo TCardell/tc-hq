@@ -35,8 +35,14 @@ export function installSoundTray(tray){
   if(opening)render();
  });
  // Secondary click is an instant mute switch without opening the panel.
- toggle.addEventListener('contextmenu',event=>{event.preventDefault();setPreferences({sound:!getPreferences().sound})});
- mute.addEventListener('click',()=>setPreferences({sound:!getPreferences().sound}));
+ function toggleMute(){
+  const p=getPreferences();
+  setPreferences(!p.sound||p.volume===0
+   ?{sound:true,volume:p.volume>0?p.volume:50}
+   :{sound:false});
+ }
+ toggle.addEventListener('contextmenu',event=>{event.preventDefault();toggleMute()});
+ mute.addEventListener('click',toggleMute);
  range.addEventListener('input',()=>{
   const volume=Number(range.value);
   setPreferences({volume,sound:volume>0});
