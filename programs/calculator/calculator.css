@@ -62,3 +62,9 @@ html[data-theme="blackout"]{--bg:#020203;--surface:#0b0b0d;--surface2:#141418;--
 }
 @media(max-width:620px){.shared-screen{margin:7px 9px 0;min-height:138px}.mode-nav{top:62px;left:8px;right:8px}.mode-nav button{font-size:12px}.screen-top{gap:6px}.version{display:none}.basic-keypad .key{min-height:48px}.settings-grid{grid-template-columns:1fr}.navigation-pad{gap:3px}.navigation-pad button{min-width:32px}.nav-label{display:none}}
 @media(max-width:380px){.app-header .micro{font-size:7px}.identity h1{font-size:15px}.header-right{gap:4px}.identity{gap:6px}.shared-screen{padding:7px}.navigation-pad button{min-width:30px}}
+
+/* Scientific v0.2.1: live MathML preview (editable input remains linear). */
+.expression-preview{background:rgba(8,16,13,.17);border:1px solid rgba(149,182,157,.24);border-radius:7px;padding:10px 12px;margin:6px 0;color:inherit;overflow-x:auto;min-height:45px}
+.expression-preview.hidden{display:none!important}
+.expression-preview math{font-size:1.3rem;min-width:max-content}
+.expression-preview math[data-incomplete="true"]{font-size:.88rem;opacity:.55}
