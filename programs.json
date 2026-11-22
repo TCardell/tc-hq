@@ -248,6 +248,26 @@
       "openMode": "ask"
     },
     {
+      "id": "monty-hall",
+      "name": {
+        "es": "Monty Hall",
+        "en": "Monty Hall"
+      },
+      "description": {
+        "es": "Concurso interactivo de las tres puertas con experimentos, simulaciones y demostraciones de probabilidad",
+        "en": "Interactive three-door game show with experiments, simulations and probability demonstrations"
+      },
+      "icon": "dice",
+      "type": "page",
+      "url": "programs/monty-hall-v1.0.2.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "monty",
+      "folder": "probability",
+      "openMode": "ask"
+    },
+    {
       "id": "personalization",
       "name": {
         "es": "Personalización",
