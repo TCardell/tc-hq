@@ -171,7 +171,7 @@ body.in-deck::before{display:none} /* costly fixed noise blend does not repaint 
 <div class="settings" id="settings" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title"><div class="settings-card"><div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" aria-label="Close">✕</button></div><p id="settings-copy"></p><label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label><input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div><label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label><p class="settings-tip" id="settings-tip"></p><button class="settings-close" id="settings-done"></button></div></div>
 <script>
 (()=>{'use strict';
-const KEY='type16.gesture-lab.v3'; // keep existing progress and preferences
+const KEY='type16.gesture-lab.v4'; // fresh tutorial, preserving previous language and sensitivity
 const rawCards=[
  {scene:'star',es:['Ante una idea nueva, ¿qué sueles hacer primero?','Explorar posibilidades','Buscar ejemplos concretos'],en:['With a new idea, what do you usually do first?','Explore possibilities','Look for concrete examples']},
  {scene:'moon',es:['Después de un día lleno de gente…','Necesito tranquilidad','Me apetece seguir socializando'],en:['After a day surrounded by people…','I need some quiet','I feel like socializing more']},
@@ -188,8 +188,21 @@ const words={
 };
 const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function detectLanguage(){const pref=navigator.languages?.length?navigator.languages:[navigator.language];for(const p of pref){const v=String(p||'').toLowerCase();if(/^(es|ca|gl|eu)(-|$)/.test(v))return'es';if(/^en(-|$)/.test(v))return'en'}return'en'}
-function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.v===3&&['en','es'].includes(x.lang)&&Number.isInteger(x.i)&&x.i>=0&&x.i<=rawCards.length&&Array.isArray(x.answers))return x}catch{}return{v:3,lang:detectLanguage(),i:0,answers:[],threshold:150,diagonal:true,started:false,tutorialSeen:false,tutorialActive:false}}
-let state=load(),busy=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+function load(){
+  const fresh={v:4,lang:detectLanguage(),i:0,answers:[],threshold:150,diagonal:true,started:false,tutorialSeen:false,tutorialActive:false};
+  try{
+    const current=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(current?.v===4 && ['en','es'].includes(current.lang) && Number.isInteger(current.i) && current.i>=0 && current.i<=rawCards.length && Array.isArray(current.answers))return current;
+    const legacy=JSON.parse(localStorage.getItem('type16.gesture-lab.v3')||'null');
+    if(legacy?.v===3){
+      if(['en','es'].includes(legacy.lang))fresh.lang=legacy.lang;
+      if(Number.isFinite(legacy.threshold)&&legacy.threshold>=110&&legacy.threshold<=210)fresh.threshold=legacy.threshold;
+      if(typeof legacy.diagonal==='boolean')fresh.diagonal=legacy.diagonal;
+    }
+  }catch{}
+  return fresh;
+}
+ let state=load(),busy=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
 const iconGear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.3"/><path d="M10 2h4l.6 2.3 2.2.9 2.1-1.2 2.7 2.7-1.2 2.1.9 2.2L23 11v2l-2.3.6-.9 2.2 1.2 2.1-2.7 2.7-2.1-1.2-2.2.9L13 23h-2l-.6-2.3-2.2-.9-2.1 1.2-2.7-2.7 1.2-2.1-.9-2.2L1 13v-2l2.3-.6.9-2.2L3 6.1l2.7-2.7 2.1 1.2 2.2-.9z" transform="translate(0 -1) scale(.96)"/></svg>';
 const motifs={
  star:`<circle cx="110" cy="70" r="56" fill="#b5aa98" opacity=".5"/><path d="M110 11L126 57L174 70L126 84L110 132L95 84L47 70L95 57Z" fill="#a35c56"/><circle cx="110" cy="70" r="16" fill="#e4caa4"/><path d="M23 70H55M165 70H198M110 0V21M110 118V139" stroke="#745d56" stroke-width="2"/>`,
