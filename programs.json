@@ -228,6 +228,26 @@
       "openMode": "ask"
     },
     {
+      "id": "penney-lab",
+      "name": {
+        "es": "Penney Lab",
+        "en": "Penney Lab"
+      },
+      "description": {
+        "es": "Laboratorio interactivo del juego de Penney: monedas, simulaciones y probabilidades exactas",
+        "en": "Interactive Penney's game lab with coin flips, simulations and exact probabilities"
+      },
+      "icon": "dice",
+      "type": "page",
+      "url": "programs/penney-lab-v0.5.1.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "penney",
+      "folder": "probability",
+      "openMode": "ask"
+    },
+    {
       "id": "personalization",
       "name": {
         "es": "Personalización",
@@ -390,6 +410,17 @@
       },
       "parent": "education",
       "icon": "sigma",
+      "desktop": false,
+      "menu": true
+    },
+    {
+      "id": "probability",
+      "name": {
+        "es": "Probabilidad",
+        "en": "Probability"
+      },
+      "parent": "mathematics",
+      "icon": "dice",
       "desktop": false,
       "menu": true
     },
