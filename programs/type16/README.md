@@ -20,6 +20,17 @@ Vista previa temporal mediante una pasarela de terceros para HTML de GitHub: htt
 
 Esta rama experimental no modifica el catálogo ni la versión publicada.
 
+
+### Revisión de interacción v0.5 (22 noviembre 2026)
+
+- Carta de bienvenida bilingüe dentro de la misma baraja; balanceo suave hasta tocarla.
+- Al salir una carta se ve el **reverso ornamental de la baraja**; la siguiente pasa de reverso a anverso con giro visual.
+- Los cinco botones y los gestos comparten el mismo controlador de salida mediante Web Animations API. Se evita depender de transiciones CSS que podían ser interrumpidas.
+- Recuadro «Tu elección» con altura y tipografía **constantes** durante el arrastre; no causa saltos en la interfaz.
+- Se conservan las etiquetas opuestas al lado del gesto, sensibilidad diagonal, ES/EN y solicitud de fullscreen tras tocar «Comenzar».
+- Probado en Chromium emulado: 320×568, 360×640, 360×740, 390×700, 390×844, 430×932 y escritorio; salidas por botón repetidas sin errores de JavaScript. **Pendiente la comprobación física en Android/iOS**.
+- El efecto de volteo usa escalado horizontal y alternancia de caras para evitar artefactos de texto especular en navegadores móviles; no depende de renderizado 3D correcto.
+
 ## Objetivos
 
 - Mobile first: tarjetas táctiles en vertical, alternativa accesible con cinco botones.
