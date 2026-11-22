@@ -1,4 +1,4 @@
-TC-HQ Scientific v0.1 — Calculadora modular para TC/OS
+TC-HQ Scientific v0.2.1 — Calculadora modular para TC/OS
 =======================================================
 
 INSTALACIÓN (TC-HQ v1.7.3 y posteriores compatibles)
@@ -51,8 +51,8 @@ Ejemplos:
   2^3^2              = 512
 
 El resultado de ciertas operaciones puede ser aproximado por trabajar con
-números de coma flotante. No tiene aún entrada matemática bidimensional
-(fracciones apiladas, raíces dibujadas) ni álgebra simbólica general.
+números de coma flotante. Dispone de vista previa matemática bidimensional MathML (fracciones, exponentes y raíces);
+la edición sigue siendo lineal y todavía no hay un editor visual WYSIWYG ni CAS simbólico general.
 
 ORGANIZACIÓN INTERNA
 --------------------
@@ -87,6 +87,15 @@ PRÓXIMAS AMPLIACIONES POSIBLES
 Gráficas, sistemas de ecuaciones, más herramientas de Física y Química,
 selector de precisión, mejor tipografía matemática y operaciones simbólicas.
 
-ESTADO: primera versión funcional (v0.1), probada con casos matemáticos y
+ESTADO: versión de estabilización (v0.2.1), probada con casos matemáticos y
 pruebas de interfaz; conviene comprobar también en tu Neocities antes de
 considerarla definitiva.
+
+CAMBIOS v0.2.1
+--------------
+- Mejora de raíces reales dobles y cuárticas de cuadrado perfecto, incluidas raíces complejas repetidas.
+- Sistemas de ecuaciones: pivoteo escalado por fila, incluso con coeficientes uniformemente pequeños.
+- Resultados en notación decimal fija: utiliza forma científica antes de mostrar como cero valores no nulos diminutos.
+- Selector de teclado: ya solo responde a los botones Básica/Científica/Extendida.
+- Entrada visual: ahora muestra la operación como MathML mientras se escribe. El campo editable sigue siendo lineal.
+- Pruebas matemáticas reproducibles en tests/scientific.test.mjs (ejecutar con Node.js 22+).
