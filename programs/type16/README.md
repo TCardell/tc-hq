@@ -57,3 +57,9 @@ El motor no necesita dependencias de terceros ni compilación. `npm test` ejecut
 Ítems OEJTS 1.2 y adaptaciones sujetos a **CC BY-NC-SA 4.0** (atribución, no comercial y compartir igual). Fuente original: https://openpsychometrics.org/tests/OJTS/development/OEJTS1.2.pdf . Véase `CREDITS.md` y `METHODOLOGY.md`. Los módulos originales de ingeniería son independientes de los contenidos protegidos del instrumento.
 
 **PR de investigación:** [#6](https://github.com/TCardell/tc-hq/pull/6), mantenida como borrador mientras no se integre y revise el cuestionario.
+
+## Auditoría editorial completa (noviembre 2026)
+
+Fichas y decisiones para los 32 ítems de OEJTS 1.2: [QUESTION_AUDIT.md](QUESTION_AUDIT.md). Registro de revisión separado de la puntuación: `js/engine/editorial-audit.js`. Tests de integridad fuente/clave: `tests/engine-editorial.test.mjs`.
+
+**Los 32 textos candidatos están pendientes de revisión bilingüe y entrevistas; no se han aplicado al test.** La interfaz jugable y las fórmulas OEJTS siguen intactas.

@@ -38,3 +38,9 @@ Las claves de inversión **no** se calculan a partir de la apariencia A/B ni del
 - Tests de regresión del resultado completo, de omisiones, de inversión de polos y de resultados parciales.
 - Redacción clara en la interfaz de que el recorrido rápido y su porcentaje son **orientativos**.
 - Solo después, integración sin alteraciones gráficas de la interfaz jugable aprobada.
+
+## Auditoría de las 32 preguntas — v1 documental
+
+Las 32 fichas, riesgos, propuestas y próximos controles están en [QUESTION_AUDIT.md](QUESTION_AUDIT.md), con registro legible por código en `js/engine/editorial-audit.js`.
+
+**Estado para todos:** `pending-independent-review` y `translationApproval:false`. Ninguna alternativa se introduce en el motor; cambios sustantivos exigen nueva versión, revisión independiente y, si corresponde, un banco separado. Los tests comprueban integridad de código, no validez científica.
