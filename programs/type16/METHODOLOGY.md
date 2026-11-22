@@ -17,7 +17,7 @@ A continuación, Qn es la respuesta 1..5 al ítem n. **No se suman ocho respuest
 
 - IE = 30 - Q3 - Q7 - Q11 + Q15 - Q19 + Q23 + Q27 - Q31
 - SN = 12 + Q4 + Q8 + Q12 + Q16 + Q20 - Q24 - Q28 + Q32
-- FT = 30 - Q2 + Q6 + Q10 - Q14 + Q18 + Q22 + Q26 - Q30
+- FT = 30 - Q2 + Q6 + Q10 - Q14 - Q18 + Q22 - Q26 - Q30
 - JP = 18 + Q1 + Q5 - Q9 + Q13 - Q17 + Q21 - Q25 + Q29
 
 Cada escala completa va de 8 a 40, punto medio 24. IE > 24: E; en caso contrario: I. SN > 24: N; en caso contrario: S. FT > 24: T; en caso contrario: F. JP > 24: P; en caso contrario: J. **El desempate a la izquierda es una convención del documento original, no evidencia de una preferencia sólida.**

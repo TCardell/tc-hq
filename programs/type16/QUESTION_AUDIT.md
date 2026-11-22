@@ -6,7 +6,7 @@
 
 - **IE:** Q3 (-), Q7 (-), Q11 (-), Q15 (+), Q19 (-), Q23 (+), Q27 (+), Q31 (-). Valor alto => E.
 - **SN:** Q4 (+), Q8 (+), Q12 (+), Q16 (+), Q20 (+), Q24 (-), Q28 (-), Q32 (+). Valor alto => N.
-- **FT:** Q2 (-), Q6 (+), Q10 (+), Q14 (-), Q18 (+), Q22 (+), Q26 (+), Q30 (-). Valor alto => T.
+- **FT:** Q2 (-), Q6 (+), Q10 (+), Q14 (-), Q18 (-), Q22 (+), Q26 (-), Q30 (-). Valor alto => T.
 - **JP:** Q1 (+), Q5 (+), Q9 (-), Q13 (+), Q17 (-), Q21 (+), Q25 (-), Q29 (+). Valor alto => P.
 
 Las etiquetas en el archivo de preguntas representan **extremo izquierdo** (respuesta 1) y **extremo derecho** (respuesta 5). El signo de la fórmula corrige la orientación de cada pregunta.
