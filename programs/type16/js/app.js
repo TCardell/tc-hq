@@ -1,5 +1,6 @@
 import {QUESTIONS, FAST_IDS, ORDER, getQuestion} from "./questions.js";
 import {scoreAll} from "./scoring.js";
+import {detectLanguage} from "./locale.js";
 
 const KEY="type16.session.v1";
 const root=document.getElementById("app");
@@ -29,7 +30,7 @@ const I18N={
     ambiguous:"Cerca del centro",backToSite:"Volver a TC-HQ",answer:"Responder",
     hint:"En móvil puedes deslizar; los botones son la opción más precisa.",
     shortWarning:"Aún estamos revisando traducciones, ítems y gestos. No interpretes el tipo como una certeza.",
-    switchLang:"EN",progress:"Tu progreso"
+    switchLang:"EN",languageLabel:"Cambiar idioma",progress:"Tu progreso"
   },
   en:{
     intro:"DISCOVER YOUR PREFERENCES",headline:"One deck. Four dimensions. Sixteen possibilities.",
@@ -56,7 +57,7 @@ const I18N={
     ambiguous:"Near the midpoint",backToSite:"Back to TC-HQ",answer:"Answer",
     hint:"You can swipe on mobile; buttons are the most precise option.",
     shortWarning:"Translations, items and gestures are under review. Do not treat this type as a certainty.",
-    switchLang:"ES",progress:"Your progress"
+    switchLang:"ES",languageLabel:"Switch language",progress:"Your progress"
   }
 };
 const AXIS_LABEL={
@@ -67,7 +68,7 @@ function newSession(lang){
   return {version:1,lang,screen:"welcome",cursor:0,mode:"main",reviewIds:[],reviewCursor:0,answers:{},history:[]};
 }
 function loadSession(){
-  const lang=(navigator.language||"es").toLowerCase().startsWith("es")?"es":"en";
+  const lang=detectLanguage(navigator.languages?.length ? navigator.languages : [navigator.language]);
   try{
     const stored=JSON.parse(localStorage.getItem(KEY)||"null");
     if(stored?.version===1 && ["es","en"].includes(stored.lang) && stored.answers && Array.isArray(stored.history)){
@@ -132,7 +133,7 @@ function header(){
     '<button type="button" class="mini-button" data-action="results">'+escapeHtml(t("results"))+'</button>':"";
   return '<header class="topbar"><a class="brand" href="../../home.html" aria-label="'+escapeHtml(t("backToSite"))+'">TC—HQ / TYPE16</a>'+
     '<div class="top-actions">'+resultButton+
-    '<button type="button" class="mini-button" data-action="language" aria-label="Change language">'+t("switchLang")+'</button></div></header>';
+    '<button type="button" class="mini-button" data-action="language" aria-label="'+escapeHtml(t("languageLabel"))+'">'+t("switchLang")+'</button></div></header>';
 }
 function footer(){
   return '<footer class="footer">'+escapeHtml(t("footer"))+
