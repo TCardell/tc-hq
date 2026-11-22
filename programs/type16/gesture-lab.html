@@ -568,11 +568,28 @@ function armPracticeSway(){
 }
 function finishPractice(previewAlreadyFlipped=false){state.tutorialActive=false;state.tutorialSeen=true;state.started=true;revealNext=!previewAlreadyFlipped;persist();draw()}
 
+
+function showChoice(choice,hint=W().pickHint){
+  const fb=document.querySelector('#feedback');
+  const banner=document.querySelector('#response-banner');
+  const stamp=document.querySelector('#gesture-stamp');
+  if(!fb||!banner||!stamp)return;
+  fb.textContent=choice?choice.text:hint;
+  const side=choice?.side==='left'?'choice-a':choice?.side==='right'?'choice-b':'neutral';
+  banner.className='response-banner'+(choice?' selected '+side+(choice.strong?' strong':''):'');
+  stamp.textContent=choice?choice.text:'';
+  stamp.className='gesture-stamp'+(choice?' visible '+(choice.side==='left'?'on-right choice-a':choice.side==='right'?'on-left choice-b':'on-center')+(choice.strong?' strong':''):'');
+}
+
 function record(value,exitX=0,exitY=0){
   if(busy)return;
   busy=true;
   const practice=state.tutorialActive;
   const card=document.querySelector('#card');
+  // Buttons and gestures use the same visible decision feedback.
+  const label=value===null?W().skip:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1];
+  showChoice({value,text:label,side:value===1||value===2?'left':value===4||value===5?'right':'neutral',strong:value===1||value===5});
+
   const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const nextIndex=practice?state.i:state.i+1;
   const hasNext=nextIndex<rawCards.length;
@@ -655,7 +672,7 @@ function classify(dx,dy,threshold){
   return {value,text:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1],side,effective,strong};
 }
 function bindPointer(){
-  const card=document.querySelector('#card'),fb=document.querySelector('#feedback'),banner=document.querySelector('#response-banner'),stamp=document.querySelector('#gesture-stamp');
+  const card=document.querySelector('#card');
   if(!card)return;
   let pos=null,frame=0,latest=null,lastChoice='';
   const initialHint=state.tutorialActive?W().practiceMessage:W().pickHint;
@@ -663,10 +680,7 @@ function bindPointer(){
     const key=choice?String(choice.value):'none';
     if(key===lastChoice)return;
     lastChoice=key;
-    fb.textContent=choice?choice.text:initialHint;
-    banner.className='response-banner'+(choice?' selected '+(choice.side==='left'?'choice-a':choice.side==='right'?'choice-b':'neutral')+(choice.strong?' strong':''):'');
-    stamp.textContent=choice?choice.text:'';
-    stamp.className='gesture-stamp'+(choice?' visible '+(choice.side==='left'?'on-right choice-a':choice.side==='right'?'on-left choice-b':'on-center')+(choice.strong?' strong':''):'');
+    showChoice(choice,initialHint);
   };
   const paint=()=>{
     frame=0;if(!pos||!latest)return;
