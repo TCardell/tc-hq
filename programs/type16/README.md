@@ -2,6 +2,24 @@
 
 Proyecto **en desarrollo** dentro de TC-HQ. No es el indicador MBTI® oficial ni una prueba clínica. Nunca debe utilizarse para contratación, diagnóstico ni decisiones de alto impacto.
 
+## Prototipo visual para validar gestos (NOV 2026)
+
+Abrir **[gesture-lab.html](gesture-lab.html)**. Es un archivo HTML autónomo (sin librerías ni recursos remotos), diseñado primero para móvil. Contiene ocho pares de decisiones ficticios: son ejemplos de interacción y no calculan ningún tipo de personalidad.
+
+Vista previa temporal mediante una pasarela de terceros para HTML de GitHub: https://raw.githack.com/TCardell/tc-hq/feature/type16-foundation/programs/type16/gesture-lab.html
+
+### Qué probar
+
+- Izquierda o derecha, arrastre corto (más de 48 px) = preferencia suave.
+- Arrastre largo (130 px inicialmente, ajustable entre 100 y 170 px en ⚙) = preferencia fuerte.
+- Arriba = neutral; abajo = omitir.
+- La carta gira suavemente, revela un sello con la elección, sale y deja pasar a la siguiente.
+- Cinco botones inferiores equivalen a los gestos.
+- ES/EN en cualquier momento, sin perder el progreso.
+- Probar en móvil vertical y en escritorio; observar comodidad, umbrales, legibilidad y animación.
+
+Esta rama experimental no modifica el catálogo ni la versión publicada.
+
 ## Objetivos
 
 - Mobile first: tarjetas táctiles en vertical, alternativa accesible con cinco botones.
