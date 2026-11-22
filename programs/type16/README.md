@@ -77,3 +77,20 @@ El avance siguiente **no cambia el test ni la clave de puntuación**: crea un pr
 Generar un formulario de **solo lectura**: `node tools/cognitive-pilot.mjs form A es current` o `node tools/cognitive-pilot.mjs form A es candidate 3`. Inglés: `node tools/cognitive-pilot.mjs form B en source`.
 
 El piloto **no** almacena notas de personas ni transmite respuestas a ningún servidor. Ninguna propuesta editorial está aprobada, ninguna entrevista ha sido realizada y ningún registro de ejemplo debe presentarse como evidencia real. El formulario piloto es deliberadamente distinto del juego de ocho cartas.
+
+## Motor de interpretación de resultados (noviembre 2026)
+
+`js/engine/interpretation.js` genera **tres niveles de lectura**, en español e inglés, sin tocar el banco ni las fórmulas: `brief` (combinación provisional/completa), `dimensions` (cuatro ejes continuos con matices) y `deep` (evidencias referenciadas por ID, tendencias visibles y cuestiones abiertas). Hay 16 descripciones originales en `interpretation-copy.js`, redactadas como combinaciones **posibles** de preferencias, no categorías naturales demostradas.
+
+La API pública acepta las mismas respuestas del motor (1–5; omisiones fuera del objeto) y puede interpretar una sesión recuperada:
+
+```js
+import {buildInterpretation,interpretSession} from './js/engine/index.js';
+const reading=buildInterpretation({3:1,12:4},{locale:'es',skipped:[15]});
+// O bien: const reading=interpretSession(existingSession);
+// reading.brief, reading.dimensions y reading.deep son datos, no HTML.
+```
+
+El código técnico OEJTS de 32 ítems respeta su desempate publicado; cuando una dimensión empata, TYPE/16 **no adjudica una descripción de personalidad por ese desempate**. Un resultado rápido con pocos datos tampoco recibe una etiqueta completa. Los números `observedPosition` e `intensity` son resúmenes aritméticos de respuestas, nunca probabilidades, intervalos estadísticos ni afirmaciones de fiabilidad.
+
+Especificación y límites: [RESULT_INTERPRETATION_SPEC.md](RESULT_INTERPRETATION_SPEC.md). Pruebas de regresión: `tests/engine-interpretation.test.mjs`; demostración sin interfaz: `npm run interpret:smoke`.

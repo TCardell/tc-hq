@@ -111,3 +111,10 @@ npm test
 4. Definir la experiencia de la capa de resultados, explicando incertidumbre y empate, sin atribuciones psicométricas inventadas.
 5. Preparar módulo independiente para futuras preguntas TYPE/16 originales. **No mezclarlas en el cómputo OEJTS 1.2** sin una escala/protocolo distinto y trabajo de validación.
 6. Integrar la interfaz visual ya aprobada **sin cambiar su diseño**, con pruebas de regresión de gestos y la persistencia local.
+
+## 9. Interpretación de resultados (sin modificar la interfaz)
+
+Módulos nuevos: `js/engine/interpretation.js` y `js/engine/interpretation-copy.js`.
+La implementación calcula tres vistas de un mismo conjunto de respuestas: resumen (`brief`), cuatro dimensiones (`dimensions`) y lectura profundizada (`deep`). Está desacoplada de estilos, DOM, almacenamiento y de las cartas de prueba. Cada matiz se fundamenta en sumas firmadas de ítems reales: el motor expone IDs, dirección, fuerza de elección y tema editorial, sin presentar un ítem como evidencia diagnóstica.
+
+Solo se muestra una descripción de alguno de los 16 patrones cuando las cuatro dimensiones tienen al menos dos respuestas válidas y no empatan. En un perfil completo, el código de la fuente se conserva; **si existe empate, la descripción tipológica se suprime y se explica la convención de desempate**. Los 12 ítems rápidos generan orientaciones provisionales. Véase `RESULT_INTERPRETATION_SPEC.md`.
