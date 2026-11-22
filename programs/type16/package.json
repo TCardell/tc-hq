@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "smoke": "node tools/engine-smoke.mjs"
+    "smoke": "node tools/engine-smoke.mjs",
+    "pilot:form": "node tools/cognitive-pilot.mjs form A es current"
   }
 }

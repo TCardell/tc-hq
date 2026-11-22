@@ -58,8 +58,22 @@ El motor no necesita dependencias de terceros ni compilación. `npm test` ejecut
 
 **PR de investigación:** [#6](https://github.com/TCardell/tc-hq/pull/6), mantenida como borrador mientras no se integre y revise el cuestionario.
 
-## Auditoría editorial completa (noviembre 2026)
 
-Fichas y decisiones para los 32 ítems de OEJTS 1.2: [QUESTION_AUDIT.md](QUESTION_AUDIT.md). Registro de revisión separado de la puntuación: `js/engine/editorial-audit.js`. Tests de integridad fuente/clave: `tests/engine-editorial.test.mjs`.
+## Auditoría bilingüe de preguntas v1 (sin cambios de interfaz)
 
-**Los 32 textos candidatos están pendientes de revisión bilingüe y entrevistas; no se han aplicado al test.** La interfaz jugable y las fórmulas OEJTS siguen intactas.
+Se han cotejado los 32 textos ingleses con el PDF original, revisado críticamente sus traducciones españolas y clasificado riesgos de sesgo, comprensibilidad y pertinencia del constructo. [Abrir auditoría de las 32 preguntas](QUESTION_AUDIT.md). El registro machine-readable está en `js/engine/editorial-audit.js` y las regresiones de fuente/clave en `tests/engine-editorial.test.mjs`.
+
+**No son 32 preguntas «aprobadas».** Todas las traducciones/candidatos siguen pendientes de revisión humana y entrevistas de comprensión. Los candidatos están aislados: el motor sigue consumiendo los ítems originales y no cambia las fórmulas.
+
+## Ronda de entrevistas cognitivas (preparada, **no realizada**)
+
+El avance siguiente **no cambia el test ni la clave de puntuación**: crea un protocolo de revisión independiente y un pequeño motor de formularios no puntuables. Consultar:
+
+- [COGNITIVE_PILOT_PROTOCOL.md](COGNITIVE_PILOT_PROTOCOL.md): entrevistas cualitativas, consentimiento, cuatro formularios, versiones ES/EN y reglas de decisión.
+- [PILOT_DECISION_LOG.md](PILOT_DECISION_LOG.md): estado inicial de las 32 preguntas y acta de decisiones sin datos personales.
+- `js/engine/pilot.js`: formularios A–D equilibrados, controles de versión, codificación anónima y recuentos descriptivos, sin inferencias psicométricas.
+- `tests/engine-pilot.test.mjs`: pruebas de cobertura, versiones, privacidad y aislamiento de la puntuación.
+
+Generar un formulario de **solo lectura**: `node tools/cognitive-pilot.mjs form A es current` o `node tools/cognitive-pilot.mjs form A es candidate 3`. Inglés: `node tools/cognitive-pilot.mjs form B en source`.
+
+El piloto **no** almacena notas de personas ni transmite respuestas a ningún servidor. Ninguna propuesta editorial está aprobada, ninguna entrevista ha sido realizada y ningún registro de ejemplo debe presentarse como evidencia real. El formulario piloto es deliberadamente distinto del juego de ocho cartas.
