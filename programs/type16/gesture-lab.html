@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181e29">
 <meta name="description" content="TYPE/16 · Prototipo de cartas interactivas, mobile-first y bilingüe.">
-<title>TYPE/16 · Card Atelier — Gesture Lab v3</title>
+<title>TYPE/16 · Card Atelier — Gesture Lab v4</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -110,6 +110,60 @@ html{min-height:100%;overscroll-behavior-y:none}
  .tutorial-compass{grid-template-columns:1fr 110px 1fr;width:100%}
 }
 @media(prefers-reduced-motion:reduce){.response-banner,.progress-mini span{transition:none!important}}
+/* TYPE/16 V4 — performance, live practice card and compact viewport layout */
+body.in-deck::before{display:none} /* costly fixed noise blend does not repaint during drags */
+.app.playing{height:100dvh;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.app.playing .stage{min-height:0;flex:1}
+.app.playing .deck-area{min-height:240px;flex:1;max-height:none;overflow:visible}
+.app.playing .card{min-height:0;backface-visibility:hidden;contain:layout paint style;transform:translate3d(0,0,0);}
+.app.playing .card.dragging{box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset}
+.app.playing .card:before{mix-blend-mode:normal}
+.app.playing .response-banner{height:auto;min-height:62px;overflow:visible;padding:8px 10px}
+.app.playing .banner-text{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.app.playing .banner-kicker{line-height:1.35}
+.app.playing .response-banner #feedback{min-height:0;line-height:1.22;overflow-wrap:anywhere}
+.app.playing .gesture-zone{min-width:0;padding:5px 1px 0}
+.app.playing .toolbar{flex-shrink:0}
+.gesture-stamp{position:absolute;z-index:10;top:15%;width:max-content;max-width:46%;padding:10px 11px;opacity:0;pointer-events:none;
+ border:3px double #844c51;border-radius:8px;color:#844c51;background:#f8edd5f5;box-shadow:0 5px 10px #4f3d3424;
+ font:800 clamp(14px,4.1vw,20px)/1.16 var(--sans);letter-spacing:.01em;text-align:center;
+ transform:translate3d(0,-5px,0) rotate(-6deg);transition:opacity .13s ease,transform .13s ease;}
+.gesture-stamp.visible{opacity:1;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-right{right:12px;left:auto;transform:translate3d(0,0,0) rotate(6deg)}
+.gesture-stamp.on-left{left:12px;right:auto;border-color:#3f746c;color:#35665e;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-center{left:50%;right:auto;max-width:65%;transform:translate3d(-50%,0,0) rotate(-4deg);border-color:#716479;color:#64536e}
+.gesture-stamp.strong{font-size:clamp(17px,4.6vw,23px);border-width:4px}
+.practice-guide{margin:-9px 18px 0;text-align:center;color:#806a50;font-size:clamp(10px,2.8vw,12px);font-weight:650;line-height:1.3}
+.app.playing .card.practice-idle{animation:practice-wiggle 3.5s ease-in-out infinite;will-change:transform}
+@keyframes practice-wiggle{0%,10%,90%,100%{transform:translate3d(0,0,0) rotate(0)}23%{transform:translate3d(-17px,0,0) rotate(-2.6deg)}43%{transform:translate3d(14px,0,0) rotate(2.2deg)}61%{transform:translate3d(-8px,0,0) rotate(-1.1deg)}74%{transform:translate3d(0,0,0) rotate(0)}}
+@media(max-height:710px){
+ .app.playing .deck-area{min-height:215px}
+ .app.playing .card-top{padding-top:12px}
+ .app.playing .card-art{height:clamp(65px,16dvh,115px);min-height:65px;margin-top:1px}
+ .app.playing .card-question{font-size:clamp(16px,4.7vw,21px);line-height:1.12}
+ .app.playing .card-options{min-height:47px;margin-bottom:5px}
+ .app.playing .card-bottom{margin-bottom:7px;padding-top:5px}
+ .app.playing .response-banner{min-height:54px;padding:5px 8px}
+ .app.playing .response{min-height:43px}
+ .app.playing .tool{min-height:42px}
+ .app.playing .play-dock{min-height:31px}
+ .app.playing .gesture-zone{gap:5px}
+ .practice-guide{margin:-6px 10px 0;font-size:10px}
+}
+@media(max-height:590px){
+ .app.playing{padding-top:3px;padding-bottom:calc(3px + env(safe-area-inset-bottom))}
+ .app.playing .deck-area{min-height:195px;padding:2px 4px}
+ .app.playing .card-top{padding-top:8px}
+ .app.playing .card-art{height:65px;min-height:45px}
+ .app.playing .card-question{font-size:clamp(14px,4.5vw,18px)}
+ .app.playing .card-options{min-height:40px}
+ .app.playing .card-bottom{margin-bottom:4px}
+ .app.playing .response-banner{min-height:49px}
+ .app.playing .response{min-height:40px}
+ .app.playing .tool{min-height:38px}
+ .app.playing .play-dock{min-height:29px}
+}
+@media(prefers-reduced-motion:reduce){.app.playing .card.practice-idle{animation:none!important}.gesture-stamp{transition:none!important}}
 </style>
 </head>
 <body>
@@ -117,7 +171,7 @@ html{min-height:100%;overscroll-behavior-y:none}
 <div class="settings" id="settings" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title"><div class="settings-card"><div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" aria-label="Close">✕</button></div><p id="settings-copy"></p><label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label><input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div><label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label><p class="settings-tip" id="settings-tip"></p><button class="settings-close" id="settings-done"></button></div></div>
 <script>
 (()=>{'use strict';
-const KEY='type16.gesture-lab.v3';
+const KEY='type16.gesture-lab.v3'; // keep existing progress and preferences
 const rawCards=[
  {scene:'star',es:['Ante una idea nueva, ¿qué sueles hacer primero?','Explorar posibilidades','Buscar ejemplos concretos'],en:['With a new idea, what do you usually do first?','Explore possibilities','Look for concrete examples']},
  {scene:'moon',es:['Después de un día lleno de gente…','Necesito tranquilidad','Me apetece seguir socializando'],en:['After a day surrounded by people…','I need some quiet','I feel like socializing more']},
@@ -129,8 +183,8 @@ const rawCards=[
  {scene:'clock',es:['Si organizas un viaje…','Reservo lo importante','Decido sobre la marcha'],en:['If you plan a trip…','I book the essentials','I decide along the way']}
 ];
 const words={
- es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V3',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma' },
- en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V3',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language' }
+ es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V4',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'CARTA DE PRÁCTICA',practiceQuestion:'Esta carta está aquí para enseñarte a jugar.',practiceA:'Desliza a la izquierda',practiceB:'Desliza a la derecha',practiceGuide:'Arrastra para elegir · Arriba: neutral · Abajo: saltar',practiceMessage:'¡Pruébalo! La carta se mueve para enseñarte.',practiceSkip:'Ir al cuestionario',practiceCount:'PRÁCTICA',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
+ en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V4',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'PRACTICE CARD',practiceQuestion:'This card is here to teach you how to play.',practiceA:'Swipe to the left',practiceB:'Swipe to the right',practiceGuide:'Swipe to choose · Up: neutral · Down: skip',practiceMessage:'Give it a try! The card moves to show you how.',practiceSkip:'Go to the questions',practiceCount:'PRACTICE',practiceHint:'Try swiping the card: it gently moves if you wait.' }
 };
 const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function detectLanguage(){const pref=navigator.languages?.length?navigator.languages:[navigator.language];for(const p of pref){const v=String(p||'').toLowerCase();if(/^(es|ca|gl|eu)(-|$)/.test(v))return'es';if(/^en(-|$)/.test(v))return'en'}return'en'}
@@ -151,104 +205,127 @@ function art(scene){return `<svg viewBox="0 0 220 145" aria-hidden="true" focusa
 function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
 function footer(){return `<footer class="footer">${W().footer}</footer>`}
 function intro(){let w=W();return `<section class="intro"><div class="hero-stack" aria-hidden="true"><div class="hero-back"></div><div class="hero-back"></div><div class="hero-front"><span class="hero-front-svg">${art('sun')}</span><span class="serial">ARCANA · XVI</span></div></div><div class="intro-eyebrow">${w.heroEyebrow}</div><h1 class="intro-title">TYPE<span>/</span>16</h1><p class="intro-desc">${w.tagline}</p><p class="intro-desc smaller">${w.intro}</p><button class="start-btn" data-action="start">${state.i>0?w.resume:w.start} <span aria-hidden="true">→</span></button><button class="intro-fullscreen" data-action="fullscreen">⛶ &nbsp;${w.introFull}</button><div class="intro-foot">${w.introSmall}</div></section>`}
-function cardHTML(){let q=rawCards[state.i],w=W(),[stem,a,b]=q[state.lang],num=String(state.i+1).padStart(2,'0');return `<div class="card-top"><span>THE DECK · ${num}</span><span class="diamond">✧</span><span>ARCANA / XVI</span></div><div class="card-art">${art(q.scene)}</div><h2 class="card-question" id="card-question">${safe(stem)}</h2><div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div><div class="card-bottom"><span>✧ · TYPE/16</span><span>NO. ${num}</span></div>`}
-function tutorial(){
- let w=W();
- return `<section class="tutorial-screen" aria-labelledby="tutorial-title">
-  <div class="tutorial-emblem" aria-hidden="true">✧</div>
-  <span class="section-label">TYPE/16 · GESTURE ATELIER</span>
-  <h1 id="tutorial-title">${w.tutorial}</h1>
-  <p class="tutorial-lead">${w.tutorialLead}</p>
-  <div class="tutorial-compass" aria-hidden="true">
-     <span class="compass-up">↑<small>${w.neutral}</small></span>
-     <span class="compass-left">←<small>A</small></span>
-     <span class="compass-card">✧<small>TYPE/16</small></span>
-     <span class="compass-right">→<small>B</small></span>
-     <span class="compass-down">↓<small>${w.skip}</small></span>
-  </div>
-  <div class="tutorial-steps"><p>${w.tutorialHorizontal}</p><p>${w.tutorialDistance}</p><p>${w.tutorialDiagonal}</p><p>${w.tutorialVertical}</p></div>
-  <p class="tutorial-note">${w.tutorialNote}</p>
-  <button class="start-btn" data-action="tutorial-go">${w.tutorialGo} →</button>
- </section>`
+function cardHTML(){
+  let w=W(),practice=state.tutorialActive,
+      q=practice?{scene:'star',es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:rawCards[state.i],
+      [stem,a,b]=q[state.lang],num=practice?'00':String(state.i+1).padStart(2,'0');
+  return `<div class="card-top"><span>${practice?w.practiceLabel:'THE DECK · '+num}</span><span class="diamond">✧</span><span>ARCANA / XVI</span></div>
+    <div class="card-art">${art(q.scene)}</div><h2 class="card-question" id="card-question">${safe(stem)}</h2>
+    ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
+    <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
+    <div class="card-bottom"><span>✧ · TYPE/16</span><span>NO. ${num}</span></div>`
 }
 function quiz(){
- let w=W();
- return `<section class="stage" aria-label="${w.series}">
- <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true"></div><article class="card entering" id="card" aria-describedby="card-question">${cardHTML()}</article></div>
- <div class="gesture-zone">
-   <div class="response-banner" id="response-banner" role="status" aria-live="polite" aria-atomic="true">
-     <span class="banner-ornament" aria-hidden="true">✦</span>
-     <div class="banner-text"><span class="banner-kicker">${w.pick}</span><strong id="feedback">${w.pickHint}</strong></div>
-     <span class="banner-ornament" aria-hidden="true">✦</span>
-   </div>
-   <div class="response-row" role="group" aria-label="${w.choice}">
-     <button class="response" data-value="1" aria-label="${w.strongA}"><strong>««</strong><small>${w.strongA}</small></button>
-     <button class="response" data-value="2" aria-label="${w.softA}"><strong>‹</strong><small>${w.softA}</small></button>
-     <button class="response neutral" data-value="3" aria-label="${w.neutral}"><strong>◇</strong><small>${w.neutral}</small></button>
-     <button class="response" data-value="4" aria-label="${w.softB}"><strong>›</strong><small>${w.softB}</small></button>
-     <button class="response" data-value="5" aria-label="${w.strongB}"><strong>»»</strong><small>${w.strongB}</small></button>
-   </div>
-   <div class="toolbar">
-      <button class="tool" data-action="undo" ${state.i===0?'disabled':''}><span class="ico" aria-hidden="true">↶</span>${w.undo}</button>
-      <button class="tool" data-action="skip">${w.skip}<span class="ico" aria-hidden="true">↓</span></button>
-   </div>
-   <div class="play-dock"><div class="stage-progress" aria-label="${w.stageCount} ${state.i+1} / ${rawCards.length}"><span class="deck-counter">${w.stageCount.toUpperCase()} · ${String(state.i+1).padStart(2,'0')}/${String(rawCards.length).padStart(2,'0')}</span><span class="progress-mini"><span style="width:${(state.i/rawCards.length)*100}%"></span></span></div>
-     <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button><button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
-   </div>
- </div></section>`
+  let w=W(),practice=state.tutorialActive,idx=practice?0:state.i+1;
+  return `<section class="stage" aria-label="${w.series}">
+  <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true"></div>
+    <article class="card entering" id="card" aria-describedby="card-question">${cardHTML()}<div class="gesture-stamp" id="gesture-stamp" aria-hidden="true"></div></article></div>
+  <div class="gesture-zone">
+    <div class="response-banner" id="response-banner" role="status" aria-live="polite" aria-atomic="true">
+      <span class="banner-ornament" aria-hidden="true">✦</span><div class="banner-text"><span class="banner-kicker">${practice?w.practiceLabel:w.pick}</span><strong id="feedback">${practice?w.practiceMessage:w.pickHint}</strong></div><span class="banner-ornament" aria-hidden="true">✦</span>
+    </div>
+    <div class="response-row" role="group" aria-label="${w.choice}">
+      <button class="response" data-value="1" aria-label="${w.strongA}"><strong>««</strong><small>${w.strongA}</small></button>
+      <button class="response" data-value="2" aria-label="${w.softA}"><strong>‹</strong><small>${w.softA}</small></button>
+      <button class="response neutral" data-value="3" aria-label="${w.neutral}"><strong>◇</strong><small>${w.neutral}</small></button>
+      <button class="response" data-value="4" aria-label="${w.softB}"><strong>›</strong><small>${w.softB}</small></button>
+      <button class="response" data-value="5" aria-label="${w.strongB}"><strong>»»</strong><small>${w.strongB}</small></button>
+    </div>
+    <div class="toolbar">
+      ${practice?`<button class="tool" disabled><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip-practice">${w.practiceSkip}<span class="ico" aria-hidden="true">→</span></button>`:
+       `<button class="tool" data-action="undo" ${state.i===0?'disabled':''}><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip">${w.skip}<span class="ico" aria-hidden="true">↓</span></button>`}
+    </div>
+    <div class="play-dock"><div class="stage-progress" aria-label="${practice?w.practiceCount:w.stageCount} ${idx}/${rawCards.length}"><span class="deck-counter">${practice?w.practiceCount.toUpperCase():w.stageCount.toUpperCase()} · ${String(idx).padStart(2,'0')}/${String(rawCards.length).padStart(2,'0')}</span><span class="progress-mini"><span style="width:${(idx/rawCards.length)*100}%"></span></span></div>
+      <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button><button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
+    </div>
+  </div></section>`
 }
 function summary(){let w=W(),a=state.answers.filter(v=>v===1||v===2).length,b=state.answers.filter(v=>v===4||v===5).length,n=state.answers.filter(v=>v===3).length,skips=state.answers.filter(v=>v===null).length;return `<section class="lab-summary"><div class="section-label">TYPE / 16 · INTERACTION LAB</div><div class="summary-panel"><div class="summary-icon">✷</div><h1 class="summary-title">${w.done}</h1><p class="summary-copy">${w.doneSub}</p><div class="summary-stats"><div class="summary-stat"><strong>${a}</strong><span>${w.countA}</span></div><div class="summary-stat"><strong>${b}</strong><span>${w.countB}</span></div><div class="summary-stat"><strong>${n}</strong><span>${w.countN}</span></div></div></div><p class="summary-note">${skips} ${w.skip.toLowerCase()} · ${state.answers.filter(v=>v===1||v===5).length} ${w.strong.toLowerCase()}<br>${w.introSmall}</p><div class="lab-actions"><button class="start-btn" data-action="restart">${w.again} →</button><button class="quiet-btn" data-action="settings">${iconGear} ${w.settings}</button></div></section>`}
 function draw(){
- document.documentElement.lang=state.lang;
- const play=state.started && state.i<rawCards.length && !state.tutorialActive;
- app.classList.toggle('playing',play);
- app.innerHTML=(play?'':masthead())+(state.tutorialActive?tutorial():state.i>=rawCards.length?summary():state.started?quiz():intro())+(play?'':footer());
- if(play)bindPointer();
+  document.documentElement.lang=state.lang;
+  const play=state.started && state.i<rawCards.length;
+  app.classList.toggle('playing',play);
+  document.body.classList.toggle('in-deck',play);
+  app.innerHTML=(play?'':masthead())+(state.i>=rawCards.length?summary():play?quiz():intro())+(play?'':footer());
+  if(play){bindPointer();if(state.tutorialActive)armPracticeSway();}
 }
-function record(value,exitX=0,exitY=0){if(busy)return;busy=true;const el=document.querySelector('#card');const finish=()=>{state.answers[state.i]=value;state.i=Math.min(rawCards.length,state.i+1);persist();busy=false;draw()};if(el){el.classList.remove('dragging','entering');el.classList.add('is-leaving');const x=exitX||((value<=2)?-window.innerWidth:(value>=4?window.innerWidth:0));const y=exitY||((value===null)?window.innerHeight:((value===3)?-window.innerHeight:-window.innerHeight*.12));el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${x>0?19:-19}deg) scale(.95)`;setTimeout(finish,matchMedia('(prefers-reduced-motion:reduce)').matches?15:310)}else finish()}
+function armPracticeSway(){
+  const card=document.querySelector('#card');
+  if(!card||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  setTimeout(()=>{if(card.isConnected && state.tutorialActive && !busy && !card.classList.contains('dragging')){card.classList.remove('entering');card.classList.add('practice-idle')}},1150);
+}
+function finishPractice(){state.tutorialActive=false;state.tutorialSeen=true;state.started=true;persist();draw()}
+function record(value,exitX=0,exitY=0){
+  if(busy)return;busy=true;
+  const practice=state.tutorialActive,el=document.querySelector('#card');
+  const finish=()=>{if(practice)finishPractice();else{state.answers[state.i]=value;state.i=Math.min(rawCards.length,state.i+1);persist();draw()}busy=false};
+  if(el){el.classList.remove('dragging','entering','practice-idle');el.classList.add('is-leaving');
+    const x=exitX||((value<=2)?-window.innerWidth:(value>=4?window.innerWidth:0));
+    const y=exitY||((value===null)?window.innerHeight:((value===3)?-window.innerHeight:-window.innerHeight*.12));
+    el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${x>0?19:-19}deg) scale(.95)`;
+    setTimeout(finish,matchMedia('(prefers-reduced-motion:reduce)').matches?15:310);
+  }else finish();
+}
 function classify(dx,dy,threshold){
- const ax=Math.abs(dx),ay=Math.abs(dy);
- if(ay>=70 && ay>=ax*1.3) return {value:dy<0?3:null,text:dy<0?W().neutral:W().skip,side:'neutral'};
- if(ax<52 || ax<ay*.7) return null;
- const yInfluence=state.diagonal===false?0:Math.max(-62,Math.min(62,dy*.72));
- const effective=ax+yInfluence;
- const strong=effective>=threshold;
- const value=dx<0?(strong?1:2):(strong?5:4);
- const side=dx<0?'left':'right';
- return {value,text:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1],side,effective,strong};
+  const ax=Math.abs(dx),ay=Math.abs(dy);
+  if(ay>=70 && ay>=ax*1.3)return {value:dy<0?3:null,text:dy<0?W().neutral:W().skip,side:'neutral'};
+  if(ax<52 || ax<ay*.7)return null;
+  const yInfluence=state.diagonal===false?0:Math.max(-62,Math.min(62,dy*.72));
+  const effective=ax+yInfluence, strong=effective>=threshold;
+  const value=dx<0?(strong?1:2):(strong?5:4),side=dx<0?'left':'right';
+  return {value,text:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1],side,effective,strong};
 }
 function bindPointer(){
- const card=document.querySelector('#card'),fb=document.querySelector('#feedback'),banner=document.querySelector('#response-banner');
- if(!card)return;
- let pos=null,delta={dx:0,dy:0};
- const updateFeedback=choice=>{
-  fb.textContent=choice?choice.text:W().pickHint;
-  banner.className='response-banner'+(choice?' selected '+(choice.side==='neutral'?'neutral':choice.side)+(choice.strong?' strong':''):'');
- };
- const cleanup=()=>{
-  pos=null;delta={dx:0,dy:0};card.classList.remove('dragging');card.style.transform='';updateFeedback(null);
- };
- card.addEventListener('pointerdown',e=>{
-  if(busy||e.button!==0)return;
-  pos={x:e.clientX,y:e.clientY,id:e.pointerId};delta={dx:0,dy:0};
-  card.classList.remove('entering');card.classList.add('dragging');card.setPointerCapture(e.pointerId);
- });
- card.addEventListener('pointermove',e=>{
-  if(!pos||pos.id!==e.pointerId||busy)return;
-  const dx=e.clientX-pos.x,dy=e.clientY-pos.y;delta={dx,dy};
-  const dragX=Math.sign(dx)*(Math.min(95,Math.abs(dx)) + Math.max(0,Math.abs(dx)-95)*.25);
-  const dragY=Math.sign(dy)*(Math.min(80,Math.abs(dy)) + Math.max(0,Math.abs(dy)-80)*.2);
-  card.style.transform=`translate3d(${dragX}px,${dragY*.8}px,0) rotate(${Math.max(-14,Math.min(14,dragX*.05))}deg) scale(${1-Math.min(.028,(Math.abs(dx)+Math.abs(dy))*.00008)})`;
-  updateFeedback(classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150))));
- });
- card.addEventListener('pointerup',e=>{
-  if(!pos||pos.id!==e.pointerId||busy)return;
-  const c=classify(e.clientX-pos.x,e.clientY-pos.y,Math.max(110,Math.min(210,Number(state.threshold)||150)));
-  const {dx,dy}=delta;pos=null;
-  if(!c){cleanup();return;}
-  record(c.value,dx>0?window.innerWidth*1.15:dx<0?-window.innerWidth*1.15:0,dy<0?-window.innerHeight:dy>0?window.innerHeight:-25);
- });
- card.addEventListener('pointercancel',cleanup);
+  const card=document.querySelector('#card'),fb=document.querySelector('#feedback'),banner=document.querySelector('#response-banner'),stamp=document.querySelector('#gesture-stamp');
+  if(!card)return;
+  let pos=null,frame=0,latest=null,lastChoice='';
+  const initialHint=state.tutorialActive?W().practiceMessage:W().pickHint;
+  const feedback=choice=>{
+    const key=choice?String(choice.value):'none';
+    if(key===lastChoice)return;
+    lastChoice=key;
+    fb.textContent=choice?choice.text:initialHint;
+    banner.className='response-banner'+(choice?' selected '+(choice.side==='neutral'?'neutral':choice.side)+(choice.strong?' strong':''):'');
+    stamp.textContent=choice?choice.text:'';
+    stamp.className='gesture-stamp'+(choice?' visible '+(choice.side==='left'?'on-right':choice.side==='right'?'on-left':'on-center')+(choice.strong?' strong':''):'');
+  };
+  const paint=()=>{
+    frame=0;if(!pos||!latest)return;
+    const {dx,dy}=latest;
+    const dragX=Math.sign(dx)*(Math.min(95,Math.abs(dx))+Math.max(0,Math.abs(dx)-95)*.25);
+    const dragY=Math.sign(dy)*(Math.min(80,Math.abs(dy))+Math.max(0,Math.abs(dy)-80)*.2);
+    card.style.transform=`translate3d(${dragX}px,${dragY*.8}px,0) rotate(${Math.max(-14,Math.min(14,dragX*.05))}deg)`;
+    feedback(classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150))));
+  };
+  const cancelFrame=()=>{if(frame){cancelAnimationFrame(frame);frame=0;}};
+  const cleanup=()=>{
+    cancelFrame();pos=null;latest=null;card.classList.remove('dragging');card.style.transform='';feedback(null);
+    if(state.tutorialActive && !matchMedia('(prefers-reduced-motion:reduce)').matches)card.classList.add('practice-idle');
+  };
+  card.addEventListener('pointerdown',e=>{
+    if(busy||e.button!==0||pos)return;
+    pos={x:e.clientX,y:e.clientY,id:e.pointerId};latest={dx:0,dy:0};lastChoice='';
+    card.classList.remove('entering','practice-idle');card.classList.add('dragging');
+    try{card.setPointerCapture(e.pointerId)}catch{}
+  });
+  card.addEventListener('pointermove',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    const samples=e.getCoalescedEvents?.();const latestEvent=samples?.length?samples[samples.length-1]:e;
+    latest={dx:latestEvent.clientX-pos.x,dy:latestEvent.clientY-pos.y};
+    if(!frame)frame=requestAnimationFrame(paint);
+  },{passive:true});
+  card.addEventListener('pointerup',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    cancelFrame();
+    const dx=e.clientX-pos.x,dy=e.clientY-pos.y;
+    const choice=classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150)));
+    pos=null;latest=null;
+    if(!choice){cleanup();return;}
+    feedback(choice);
+    record(choice.value,dx>0?window.innerWidth*1.15:dx<0?-window.innerWidth*1.15:0,dy<0?-window.innerHeight:dy>0?window.innerHeight:-25);
+  });
+  card.addEventListener('pointercancel',cleanup);
+  card.addEventListener('lostpointercapture',()=>{if(pos&&!busy)cleanup()});
 }
 function toggleSettings(open){
  modal.hidden=!open;
@@ -265,6 +342,11 @@ function toggleSettings(open){
   document.querySelector('#close-settings').focus();
  }
 }
+function attemptFullscreenOnStart(){
+  // Browsers require a user gesture: this runs immediately inside the Start click, not during page load.
+  if(document.fullscreenElement||!document.documentElement.requestFullscreen)return;
+  try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});p?.catch?.(()=>{});}catch{}
+}
 function toggleFullscreen(){
  if(document.fullscreenElement){document.exitFullscreen?.();return;}
  if(document.documentElement.requestFullscreen){
@@ -274,7 +356,7 @@ function toggleFullscreen(){
  }else alert(W().fsHelp);
 }
 
-app.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-value]');if(!b||busy)return;if(b.hasAttribute('data-value')){const v=Number(b.dataset.value);record(v);return}switch(b.dataset.action){case'language':state.lang=state.lang==='es'?'en':'es';persist();draw();break;case'start':if(!state.tutorialSeen && state.i===0){state.tutorialActive=true;}else{state.started=true;}persist();draw();break;case'tutorial-go':state.tutorialActive=false;state.tutorialSeen=true;state.started=true;persist();draw();break;case'fullscreen':toggleFullscreen();break;case'settings':toggleSettings(true);break;case'undo':if(state.i>0){state.i--;state.answers.length=state.i;persist();draw()}break;case'skip':record(null);break;case'restart':if(confirm(W().resetQuestion)){state.i=0;state.answers=[];state.started=false;state.tutorialActive=false;persist();draw()}break;}});
+app.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-value]');if(!b||busy)return;if(b.hasAttribute('data-value')){const v=Number(b.dataset.value);record(v);return}switch(b.dataset.action){case'language':state.lang=state.lang==='es'?'en':'es';persist();draw();break;case'start':attemptFullscreenOnStart();state.tutorialActive=!state.tutorialSeen&&state.i===0;state.started=true;persist();draw();break;case'skip-practice':finishPractice();break;case'fullscreen':toggleFullscreen();break;case'settings':toggleSettings(true);break;case'undo':if(state.i>0){state.i--;state.answers.length=state.i;persist();draw()}break;case'skip':record(null);break;case'restart':if(confirm(W().resetQuestion)){state.i=0;state.answers=[];state.started=false;state.tutorialActive=false;state.tutorialSeen=false;persist();draw()}break;}});
 document.querySelector('#diagonal').addEventListener('change',e=>{state.diagonal=e.target.checked;persist()});document.querySelector('#threshold').addEventListener('input',e=>{state.threshold=Number(e.target.value);document.querySelector('#threshold-value').textContent=state.threshold+' px';persist()});document.querySelector('#close-settings').addEventListener('click',()=>toggleSettings(false));document.querySelector('#settings-done').addEventListener('click',()=>toggleSettings(false));modal.addEventListener('click',e=>{if(e.target===modal)toggleSettings(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)toggleSettings(false);if(e.target.matches('input')||!modal.hidden||!state.started||state.i>=rawCards.length||busy)return;const map={ArrowLeft:2,ArrowRight:4,ArrowUp:3,ArrowDown:null,a:1,d:5};if(Object.prototype.hasOwnProperty.call(map,e.key)){e.preventDefault();record(map[e.key])}});
 draw();
 })();
