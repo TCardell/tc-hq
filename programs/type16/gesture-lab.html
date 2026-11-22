@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181e29">
 <meta name="description" content="TYPE/16 · Prototipo de cartas interactivas, mobile-first y bilingüe.">
-<title>TYPE/16 · Card Atelier — Gesture Lab v6</title>
+<title>TYPE/16 · Card Atelier — Gesture Lab v7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -218,6 +218,132 @@ body.in-deck::before{display:none} /* costly fixed noise blend does not repaint 
 .app.playing .card.dragging{animation:none!important}
 .app.playing .card.dragging .card-front,.app.playing .card.dragging .card-reverse{animation:none!important}
 @media(prefers-reduced-motion:reduce){.desktop-scenery{transition:none}}
+
+/* TYPE/16 V7 — preserve physical card proportions at low browser zoom.
+   Desktop viewport may be thousands of CSS pixels; do not stretch a card to fill its height. */
+@media (min-width:760px){
+  .app.playing .deck-area{
+    align-items:center;
+    justify-content:center;
+  }
+  .app.playing .card{
+    flex:0 0 auto;
+    width:min(100%, 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio: .69;
+    height:auto;
+    min-height:0;
+    align-self:center;
+  }
+  .app.playing .deck-layer{
+    inset:auto;
+    top:50%;
+    left:50%;
+    width:min(calc(100% - 14px), 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio:.69;
+    height:auto;
+  }
+  .app.playing .deck-layer.back{
+    transform:translate(calc(-50% + 2px), calc(-50% + 12px)) rotate(3.7deg);
+  }
+  .app.playing .deck-layer.mid{
+    transform:translate(calc(-50% - 2px), calc(-50% + 6px)) rotate(-2.6deg);
+  }
+}
+/* Reuse the exact same reverse art/layout while it is static and while it turns. */
+.app.playing .card-reverse,.app.playing .deck-layer.mid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:25px 13px;
+  background:repeating-linear-gradient(35deg,transparent 0 19px,#f1e3c908 20px 21px),linear-gradient(135deg,#29394b,#473e4e 55%,#29384a);
+  border:4px double #dbb783;
+  border-radius:15px;
+  box-shadow:inset 0 0 0 7px #1c2436,0 21px 45px #0006;
+  color:#efdbb6;
+}
+.app.playing .deck-layer.mid{opacity:1}
+.app.playing .deck-layer.mid::before{content:none}
+.app.playing .deck-layer.mid::after{
+  content:'';position:absolute;inset:15px;border:1px solid #d9b88a99;
+  border-radius:6px;pointer-events:none;left:15px;top:15px;transform:none;
+  width:auto;height:auto;font:inherit;color:inherit;white-space:normal;
+}
+/* Larger card alternatives: clear A/B signposts and legible short descriptions. */
+.app.playing .option{gap:6px;padding:8px 4px 6px}
+.app.playing .option .ab{font-size:clamp(13px,3.8vw,17px);font-weight:800;letter-spacing:.08em;line-height:1.1}
+.app.playing .option .copy{font-size:clamp(14px,3.9vw,18px);font-weight:650;line-height:1.22}
+.app.playing .card-options{min-height:84px}
+/* Emphasis without changing layout: the choice panel remains a fixed height. */
+.app.playing .response-banner.selected:not(.strong){
+  border-color:#debb8e;
+  box-shadow:inset 0 0 0 1px #ebcfaa40,0 6px 22px #0003;
+}
+.app.playing .response-banner.selected #feedback{
+  font-weight:750;
+  color:#ffedca;
+  letter-spacing:.012em;
+}
+.app.playing .response-banner.selected.strong{
+  background:linear-gradient(120deg,#74444d,#293a43 55%,#31594f);
+  border-color:#f3cc88;
+  box-shadow:inset 0 0 0 1px #f3d59b8c,0 0 18px #d5a36e29,0 6px 22px #0004;
+}
+.app.playing .response-banner.selected.strong #feedback{
+  font-size:clamp(18px,4.9vw,24px);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.075em;
+  color:#fff0c8;
+  text-shadow:0 0 10px #f8d59373;
+}
+.app.playing .response-banner.selected.strong .banner-ornament{color:#f5d08e;text-shadow:0 0 7px #eed08a80}
+.app.playing .gesture-stamp{
+  font-size:clamp(16px,4.5vw,23px);
+  font-weight:850;
+  border-width:3px;
+  background:#fff4e0fa;
+  box-shadow:0 0 0 2px #bd8d6f55,0 9px 22px #201a1a45;
+  letter-spacing:.025em;
+}
+.app.playing .gesture-stamp.strong{
+  font-size:clamp(20px,5.6vw,29px);
+  font-weight:900;
+  color:#fff4d9;
+  border:4px double #fce1a9;
+  background:linear-gradient(135deg,#7d3c4b,#5b2e40);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  text-shadow:0 2px 3px #1d0f1a75;
+  box-shadow:0 0 0 3px #f7d59b88,0 10px 30px #23141b75;
+}
+.app.playing .gesture-stamp.strong.on-left{background:linear-gradient(135deg,#296a60,#1e504f);color:#fff2d9;border-color:#fce1a9}
+.app.playing .gesture-stamp.strong.on-right{background:linear-gradient(135deg,#8d4352,#603341);color:#fff2d9;border-color:#fce1a9}
+@media(max-height:710px){
+  .app.playing .card-options{min-height:60px}
+  .app.playing .option .ab{font-size:clamp(12px,3.7vw,15px)}
+  .app.playing .option .copy{font-size:clamp(13px,3.7vw,16px)}
+  .app.playing .response-banner.selected.strong #feedback{font-size:clamp(16px,4.2vw,20px)}
+}
+@media(max-height:590px){
+  .app.playing .card-options{min-height:44px}
+  .app.playing .option{gap:3px;padding:3px 3px}
+  .app.playing .option .copy{font-size:clamp(12px,3.6vw,14px)}
+}
+
+
+/* TYPE/16 v7 final legibility pass: compact screens remain readable. */
+.app.playing .option .ab{font-size:clamp(15px,4.1vw,18px)}
+.app.playing .option .copy{font-size:clamp(15px,4.2vw,18px)}
+@media(max-height:710px){
+ .app.playing .option .ab{font-size:clamp(14px,3.9vw,16px)}
+ .app.playing .option .copy{font-size:clamp(14px,4vw,16px)}
+}
+@media(max-height:590px){
+ .app.playing .option .ab{font-size:14px}
+ .app.playing .option .copy{font-size:14px}
+ .app.playing .card-options{min-height:57px}
+}
 </style>
 </head>
 <body>
@@ -256,8 +382,8 @@ const rawCards=[
  {scene:'clock',es:['Si organizas un viaje…','Reservo lo importante','Decido sobre la marcha'],en:['If you plan a trip…','I book the essentials','I decide along the way']}
 ];
 const words={
- es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V6',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
- en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V6',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
+ es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V7',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
+ en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V7',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
 };
 const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function detectLanguage(){const pref=navigator.languages?.length?navigator.languages:[navigator.language];for(const p of pref){const v=String(p||'').toLowerCase();if(/^(es|ca|gl|eu)(-|$)/.test(v))return'es';if(/^en(-|$)/.test(v))return'en'}return'en'}
@@ -301,11 +427,13 @@ function cardHTML(){
     <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
     <div class="card-bottom"><span>✧ · TYPE/16</span><span>NO. ${num}</span></div>`
 }
+// One shared decorative reverse, for the exposed stack and the card being dealt.
+function reverseFace(){return '<div class="reverse-runes">✦ · ✧ · ✦</div><div class="reverse-sigil">✧<span>TYPE/16</span></div><div class="reverse-runes">✦ · ✧ · ✦</div>'}
 function quiz(){
   let w=W(),practice=state.tutorialActive,idx=practice?0:state.i+1;
   return `<section class="stage" aria-label="${w.series}">
-  <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true"></div>
-    <article class="card ${revealNext?'deal-flip':'entering'}" id="card" aria-describedby="card-question"><div class="card-front">${cardHTML()}<div class="gesture-stamp" id="gesture-stamp" aria-hidden="true"></div></div><div class="card-reverse" aria-hidden="true"><div class="reverse-runes">✦ · ✧ · ✦</div><div class="reverse-sigil">✧<span>TYPE/16</span></div><div class="reverse-runes">✦ · ✧ · ✦</div></div></article></div>
+  <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true">${reverseFace()}</div>
+    <article class="card ${revealNext?'deal-flip':'entering'}" id="card" aria-describedby="card-question"><div class="card-front">${cardHTML()}<div class="gesture-stamp" id="gesture-stamp" aria-hidden="true"></div></div><div class="card-reverse" aria-hidden="true">${reverseFace()}</div></article></div>
   <div class="gesture-zone">
     <div class="response-banner" id="response-banner" role="status" aria-live="polite" aria-atomic="true">
       <span class="banner-ornament" aria-hidden="true">✦</span><div class="banner-text"><span class="banner-kicker">${practice?w.practiceLabel:w.pick}</span><strong id="feedback">${practice?w.practiceMessage:w.pickHint}</strong></div><span class="banner-ornament" aria-hidden="true">✦</span>
