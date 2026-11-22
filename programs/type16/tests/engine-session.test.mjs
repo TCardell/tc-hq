@@ -76,3 +76,11 @@ test('save/restore round trip and bounded history',()=>{
   let before=restored.seen.length;const back=transition(restored,{type:'undo'});
   assert.equal(back.seen.length,before-1);
 });
+test('restore rejects malformed quick order and corrupted undo snapshots',()=>{
+  const good=createSession();
+  const badOrder={...good,seen:[12]};
+  assert.throws(()=>restoreSession(badOrder),/order/);
+  const badHistory={...good,undoStack:[{...good,seen:[3],answers:{3:8}}]};
+  delete badHistory.undoStack[0].undoStack;
+  assert.throws(()=>restoreSession(badHistory),/Invalid response/);
+});

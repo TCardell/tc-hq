@@ -115,6 +115,8 @@ export function validateSession(state){
   if(!PHASES.has(state.phase)||!(state.checkpoint===null||STAGES.has(state.checkpoint)))throw new Error('Invalid phase/checkpoint');
   if(!unique(state.seen)||state.seen.some(id=>!okId(id)))throw new Error('Invalid seen question IDs');
   if(state.seen.length>32)throw new Error('Too many seen questions');
+  if(state.seen.slice(0,Math.min(12,state.seen.length)).some((id,i)=>id!==FAST_IDS[i]))
+    throw new Error('Initial quick questions are not in the approved order');
   if(state.seen.some(id=>state.seen.filter(i=>i===id).length!==1))throw new Error('Duplicated question');
   if(!unique(state.skipped)||state.skipped.some(id=>!state.seen.includes(id)))throw new Error('Invalid skipped IDs');
   normalizeAnswers(state.answers);
@@ -130,6 +132,10 @@ export function validateSession(state){
   if(!Array.isArray(state.undoStack)||state.undoStack.length>MAX_UNDO)throw new Error('Invalid history');
   if(state.undoStack.some(entry=>!entry||typeof entry!=='object'||'undoStack' in entry||entry.schema!==SESSION_SCHEMA||entry.bankVersion!==BANK_VERSION))
     throw new Error('Invalid undo snapshot');
+  // Ensure imported history cannot resurrect impossible question scores/IDs.
+  for(const entry of state.undoStack){
+    validateSession({...entry,undoStack:[]});
+  }
   return true;
 }
 

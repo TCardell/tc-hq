@@ -1,67 +1,59 @@
-# TYPE/16 — investigación y prototipo móvil
+# TYPE/16 — motor de preguntas y perfil tipológico (en desarrollo)
 
-Proyecto **en desarrollo** dentro de TC-HQ. No es el indicador MBTI® oficial ni una prueba clínica. Nunca debe utilizarse para contratación, diagnóstico ni decisiones de alto impacto.
+Proyecto experimental de 16 combinaciones de preferencias, **no** MBTI® oficial, prueba clínica ni herramienta para decisiones de alto impacto. El objetivo es ofrecer una experiencia educativa y de reflexión, con límites explícitos de interpretación.
 
-## Prototipo visual para validar gestos (NOV 2026)
+## Dos partes independientes
 
-Abrir **[gesture-lab.html](gesture-lab.html)**. Es un archivo HTML autónomo (sin librerías ni recursos remotos), diseñado primero para móvil. Contiene ocho pares de decisiones ficticios: son ejemplos de interacción y no calculan ningún tipo de personalidad.
+**Interfaz aprobada.** `gesture-lab.html` (v0.11.1) funciona en GitHub Pages y sigue siendo **solo un laboratorio de gestos** con ocho decisiones ficticias. **No se ha modificado ni conectado aún al test**. El paisaje, los reversos y las animaciones quedan intactos.
 
-Vista previa temporal mediante una pasarela de terceros para HTML de GitHub: https://raw.githack.com/TCardell/tc-hq/feature/type16-foundation/programs/type16/gesture-lab.html
+**Motor de evaluación.** La rama `feature/type16-foundation` contiene una implementación nueva, sin componentes gráficos, en `js/engine/`. Su API agrupa preguntas, el protocolo de 12 + 20, selección de la siguiente pregunta, respuestas, resultados, deshacer, revisión de omisiones y recuperación de progreso. Esta parte **todavía no se publica como test**.
 
-### Qué probar
+## Diseño del motor
 
-- Izquierda o derecha, arrastre corto (más de 48 px) = preferencia suave.
-- Arrastre largo (130 px inicialmente, ajustable entre 100 y 170 px en ⚙) = preferencia fuerte.
-- Arriba = neutral; abajo = omitir.
-- La carta gira suavemente, revela un sello con la elección, sale y deja pasar a la siguiente.
-- Cinco botones inferiores equivalen a los gestos.
-- ES/EN en cualquier momento, sin perder el progreso.
-- Probar en móvil vertical y en escritorio; observar comodidad, umbrales, legibilidad y animación.
+- **Banco base:** OEJTS 1.2 de Eric Jorgenson (2015), **32 ítems**. Cuatro dimensiones de **ocho preguntas** con signo de corrección propio; la traducción española está **pendiente de validación**.
+- **Respuestas:** `1` muy A, `2` un poco A, `3` neutral, `4` un poco B, `5` muy B; `null` omisión. Saltar y neutral no son equivalentes.
+- **Fase rápida:** 12 preguntas, tres por dimensión, en orden fijo. Resultado **exploratorio**, nunca puntuación oficial completa.
+- **Profundización:** preguntas restantes reordenadas de forma determinista para equilibrar ejes, observar tendencias próximas al centro y diversificar temas. Heurística de **administración**, no teoría de respuesta al ítem ni cálculo de fiabilidad.
+- **Resultado completo:** con **32 respuestas válidas**, las cuatro fórmulas OEJTS 1.2 dan valores 8–40 y una combinación de cuatro letras. Aunque la fórmula sea fiel, la presentación por cartas y la traducción no han sido validadas.
+- **Resultados parciales:** cobertura, escala descriptiva, letras provisionales y límites aritméticos de las puntuaciones todavía posibles. **No son probabilidades ni intervalos de confianza.**
+- **Sesión:** estado serializable con esquema y versión, deshacer, repaso de preguntas omitidas, cambio ES/EN y recuperación de sesión; sin conexión de red, analítica ni almacenamiento dentro del propio motor.
 
-Esta rama experimental no modifica el catálogo ni la versión publicada.
+## Estructura
 
+| Ruta | Propósito |
+|---|---|
+| `js/questions.js` / `js/scoring.js` | Fuente de 32 ítems y clave original, conservadas sin cambios de puntuación |
+| `js/engine/catalog.js` | Inventario, dimensiones, signos, idiomas, auditoría y origen |
+| `js/engine/profile.js` | Puntuación, controles de entrada, informe por ejes y límites parciales |
+| `js/engine/selection.js` | Selección fija rápida + orden adaptativo en profundización |
+| `js/engine/session.js` | Máquina de estados, omisiones, deshacer, validación y restauración |
+| `js/engine/index.js` | API pública sin DOM |
+| `tests/engine-*.test.mjs` | Pruebas unitarias y simulación de perfiles aleatorios |
+| `tools/engine-smoke.mjs` | Recorrido automático de demostración, sin UI |
+| `ENGINE_ARCHITECTURE.md` | Contratos, límites e integración futura |
+| `QUESTION_AUTHORING_SPEC.md` | Normas de calidad editorial y nuevas preguntas |
 
-### Revisión de interacción v0.5 (22 noviembre 2026)
+## Ejecutar las pruebas
 
-- Carta de bienvenida bilingüe dentro de la misma baraja; balanceo suave hasta tocarla.
-- Al salir una carta se ve el **reverso ornamental de la baraja**; la siguiente pasa de reverso a anverso con giro visual.
-- Los cinco botones y los gestos comparten el mismo controlador de salida mediante Web Animations API. Se evita depender de transiciones CSS que podían ser interrumpidas.
-- Recuadro «Tu elección» con altura y tipografía **constantes** durante el arrastre; no causa saltos en la interfaz.
-- Se conservan las etiquetas opuestas al lado del gesto, sensibilidad diagonal, ES/EN y solicitud de fullscreen tras tocar «Comenzar».
-- Probado en Chromium emulado: 320×568, 360×640, 360×740, 390×700, 390×844, 430×932 y escritorio; salidas por botón repetidas sin errores de JavaScript. **Pendiente la comprobación física en Android/iOS**.
-- El efecto de volteo usa escalado horizontal y alternancia de caras para evitar artefactos de texto especular en navegadores móviles; no depende de renderizado 3D correcto.
+Requiere Node.js reciente. Desde `programs/type16/`:
 
-## Objetivos
+```bash
+npm test
+node tools/engine-smoke.mjs
+```
 
-- Mobile first: tarjetas táctiles en vertical, alternativa accesible con cinco botones.
-- Prueba rápida de 12 ítems **exploratoria y no validada**, reutilizando ítems de la escala completa.
-- Escala de referencia OEJTS 1.2 de 32 ítems, con la puntuación exacta del autor; el orden de presentación es diferente y la traducción española está pendiente de revisión.
-- Mostrar dimensiones continuas y empates; no llamar «probabilidad» a la posición de la escala.
-- Crecer con informes por capas, ilustraciones originales, revisión psicométrica y selección adaptativa **sin** mezclar instrumentos incompatibles.
+El motor no necesita dependencias de terceros ni compilación. `npm test` ejecuta también los tests antiguos de puntuación e idioma y los tests nuevos de estado, banco, selección y propiedades. El `smoke` imprime resultados en JSON sin cargar ninguna página.
 
-## Estado actual
+## Estado pendiente
 
-Estructura y prototipo inicial en rama de desarrollo. **No fusionar ni anunciar como test validado**. Las tarjetas emplean una interacción experimental: 5 botones inequívocos y gestos (izquierda/derecha distancia corta o larga, arriba neutral, abajo omitir). Validar en móviles antes de considerarla definitiva.
+1. Revisar y corregir los textos ES/EN de las 32 preguntas: revisar `QUESTION_AUDIT.md` y mantener un registro de cambios.
+2. Probar comprensión y neutralidad de los pares, y el efecto de su presentación como cartas.
+3. Diseñar por separado cualquier banco futuro de preguntas originales TYPE/16; no mezclar escalas sin calibración.
+4. Definir cómo explicar en resultados lo provisional, lo dudoso y los empates sin porcentajes de «exactitud» inventados.
+5. Conectar el motor a la **interfaz ya aprobada** mediante un adaptador, preservando su funcionamiento y estética y realizando pruebas de regresión.
 
-## Desarrollo local
+## Derechos y fuentes
 
-Desde la raíz del repositorio:
+Ítems OEJTS 1.2 y adaptaciones sujetos a **CC BY-NC-SA 4.0** (atribución, no comercial y compartir igual). Fuente original: https://openpsychometrics.org/tests/OJTS/development/OEJTS1.2.pdf . Véase `CREDITS.md` y `METHODOLOGY.md`. Los módulos originales de ingeniería son independientes de los contenidos protegidos del instrumento.
 
-    python3 -m http.server 8000
-
-Después abrir http://localhost:8000/programs/type16/ . También puede usarse un servidor HTTP estático equivalente. No hacen falta servicios externos ni compilación.
-
-Pruebas del motor (Node.js instalado):
-
-    cd programs/type16
-    node --test tests/*.test.mjs
-
-## Integración prevista
-
-Mantener la aplicación desacoplada del escritorio de TC-HQ. Tras revisión, añadir entrada en programs.json con url \`programs/type16/index.html\`, carpeta \`projects\`, \`openMode: "ask"\`, nombre bilingüe e icono disponible. **No se modifica programs.json en esta rama inicial**, para evitar una publicación accidental en main.
-
-## Lecturas esenciales
-
-- [METHODOLOGY.md](METHODOLOGY.md) — fuentes, fórmulas, diferencias entre resultado parcial y completo.
-- [QUESTION_AUDIT.md](QUESTION_AUDIT.md) — revisión de contenido y riesgos de los ítems.
-- [CREDITS.md](CREDITS.md) — autoría, licencia y atribuciones.
+**PR de investigación:** [#6](https://github.com/TCardell/tc-hq/pull/6), mantenida como borrador mientras no se integre y revise el cuestionario.

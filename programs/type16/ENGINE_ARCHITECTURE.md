@@ -101,7 +101,7 @@ Desde `programs/type16/`:
 npm test
 ```
 
-`node --test tests/engine-*.test.mjs` ejecuta la batería nueva: integridad de 32/12 ítems, orientación de los cuatro ejes, claves extremas y empate, neutral/omisión, límites parciales, 500 vectores de respuestas frente a una fórmula independiente, 100 participantes sintéticos para selección adaptativa, guardado/restauración, deshacer, repaso y 25 trayectorias con acciones aleatorias. Sin dependencias externas.
+`node --test tests/engine-*.test.mjs` ejecuta la batería nueva de 20 pruebas: integridad de 32/12 ítems, orientación de los cuatro ejes, claves extremas y empate, neutral/omisión, límites parciales, 500 vectores de respuestas frente a una fórmula independiente, 100 participantes sintéticos para selección adaptativa, guardado/restauración, deshacer, repaso y 25 trayectorias con acciones aleatorias. Sin dependencias externas.
 
 ### Pendiente antes de integrar
 
