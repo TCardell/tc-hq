@@ -1,0 +1,1296 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12262e">
+  <meta name="description" content="Penney Lab: descubre, juega y demuestra la paradoja de Penney con monedas, simulaciones y probabilidades exactas.">
+  <title>Penney Lab · El azar tiene una estructura</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23bc924e' stroke='%236c4a24' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23ffe0a1' stroke-width='2'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='34' font-family='Georgia' fill='%232b251f'%3EP%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4efe4; --surface: #fffdf8; --surface-alt: #efe7d9; --ink: #253139;
+      --muted: #667078; --border: #dfd2be; --gold: #ad793d; --gold-soft: #f0d3a0;
+      --teal: #1d7771; --teal-soft: #dff0e9; --red: #98574c; --red-soft: #f5e4df;
+      --shadow: 0 22px 60px rgba(55,42,23,.075); --nav-bg: rgba(250,247,240,.93);
+      --deep: #112631; --deep-2: #1b3540; --outline: #1c6e69;
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans: 'Segoe UI', Inter, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #111e25; --surface: #1a2b33; --surface-alt: #263942; --ink: #f1eee5;
+      --muted: #b3bdc0; --border: #3c4a4d; --gold: #edc27e; --gold-soft: #56452d;
+      --teal: #86d8c5; --teal-soft: #213e3e; --red: #e7a596; --red-soft: #443239;
+      --shadow: 0 20px 65px rgba(0,0,0,.18); --nav-bg: rgba(19,32,39,.96); --outline: #a7eee1;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 94px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+    body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1; opacity: .32;
+      background: radial-gradient(ellipse 600px 500px at 5% 6%, rgba(189,144,75,.12), transparent 70%),
+                  radial-gradient(ellipse 900px 600px at 90% 80%, rgba(87,111,93,.08), transparent 70%); }
+    button, select, input { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .48; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--outline); outline-offset: 4px;
+    }
+    a { color: inherit; }
+    .sr-only { position: absolute!important; width: 1px!important; height: 1px!important; padding: 0!important;
+      margin: -1px!important; overflow: hidden!important; clip: rect(0,0,0,0)!important; white-space: nowrap!important; border: 0!important; }
+    .container { width: min(1160px, calc(100% - 44px)); margin-inline: auto; }
+    .site-header { height: 78px; position: sticky; top: 0; z-index: 80; background: var(--nav-bg); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border); }
+    .nav-shell { height: 100%; display: flex; align-items: center; gap: 28px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
+    .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 2px solid #9c7441; border-radius: 50%;
+      box-shadow: inset 0 0 0 4px #e4ba76, inset 0 0 0 6px #8e6537; background: #ebc787; color: #3d2b1e;
+      font: bold 24px var(--serif); }
+    .brand-name { font-family: var(--serif); letter-spacing: -.5px; font-weight: bold; font-size: 23px; line-height: 1; }
+    .brand-name small { display: block; font: 700 9px var(--sans); letter-spacing: 2.5px; color: var(--muted); margin-top: 5px; }
+    .nav-links { display: flex; align-items: center; justify-content: center; gap: 22px; margin-left: auto; }
+    .nav-links a { font-size: 13px; font-weight: 700; color: var(--muted); text-decoration: none; transition: color .15s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .icon-btn, .language-btn { min-width: 42px; min-height: 42px; display: inline-flex; align-items: center; justify-content: center;
+      gap: 5px; border: 1px solid var(--border); background: var(--surface); border-radius: 11px; color: var(--ink); font-size: 14px; font-weight: 750; }
+    .icon-btn:hover, .language-btn:hover { border-color: var(--gold); }
+    .icon-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    #mobile-menu-toggle { display: none; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; text-align: center; gap: 9px;
+      border: 1px solid transparent; border-radius: 12px; padding: 12px 20px; min-height: 48px; font-size: 15px; font-weight: 750; line-height: 1.3;
+      transition: transform .18s, background .18s, border-color .18s, box-shadow .18s; }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn-primary { background: #c49450; color: #1d271f; box-shadow: 0 7px 23px rgba(137,93,36,.17); }
+    .btn-primary:hover { background: #e0ac65; }
+    .btn-dark { color: #f8eddc; background: #18333c; border-color: #3a575d; }
+    .btn-outline { color: var(--ink); background: var(--surface); border-color: var(--border); }
+    .btn-outline:hover { border-color: var(--gold); }
+    .btn-small { min-height: 41px; padding: 9px 13px; font-size: 13px; }
+    .hero { overflow: hidden; position: relative; background: #122631; color: #f7f0e2; }
+    .hero::before { content: ''; position: absolute; inset: 0; opacity: .7; pointer-events: none;
+      background: radial-gradient(circle 360px at 74% 43%, rgba(226,167,87,.17), transparent 75%),
+                  radial-gradient(circle 420px at 5% 85%, rgba(69,139,136,.10), transparent 70%),
+                  repeating-linear-gradient(0deg, transparent 0 59px, rgba(255,255,255,.025) 60px),
+                  repeating-linear-gradient(90deg, transparent 0 59px, rgba(255,255,255,.025) 60px); }
+    .hero::after { content: ''; position: absolute; inset: 24px; border: 1px solid rgba(211,165,104,.15); pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1.03fr .97fr; align-items: center;
+      min-height: 605px; gap: 20px; padding-block: 68px 75px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--gold); text-transform: uppercase;
+      letter-spacing: 2.5px; font-size: 11px; font-weight: 800; }
+    .hero .eyebrow { color: #e0bb81; }
+    .eyebrow::before { content: ''; display: inline-block; height: 1px; width: 24px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: normal; line-height: 1.13; }
+    h1 { font-size: clamp(52px, 7.2vw, 97px); letter-spacing: -4px; margin: 24px 0 20px; }
+    h1 em { color: #dfb777; font-weight: normal; font-style: italic; }
+    .hero-lead { font-size: clamp(19px, 2.1vw, 24px); max-width: 550px; line-height: 1.5; color: #e1e3db; }
+    .hero-secondary { color: #b2c4c1; margin-top: 14px; max-width: 520px; font-size: 16px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 31px; }
+    .hero-art { position: relative; min-height: 440px; display: grid; place-items: center; perspective: 1100px; }
+    .hero-art::before, .hero-art::after { content: ''; position: absolute; border: 1px solid rgba(219,178,115,.21); border-radius: 50%; }
+    .hero-art::before { width: 480px; height: 480px; }
+    .hero-art::after { width: 394px; height: 394px; border-style: dashed; animation: slow-spin 120s linear infinite; }
+    .hero-ring-text { position: absolute; width: 100%; max-width: 480px; display: flex; justify-content: space-between; top: 9%; color: #af986f; font-size: 11px; letter-spacing: 1.5px; }
+    /* La moneda de portada es una pieza 3D manejada con Pointer Events e inercia. */
+    .hero-coin { width: clamp(260px, 30vw, 365px); aspect-ratio: 1; position: relative; z-index: 2;
+      --coin-half-depth: 7.5px; transform-style: preserve-3d; transform: rotateX(-8deg) rotateY(-18deg) rotateZ(-7deg);
+      cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+      will-change: transform; border-radius: 50%; }
+    .hero-coin.dragging { cursor: grabbing; }
+    .hero-coin:focus-visible { outline: 3px solid #f3d5a0; outline-offset: 10px; }
+    .hero-coin-edge { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+    .hero-coin-edge-facet { position: absolute; left: 50%; top: 50%; display: block; border-radius: 1px;
+      backface-visibility: visible; pointer-events: none;
+      background: linear-gradient(90deg, #885626 0%, #d3a15a 17%, #f5d58e 32%, #a76e31 47%, #e7b568 63%, #805021 83%, #bd8543 100%);
+      box-shadow: inset 1px 0 rgba(70,38,14,.48), inset -1px 0 rgba(255,225,151,.28); }
+    .hero-coin-side { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; pointer-events: none; }
+    .hero-coin-side.front { transform: translateZ(var(--coin-half-depth)); }
+    .hero-coin-side.back { transform: rotateY(180deg) translateZ(var(--coin-half-depth)); }
+    .hero-coin svg { width: 100%; height: 100%; pointer-events: none; filter: drop-shadow(0 24px 28px rgba(0,0,0,.30)); }
+    /* El texto explicativo es parte de la lectura, no una tarjeta adicional. */
+    .penney-definition { max-width: 860px; margin: 24px 0 0; padding: 3px 0 3px 20px;
+      border-left: 3px solid var(--gold); color: var(--muted); font-size: clamp(16px,1.6vw,18px); line-height: 1.7; }
+    .penney-definition strong { color: var(--ink); font-weight: 750; }
+    @keyframes slow-spin { to { transform: rotate(360deg); } }
+    .hero-art-foot { position: absolute; bottom: -6%; color: #a5b3ad; font-size: 12px; letter-spacing: 3px; }
+    .stat-band { background: var(--surface); border-bottom: 1px solid var(--border); }
+    .stat-band-inner { padding: 20px 0; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .band-label { display: flex; gap: 14px; align-items: center; }
+    .band-fraction { font: 35px var(--serif); color: var(--gold); }
+    .band-text { font-size: 13px; color: var(--muted); max-width: 260px; line-height: 1.45; }
+    .sequence-strip { display: flex; gap: 7px; flex-wrap: wrap; justify-content: end; }
+    .sequence-chip { padding: 5px 10px; border: 1px solid var(--border); border-radius: 9px; font-size: 13px; font-weight: 800; letter-spacing: 2px; background: var(--bg); }
+    main section.section { padding-block: clamp(74px, 9vw, 112px); }
+    main section.section + section.section { border-top: 1px solid var(--border); }
+    .section-heading { margin-bottom: 36px; max-width: 795px; }
+    .section-index { display: block; margin-bottom: 15px; color: var(--gold); font-size: 12px; font-weight: 850; letter-spacing: 2.2px; text-transform: uppercase; }
+    h2 { font-size: clamp(35px, 4.8vw, 59px); letter-spacing: -1.75px; margin-bottom: 16px; }
+    h2 em { color: var(--gold); font-weight: normal; }
+    .section-lead { font-size: 18px; color: var(--muted); max-width: 750px; line-height: 1.68; }
+    .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 19px; }
+    .paper-card { background: var(--surface); border: 1px solid var(--border); border-radius: 19px; padding: 29px; box-shadow: var(--shadow); }
+    .paper-card h3 { font-size: 27px; margin-bottom: 13px; }
+    .paper-card p:last-child { margin-bottom: 0; }
+    .card-subtitle { color: var(--muted); font-size: 15px; }
+    .big-number { font: 55px var(--serif); color: var(--gold); line-height: 1.15; margin: 18px 0 12px; }
+    .compare-line { display: flex; flex-wrap: wrap; align-items: center; gap: 11px; margin: 20px 0; }
+    .compare-line .versus { color: var(--muted); font: italic 22px var(--serif); }
+    .pattern-simple { letter-spacing: 5px; font-weight: 850; font-size: 19px; }
+    .insight { margin-top: 22px; border-left: 3px solid var(--gold); padding: 15px 22px; color: var(--ink); background: var(--surface-alt); border-radius: 0 11px 11px 0; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 21px; box-shadow: var(--shadow); overflow: hidden; }
+    .panel-pad { padding: 28px; }
+    .panel-top { background: var(--deep); color: #f5eee0; border-bottom: 1px solid rgba(255,255,255,.08); padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .panel-top h3 { margin: 0; font-size: 26px; }
+    .panel-top small { display: block; color: #bbccc8; font-size: 13px; margin-top: 4px; }
+    .panel-kicker { color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; }
+    .game-board { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .selector-card { border: 1px solid var(--border); border-radius: 16px; padding: 20px; background: var(--surface); }
+    .selector-card.machine { background: var(--teal-soft); }
+    .selector-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 13px; }
+    .selector-title { font-weight: 800; font-size: 14px; }
+    .selector-hint { font-size: 12px; color: var(--muted); }
+    .coin-row { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+    .coin-pick { width: clamp(62px, 8vw, 82px); aspect-ratio: 1; position: relative; display: inline-grid; place-items: center;
+      background: transparent; padding: 0; border: 0; border-radius: 50%; transition: transform .25s; }
+    .coin-pick:hover:not(:disabled) { transform: translateY(-5px) rotate(-5deg); }
+    .coin-pick svg { width: 100%; height: 100%; filter: drop-shadow(0 4px 3px rgba(63,41,12,.19)); }
+    .coin-pick.is-readonly { cursor: default; opacity: 1; }
+    .coin-pick.is-readonly:hover { transform: none; }
+    .coin-letter { position: absolute; bottom: -2px; right: -2px; min-width: 25px; height: 25px; display: grid; place-items: center;
+      background: var(--deep); color: #fff4e1; font-size: 12px; font-weight: 900; border-radius: 50%; border: 2px solid var(--surface); }
+    .coin-pick.is-flipped { animation: quick-flip .45s ease; }
+    @keyframes quick-flip { 50% { transform: rotateY(90deg) scale(1.05); } }
+    .vs-symbol { font: italic 28px var(--serif); color: var(--gold); text-align: center; }
+    .odds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0 14px; }
+    .odds-card { background: var(--surface-alt); border-radius: 13px; padding: 17px 20px; }
+    .odds-card.winner { background: var(--teal-soft); }
+    .odds-label { display: block; font-size: 12px; font-weight: 800; color: var(--muted); }
+    .odds-value { font: 42px var(--serif); line-height: 1.2; letter-spacing: -1.5px; }
+    .odds-card.winner .odds-value { color: var(--teal); }
+    .odds-bar { display: flex; width: 100%; height: 14px; overflow: hidden; border-radius: 20px; background: var(--surface-alt); }
+    .odds-bar-a { background: #bb8a4c; transition: width .4s; }
+    .odds-bar-b { background: #267f77; flex: 1; }
+    .quiet-note { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+    .game-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 25px 0; }
+    .game-stage { background: var(--surface-alt); border-radius: 16px; padding: 23px; }
+    .stage-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 14px; }
+    .stage-topline strong { font-size: 14px; }
+    .score { font-size: 12px; color: var(--muted); }
+    .history-rail { min-height: 72px; display: flex; align-items: center; gap: 7px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+    .history-empty { font-size: 14px; color: var(--muted); }
+    .history-mark { width: 47px; height: 47px; flex: 0 0 47px; display: grid; place-items: center; border-radius: 50%;
+      border: 2px solid #ad7d40; box-shadow: inset 0 0 0 3px #f4cf87, 0 2px 4px rgba(40,32,17,.10);
+      background: radial-gradient(circle at 30% 20%, #fff0bc, #e9ba6b 67%, #b98238); color: #4f371e; font-weight: 900; font-size: 19px; }
+    .history-mark.hit-a { outline: 3px solid #b6884c; outline-offset: 2px; }
+    .history-mark.hit-b { outline: 3px solid #238a7d; outline-offset: 2px; }
+    .stage-message { min-height: 26px; font-weight: 750; font-size: 15px; margin-top: 9px; }
+    .progress-traces { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 9px; }
+    .trace { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
+    .trace-dots { display: flex; gap: 3px; }
+    .trace-dots i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); }
+    .trace-dots i.on-a { background: #c49350; border-color: #b8874b; }
+    .trace-dots i.on-b { background: #3d9a8b; border-color: #3d9a8b; }
+    .explain-link { display: inline-flex; align-items: center; gap: 7px; font-weight: 750; text-decoration: underline; text-underline-offset: 4px; color: var(--teal); font-size: 14px; }
+    .simulation-grid { display: grid; grid-template-columns: minmax(255px,.75fr) minmax(0,1.25fr); gap: 20px; }
+    .form-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 19px 0 10px; }
+    .form-row label { font-size: 13px; font-weight: 800; }
+    .form-row .detail { color: var(--muted); font-size: 12px; }
+    .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .preset-btn { border: 1px solid var(--border); background: var(--surface-alt); color: var(--ink); border-radius: 11px;
+      padding: 10px 8px; font-size: 14px; font-weight: 750; min-height: 44px; }
+    .preset-btn[aria-pressed="true"] { border-color: var(--gold); background: var(--gold-soft); color: #3a2d23; }
+    html[data-theme="dark"] .preset-btn[aria-pressed="true"] { color: #fff3dd; }
+    .select { background: var(--surface); color: var(--ink); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; min-height: 44px; }
+    .sim-pair { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    .sim-pair strong { letter-spacing: 3px; font-size: 20px; }
+    .sim-pair .vs { font: italic 18px var(--serif); color: var(--muted); }
+    .sim-progress { height: 7px; background: var(--surface-alt); overflow: hidden; border-radius: 10px; margin-top: 16px; }
+    .sim-progress > div { width: 0; height: 100%; background: var(--gold); transition: width .12s; }
+    .chart-shell { padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 19px; }
+    .chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 10px; }
+    .chart-head h3 { margin-bottom: 3px; font-size: 27px; }
+    .chart-subtitle { font-size: 13px; color: var(--muted); }
+    .live-badge { display: inline-flex; align-items: center; gap: 7px; color: var(--teal); font-size: 12px; font-weight: 750; }
+    .live-badge i { width: 8px; height: 8px; background: currentColor; border-radius: 50%; }
+    .live-badge.running i { animation: pulse 1s infinite; }
+    @keyframes pulse { 50% { opacity: .2; } }
+    .chart { width: 100%; height: auto; display: block; margin-top: 15px; overflow: visible; }
+    .chart .gridline { stroke: var(--border); stroke-width: 1; }
+    .chart .axis-label { fill: var(--muted); font-family: var(--sans); font-size: 14px; }
+    .chart .theory-line { stroke: #be9150; stroke-width: 2.3; stroke-dasharray: 8 6; fill: none; }
+    .chart .observed-line { stroke: #238879; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 3px; font-size: 12px; color: var(--muted); }
+    .legend i { display: inline-block; vertical-align: middle; width: 19px; height: 3px; background: #258878; margin-right: 5px; }
+    .legend .theory-key { background: #be9150; }
+    .sim-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 24px; }
+    .mini-stat { background: var(--surface-alt); border-radius: 12px; padding: 13px 10px; }
+    .mini-stat span { display: block; color: var(--muted); font-size: 12px; }
+    .mini-stat strong { display: block; margin-top: 5px; font-size: clamp(18px,2vw,23px); font-weight: 800; font-variant-numeric: tabular-nums; }
+    .demo-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 20px; }
+    .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 25px; }
+    .step-num { width: 32px; height: 32px; border: 1px solid var(--gold); color: var(--gold); border-radius: 50%; display: grid; place-items: center; font: 18px var(--serif); margin-bottom: 14px; }
+    .step-card h3 { font-size: 25px; margin-bottom: 11px; }
+    .step-card p { color: var(--muted); font-size: 15px; }
+    .transformation { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .formula-seq { display: flex; gap: 5px; }
+    .letter-tile { width: 40px; height: 45px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-alt); font-weight: 850; }
+    .letter-tile.feature { border-color: #b68a47; background: var(--gold-soft); color: #4d361e; }
+    .formula-arrow { color: var(--gold); font-size: 23px; }
+    .math-panel { margin-top: 20px; padding: 27px; border-radius: 18px; color: #f1ece3; background: #18303a; }
+    .math-panel h3 { font-size: 29px; margin-bottom: 10px; }
+    .math-panel p { color: #bdcfca; font-size: 15px; }
+    .math-formula { display: inline-block; border: 1px solid #597069; border-radius: 12px; padding: 15px 21px;
+      background: rgba(255,255,255,.055); color: #f5d7a3; font: 22px var(--serif); line-height: 1.6; margin-top: 8px; }
+    .math-formula small { display: block; color: #aabcb6; font: 12px var(--sans); }
+    details.math-details { margin-top: 18px; border: 1px solid var(--border); border-radius: 15px; background: var(--surface); overflow: hidden; }
+    details.math-details summary { cursor: pointer; padding: 19px 22px; font-weight: 800; }
+    details.math-details[open] summary { border-bottom: 1px solid var(--border); }
+    .table-scroll { overflow: auto; padding: 14px; }
+    .equations { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; padding: 14px 22px 22px; }
+    .equation-row { border: 1px solid var(--border); border-radius: 9px; padding: 10px 13px; background: var(--surface-alt);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; overflow-wrap: anywhere; }
+    .equation-intro { padding: 6px 22px 0; font-size: 14px; color: var(--muted); }
+    @media (max-width: 620px) { .equations { grid-template-columns: 1fr; } }
+    table { border-collapse: collapse; width: 100%; text-align: left; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--border); padding: 10px 13px; white-space: nowrap; }
+    th { color: var(--muted); font-size: 12px; }
+    td strong { color: var(--teal); }
+    .lab-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0,1.05fr); gap: 20px; }
+    .field { margin-bottom: 20px; }
+    .field-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 800; margin-bottom: 11px; }
+    .field-label small { font-size: 12px; color: var(--muted); font-weight: normal; }
+    .lab-pattern-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lab-pattern-row .coin-pick { width: clamp(53px, 6.7vw, 68px); }
+    .range { width: 100%; accent-color: #b88948; cursor: pointer; }
+    .range-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: -3px; }
+    .lab-result { background: var(--surface-alt); border-radius: 13px; padding: 23px; margin-bottom: 17px; }
+    .lab-result-kicker { font-size: 12px; color: var(--muted); font-weight: 800; letter-spacing: .6px; }
+    .lab-result-big { font: 44px var(--serif); line-height: 1.25; margin: 10px 0; color: var(--teal); }
+    .lab-result p { font-size: 14px; color: var(--muted); margin-bottom: 0; }
+    .lab-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .matrix-section { margin-top: 23px; }
+    .matrix-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .matrix-top h3 { font-size: 27px; margin-bottom: 8px; }
+    .matrix-scroll { overflow-x: auto; margin-top: 17px; }
+    .matrix { border-collapse: separate; border-spacing: 5px; width: 100%; min-width: 580px; }
+    .matrix th, .matrix td { border: none; padding: 0; text-align: center; }
+    .matrix th { font-size: 12px; letter-spacing: 1px; }
+    .matrix .matrix-cell { width: 100%; min-height: 46px; border: 1px solid transparent; border-radius: 8px; padding: 9px 2px;
+      font-weight: 800; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .matrix .matrix-cell:hover { outline: 2px solid var(--gold); outline-offset: 1px; }
+    .matrix .matrix-cell.selected { outline: 2px solid var(--gold); }
+    .matrix .matrix-null { color: var(--muted); font-size: 19px; }
+    .fineprint { color: var(--muted); font-size: 13px; }
+    .footer { background: #10242d; color: #d6e0dc; padding: 44px 0; }
+    .footer .container { display: flex; align-items: center; justify-content: space-between; gap: 25px; flex-wrap: wrap; }
+    .footer p { color: #b0c0bb; margin: 8px 0 0; max-width: 600px; font-size: 14px; }
+    .footer a { color: #e3c28b; }
+    .footer .footer-signature { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 5px 24px; margin-top: 32px; padding-top: 18px; border-top: 1px solid rgba(236,217,182,.16);
+      color: #9dafac; font-size: 12px; letter-spacing: .15px; }
+    .footer .footer-signature a { color: #cfb388; text-decoration: none; border-bottom: 1px solid transparent; }
+    .footer .footer-signature a:hover { border-bottom-color: currentColor; }
+    .footer .footer-signature a:focus-visible { outline: 2px solid #e3c28b; outline-offset: 4px; }
+    .notice { border-radius: 11px; background: var(--teal-soft); color: var(--ink); padding: 13px 17px; font-size: 14px; margin-top: 15px; }
+    .status-error { color: var(--red)!important; }
+    .status-good { color: var(--teal)!important; }
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .55s,transform .55s; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 1000px) { .nav-links { gap: 13px; } .nav-links a { font-size: 12px; } .hero-inner { min-height: 550px; }
+      .hero-art::before { width: 365px; height: 365px; } .hero-art::after { width: 310px; height: 310px; }
+      .hero-coin { width: 280px; } .hero-ring-text { width: 360px; top: 15%; } }
+    @media (max-width: 780px) { .nav-links { display: none; position: absolute; left: 0; right: 0; top: 77px; padding: 19px 24px;
+        background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: var(--shadow); }
+      .nav-links.open { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .nav-links a { font-size: 15px; padding: 4px 0; } #mobile-menu-toggle { display: inline-flex; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; padding-block: 75px 54px; gap: 10px; }
+      .hero-lead, .hero-secondary { margin-inline: auto; } .hero-actions { justify-content: center; } .hero-art { min-height: 360px; }
+      .hero-art::before { width: 350px; height: 350px; } .hero-art::after { width: 295px; height: 295px; }
+      .hero-ring-text { display: none; } .hero-coin { width: 265px; } .hero-art-foot { bottom: -4%; }
+      .stat-band-inner { display: grid; justify-content: center; gap: 14px; } .band-label { justify-content: center; }
+      .sequence-strip { justify-content: center; } .intro-grid, .game-board, .simulation-grid, .demo-grid, .lab-layout { grid-template-columns: 1fr; }
+      .hero .eyebrow { justify-content: center; } .hero .eyebrow::before { display: none; }
+      h1 { letter-spacing: -2px; } .game-board { gap: 12px; }
+    }
+    @media (max-width: 480px) { body { font-size: 17px; } .container { width: calc(100% - 30px); }
+      .site-header { height: 70px; } .nav-links { top: 69px; } .nav-shell { gap: 10px; }
+      .brand-name { font-size: 19px; } .brand-name small { letter-spacing: 1.2px; font-size: 8px; }
+      .brand-mark { width: 36px; height: 36px; font-size: 20px; } .nav-actions { gap: 5px; }
+      .icon-btn, .language-btn { min-width: 37px; min-height: 40px; }
+      .hero::after { inset: 11px; } .hero-inner { padding-block: 64px 51px; }
+      .hero-art { min-height: 310px; } .hero-art::before { width: 296px; height: 296px; } .hero-art::after { width: 255px; height: 255px; }
+      .hero-coin { width: 235px; } .hero-art-foot { font-size: 10px; }
+      .paper-card, .panel-pad, .chart-shell { padding: 19px; } .panel-top { padding: 19px; }
+      .selector-card { padding: 15px; } .coin-pick { width: 68px; } .game-actions .btn { flex: 1 1 auto; }
+      .odds-value { font-size: 33px; } .odds-card { padding: 12px 14px; } .sim-stats { grid-template-columns: 1fr 1fr; }
+      .mini-stat:last-child { grid-column: 1/-1; } .step-card { padding: 20px; }
+      .footer .container { display: block; } .footer .btn { margin-top: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior: auto!important; animation-duration: .01ms!important; animation-iteration-count: 1!important; transition-duration: .01ms!important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Monedas originales aportadas por TCardell, integradas íntegramente como SVG vectoriales.
+       Los identificadores internos de cada cara llevan prefijos diferentes para evitar colisiones. -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
+    <defs>
+      <symbol id="coin-face-c" viewBox="0 0 1254 1254">
+<title>Moneda de oro — caballero</title>
+<desc>Anverso, medallon del caballero. Imagen vectorial con perfil, bigote, traje y corbata. Fondo transparente. Anillos, ornamentos y dimensiones comunes al anverso y reverso.</desc>
+
+<defs>
+ <linearGradient id="pl-c-rimGold" x1="0" y1="0" x2="0.8" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#ffdc90"/><stop offset=".25" stop-color="#fff0ac"/><stop offset=".58" stop-color="#f6bd66"/><stop offset="1" stop-color="#b97327"/>
+ </linearGradient>
+ <linearGradient id="pl-c-bandGold" x1=".05" y1="0" x2=".9" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#f8cd80"/><stop offset=".33" stop-color="#ffe6a2"/><stop offset=".67" stop-color="#eab15b"/><stop offset="1" stop-color="#d9943f"/>
+ </linearGradient>
+ <linearGradient id="pl-c-coinField" x1="0.42" y1="0" x2="0.57" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#ffebaf"/><stop offset=".34" stop-color="#ffe3a3"/><stop offset=".62" stop-color="#fbd48a"/><stop offset="1" stop-color="#f4b95f"/>
+ </linearGradient>
+ <linearGradient id="pl-c-portraitInk" x1=".35" y1="0" x2=".7" y2="1">
+  <stop offset="0" stop-color="#97612d"/><stop offset=".42" stop-color="#8e5924"/><stop offset="1" stop-color="#7c4618"/>
+ </linearGradient>
+ <linearGradient id="pl-c-laurelInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#bb8035"/><stop offset="1" stop-color="#ab6e2b"/>
+ </linearGradient>
+ <linearGradient id="pl-c-crossOuterInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#85501b"/><stop offset="1" stop-color="#754016"/>
+ </linearGradient>
+ <linearGradient id="pl-c-crossInnerInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#9e6129"/><stop offset=".54" stop-color="#90541e"/><stop offset="1" stop-color="#834717"/>
+ </linearGradient>
+ <clipPath id="pl-c-coinClip"><circle cx="627" cy="608" r="598"/></clipPath>
+</defs>
+
+<g id="pl-c-moneda-comun" clip-path="url(#pl-c-coinClip)">
+ <circle cx="627" cy="608" r="598" fill="#754316"/>
+ <circle cx="627" cy="608" r="583" fill="url(#pl-c-rimGold)"/>
+ <circle cx="627" cy="608" r="531" fill="#754315"/>
+ <circle cx="627" cy="608" r="515" fill="url(#pl-c-bandGold)"/>
+ <circle cx="627" cy="608" r="473" fill="#c48938"/>
+ <circle cx="627" cy="608" r="468" fill="#f8d385"/>
+ <circle cx="627" cy="608" r="461" fill="#a66d2a"/>
+ <circle cx="627" cy="608" r="458" fill="url(#pl-c-coinField)"/>
+ <circle cx="627" cy="608" r="449" fill="none" stroke="#fff0be" stroke-width="4" opacity=".7"/>
+ <circle cx="627" cy="608" r="478" fill="none" stroke="#ffe9ab" stroke-width="4" opacity=".4"/>
+</g>
+
+<g id="pl-c-ornamentos-comunes">
+<path d="M 627 181.0 C631.0 190.0 634.0 191.0 641.0 194 C634.0 196.0 630.0 199.0 627 207.0 C624.0 199.0 620.0 196.0 613.0 194 C620.0 191.0 623.0 190.0 627 181.0 Z" fill="#a16c2e"/>
+<path d="M 627 1012.0 C631.0 1021.0 634.0 1022.0 641.0 1025 C634.0 1027.0 630.0 1030.0 627 1038.0 C624.0 1030.0 620.0 1027.0 613.0 1025 C620.0 1022.0 623.0 1021.0 627 1012.0 Z" fill="#a16c2e"/>
+<g id="pl-c-laureles" fill="url(#pl-c-laurelInk)" fill-rule="evenodd">
+ <path d="M344,398 L336,401 L320,412 L300,437 L291,459 L289,472 L290,485 L283,502 L281,499 L277,485 L269,475 L266,476 L260,485 L253,507 L253,527 L257,542 L263,554 L269,561 L267,596 L266,597 L259,585 L246,571 L238,568 L233,584 L233,601 L237,618 L246,635 L260,650 L273,658 L283,691 L282,693 L270,682 L259,676 L247,674 L247,691 L256,713 L266,726 L281,738 L298,745 L307,746 L328,774 L349,795 L361,803 L365,800 L365,797 L339,772 L347,751 L347,732 L339,709 L328,695 L324,693 L321,696 L316,711 L318,744 L306,723 L293,692 L305,680 L316,659 L319,645 L319,626 L314,608 L308,601 L295,614 L286,633 L282,656 L276,621 L276,584 L293,575 L310,558 L319,542 L325,518 L324,505 L322,503 L315,505 L305,511 L292,524 L283,539 L282,536 L288,513 L297,488 L314,477 L326,466 L334,456 L344,437 L350,415 L349,399Z"/>
+ <path d="M344,398 L336,401 L320,412 L300,437 L291,459 L289,472 L290,485 L283,502 L281,499 L277,485 L269,475 L266,476 L260,485 L253,507 L253,527 L257,542 L263,554 L269,561 L267,596 L266,597 L259,585 L246,571 L238,568 L233,584 L233,601 L237,618 L246,635 L260,650 L273,658 L283,691 L282,693 L270,682 L259,676 L247,674 L247,691 L256,713 L266,726 L281,738 L298,745 L307,746 L328,774 L349,795 L361,803 L365,800 L365,797 L339,772 L347,751 L347,732 L339,709 L328,695 L324,693 L321,696 L316,711 L318,744 L306,723 L293,692 L305,680 L316,659 L319,645 L319,626 L314,608 L308,601 L295,614 L286,633 L282,656 L276,621 L276,584 L293,575 L310,558 L319,542 L325,518 L324,505 L322,503 L315,505 L305,511 L292,524 L283,539 L282,536 L288,513 L297,488 L314,477 L326,466 L334,456 L344,437 L350,415 L349,399Z" transform="translate(1254 0) scale(-1 1)"/>
+</g>
+</g>
+<g id="pl-c-retrato-caballero" fill="url(#pl-c-portraitInk)" fill-rule="evenodd">
+<path d="M647,240 L606,241 L588,245 L564,255 L533,253 L505,259 L471,278 L459,291 L451,310 L451,326 L454,334 L465,347 L474,353 L464,372 L455,395 L445,434 L445,444 L457,459 L458,468 L420,538 L419,546 L421,551 L431,558 L452,561 L441,572 L438,578 L437,588 L440,594 L443,596 L457,598 L457,608 L464,618 L458,640 L458,658 L466,674 L476,682 L493,688 L516,688 L538,684 L545,691 L552,702 L565,737 L564,738 L541,708 L537,705 L511,732 L483,755 L453,774 L406,800 L376,822 L349,849 L328,878 L358,905 L401,933 L451,956 L484,967 L518,975 L544,979 L582,982 L627,981 L686,972 L743,955 L800,929 L844,902 L891,864 L909,846 L928,823 L912,803 L891,782 L850,752 L830,731 L805,695 L781,640 L770,627 L759,621 L758,598 L762,585 L771,567 L790,539 L811,503 L823,475 L830,451 L833,433 L833,400 L827,371 L820,353 L807,331 L794,316 L772,300 L753,293 L734,274 L717,262 L683,247Z M479,775 L480,776 L477,779 L476,784 L496,804 L497,807 L442,845 L462,939 L461,945 L452,942 L449,937 L427,840 L436,832 L479,805 L462,787 L465,783Z M796,711 L804,725 L782,829 L778,832 L774,832 L703,814 L696,815 L700,821 L732,854 L737,862 L628,967 L610,968 L609,967 L643,931 L715,861 L678,817 L676,811 L681,806 L699,798 L768,814 L770,811 L792,720Z M751,640 L754,643 L754,646 L648,790 L594,873 L540,964 L527,963 L526,961 L567,889 L564,827 L545,822 L539,823 L511,876 L502,912 L494,954 L491,955 L485,953 L483,951 L496,879 L500,867 L511,845 L530,814 L526,801 L525,791 L530,772 L539,749 L544,745 L549,745 L599,755 L610,763 L628,790 L656,749 L691,704Z M549,761 L546,765 L538,790 L538,800 L540,807 L554,809 L569,814 L577,806 L600,775 L595,770 L587,767 L569,763Z M719,570 L726,598 L739,630 L709,659 L678,683 L631,714 L600,732 L588,737 L587,736 L622,690 L652,645 L669,613 L678,587 L701,582Z M626,332 L628,334 L614,352 L599,380 L595,394 L595,407 L598,417 L605,429 L628,451 L633,459 L637,477 L637,492 L648,498 L668,503 L674,481 L681,470 L688,463 L707,453 L725,452 L737,457 L745,465 L750,476 L751,492 L745,516 L737,532 L725,548 L703,566 L686,572 L677,571 L669,565 L666,577 L656,603 L649,614 L633,629 L606,643 L542,666 L507,674 L489,672 L483,669 L473,657 L472,643 L479,617 L470,605 L467,595 L472,594 L487,596 L517,604 L528,604 L542,599 L550,590 L551,582 L541,587 L531,587 L523,583 L506,567 L495,560 L498,552 L496,544 L493,550 L486,555 L476,555 L465,552 L439,551 L435,549 L431,544 L431,540 L470,469 L470,458 L466,449 L459,441 L459,432 L466,404 L475,380 L487,355 L490,352 L535,335 L571,328 L604,328Z M728,469 L722,467 L710,468 L700,474 L696,479 L692,489 L692,524 L683,546 L698,544 L711,538 L721,529 L728,519 L733,508 L737,492 L737,482 L735,476Z M477,440 L478,444 L486,454 L501,452 L526,452 L550,457 L574,465 L570,457 L558,445 L550,439 L534,432 L523,430 L505,430 L490,433Z"/>
+</g>
+      </symbol>
+      <symbol id="coin-face-x" viewBox="0 0 1254 1254">
+<title>Moneda de oro — cruz</title>
+<desc>Reverso, cruz heraldica perfectamente simetrica en ambos ejes. Fondo transparente. Anillos, ornamentos y dimensiones comunes al anverso y reverso.</desc>
+
+<defs>
+ <linearGradient id="pl-x-rimGold" x1="0" y1="0" x2="0.8" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#ffdc90"/><stop offset=".25" stop-color="#fff0ac"/><stop offset=".58" stop-color="#f6bd66"/><stop offset="1" stop-color="#b97327"/>
+ </linearGradient>
+ <linearGradient id="pl-x-bandGold" x1=".05" y1="0" x2=".9" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#f8cd80"/><stop offset=".33" stop-color="#ffe6a2"/><stop offset=".67" stop-color="#eab15b"/><stop offset="1" stop-color="#d9943f"/>
+ </linearGradient>
+ <linearGradient id="pl-x-coinField" x1="0.42" y1="0" x2="0.57" y2="1" gradientUnits="objectBoundingBox">
+  <stop offset="0" stop-color="#ffebaf"/><stop offset=".34" stop-color="#ffe3a3"/><stop offset=".62" stop-color="#fbd48a"/><stop offset="1" stop-color="#f4b95f"/>
+ </linearGradient>
+ <linearGradient id="pl-x-portraitInk" x1=".35" y1="0" x2=".7" y2="1">
+  <stop offset="0" stop-color="#97612d"/><stop offset=".42" stop-color="#8e5924"/><stop offset="1" stop-color="#7c4618"/>
+ </linearGradient>
+ <linearGradient id="pl-x-laurelInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#bb8035"/><stop offset="1" stop-color="#ab6e2b"/>
+ </linearGradient>
+ <linearGradient id="pl-x-crossOuterInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#85501b"/><stop offset="1" stop-color="#754016"/>
+ </linearGradient>
+ <linearGradient id="pl-x-crossInnerInk" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#9e6129"/><stop offset=".54" stop-color="#90541e"/><stop offset="1" stop-color="#834717"/>
+ </linearGradient>
+ <clipPath id="pl-x-coinClip"><circle cx="627" cy="608" r="598"/></clipPath>
+</defs>
+
+<g id="pl-x-moneda-comun" clip-path="url(#pl-x-coinClip)">
+ <circle cx="627" cy="608" r="598" fill="#754316"/>
+ <circle cx="627" cy="608" r="583" fill="url(#pl-x-rimGold)"/>
+ <circle cx="627" cy="608" r="531" fill="#754315"/>
+ <circle cx="627" cy="608" r="515" fill="url(#pl-x-bandGold)"/>
+ <circle cx="627" cy="608" r="473" fill="#c48938"/>
+ <circle cx="627" cy="608" r="468" fill="#f8d385"/>
+ <circle cx="627" cy="608" r="461" fill="#a66d2a"/>
+ <circle cx="627" cy="608" r="458" fill="url(#pl-x-coinField)"/>
+ <circle cx="627" cy="608" r="449" fill="none" stroke="#fff0be" stroke-width="4" opacity=".7"/>
+ <circle cx="627" cy="608" r="478" fill="none" stroke="#ffe9ab" stroke-width="4" opacity=".4"/>
+</g>
+
+<g id="pl-x-ornamentos-comunes">
+<path d="M 627 181.0 C631.0 190.0 634.0 191.0 641.0 194 C634.0 196.0 630.0 199.0 627 207.0 C624.0 199.0 620.0 196.0 613.0 194 C620.0 191.0 623.0 190.0 627 181.0 Z" fill="#a16c2e"/>
+<path d="M 627 1012.0 C631.0 1021.0 634.0 1022.0 641.0 1025 C634.0 1027.0 630.0 1030.0 627 1038.0 C624.0 1030.0 620.0 1027.0 613.0 1025 C620.0 1022.0 623.0 1021.0 627 1012.0 Z" fill="#a16c2e"/>
+<g id="pl-x-laureles" fill="url(#pl-x-laurelInk)" fill-rule="evenodd">
+ <path d="M344,398 L336,401 L320,412 L300,437 L291,459 L289,472 L290,485 L283,502 L281,499 L277,485 L269,475 L266,476 L260,485 L253,507 L253,527 L257,542 L263,554 L269,561 L267,596 L266,597 L259,585 L246,571 L238,568 L233,584 L233,601 L237,618 L246,635 L260,650 L273,658 L283,691 L282,693 L270,682 L259,676 L247,674 L247,691 L256,713 L266,726 L281,738 L298,745 L307,746 L328,774 L349,795 L361,803 L365,800 L365,797 L339,772 L347,751 L347,732 L339,709 L328,695 L324,693 L321,696 L316,711 L318,744 L306,723 L293,692 L305,680 L316,659 L319,645 L319,626 L314,608 L308,601 L295,614 L286,633 L282,656 L276,621 L276,584 L293,575 L310,558 L319,542 L325,518 L324,505 L322,503 L315,505 L305,511 L292,524 L283,539 L282,536 L288,513 L297,488 L314,477 L326,466 L334,456 L344,437 L350,415 L349,399Z"/>
+ <path d="M344,398 L336,401 L320,412 L300,437 L291,459 L289,472 L290,485 L283,502 L281,499 L277,485 L269,475 L266,476 L260,485 L253,507 L253,527 L257,542 L263,554 L269,561 L267,596 L266,597 L259,585 L246,571 L238,568 L233,584 L233,601 L237,618 L246,635 L260,650 L273,658 L283,691 L282,693 L270,682 L259,676 L247,674 L247,691 L256,713 L266,726 L281,738 L298,745 L307,746 L328,774 L349,795 L361,803 L365,800 L365,797 L339,772 L347,751 L347,732 L339,709 L328,695 L324,693 L321,696 L316,711 L318,744 L306,723 L293,692 L305,680 L316,659 L319,645 L319,626 L314,608 L308,601 L295,614 L286,633 L282,656 L276,621 L276,584 L293,575 L310,558 L319,542 L325,518 L324,505 L322,503 L315,505 L305,511 L292,524 L283,539 L282,536 L288,513 L297,488 L314,477 L326,466 L334,456 L344,437 L350,415 L349,399Z" transform="translate(1254 0) scale(-1 1)"/>
+</g>
+</g>
+<g id="pl-x-cruz-simetrica" fill-rule="evenodd">
+<path id="pl-x-silueta-exterior" d="M627,237 C665,282 707,296 776,300 C722,346 682,421 683,540 C779,543 846,505 868,424 C880,499 908,563 939,597 C908,631 880,695 868,770 C846,689 779,651 683,654 C682,773 722,848 776,894 C707,898 665,912 627,957 C589,912 547,898 478,894 C532,848 572,773 571,654 C475,651 408,689 386,770 C374,695 346,631 315,597 C346,563 374,499 386,424 C408,505 475,543 571,540 C572,421 532,346 478,300 C547,296 589,282 627,237 Z" fill="url(#pl-x-crossOuterInk)"/>
+<path id="pl-x-incrustacion-interior" stroke="#f9d78e" stroke-width="22" stroke-linejoin="round" paint-order="stroke fill" d="M627,294 C648,316 670,329 698,331 C665,392 661,475 667,555 C746,555 785,570 811,561 C837,552 847,524 851,499 C861,533 877,574 886,597 C877,620 861,661 851,695 C847,670 837,642 811,633 C785,624 746,639 667,639 C661,719 665,802 698,863 C670,865 648,878 627,900 C606,878 584,865 556,863 C589,802 593,719 587,639 C508,639 469,624 443,633 C417,642 407,670 403,695 C393,661 377,620 368,597 C377,574 393,533 403,499 C407,524 417,552 443,561 C469,570 508,555 587,555 C593,475 589,392 556,331 C584,329 606,316 627,294 Z" fill="url(#pl-x-crossInnerInk)"/>
+</g>
+      </symbol>
+    </defs>
+  </svg>
+  <header class="site-header">
+    <div class="container nav-shell">
+      <a class="brand" href="#inicio" aria-label="Penney Lab">
+        <span class="brand-mark">P</span><span class="brand-name">Penney Lab<small>PROBABILITY STUDIO</small></span>
+      </a>
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <a data-i18n="navDiscover" href="#descubrir">Descubrir</a>
+        <a data-i18n="navPlay" href="#jugar">Jugar</a>
+        <a data-i18n="navExperiment" href="#experimentar">Experimentar</a>
+        <a data-i18n="navProof" href="#demostrar">Demostrar</a>
+        <a data-i18n="navLab" href="#laboratorio">Laboratorio</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="lang-toggle" class="language-btn" type="button" aria-label="Switch language" title="Switch language">EN</button>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Cambiar tema" title="Cambiar tema">
+          <svg viewBox="0 0 24 24"><path d="M20.9 13.2A9 9 0 0 1 10.8 3.1 9 9 0 1 0 20.9 13.2Z"/></svg>
+        </button>
+        <button id="mobile-menu-toggle" class="icon-btn" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú">
+          <svg viewBox="0 0 24 24"><path d="M4 7H20M4 12H20M4 17H20"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow" data-i18n="heroEyebrow">Un experimento de probabilidad</span>
+          <h1 id="hero-title">Penney <em>Lab.</em></h1>
+          <p class="hero-lead" data-i18n="heroLead">Una moneda justa. Dos secuencias. Una ventaja inesperada.</p>
+          <p class="hero-secondary" data-i18n="heroText">A veces, dos resultados igual de probables no tienen las mismas posibilidades de llegar primero. Descúbrelo lanzando monedas.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" data-i18n="heroStart" href="#jugar">Comenzar a jugar ↗</a>
+            <a class="btn btn-dark" data-i18n="heroLearn" href="#descubrir">Entender la paradoja ↓</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="hero-ring-text" aria-hidden="true"><span>01 / 02</span><span>PROBABILITY / 1969</span></div>
+          <div class="hero-coin" id="hero-coin" role="button" tabindex="0" aria-label="Moneda interactiva" aria-keyshortcuts="Enter Space ArrowLeft ArrowRight ArrowUp ArrowDown">
+            <div class="hero-coin-edge" id="hero-coin-edge" aria-hidden="true"></div>
+            <!-- Centrar el dibujo (cx=627, cy=608) respecto al eje real de giro.
+                 Los símbolos SVG originales no se modifican. -->
+            <div class="hero-coin-side front" aria-hidden="true"><svg viewBox="0 -19 1254 1254"><use href="#coin-face-c" width="1254" height="1254"/></svg></div>
+            <div class="hero-coin-side back" aria-hidden="true"><svg viewBox="0 -19 1254 1254"><use href="#coin-face-x" width="1254" height="1254"/></svg></div>
+          </div>
+          <div class="hero-art-foot" aria-hidden="true">CARA · CRUZ · AZAR</div>
+        </div>
+      </div>
+    </section>
+    <div class="stat-band">
+      <div class="container stat-band-inner">
+        <div class="band-label"><span class="band-fraction">⅛</span><span class="band-text" data-i18n="bandText">La probabilidad de cualquier secuencia concreta de tres monedas justas.</span></div>
+        <div class="sequence-strip" id="eight-sequences" aria-label="Eight possible sequences"></div>
+      </div>
+    </div>
+
+    <section id="descubrir" class="section">
+      <div class="container">
+        <div class="section-heading reveal"><span class="section-index" data-i18n="s1Index">01 / LA IDEA</span>
+          <h2 data-i18n="s1Title">El azar tiene <em>memoria de patrones.</em></h2>
+          <p class="section-lead" data-i18n="s1Lead">La moneda no recuerda nada. Pero las secuencias sí pueden solaparse, y ese detalle cambia la competición.</p>
+          <p class="penney-definition"><strong data-i18n="penneyDefinitionTitle">La paradoja de Penney.</strong> <span data-i18n="penneyDefinition">Presentada en 1969 por Walter Penney, plantea qué secuencia aparece primero en una serie de lanzamientos de una moneda equilibrada. Aunque dos secuencias sean igual de probables en una posición concreta, una puede tener ventaja para aparecer antes que la otra.</span></p>
+        </div>
+        <div class="intro-grid">
+          <div class="paper-card reveal"><span class="eyebrow" data-i18n="fixedEyebrow">PROBABILIDAD EN TRES LANZAMIENTOS</span>
+            <div class="big-number">1/8 = 12,5 %</div>
+            <h3 data-i18n="fixedTitle">Todas empiezan en igualdad.</h3>
+            <p class="card-subtitle" data-i18n="fixedText">En tres lanzamientos concretos de una moneda equilibrada, cualquier secuencia específica tiene exactamente la misma probabilidad.</p>
+          </div>
+          <div class="paper-card reveal"><span class="eyebrow" data-i18n="raceEyebrow">LA CARRERA ENTRE SECUENCIAS</span>
+            <div class="compare-line"><span class="pattern-simple" id="intro-a">XCX</span><span class="versus">vs.</span><span class="pattern-simple" id="intro-b">XXC</span></div>
+            <h3 data-i18n="raceTitle">Llegar primero es otra historia.</h3>
+            <p class="card-subtitle" data-i18n="raceText">Si seguimos lanzando hasta que aparezca una de las dos secuencias, sus probabilidades de victoria pueden ser muy distintas.</p>
+            <div class="odds-bar" aria-label="33.3 versus 66.7"><div class="odds-bar-a" style="width:33.333%"></div><div class="odds-bar-b"></div></div>
+            <p class="quiet-note" data-i18n="raceOdds">XCX: 33,3 % · XXC: 66,7 %</p>
+          </div>
+        </div>
+        <div class="insight reveal" data-i18n="s1Insight">La paradoja no contradice la probabilidad 1/8: compara dos preguntas diferentes. ¿Qué aparece en los próximos tres lanzamientos? ¿O qué secuencia aparece antes en una cadena de longitud desconocida?</div>
+      </div>
+    </section>
+
+    <section id="jugar" class="section">
+      <div class="container">
+        <div class="section-heading reveal"><span class="section-index" data-i18n="s2Index">02 / EL DESAFÍO</span>
+          <h2 data-i18n="s2Title">Elige tus monedas. <em>Reta al azar.</em></h2>
+          <p class="section-lead" data-i18n="s2Lead">Pulsa cualquiera de tus tres monedas para cambiarla. La máquina responde con una secuencia que tiene ventaja matemática.</p>
+        </div>
+        <div class="panel reveal">
+          <div class="panel-top"><div><h3 data-i18n="gameHeading">Cara o cruz, ¿quién gana?</h3><small data-i18n="gameSubheading">Cada ronda termina en cuanto aparece una de las dos secuencias.</small></div><span class="panel-kicker" data-i18n="gameTag">MONEDA 50 / 50</span></div>
+          <div class="panel-pad">
+            <div class="game-board">
+              <div class="selector-card"><div class="selector-head"><span class="selector-title" data-i18n="you">Tú</span><span class="selector-hint" data-i18n="tapChange">Pulsa para cambiar</span></div><div id="game-player-coins" class="coin-row"></div></div>
+              <div class="selector-card machine"><div class="selector-head"><span class="selector-title" data-i18n="machine">La máquina</span><span class="selector-hint" data-i18n="optimalReply">Respuesta estratégica</span></div><div id="game-machine-coins" class="coin-row"></div></div>
+            </div>
+            <div class="odds-grid" id="game-odds"><div class="odds-card"><span class="odds-label" data-i18n="yourChance">Tu probabilidad</span><span class="odds-value" id="game-prob-a">—</span></div>
+              <div class="odds-card winner"><span class="odds-label" data-i18n="machineChance">Probabilidad de la máquina</span><span class="odds-value" id="game-prob-b">—</span></div></div>
+            <div class="odds-bar" role="img" id="game-prob-bar" aria-label="Probability comparison"><div id="game-bar-a" class="odds-bar-a" style="width:33.333%"></div><div class="odds-bar-b"></div></div>
+            <p class="quiet-note" id="game-strategy-note"></p>
+            <div class="game-actions"><button id="game-step" class="btn btn-outline" type="button" data-i18n="stepCoin">+ Lanzar una moneda</button>
+              <button id="game-auto" class="btn btn-primary" type="button" data-i18n="playRound">▶ Jugar una ronda</button>
+              <button id="game-reset" class="btn btn-outline" type="button" data-i18n="resetGame">↺ Reiniciar</button>
+              <select id="game-speed" class="select" aria-label="Velocidad de animación"><option value="650" data-i18n="speedSlow">Lenta</option><option value="240" selected data-i18n="speedNormal">Normal</option><option value="55" data-i18n="speedFast">Rápida</option></select>
+            </div>
+            <div class="game-stage"><div class="stage-topline"><strong data-i18n="tossHistory">Historial de lanzamientos</strong><span class="score" id="game-score">0 : 0</span></div>
+              <div id="game-history" class="history-rail" aria-label="Lanzamientos"><span class="history-empty" data-i18n="historyEmpty">Las monedas aparecerán aquí…</span></div>
+              <div id="game-message" class="stage-message" role="status" aria-live="polite"></div><div class="progress-traces" id="game-traces"></div>
+            </div>
+            <p style="margin:22px 0 0"><a href="#demostrar" class="explain-link" id="explain-game" data-i18n="whyGame">¿Por qué la máquina tiene ventaja? Ver la demostración ↗</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experimentar" class="section">
+      <div class="container">
+        <div class="section-heading reveal"><span class="section-index" data-i18n="s3Index">03 / EL EXPERIMENTO</span>
+          <h2 data-i18n="s3Title">Una partida puede engañar. <em>Diez mil, menos.</em></h2>
+          <p class="section-lead" data-i18n="s3Lead">Observa cómo una simulación real se aproxima a las probabilidades teóricas. Cada partida comienza desde cero y termina al aparecer uno de los patrones.</p>
+        </div>
+        <div class="simulation-grid">
+          <div class="paper-card reveal">
+            <span class="eyebrow" data-i18n="simSetup">CONFIGURACIÓN ACTUAL</span>
+            <div id="sim-pair" class="sim-pair"><strong>XCX</strong><span class="vs">vs.</span><strong>XXC</strong></div>
+            <p class="quiet-note" id="sim-bias-note"></p>
+            <div class="form-row"><label data-i18n="numberGames">Número de partidas</label></div>
+            <div class="preset-grid" id="sim-presets"><button class="preset-btn" data-count="100" aria-pressed="false">100</button><button class="preset-btn" data-count="1000" aria-pressed="false">1.000</button><button class="preset-btn" data-count="10000" aria-pressed="true">10.000</button><button class="preset-btn" data-count="100000" aria-pressed="false">100.000</button></div>
+            <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:22px"><button id="sim-start" type="button" class="btn btn-primary" data-i18n="startSim">▶ Iniciar simulación</button><button id="sim-stop" type="button" class="btn btn-outline" disabled data-i18n="stopSim">Detener</button></div>
+            <div class="sim-progress" aria-hidden="true"><div id="sim-progress-bar"></div></div>
+            <p id="sim-status" class="quiet-note" role="status" aria-live="polite"></p>
+            <button class="btn btn-outline btn-small" style="margin-top:10px" id="sim-use-game" type="button" data-i18n="useGamePair">Usar las secuencias del juego</button>
+          </div>
+          <div class="chart-shell reveal"><div class="chart-head"><div><h3 data-i18n="chartTitle">La ley de los grandes números</h3><div class="chart-subtitle" data-i18n="chartSubtitle">Porcentaje de victorias de la primera secuencia</div></div>
+              <span id="live-badge" class="live-badge"><i></i><span data-i18n="ready">Preparado</span></span></div>
+            <svg viewBox="0 0 760 310" class="chart" role="img" aria-label="Gráfico de frecuencia observada frente a probabilidad teórica" id="convergence-chart">
+              <g id="chart-grid"></g><path id="chart-theory" class="theory-line" d=""/><path id="chart-observed" class="observed-line" d=""/></svg>
+            <div class="legend"><span><i></i><span data-i18n="observed">Frecuencia observada</span></span><span><i class="theory-key"></i><span data-i18n="theoretical">Probabilidad exacta</span></span></div>
+            <div class="sim-stats"><div class="mini-stat"><span data-i18n="played">Partidas</span><strong id="sim-played">0</strong></div><div class="mini-stat"><span data-i18n="winsFirst">Victorias A</span><strong id="sim-a">0</strong></div><div class="mini-stat"><span data-i18n="winsSecond">Victorias B</span><strong id="sim-b">0</strong></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demostrar" class="section">
+      <div class="container"><div class="section-heading reveal"><span class="section-index" data-i18n="s4Index">04 / LA EXPLICACIÓN</span>
+          <h2 data-i18n="s4Title">No es magia. <em>Son solapamientos.</em></h2>
+          <p class="section-lead" data-i18n="s4Lead">Hay una estrategia para responder a cualquier secuencia de tres resultados con una moneda equilibrada. Y podemos calcular la probabilidad sin lanzar ni una sola moneda.</p>
+        </div>
+        <div class="demo-grid"><div class="step-card reveal"><div class="step-num">1</div><h3 data-i18n="step1Title">El truco de Penney</h3>
+            <p data-i18n="step1Text">Toma el segundo símbolo de tu rival, inviértelo y colócalo delante de sus dos primeros símbolos.</p>
+            <div id="demo-transform" class="transformation"></div>
+            <p class="quiet-note" id="demo-rule-caption"></p>
+          </div>
+          <div class="step-card reveal"><div class="step-num">2</div><h3 data-i18n="step2Title">La importancia de los prefijos</h3>
+            <p data-i18n="step2Text">Al lanzar una moneda, no necesitamos recordar toda la historia: basta con conservar el final que todavía podría completar alguna secuencia.</p>
+            <div class="insight" id="demo-prefix-example" style="margin-top:17px"></div>
+          </div></div>
+        <div class="math-panel reveal"><span class="eyebrow" style="color:#dfbf8a" data-i18n="exactHeading">PROBABILIDAD EXACTA</span><h3 id="demo-pair-heading">XCX vs. XXC</h3>
+          <p data-i18n="mathIntro">Cada estado representa un sufijo útil de los lanzamientos. Sus probabilidades se obtienen resolviendo un pequeño sistema de ecuaciones.</p>
+          <div id="demo-formula" class="math-formula">P(A) = ⅓</div>
+          <p style="margin-top:16px;margin-bottom:0" id="demo-equation-note"></p>
+        </div>
+        <details class="math-details reveal" id="math-details"><summary data-i18n="showEquations">Ver los estados y las ecuaciones del cálculo</summary>
+          <div class="table-scroll"><p class="fineprint" data-i18n="stateExplanation">Cada fila muestra el sufijo que interesa recordar y qué ocurre si sale cara o cruz. Una victoria termina la partida; si no, se conserva el sufijo útil más largo.</p>
+            <table><thead><tr><th data-i18n="state">Estado</th><th data-i18n="ifHeads">Si sale cara</th><th data-i18n="ifTails">Si sale cruz</th><th data-i18n="chanceA">P(A gana)</th></tr></thead><tbody id="state-rows"></tbody></table>
+          </div>
+          <p class="equation-intro" data-i18n="equationsIntro">Estas son las ecuaciones que resuelve el programa. El estado inicial es ∅, y llegar a una secuencia completa equivale a 1 (gana A) o 0 (gana B).</p>
+          <div class="equations" id="state-equations"></div>
+        </details>
+      </div>
+    </section>
+
+    <section id="laboratorio" class="section">
+      <div class="container"><div class="section-heading reveal"><span class="section-index" data-i18n="s5Index">05 / LABORATORIO ABIERTO</span>
+          <h2 data-i18n="s5Title">Cambia las reglas. <em>Busca nuevos patrones.</em></h2>
+          <p class="section-lead" data-i18n="s5Lead">Compara dos secuencias libres, prueba con cuatro o cinco símbolos y experimenta con una moneda que no tenga un 50 % de probabilidad de cara.</p>
+        </div>
+        <div class="lab-layout">
+          <div class="paper-card reveal"><div class="field"><label class="field-label" for="lab-length"><span data-i18n="lengthLabel">Longitud de las secuencias</span></label>
+              <select id="lab-length" class="select" style="width:100%"><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+            <div class="field"><div class="field-label"><span data-i18n="seqFirst">Secuencia A</span><small data-i18n="tapCoin">Pulsa las monedas</small></div><div class="lab-pattern-row" id="lab-pattern-a"></div></div>
+            <div class="field"><div class="field-label"><span data-i18n="seqSecond">Secuencia B</span><small data-i18n="tapCoin">Pulsa las monedas</small></div><div class="lab-pattern-row" id="lab-pattern-b"></div></div>
+            <div class="field"><div class="field-label"><label for="lab-bias" data-i18n="headsChance">Probabilidad de cara</label><strong id="lab-bias-value">50 %</strong></div>
+              <input type="range" class="range" id="lab-bias" min="20" max="80" step="5" value="50">
+              <div class="range-labels"><span>20 %</span><span>50 %</span><span>80 %</span></div></div>
+            <div class="lab-actions"><button id="lab-best" type="button" class="btn btn-primary" data-i18n="findBest">Encontrar mejor respuesta</button>
+              <button id="lab-reset" type="button" class="btn btn-outline" data-i18n="resetLab">Restablecer</button></div>
+          </div>
+          <div class="paper-card reveal"><span class="eyebrow" data-i18n="labAnalysis">ANÁLISIS EXACTO</span>
+            <div id="lab-results" class="lab-result"><span class="lab-result-kicker" data-i18n="favoredSeq">Secuencia con ventaja</span><div class="lab-result-big">—</div></div>
+            <div class="odds-bar" aria-hidden="true"><div id="lab-bar-a" class="odds-bar-a" style="width:50%"></div><div class="odds-bar-b"></div></div>
+            <div class="odds-grid"><div class="odds-card"><span class="odds-label" data-i18n="seqFirst">Secuencia A</span><span class="odds-value" id="lab-prob-a">—</span></div><div class="odds-card winner"><span class="odds-label" data-i18n="seqSecond">Secuencia B</span><span class="odds-value" id="lab-prob-b">—</span></div></div>
+            <p class="fineprint" id="lab-note"></p>
+            <div class="lab-actions"><button class="btn btn-outline" id="lab-to-sim" data-i18n="simulatePair" type="button">Simular esta pareja ↗</button><button class="btn btn-outline" id="lab-to-proof" data-i18n="provePair" type="button">Ver demostración ↗</button></div>
+          </div>
+        </div>
+        <div class="paper-card matrix-section reveal"><div class="matrix-top"><div><span class="eyebrow" data-i18n="matrixEyebrow">MAPA DE ENFRENTAMIENTOS</span><h3 data-i18n="matrixTitle">Las ocho secuencias frente a frente</h3></div></div>
+          <p class="fineprint" data-i18n="matrixIntro">Moneda equilibrada, tres símbolos. Filas: A. Columnas: B. Cada casilla muestra la probabilidad de que gane B. Pulsa una casilla para analizar esa pareja.</p>
+          <div class="matrix-scroll"><table class="matrix" id="matrix"><thead></thead><tbody></tbody></table></div>
+          <p class="fineprint" data-i18n="matrixFoot">El verde indica ventaja para la secuencia de la columna; el dorado, para la fila. Las casillas diagonales no son enfrentamientos válidos.</p>
+        </div>
+        <div class="notice" data-i18n="labCaveat">La regla rápida de Penney se aplica a tres resultados con moneda justa. En las otras configuraciones, el laboratorio calcula la mejor respuesta comparando todas las secuencias posibles de la misma longitud.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container"><div><div class="brand-name" style="color:#f5e9d4">Penney Lab.</div><p data-i18n="footerText">Un pequeño laboratorio para aprender jugando. Cálculos y simulaciones ejecutados en tu dispositivo, sin enviar datos a ningún servidor.</p></div><a href="#inicio" class="btn btn-dark" data-i18n="backTop">↑ Volver arriba</a></div>
+    <div class="container footer-signature"><span data-i18n="signature">Noviembre de 2026, TCardell</span><a href="https://t.cardell.es/" target="_blank" rel="noopener noreferrer">t.cardell.es</a></div>
+  </footer>
+
+  <script>
+    'use strict';
+    /* PENNEY LAB v0.5 — Aplicación autónoma. Sin bibliotecas, archivos o peticiones externas.
+       Organización: traducciones → motor matemático → presentación → juego → simulación → laboratorio. */
+    (() => {
+      const $ = (s, root = document) => root.querySelector(s);
+      const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+      const dict = {
+        es: {
+          navDiscover:'Descubrir',navPlay:'Jugar',navExperiment:'Experimentar',navProof:'Demostrar',navLab:'Laboratorio',
+          heroEyebrow:'Un experimento de probabilidad',heroLead:'Una moneda justa. Dos secuencias. Una ventaja inesperada.',
+          heroText:'A veces, dos resultados igual de probables no tienen las mismas posibilidades de llegar primero. Descúbrelo lanzando monedas.',
+          heroStart:'Comenzar a jugar ↗',heroLearn:'Entender la paradoja ↓',heroCoinAria:'Moneda interactiva. Arrastra para girar, o usa las flechas y la tecla Intro.',signature:'Noviembre de 2026, TCardell',
+          bandText:'La probabilidad de cualquier secuencia concreta de tres monedas justas.',
+          s1Index:'01 / LA IDEA',s1Title:'El azar tiene <em>memoria de patrones.</em>',s1Lead:'La moneda no recuerda nada. Pero las secuencias sí pueden solaparse, y ese detalle cambia la competición.',
+          penneyDefinitionTitle:'La paradoja de Penney.',penneyDefinition:'Presentada en 1969 por Walter Penney, plantea qué secuencia aparece primero en una serie de lanzamientos de una moneda equilibrada. Aunque dos secuencias sean igual de probables en una posición concreta, una puede tener ventaja para aparecer antes que la otra.',
+          fixedEyebrow:'PROBABILIDAD EN TRES LANZAMIENTOS',fixedTitle:'Todas empiezan en igualdad.',
+          fixedText:'En tres lanzamientos concretos de una moneda equilibrada, cualquier secuencia específica tiene exactamente la misma probabilidad.',
+          raceEyebrow:'LA CARRERA ENTRE SECUENCIAS',raceTitle:'Llegar primero es otra historia.',
+          raceText:'Si seguimos lanzando hasta que aparezca una de las dos secuencias, sus probabilidades de victoria pueden ser muy distintas.',
+          raceOdds:'XCX: 33,3 % · XXC: 66,7 %',s1Insight:'La paradoja no contradice la probabilidad 1/8: compara dos preguntas diferentes. ¿Qué aparece en los próximos tres lanzamientos? ¿O qué secuencia aparece antes en una cadena de longitud desconocida?',
+          s2Index:'02 / EL DESAFÍO',s2Title:'Elige tus monedas. <em>Reta al azar.</em>',s2Lead:'Pulsa cualquiera de tus tres monedas para cambiarla. La máquina responde con una secuencia que tiene ventaja matemática.',
+          gameHeading:'Cara o cruz, ¿quién gana?',gameSubheading:'Cada ronda termina en cuanto aparece una de las dos secuencias.',gameTag:'MONEDA 50 / 50',
+          you:'Tú',machine:'La máquina',tapChange:'Pulsa para cambiar',optimalReply:'Respuesta estratégica',
+          yourChance:'Tu probabilidad',machineChance:'Probabilidad de la máquina',stepCoin:'+ Lanzar una moneda',playRound:'▶ Jugar una ronda',resetGame:'↺ Reiniciar',
+          speedSlow:'Lenta',speedNormal:'Normal',speedFast:'Rápida',tossHistory:'Historial de lanzamientos',historyEmpty:'Las monedas aparecerán aquí…',
+          whyGame:'¿Por qué la máquina tiene ventaja? Ver la demostración ↗',
+          s3Index:'03 / EL EXPERIMENTO',s3Title:'Una partida puede engañar. <em>Diez mil, menos.</em>',
+          s3Lead:'Observa cómo una simulación real se aproxima a las probabilidades teóricas. Cada partida comienza desde cero y termina al aparecer uno de los patrones.',
+          simSetup:'CONFIGURACIÓN ACTUAL',numberGames:'Número de partidas',startSim:'▶ Iniciar simulación',stopSim:'Detener',useGamePair:'Usar las secuencias del juego',
+          chartTitle:'La ley de los grandes números',chartSubtitle:'Porcentaje de victorias de la primera secuencia',ready:'Preparado',
+          observed:'Frecuencia observada',theoretical:'Probabilidad exacta',played:'Partidas',winsFirst:'Victorias A',winsSecond:'Victorias B',
+          s4Index:'04 / LA EXPLICACIÓN',s4Title:'No es magia. <em>Son solapamientos.</em>',
+          s4Lead:'Hay una estrategia para responder a cualquier secuencia de tres resultados con una moneda equilibrada. Y podemos calcular la probabilidad sin lanzar ni una sola moneda.',
+          step1Title:'El truco de Penney',step1Text:'Toma el segundo símbolo de tu rival, inviértelo y colócalo delante de sus dos primeros símbolos.',
+          step2Title:'La importancia de los prefijos',step2Text:'Al lanzar una moneda, no necesitamos recordar toda la historia: basta con conservar el final que todavía podría completar alguna secuencia.',
+          exactHeading:'PROBABILIDAD EXACTA',mathIntro:'Cada estado representa un sufijo útil de los lanzamientos. Sus probabilidades se obtienen resolviendo un pequeño sistema de ecuaciones.',
+          showEquations:'Ver los estados y las ecuaciones del cálculo',stateExplanation:'Cada fila muestra el sufijo que interesa recordar y qué ocurre si sale cara o cruz. Una victoria termina la partida; si no, se conserva el sufijo útil más largo.',
+          state:'Estado',ifHeads:'Si sale cara',ifTails:'Si sale cruz',chanceA:'P(A gana)',
+          s5Index:'05 / LABORATORIO ABIERTO',s5Title:'Cambia las reglas. <em>Busca nuevos patrones.</em>',
+          s5Lead:'Compara dos secuencias libres, prueba con cuatro o cinco símbolos y experimenta con una moneda que no tenga un 50 % de probabilidad de cara.',
+          lengthLabel:'Longitud de las secuencias',seqFirst:'Secuencia A',seqSecond:'Secuencia B',tapCoin:'Pulsa las monedas',headsChance:'Probabilidad de cara',
+          findBest:'Encontrar mejor respuesta',resetLab:'Restablecer',labAnalysis:'ANÁLISIS EXACTO',favoredSeq:'Secuencia con ventaja',
+          simulatePair:'Simular esta pareja ↗',provePair:'Ver demostración ↗',matrixEyebrow:'MAPA DE ENFRENTAMIENTOS',
+          matrixTitle:'Las ocho secuencias frente a frente',
+          matrixIntro:'Moneda equilibrada, tres símbolos. Filas: A. Columnas: B. Cada casilla muestra la probabilidad de que gane B. Pulsa una casilla para analizar esa pareja.',
+          matrixFoot:'El verde indica ventaja para la secuencia de la columna; el dorado, para la fila. Las casillas diagonales no son enfrentamientos válidos.',
+          labCaveat:'La regla rápida de Penney se aplica a tres resultados con moneda justa. En las otras configuraciones, el laboratorio calcula la mejor respuesta comparando todas las secuencias posibles de la misma longitud.',
+          footerText:'Un pequeño laboratorio para aprender jugando. Cálculos y simulaciones ejecutados en tu dispositivo, sin enviar datos a ningún servidor.',backTop:'↑ Volver arriba',
+          heads:'Cara',tails:'Cruz',flipHeads:'Cambiar cara por cruz',flipTails:'Cambiar cruz por cara',
+          strategyNote:'La máquina invierte tu segunda moneda y la coloca delante de las dos primeras.',
+          gameReady:'Elige tu secuencia y lanza una moneda para comenzar.',roundNew:'Nueva ronda. ¿Cuál aparecerá primero?',
+          gameWinsA:'¡Ha aparecido {a}! Ganas esta ronda.',gameWinsB:'Ha aparecido {b}. Gana la máquina.',
+          gameInProgress:'Lanzamientos: {n}. Las dos secuencias siguen en juego.',gameTossCount:'{n} lanzamientos',
+          gameScore:'Tus victorias: {a} · Máquina: {b}',
+          simIdle:'Elige un tamaño y pulsa «Iniciar simulación».',simRunning:'Calculadas {n} de {total} partidas…',
+          simDone:'Completadas {n} partidas. Los resultados son aleatorios y variarán en cada ejecución.',
+          simStopped:'Simulación detenida en {n} partidas.',simBias:'P(cara) = {p} %',simInvalid:'Selecciona dos secuencias distintas.',
+          proofFirst:'Inviertes {middle} por {inverse} y antepones {inverse} a {start}.',
+          proofRuleOther:'La regla sencilla corresponde al juego clásico de tres monedas equilibradas. Aquí se muestra la pareja configurada.',
+          proofRuleClassic:'Con una moneda justa, esta transformación da ventaja a la respuesta.',
+          proofRuleVariant:'La respuesta construida es {optimal}; los porcentajes siguientes corresponden a la pareja A–B elegida en el laboratorio.',
+          equationsIntro:'Estas son las ecuaciones que resuelve el programa. El estado inicial es ∅, y llegar a una secuencia completa equivale a 1 (gana A) o 0 (gana B).',
+          suffixExample:'Estados útiles: {states}. Un estado conserva únicamente el final que todavía puede completar A o B.',
+          proofProbability:'Probabilidad de victoria de A: {fraction} ({percent}).',
+          proofEq:'Para cada estado s: P(A|s) = p · P(A|cara) + (1−p) · P(A|cruz), con 1 si gana A y 0 si gana B.',
+          proofSame:'Elige dos secuencias distintas para calcular la carrera.',
+          initialState:'Inicio',winA:'Gana A',winB:'Gana B',
+          seqFavoredA:'A tiene ventaja',seqFavoredB:'B tiene ventaja',seqTied:'Igualdad exacta',
+          labResultText:'{a} vence con {pa}; {b} vence con {pb}.',labInvalid:'Una secuencia no puede competir consigo misma. Cambia al menos una moneda.',
+          labOptimal:'Mejor respuesta encontrada: {b}, con {p} de probabilidad de ganar.',
+          labClassical:'Moneda justa, secuencias de tres: la segunda persona puede escoger una respuesta favorable.',
+          labGeneral:'Cálculo exacto mediante estados y ecuaciones; no depende de simulaciones.',
+          matrixVs:'Probabilidad de B: {p}. A = {a}; B = {b}. Pulsa para analizar.',
+          ariaMenu:'Abrir menú',ariaTheme:'Cambiar tema',ariaLang:'Cambiar a inglés',ariaSpeed:'Velocidad de animación',
+          labShort:'A',machineShort:'B'
+        },
+        en: {
+          navDiscover:'Discover',navPlay:'Play',navExperiment:'Experiment',navProof:'Understand',navLab:'Laboratory',
+          heroEyebrow:'An experiment in probability',heroLead:'One fair coin. Two sequences. An unexpected advantage.',
+          heroText:'Sometimes two equally likely outcomes do not have the same chance of appearing first. Find out by flipping coins.',
+          heroStart:'Start playing ↗',heroLearn:'Discover the paradox ↓',heroCoinAria:'Interactive coin. Drag to spin, or use arrow keys and Enter.',signature:'November 2026, TCardell',
+          bandText:'The probability of any particular three-toss sequence with a fair coin.',
+          s1Index:'01 / THE IDEA',s1Title:'Chance has <em>patterns that overlap.</em>',s1Lead:'The coin has no memory. But sequences can overlap, and that changes the race.',
+          penneyDefinitionTitle:'Penney’s paradox.',penneyDefinition:'Introduced in 1969 by Walter Penney, it asks which pattern appears first in a series of fair coin tosses. Although two patterns are equally likely at any fixed position, one can have an advantage in appearing before the other.',
+          fixedEyebrow:'PROBABILITY IN THREE TOSSES',fixedTitle:'Each is equally likely.',
+          fixedText:'In any three specific flips of a fair coin, each particular sequence has exactly the same probability.',
+          raceEyebrow:'THE RACE BETWEEN SEQUENCES',raceTitle:'First to appear is different.',
+          raceText:'When we keep flipping until one sequence appears, the probability of winning can be very different.',
+          raceOdds:'THT: 33.3% · TTH: 66.7%',s1Insight:'The paradox does not contradict the 1/8 probability: it asks two different questions. What happens in the next three flips? Or which sequence appears first in an ongoing string of flips?',
+          s2Index:'02 / THE CHALLENGE',s2Title:'Pick your coins. <em>Challenge chance.</em>',s2Lead:'Tap any of your three coins to change it. The computer chooses a sequence with a mathematical advantage.',
+          gameHeading:'Heads or tails: who wins?',gameSubheading:'Each round ends as soon as one of the sequences appears.',gameTag:'FAIR COIN · 50 / 50',
+          you:'You',machine:'Computer',tapChange:'Tap to change',optimalReply:'Strategic response',
+          yourChance:'Your winning chance',machineChance:'Computer winning chance',stepCoin:'+ Flip one coin',playRound:'▶ Play a round',resetGame:'↺ Reset',
+          speedSlow:'Slow',speedNormal:'Normal',speedFast:'Fast',tossHistory:'Flip history',historyEmpty:'Your flips will appear here…',
+          whyGame:'Why does the computer have an advantage? See the proof ↗',
+          s3Index:'03 / THE EXPERIMENT',s3Title:'One round can mislead. <em>Ten thousand, less so.</em>',
+          s3Lead:'Watch a real simulation approach the theoretical probabilities. Each game starts afresh and ends when either pattern appears.',
+          simSetup:'CURRENT SETUP',numberGames:'Number of games',startSim:'▶ Start simulation',stopSim:'Stop',useGamePair:'Use sequences from the game',
+          chartTitle:'The law of large numbers',chartSubtitle:'Percentage of wins by the first sequence',ready:'Ready',
+          observed:'Observed frequency',theoretical:'Exact probability',played:'Games',winsFirst:'Wins A',winsSecond:'Wins B',
+          s4Index:'04 / THE EXPLANATION',s4Title:'Not magic. <em>Overlapping patterns.</em>',
+          s4Lead:'There is a strategy to beat any choice of three outcomes with a fair coin. And we can calculate the odds without flipping a single coin.',
+          step1Title:'Penney’s trick',step1Text:'Take the second symbol of your opponent, invert it, then place it before their first two symbols.',
+          step2Title:'Why prefixes matter',step2Text:'After each flip, we need not remember every previous flip: only the ending that might still complete either sequence.',
+          exactHeading:'EXACT PROBABILITY',mathIntro:'Each state is a useful suffix of the flips. Its probability can be found by solving a small system of equations.',
+          showEquations:'See the states and equations behind the result',stateExplanation:'Each row shows the suffix worth remembering and what happens after heads or tails. A win ends the game; otherwise, keep the longest useful suffix.',
+          state:'State',ifHeads:'If heads',ifTails:'If tails',chanceA:'P(A wins)',
+          s5Index:'05 / OPEN LAB',s5Title:'Change the rules. <em>Find new patterns.</em>',
+          s5Lead:'Compare any two sequences, try four or five symbols, and experiment with a coin that does not land on heads 50% of the time.',
+          lengthLabel:'Sequence length',seqFirst:'Sequence A',seqSecond:'Sequence B',tapCoin:'Tap the coins',headsChance:'Probability of heads',
+          findBest:'Find best response',resetLab:'Reset',labAnalysis:'EXACT ANALYSIS',favoredSeq:'Favored sequence',
+          simulatePair:'Simulate this pair ↗',provePair:'See the proof ↗',matrixEyebrow:'HEAD-TO-HEAD MAP',
+          matrixTitle:'All eight sequences, head to head',
+          matrixIntro:'Fair coin, three symbols. Rows: A. Columns: B. Each cell shows the probability that B wins. Tap a cell to inspect that matchup.',
+          matrixFoot:'Green favors the column sequence; gold favors the row. Diagonal cells are not valid matchups.',
+          labCaveat:'Penney’s quick rule applies to three flips of a fair coin. In other setups, the lab finds the best response by comparing all possible sequences of the same length.',
+          footerText:'A small lab for learning by playing. All calculations and simulations run on your device, without sending data to a server.',backTop:'↑ Back to top',
+          heads:'Heads',tails:'Tails',flipHeads:'Change heads to tails',flipTails:'Change tails to heads',
+          strategyNote:'The computer inverts your middle coin and places it before the first two.',
+          gameReady:'Choose your sequence and flip a coin to get started.',roundNew:'New round. Which sequence will appear first?',
+          gameWinsA:'{a} appeared first! You win this round.',gameWinsB:'{b} appeared first. The computer wins.',
+          gameInProgress:'Flips: {n}. Both sequences are still in the running.',gameTossCount:'{n} flips',
+          gameScore:'Your wins: {a} · Computer: {b}',
+          simIdle:'Choose a sample size, then press “Start simulation”.',simRunning:'Completed {n} of {total} games…',
+          simDone:'Completed {n} games. Results are random and will vary each time.',
+          simStopped:'Simulation stopped at {n} games.',simBias:'P(heads) = {p}%',simInvalid:'Choose two different sequences.',
+          proofFirst:'Flip {middle} to {inverse}, then place {inverse} before {start}.',
+          proofRuleOther:'The quick trick is for three fair-coin flips. The selected matchup is shown here.',
+          proofRuleClassic:'For a fair coin, this transformation gives the response an advantage.',
+          proofRuleVariant:'This rule produces {optimal}; the probabilities below refer to the A–B matchup chosen in the laboratory.',
+          equationsIntro:'These are the equations solved by the app. The start state is ∅, and completing a sequence is represented by 1 (A wins) or 0 (B wins).',
+          suffixExample:'Useful states: {states}. Each state keeps only an ending that could still complete A or B.',
+          proofProbability:'Probability that A wins: {fraction} ({percent}).',
+          proofEq:'For each state s: P(A|s) = p · P(A|heads) + (1−p) · P(A|tails), with 1 if A wins and 0 if B wins.',
+          proofSame:'Choose two different sequences to calculate their race.',
+          initialState:'Start',winA:'A wins',winB:'B wins',
+          seqFavoredA:'A is favored',seqFavoredB:'B is favored',seqTied:'Exactly even',
+          labResultText:'{a} wins with {pa}; {b} wins with {pb}.',labInvalid:'A sequence cannot race against itself. Change at least one coin.',
+          labOptimal:'Best response found: {b}, with a {p} chance of winning.',
+          labClassical:'Fair coin, three symbols: the second player can always choose a favorable response.',
+          labGeneral:'Exact computation using states and equations, not simulations.',
+          matrixVs:'B win probability: {p}. A = {a}; B = {b}. Tap to inspect.',
+          ariaMenu:'Open menu',ariaTheme:'Change theme',ariaLang:'Cambiar a español',ariaSpeed:'Animation speed',
+          labShort:'A',machineShort:'B'
+        }
+      };
+      const readStore = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+      const writeStore = (k,v) => { try { localStorage.setItem(k,v); } catch {} };
+      const detectedSpanish = /^es(?:-|$)/i.test((navigator.languages && navigator.languages[0]) || navigator.language || 'en');
+      let lang = readStore('penney-lang') || (detectedSpanish ? 'es' : 'en');
+      if (!dict[lang]) lang = 'en';
+      let theme = readStore('penney-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const tr = (key, vars = {}) => (dict[lang][key] || key).replace(/\{(\w+)\}/g, (_,x) => String(vars[x] ?? ''));
+      const seqLabel = (s) => String(s).split('').map(c => lang === 'es' ? c : (c === 'C' ? 'H' : 'T')).join('');
+      const coinName = (s) => tr(s === 'C' ? 'heads' : 'tails');
+      const pct = (n, dec = 1) => (100*n).toLocaleString(lang === 'es' ? 'es-ES' : 'en-US', {minimumFractionDigits: dec,maximumFractionDigits:dec}) + (lang === 'es' ? ' %' : '%');
+      const num = (n) => Number(n).toLocaleString(lang === 'es' ? 'es-ES' : 'en-US');
+      const opp = (c) => c === 'C' ? 'X' : 'C';
+      const allPatterns = (n) => { let a = ['']; for(let i=0;i<n;i++) a=a.flatMap(s=>[s+'C',s+'X']); return a; };
+      const optimalPenney = a => opp(a[1]) + a.slice(0,2);
+      const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
+
+      /* Motor: autómata de sufijos + sistema lineal. Funciona para longitudes 3..5 y 0<p<1.
+         A y B no pueden coincidir. Una fila i representa q_i = p q_C + (1-p) q_X. */
+      function makeAutomaton(a,b) {
+        if(a === b || a.length !== b.length) return null;
+        const prefix = new Set(['']);
+        for(const word of [a,b]) for(let i=1;i<word.length;i++) prefix.add(word.slice(0,i));
+        const states = [...prefix].sort((x,y)=>x.length-y.length || x.localeCompare(y));
+        const next = (s,c) => {
+          const full=s+c;
+          if(full.endsWith(a)) return '@A';
+          if(full.endsWith(b)) return '@B';
+          for(let i=full.length;i>=0;i--) { const suffix=full.slice(full.length-i); if(prefix.has(suffix)) return suffix; }
+          return '';
+        };
+        return {states,next};
+      }
+      function solveSystem(A, rhs) {
+        const n=A.length, mat=A.map((row,i)=>[...row,rhs[i]]);
+        for(let col=0;col<n;col++) {
+          let pivot=col;
+          for(let r=col+1;r<n;r++) if(Math.abs(mat[r][col]) > Math.abs(mat[pivot][col])) pivot=r;
+          if(Math.abs(mat[pivot][col]) < 1e-12) throw new Error('Singular probability system');
+          [mat[col],mat[pivot]]=[mat[pivot],mat[col]];
+          const factor=mat[col][col]; for(let j=col;j<=n;j++) mat[col][j]/=factor;
+          for(let r=0;r<n;r++) { if(r===col) continue; const m=mat[r][col];
+            for(let j=col;j<=n;j++) mat[r][j]-=m*mat[col][j]; }
+        }
+        return mat.map(row=>clamp(row[n],0,1));
+      }
+      function analyze(a,b,p=.5) {
+        const machine=makeAutomaton(a,b); if(!machine) return null;
+        const {states,next}=machine, index=new Map(states.map((s,i)=>[s,i]));
+        const matrix=states.map((_,i)=>states.map((_,j)=>i===j?1:0));
+        const rhs=states.map(()=>0);
+        states.forEach((s,i) => {
+          for(const [c,weight] of [['C',p],['X',1-p]]) {
+            const target=next(s,c);
+            if(target==='@A') rhs[i]+=weight;
+            else if(target!=='@B') matrix[i][index.get(target)]-=weight;
+          }
+        });
+        const q=solveSystem(matrix,rhs);
+        return {a,b,p,states,next,qs:states.map((s,i)=>({state:s,prob:q[i]})),probA:q[index.get('')],probB:1-q[index.get('')]};
+      }
+      function findBest(a,p=.5) {
+        let best=null;
+        for(const b of allPatterns(a.length)) {
+          if(b===a) continue;
+          const r=analyze(a,b,p);
+          if(!best || r.probB>best.result.probB+1e-10) best={b,result:r};
+        }
+        return best;
+      }
+      function rational(x, limit=512) {
+        for(let d=1;d<=limit;d++) { const n=Math.round(x*d); if(Math.abs(x-n/d)<1e-9) {
+          const gcd=(a,b)=>b?gcd(b,a%b):a; const g=gcd(n,d); return `${n/g}/${d/g}`;
+        }}
+        return x.toFixed(5);
+      }
+      function flip() { return Math.random()<.5?'C':'X'; }
+      function coinSVG(c) { return `<svg viewBox="0 0 1254 1254" aria-hidden="true"><use href="#coin-face-${c.toLowerCase()}" width="1254" height="1254"></use></svg>`; }
+      function coinButton(c, editable, i, target) {
+        const desc=editable ? tr(c==='C'?'flipHeads':'flipTails') : coinName(c);
+        return `<button type="button" class="coin-pick${editable?'':' is-readonly'}" data-coin-index="${i}" data-target="${target}" ${editable?'':'disabled'} title="${desc}" aria-label="${desc}">${coinSVG(c)}<span class="coin-letter">${seqLabel(c)}</span></button>`;
+      }
+      function safeText(el, s) { el.textContent=s; }
+      function updateStaticTranslations() {
+        document.documentElement.lang=lang;
+        document.documentElement.dataset.theme=theme;
+        document.title=lang==='es'?'Penney Lab · El azar tiene una estructura':'Penney Lab · Chance has a structure';
+        $$('[data-i18n]').forEach(el=>{const key=el.dataset.i18n; if(['s1Title','s2Title','s3Title','s4Title','s5Title'].includes(key)) el.innerHTML=tr(key); else el.textContent=tr(key);});
+        $('#lang-toggle').textContent=lang==='es'?'EN':'ES';
+        $('#lang-toggle').setAttribute('aria-label',tr('ariaLang'));
+        $('#theme-toggle').setAttribute('aria-label',tr('ariaTheme'));
+        $('#mobile-menu-toggle').setAttribute('aria-label',tr('ariaMenu'));
+        $('#game-speed').setAttribute('aria-label',tr('ariaSpeed'));
+        $('.hero-art-foot').textContent=lang==='es'?'CARA · CRUZ · AZAR':'HEADS · TAILS · CHANCE';
+        $('#hero-coin').setAttribute('aria-label',tr('heroCoinAria'));
+        $('#eight-sequences').innerHTML=allPatterns(3).map(s=>`<span class="sequence-chip">${seqLabel(s)}</span>`).join('');
+        $('#intro-a').textContent=seqLabel('XCX'); $('#intro-b').textContent=seqLabel('XXC');
+      }
+      $('#lang-toggle').addEventListener('click',()=>{lang=lang==='es'?'en':'es';writeStore('penney-lang',lang);renderAll(true);});
+      $('#theme-toggle').addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';writeStore('penney-theme',theme);document.documentElement.dataset.theme=theme;});
+      $('#mobile-menu-toggle').addEventListener('click',()=>{const nav=$('#main-nav');const show=!nav.classList.contains('open');nav.classList.toggle('open',show);$('#mobile-menu-toggle').setAttribute('aria-expanded',String(show));});
+      $$('#main-nav a').forEach(a=>a.addEventListener('click',()=>{$('#main-nav').classList.remove('open');$('#mobile-menu-toggle').setAttribute('aria-expanded','false');}));
+
+      /* Moneda de portada: canto estriado generado sin modificar las caras SVG.
+         Arrastre con inercia y giro automático, que se reanuda tras 3,5 s de reposo. */
+      (() => {
+        const el=$('#hero-coin');
+        const edge=$('#hero-coin-edge');
+        const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+        let angleX=-8, angleY=-18, velX=0, velY=0;
+        let grabbed=false, pointerId=null, lastX=0, lastY=0, lastMove=0;
+        let frame=0, prevFrame=0, visible=true, auto=false, idleTimer=null;
+        const paint=()=>{el.style.transform=`rotateX(${angleX}deg) rotateY(${angleY}deg) rotateZ(-7deg)`;};
+        const cancelFrame=()=>{if(frame)cancelAnimationFrame(frame);frame=0;prevFrame=0;};
+        const schedule=()=>{if(!frame && !document.hidden && visible && !reduced.matches)frame=requestAnimationFrame(animate);};
+        function makeRim() {
+          const size=el.clientWidth;
+          if(!size)return;
+          const depth=size*.0475, radius=size*(598/1254);
+          const facets=128, angleStep=2*Math.PI/facets;
+          el.style.setProperty('--coin-half-depth',`${(depth/2).toFixed(2)}px`);
+          const width=(2*Math.PI*radius/facets)*1.13;
+          const pieces=[];
+          for(let i=0;i<facets;i++){
+            const angle=i*angleStep;
+            const x=radius*Math.cos(angle),y=radius*Math.sin(angle);
+            const degrees=angle*180/Math.PI+90;
+            const light=(Math.cos(angle-Math.PI/4)+1)*.5;
+            // Pequeñas variaciones tonales simulan las estrías del canto.
+            const brightness=(.82+light*.30+(i%2===0?.08:-.035)).toFixed(3);
+            pieces.push(`<span class="hero-coin-edge-facet" style="width:${width.toFixed(2)}px;height:${depth.toFixed(2)}px;filter:brightness(${brightness});transform:translate(-50%, -50%) translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) rotateZ(${degrees.toFixed(3)}deg) rotateX(90deg)"></span>`);
+          }
+          edge.innerHTML=pieces.join('');
+        }
+        if('ResizeObserver' in window)new ResizeObserver(makeRim).observe(el);
+        else window.addEventListener('resize',makeRim);
+        makeRim();
+        function stopIdle() { if(idleTimer!==null)clearTimeout(idleTimer);idleTimer=null;auto=false; }
+        function startIdleCountdown() {
+          stopIdle();
+          if(reduced.matches)return;
+          idleTimer=window.setTimeout(()=>{
+            idleTimer=null;
+            if(!grabbed && !reduced.matches){auto=true;prevFrame=0;schedule();}
+          },3500);
+        }
+        function animate(now) {
+          frame=0;
+          const delta=prevFrame?Math.min((now-prevFrame)/16.667,3):1;
+          prevFrame=now;
+          if(!grabbed) {
+            if(Math.abs(velX)+Math.abs(velY)>.01){
+              angleX+=velX*delta;angleY+=velY*delta;
+              const friction=Math.pow(.947,delta);
+              velX*=friction;velY*=friction;
+              if(Math.abs(velX)<.012)velX=0;
+              if(Math.abs(velY)<.012)velY=0;
+            } else if(auto) angleY+=.20*delta;
+            paint();
+          }
+          if(auto || Math.abs(velX)+Math.abs(velY)>.02)schedule();
+          else prevFrame=0;
+        }
+        el.addEventListener('pointerdown',ev=>{
+          if(ev.pointerType==='mouse'&&ev.button!==0)return;
+          ev.preventDefault();
+          stopIdle();grabbed=true;pointerId=ev.pointerId;
+          velX=0;velY=0;cancelFrame();
+          lastX=ev.clientX;lastY=ev.clientY;lastMove=performance.now();
+          el.classList.add('dragging');el.setPointerCapture(ev.pointerId);
+        });
+        el.addEventListener('pointermove',ev=>{
+          if(!grabbed||ev.pointerId!==pointerId)return;
+          const dx=ev.clientX-lastX,dy=ev.clientY-lastY;
+          const now=performance.now(),elapsed=Math.max(8,now-lastMove);
+          const changeY=dx*.70,changeX=-dy*.55;
+          angleX+=changeX;angleY+=changeY;
+          const instantaneousX=Math.max(-19,Math.min(19,changeX*16.667/elapsed));
+          const instantaneousY=Math.max(-19,Math.min(19,changeY*16.667/elapsed));
+          velX=velX*.35+instantaneousX*.65;
+          velY=velY*.35+instantaneousY*.65;
+          lastX=ev.clientX;lastY=ev.clientY;lastMove=now;
+          paint();
+        });
+        function release(ev,cancel=false) {
+          if(!grabbed||ev.pointerId!==pointerId)return;
+          grabbed=false;pointerId=null;el.classList.remove('dragging');
+          if(cancel||performance.now()-lastMove>110||reduced.matches){velX=0;velY=0;}
+          if(el.hasPointerCapture(ev.pointerId))el.releasePointerCapture(ev.pointerId);
+          prevFrame=0;
+          if(Math.abs(velX)+Math.abs(velY)>.02)schedule();
+          startIdleCountdown();
+        }
+        el.addEventListener('pointerup',ev=>release(ev));
+        el.addEventListener('pointercancel',ev=>release(ev,true));
+        el.addEventListener('lostpointercapture',ev=>release(ev,true));
+        el.addEventListener('keydown',ev=>{
+          const keys=['Enter',' ','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'];
+          if(!keys.includes(ev.key))return;
+          ev.preventDefault();stopIdle();cancelFrame();
+          if(reduced.matches){
+            if(ev.key==='ArrowUp')angleX-=25;
+            else if(ev.key==='ArrowDown')angleX+=25;
+            else angleY+=(ev.key==='ArrowLeft'?-180:180);
+            paint();
+          }else{
+            velX=ev.key==='ArrowUp'?-4:ev.key==='ArrowDown'?4:0;
+            velY=ev.key==='ArrowLeft'?-9:ev.key==='ArrowRight'?9:ev.key==='Enter'||ev.key===' '?9:0;
+            prevFrame=0;schedule();
+          }
+          startIdleCountdown();
+        });
+        document.addEventListener('visibilitychange',()=>{
+          if(document.hidden)cancelFrame();
+          else {prevFrame=0;if(auto||velX||velY)schedule();}
+        });
+        if('IntersectionObserver' in window){
+          const observer=new IntersectionObserver(entries=>{
+            visible=entries[0].isIntersecting;
+            if(!visible)cancelFrame();
+            else{prevFrame=0;if(auto||velX||velY)schedule();}
+          },{threshold:0});
+          observer.observe(el);
+        }
+        if(reduced.addEventListener)reduced.addEventListener('change',()=>{
+          if(reduced.matches){stopIdle();velX=velY=0;cancelFrame();}
+          else if(!grabbed)startIdleCountdown();
+        });
+        paint();
+        startIdleCountdown();
+      })();
+
+      /* Juego guiado: moneda justa, una elección del usuario y respuesta de Penney. */
+      const game={a:'XCX',b:optimalPenney('XCX'),history:[],winner:null,winsA:0,winsB:0,working:false,run:0};
+      let experiment={a:game.a,b:game.b,p:.5};
+      const tailLen = (history, seq) => {
+        for(let n=Math.min(seq.length,history.length);n>0;n--) if(history.slice(-n).join('')===seq.slice(0,n)) return n;
+        return 0;
+      };
+      function gameReset(hard=false) {
+        game.run++;game.working=false;game.history=[];game.winner=null;
+        if(hard){game.winsA=0;game.winsB=0;}
+        renderGame();
+      }
+      function renderGame() {
+        $('#game-player-coins').innerHTML=[...game.a].map((c,i)=>coinButton(c,true,i,'game')).join('');
+        $('#game-machine-coins').innerHTML=[...game.b].map((c,i)=>coinButton(c,false,i,'machine')).join('');
+        const result=analyze(game.a,game.b,.5);
+        $('#game-prob-a').textContent=pct(result.probA);
+        $('#game-prob-b').textContent=pct(result.probB);
+        $('#game-bar-a').style.width=(100*result.probA)+'%';
+        $('#game-prob-bar').setAttribute('aria-label',`${seqLabel(game.a)}: ${pct(result.probA)}; ${seqLabel(game.b)}: ${pct(result.probB)}`);
+        $('#game-strategy-note').textContent=tr('strategyNote');
+        $('#game-score').textContent=tr('gameScore',{a:num(game.winsA),b:num(game.winsB)});
+        const history=$('#game-history');
+        if(!game.history.length) history.innerHTML=`<span class="history-empty">${tr('historyEmpty')}</span>`;
+        else { const recent=game.history.slice(-30);
+          history.innerHTML=recent.map((c,i)=>{
+            const idx=game.history.length-recent.length+i;
+            const hit=game.winner && idx>=game.history.length-game.a.length;
+            return `<span class="history-mark${hit?' hit-'+game.winner.toLowerCase():''}" title="${coinName(c)}" aria-label="${coinName(c)}">${seqLabel(c)}</span>`;
+          }).join('');history.scrollLeft=history.scrollWidth;
+        }
+        const ha=tailLen(game.history,game.a), hb=tailLen(game.history,game.b);
+        const trace=(s,match,cls)=>`<span class="trace"><span>${seqLabel(s)}</span><span class="trace-dots">${[...s].map((_,i)=>`<i class="${i<match?'on-'+cls:''}"></i>`).join('')}</span></span>`;
+        $('#game-traces').innerHTML=trace(game.a,ha,'a')+trace(game.b,hb,'b');
+        const msg=game.winner=== 'A' ? tr('gameWinsA',{a:seqLabel(game.a)}) : game.winner === 'B' ? tr('gameWinsB',{b:seqLabel(game.b)}) : game.history.length ? tr('gameInProgress',{n:num(game.history.length)}):tr('gameReady');
+        $('#game-message').textContent=msg;
+        $('#game-message').className='stage-message '+(game.winner==='A'?'status-good':game.winner==='B'?'status-error':'');
+        $('#game-step').disabled=game.working;
+        $('#game-auto').disabled=game.working;
+        $('#game-auto').textContent=tr('playRound');
+      }
+      function gameToss() {
+        if(game.winner) {game.history=[];game.winner=null;}
+        game.history.push(flip());
+        const text=game.history.join('');
+        if(text.endsWith(game.a)){game.winner='A';game.winsA++;}
+        else if(text.endsWith(game.b)){game.winner='B';game.winsB++;}
+        renderGame();
+        return game.winner;
+      }
+      $('#game-player-coins').addEventListener('click',(ev)=>{
+        const btn=ev.target.closest('button[data-coin-index]');if(!btn || game.working)return;
+        const i=Number(btn.dataset.coinIndex);game.a=game.a.slice(0,i)+opp(game.a[i])+game.a.slice(i+1);
+        game.b=optimalPenney(game.a); gameReset(true);setExperiment({a:game.a,b:game.b,p:.5});
+        const changed=$(`#game-player-coins button[data-coin-index="${i}"]`);if(changed) changed.classList.add('is-flipped');
+      });
+      $('#game-step').addEventListener('click',()=>{if(!game.working)gameToss();});
+      $('#game-auto').addEventListener('click',async()=>{
+        if(game.working)return;gameReset(false);game.working=true; const id=++game.run;
+        renderGame();let steps=0;
+        while(!game.winner && id===game.run && steps<50000) {
+          gameToss();steps++;
+          if(!game.winner){const delay=steps<45?Number($('#game-speed').value):10;await new Promise(resolve=>setTimeout(resolve,delay));}
+        }
+        if(id===game.run){game.working=false;renderGame();}
+      });
+      $('#game-reset').addEventListener('click',()=>gameReset(true));
+      $('#explain-game').addEventListener('click',()=>{
+        lab.a=game.a;lab.b=game.b;lab.p=.5;lab.length=3;
+        $('#lab-length').value='3';$('#lab-bias').value='50';renderLab();renderProof();
+      });
+
+      /* Simulación Monte Carlo por fragmentos de ~9ms, para no bloquear el scroll ni los controles. */
+      let simCount=10000, simRun=0, simRunning=false, simData={n:0,a:0,b:0,points:[]};
+      function setExperiment(config) {stopSimulation(false);experiment={...config};resetSimDisplay();}
+      function simulateOne(a,b,p) {
+        const la=a.length, lb=b.length, maxL=Math.max(la,lb);
+        let suffix='';
+        for(;;){suffix+=(Math.random()<p?'C':'X');
+          if(suffix.endsWith(a))return'A'; if(suffix.endsWith(b))return'B';
+          if(suffix.length>=maxL) suffix=suffix.slice(-(maxL-1));
+        }
+      }
+      function drawChart() {
+        const info=analyze(experiment.a,experiment.b,experiment.p);
+        const compact=matchMedia('(max-width: 600px)').matches;
+        $('#convergence-chart').setAttribute('viewBox',compact?'0 0 360 258':'0 0 760 310');
+        const x0=compact?48:57,x1=compact?345:735,y0=compact?16:21,y1=compact?215:273;
+        const xy=(x,y)=>[x0+(x1-x0)*x,y1-(y1-y0)*y];
+        $('#chart-grid').innerHTML=[0,.25,.5,.75,1].map(n=>{const y=xy(0,n)[1];return `<path d="M${x0} ${y}H${x1}" class="gridline"/><text class="axis-label" x="${x0-12}" y="${y+5}" text-anchor="end">${Math.round(n*100)}%</text>`;}).join('')+
+          `<text class="axis-label" x="${x0}" y="${compact?251:302}" text-anchor="middle">0</text><text class="axis-label" x="${x1}" y="${compact?251:302}" text-anchor="end">${simData.n?num(simData.n):num(simCount)}</text>`;
+        const y=xy(0,info?info.probA:.5)[1];$('#chart-theory').setAttribute('d',`M${x0} ${y}H${x1}`);
+        const points=simData.points;
+        const actual=points.map(pt=>{const [x,yy]=xy(pt.n/(simData.n||1),pt.a/pt.n);return `${x.toFixed(2)},${yy.toFixed(2)}`;});
+        $('#chart-observed').setAttribute('d',actual.length?'M'+actual.join(' L'):'');
+        $('#convergence-chart').setAttribute('aria-label',`${tr('observed')}: ${simData.n?pct(simData.a/simData.n):'—'}; ${tr('theoretical')}: ${info?pct(info.probA):'—'}`);
+      }
+      function renderSimStats() {
+        $('#sim-played').textContent=num(simData.n);$('#sim-a').textContent=num(simData.a);$('#sim-b').textContent=num(simData.b);
+        $('#sim-progress-bar').style.width=clamp(100*simData.n/simCount,0,100)+'%';
+        drawChart();
+      }
+      function resetSimDisplay() {
+        simData={n:0,a:0,b:0,points:[]};
+        $('#sim-pair').innerHTML=`<strong>${seqLabel(experiment.a)}</strong><span class="vs">vs.</span><strong>${seqLabel(experiment.b)}</strong>`;
+        $('#sim-bias-note').textContent=tr('simBias',{p:Math.round(experiment.p*100)});
+        $('#sim-status').textContent=tr('simIdle');
+        $('#sim-start').disabled=experiment.a===experiment.b;
+        $('#sim-stop').disabled=true;
+        $('#live-badge').classList.remove('running');
+        $('#live-badge span').textContent=tr('ready');renderSimStats();
+        $$('#sim-presets button').forEach(el=>{el.setAttribute('aria-pressed',String(Number(el.dataset.count)===simCount));el.textContent=num(Number(el.dataset.count));});
+      }
+      function stopSimulation(showMessage=true) {
+        if(!simRunning)return;
+        simRun++;simRunning=false;
+        $('#sim-start').disabled=false;$('#sim-stop').disabled=true;
+        $('#live-badge').classList.remove('running');
+        if(showMessage)$('#sim-status').textContent=tr('simStopped',{n:num(simData.n)});
+      }
+      $('#sim-presets').addEventListener('click',ev=>{const btn=ev.target.closest('button[data-count]');if(!btn)return;stopSimulation();simCount=Number(btn.dataset.count);resetSimDisplay();});
+      $('#sim-stop').addEventListener('click',()=>stopSimulation());
+      $('#sim-start').addEventListener('click',()=>{
+        if(simRunning || experiment.a===experiment.b)return;
+        resetSimDisplay();simRunning=true;const myRun=++simRun;
+        $('#sim-start').disabled=true;$('#sim-stop').disabled=false;$('#live-badge').classList.add('running');
+        $('#live-badge span').textContent=tr('simRunning',{n:0,total:num(simCount)});
+        const sampleStep=Math.max(1,Math.floor(simCount/180));
+        const tick=()=>{
+          if(myRun!==simRun)return;
+          const start=performance.now();
+          do {
+            const winner=simulateOne(experiment.a,experiment.b,experiment.p);
+            simData.n++; if(winner==='A')simData.a++;else simData.b++;
+            if(simData.n===1 || simData.n%sampleStep===0 || simData.n===simCount)simData.points.push({n:simData.n,a:simData.a});
+          } while(simData.n<simCount && performance.now()-start<9);
+          renderSimStats();
+          $('#sim-status').textContent=tr('simRunning',{n:num(simData.n),total:num(simCount)});
+          if(simData.n<simCount)requestAnimationFrame(tick);
+          else {simRunning=false;$('#sim-start').disabled=false;$('#sim-stop').disabled=true;
+            $('#live-badge').classList.remove('running');$('#live-badge span').textContent=tr('simDone',{n:num(simData.n)});
+            $('#sim-status').textContent=tr('simDone',{n:num(simData.n)});
+          }
+        };
+        requestAnimationFrame(tick);
+      });
+      $('#sim-use-game').addEventListener('click',()=>setExperiment({a:game.a,b:game.b,p:.5}));
+
+      /* Laboratorio: longitud 3–5, moneda con sesgo, y búsqueda exhaustiva de mejor respuesta. */
+      const lab={a:'XCX',b:'XXC',p:.5,length:3};
+      function labChange(target,index) {
+        lab[target]=lab[target].slice(0,index)+opp(lab[target][index])+lab[target].slice(index+1);
+        renderLab();renderProof();
+      }
+      function renderLab() {
+        $('#lab-length').value=String(lab.length);$('#lab-bias').value=String(Math.round(lab.p*100));
+        $('#lab-bias-value').textContent=pct(lab.p,0);
+        $('#lab-pattern-a').innerHTML=[...lab.a].map((c,i)=>coinButton(c,true,i,'a')).join('');
+        $('#lab-pattern-b').innerHTML=[...lab.b].map((c,i)=>coinButton(c,true,i,'b')).join('');
+        const result=analyze(lab.a,lab.b,lab.p);const invalid=!result;
+        $('#lab-to-sim').disabled=invalid;$('#lab-to-proof').disabled=invalid;
+        $('#lab-prob-a').textContent=result?pct(result.probA):'—';$('#lab-prob-b').textContent=result?pct(result.probB):'—';
+        $('#lab-bar-a').style.width=result?(100*result.probA)+'%':'50%';
+        $('#lab-results').innerHTML=invalid ? `<span class="lab-result-kicker">${tr('favoredSeq')}</span><div class="lab-result-big">—</div><p>${tr('labInvalid')}</p>`:
+          `<span class="lab-result-kicker">${tr('favoredSeq')}</span><div class="lab-result-big">${result.probA>result.probB+1e-9?seqLabel(lab.a):result.probB>result.probA+1e-9?seqLabel(lab.b):tr('seqTied')}</div><p>${tr('labResultText',{a:seqLabel(lab.a),pa:pct(result.probA),b:seqLabel(lab.b),pb:pct(result.probB)})}</p>`;
+        $('#lab-note').textContent=invalid?tr('labInvalid'):lab.length===3 && lab.p===.5?tr('labClassical'):tr('labGeneral');
+        renderMatrix();
+      }
+      for(const target of ['a','b'])$('#lab-pattern-'+target).addEventListener('click',ev=>{
+        const btn=ev.target.closest('button[data-coin-index]');if(btn)labChange(target,Number(btn.dataset.coinIndex));
+      });
+      $('#lab-length').addEventListener('change',ev=>{
+        const len=Number(ev.target.value);lab.length=len;
+        lab.a=(lab.a+'CX'.repeat(len)).slice(0,len);lab.b=(lab.b+'XC'.repeat(len)).slice(0,len);
+        if(lab.a===lab.b)lab.b=lab.b.slice(0,-1)+opp(lab.b.slice(-1));
+        renderLab();renderProof();
+      });
+      $('#lab-bias').addEventListener('input',ev=>{lab.p=Number(ev.target.value)/100;renderLab();renderProof();});
+      $('#lab-reset').addEventListener('click',()=>{Object.assign(lab,{a:'XCX',b:'XXC',p:.5,length:3});renderLab();renderProof();});
+      $('#lab-best').addEventListener('click',()=>{
+        const best=lab.length===3 && lab.p===.5 ? {b:optimalPenney(lab.a),result:analyze(lab.a,optimalPenney(lab.a),lab.p)} : findBest(lab.a,lab.p);
+        lab.b=best.b;renderLab();renderProof();
+        $('#lab-note').textContent=tr('labOptimal',{b:seqLabel(best.b),p:pct(best.result.probB)});
+      });
+      $('#lab-to-sim').addEventListener('click',()=>{if(lab.a===lab.b)return;setExperiment({a:lab.a,b:lab.b,p:lab.p});$('#experimentar').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
+      $('#lab-to-proof').addEventListener('click',()=>{if(lab.a===lab.b)return;renderProof();$('#demostrar').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});});
+      function renderMatrix() {
+        const patterns=allPatterns(3), head=$('#matrix thead'), body=$('#matrix tbody');
+        head.innerHTML='<tr><th scope="col">A / B</th>'+patterns.map(b=>`<th scope="col">${seqLabel(b)}</th>`).join('')+'</tr>';
+        body.innerHTML=patterns.map(a=>'<tr><th scope="row">'+seqLabel(a)+'</th>'+patterns.map(b=>{
+          if(a===b)return'<td class="matrix-null">—</td>';
+          const v=analyze(a,b,.5).probB;const favoredB=v>.50000001;
+          const selected=lab.length===3&&lab.p===.5&&lab.a===a&&lab.b===b;
+          const color=favoredB?`rgba(42,137,117,${.12+Math.abs(v-.5)*.66})`:`rgba(189,141,72,${.12+Math.abs(v-.5)*.66})`;
+          return `<td><button class="matrix-cell ${selected?'selected':''}" type="button" data-a="${a}" data-b="${b}" aria-label="${tr('matrixVs',{a:seqLabel(a),b:seqLabel(b),p:pct(v)})}" title="${seqLabel(a)} vs ${seqLabel(b)}" style="background:${color}">${pct(v,0)}</button></td>`;
+        }).join('')+'</tr>').join('');
+      }
+      $('#matrix').addEventListener('click',ev=>{
+        const cell=ev.target.closest('button[data-a][data-b]');if(!cell)return;
+        Object.assign(lab,{a:cell.dataset.a,b:cell.dataset.b,p:.5,length:3});
+        renderLab();renderProof();$('#laboratorio').scrollIntoView({behavior:'smooth'});
+      });
+
+      /* Demostración: para cualquier pareja, enseñamos sus estados y soluciones exactas. */
+      function renderProof() {
+        const result=analyze(lab.a,lab.b,lab.p);
+        $('#demo-pair-heading').textContent=`${seqLabel(lab.a)}  vs.  ${seqLabel(lab.b)}`;
+        if(!result){$('#demo-formula').textContent=tr('proofSame');$('#state-rows').innerHTML='';$('#state-equations').innerHTML='';$('#demo-transform').innerHTML='';$('#demo-rule-caption').textContent='';$('#demo-prefix-example').textContent='';return;}
+        const classical=lab.length===3 && lab.p===.5;
+        const proposed=optimalPenney(lab.a);const illustrated=classical?proposed:lab.b;
+        const tiles=(str,highlight) => `<span class="formula-seq">${[...str].map((c,i)=>`<span class="letter-tile ${i===highlight?'feature':''}">${seqLabel(c)}</span>`).join('')}</span>`;
+        $('#demo-transform').innerHTML=classical?tiles(lab.a,1)+`<span class="formula-arrow">→</span>`+tiles(illustrated,0):tiles(lab.a,-1)+`<span class="formula-arrow">↔</span>`+tiles(lab.b,-1);
+        $('#demo-rule-caption').textContent=classical?
+          tr('proofFirst',{middle:seqLabel(lab.a[1]),inverse:seqLabel(opp(lab.a[1])),start:seqLabel(lab.a.slice(0,2))})+' '+tr('proofRuleClassic')+
+          (lab.b!==proposed?' '+tr('proofRuleVariant',{optimal:seqLabel(proposed)}):'')
+          :tr('proofRuleOther');
+        const states=result.states.map(s=>s?seqLabel(s):'∅').join(' · ');
+        $('#demo-prefix-example').textContent=tr('suffixExample',{states});
+        const fraction=(lab.p===.5)?rational(result.probA):result.probA.toFixed(5);
+        $('#demo-formula').innerHTML=`P(${seqLabel(lab.a)} ≺ ${seqLabel(lab.b)}) = ${fraction}<small>${tr('proofProbability',{fraction,percent:pct(result.probA,2)})}</small>`;
+        $('#demo-equation-note').textContent=tr('proofEq');
+        const nextStr=s=>s==='@A'?tr('winA'):s==='@B'?tr('winB'):s?seqLabel(s):tr('initialState');
+        $('#state-rows').innerHTML=result.qs.map(s=>`<tr><td>${s.state?seqLabel(s.state):tr('initialState')}</td><td>${nextStr(result.next(s.state,'C'))}</td><td>${nextStr(result.next(s.state,'X'))}</td><td><strong>${pct(s.prob,2)}</strong></td></tr>`).join('');
+        const qname=s=>s==='@A'?'1':s==='@B'?'0':`q(${s?seqLabel(s):'∅'})`;
+        const coefficient=x=>x.toLocaleString(lang==='es'?'es-ES':'en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+        $('#state-equations').innerHTML=result.qs.map(s=>{
+          const eq=`q(${s.state?seqLabel(s.state):'∅'}) = ${coefficient(lab.p)} · ${qname(result.next(s.state,'C'))} + ${coefficient(1-lab.p)} · ${qname(result.next(s.state,'X'))}`;
+          return `<div class="equation-row">${eq}</div>`;
+        }).join('');
+      }
+      function renderAll(preserveSimulation=false) {
+        updateStaticTranslations();renderGame();renderLab();renderProof();
+        if(!preserveSimulation) {resetSimDisplay();return;}
+        $('#sim-pair').innerHTML=`<strong>${seqLabel(experiment.a)}</strong><span class="vs">vs.</span><strong>${seqLabel(experiment.b)}</strong>`;
+        $('#sim-bias-note').textContent=tr('simBias',{p:Math.round(experiment.p*100)});
+        $$('#sim-presets button').forEach(el=>{el.textContent=num(Number(el.dataset.count));el.setAttribute('aria-pressed',String(Number(el.dataset.count)===simCount));});
+        $('#sim-status').textContent=simRunning?tr('simRunning',{n:num(simData.n),total:num(simCount)}):
+          simData.n?tr(simData.n===simCount?'simDone':'simStopped',{n:num(simData.n)}):tr('simIdle');
+        $('#sim-start').disabled=simRunning || experiment.a===experiment.b;
+        $('#sim-stop').disabled=!simRunning;
+        $('#live-badge').classList.toggle('running',simRunning);
+        $('#live-badge span').textContent=tr('ready');
+        renderSimStats();
+      }
+      renderAll();
+      addEventListener('resize',drawChart,{passive:true});
+      if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}, {threshold:.07,rootMargin:'0px 0px -25px 0px'});
+        $$('.reveal').forEach(el=>observer.observe(el));
+      } else $$('.reveal').forEach(el=>el.classList.add('visible'));
+    })();
+  </script>
+</body>
+</html>
