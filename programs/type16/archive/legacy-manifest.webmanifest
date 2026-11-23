@@ -1,0 +1,18 @@
+{
+  "name": "TYPE/16 — Archivo histórico",
+  "short_name": "TYPE/16 Legacy",
+  "description": "Versiones históricas; la versión actual está en la raíz",
+  "start_url": "../",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#171c27",
+  "theme_color": "#171c27",
+  "icons": [
+    {
+      "src": "../assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

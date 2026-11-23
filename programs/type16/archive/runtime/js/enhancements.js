@@ -218,7 +218,9 @@ const PORTRAIT_COPY={
 };
 function renderProfileContext({report,session,plan,lang,esc}){
  const w=PORTRAIT_COPY[lang],items=plan.questions.filter(q=>session.seen.includes(q.id));
- const observed=analyzeAnswers(session,items),code=codeAt(session.answers,items);
+ const observed=analyzeAnswers(session,items);
+ const provisionalCode=codeAt(session.answers,items);
+ const code=report.checkpoint===32&&report.sourceFull?report.sourceType:(report.checkpoint>32&&report.combinedCode?report.combinedCode:provisionalCode);
  const copy=code.includes('?')?null:TYPE_COPY[code]?.[lang];
  const stage=report.checkpoint;
  const isPreliminary=stage<32||!report.sourceFull;
@@ -233,13 +235,12 @@ function renderProfileContext({report,session,plan,lang,esc}){
   const variation=low>0&&high>0?w.twoSided:(!meaningful?w.missing:Math.abs(sum)/(2*rows.length)<.25?w.soft:'');
   return '<article class="portrait-dimension"><div class="portrait-axis-top"><span>'+esc(axis.replace('IE','I · E').replace('SN','S · N').replace('FT','F · T').replace('JP','J · P'))+'</span><small>'+rows.length+' / '+(stage<=32?'8':'16')+'</small></div><h4>'+esc(ax.name)+'</h4><p class="portrait-axis-legend">'+esc(ax.legend)+'</p><h5>'+esc(leaning?leaning[0]:(lang==='es'?'Preferencia abierta':'Open preference'))+'</h5><p>'+esc(leaning?leaning[1]:ax.open)+'</p>'+(variation?'<p class="portrait-nuance">'+esc(variation)+'</p>':'')+'</article>';
  }).join('');
- return '<section class="depth-section portrait-context" aria-label="'+esc(w.headline)+'"><div class="portrait-kicker">✧ · TYPE / XVI</div><h3>'+esc(w.headline)+'</h3><p class="portrait-context-lead">'+esc(w.intro)+'</p>'+codeMarkup+'<h3 class="portrait-dim-title">'+esc(w.overview)+'</h3><div class="portrait-dimension-grid">'+section+'</div><p class="portrait-reflection">'+esc(w.reflect)+'</p></section>';
+ return '<section class="depth-section portrait-context" aria-label="'+esc(w.headline)+'"><div class="portrait-kicker">✧ · TYPE / XVI</div><h3>'+esc(w.headline)+'</h3><p class="portrait-context-lead">'+esc(w.intro)+'</p>'+codeMarkup+'<details class="beta-portrait-accordion"><summary>'+esc(w.overview)+'<span aria-hidden="true">＋</span></summary><div class="portrait-dimension-grid">'+section+'</div></details><p class="portrait-reflection">'+esc(w.reflect)+'</p></section>';
 }
 
 export function renderDeepAnalysis({report,session,plan,locale='es',escapeHTML}){
  const lang=locale==='en'?'en':'es',w=COPY[lang],esc=escapeHTML;
  const portrait=renderProfileContext({report,session,plan,lang,esc});
- const sourceItems=plan.questions.filter(q=>q.id<=32);
  const completedItems=plan.questions.filter(q=>session.seen.includes(q.id));
  const observations=analyzeAnswers(session,completedItems);
  const type=report.interpretation.brief.type;
@@ -293,7 +294,16 @@ export function renderDeepAnalysis({report,session,plan,locale='es',escapeHTML})
   }).join('');
   contrasts=`<section class="depth-section"><h3>${esc(w.contrast)}</h3>${cards}</section>`;
  }
- return `<section class="depth-report" aria-label="${esc(w.title)}"><h2>${esc(w.title)}</h2><p class="depth-lead">${esc(w.intro)}</p>${portrait}<section class="depth-section"><h3>${esc(w.summary)}</h3><div class="depth-portraits">${originalNarrative}${extendedNarrative}</div></section><section class="depth-section"><h3>${esc(w.trend)}</h3><p class="depth-muted">${esc(w.trendDetail)}</p><ol class="depth-timeline">${stageRows}</ol></section>${contrasts}<section class="depth-section"><h3>${esc(w.evidenceTitle)}</h3><p class="depth-muted">${esc(w.evidenceIntro)}</p><div class="depth-evidence">${scoreRows}</div></section>${caution}</section>`;
+ const details=(title,sub,html)=>`<details class="beta-details"><summary><span class="beta-details-summary"><strong>${esc(title)}</strong><small>${esc(sub)}</small></span><span class="beta-details-plus" aria-hidden="true">＋</span></summary><div class="beta-details-body">${html}</div></details>`;
+ const comparePanel=report.checkpoint>32?details(lang==='es'?'¿Coinciden todas tus preferencias?':'Do your preferences always agree?',
+   lang==='es'?'Una mirada a las diferencias entre las primeras cartas y las nuevas situaciones.':'A look at differences between early cards and new situations.',contrasts):'';
+ const portraitPanel=details(w.summary,lang==='es'?'Dos lecturas complementarias de tu perfil.':'Two complementary views of your profile.',
+   '<div class="depth-portraits">'+originalNarrative+extendedNarrative+'</div>');
+ const timelinePanel=details(w.trend,lang==='es'?'Consulta tus cinco paradas, a tu ritmo.':'See your five stops at your own pace.',
+   '<p class="depth-muted">'+esc(w.trendDetail)+'</p><ol class="depth-timeline">'+stageRows+'</ol>');
+ const evidencePanel=details(w.evidenceTitle,lang==='es'?'Tus elecciones concretas, también las que contradicen la tendencia.':'Your individual choices, including those that differ from the overall leaning.',
+   '<p class="depth-muted">'+esc(w.evidenceIntro)+'</p><div class="depth-evidence">'+scoreRows+'</div>');
+ return `<section class="depth-report beta-report" aria-label="${esc(w.title)}">${portrait}<section class="beta-explore"><div class="beta-explore-header"><span>✦</span><h3>${lang==='es'?'¿Quieres saber más?':'Want to explore further?'}</h3><p>${lang==='es'?'Tu retrato es una síntesis. Aquí puedes descubrir los matices que hay detrás, sin perderte en los detalles.':'Your portrait is a summary. Explore the nuance behind it whenever you want.'}</p></div>${portraitPanel}${timelinePanel}${comparePanel}${evidencePanel}</section>${caution}</section>`;
 }
 
 /** Developer-facing structural assertions; never used to manufacture confidence. */

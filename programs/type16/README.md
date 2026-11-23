@@ -1,39 +1,40 @@
-# TYPE/16 — Versión 1.0.1
+# TYPE/16 · Versión estable 1.0.1
 
-**Versión publicada (1.0.1):** [Abrir TYPE/16](https://t.cardell.es/programs/type16/) · [Código principal](./index.html)
+**Abrir la aplicación:** https://t.cardell.es/programs/type16/
 
-TYPE/16 es una aplicación interactiva bilingüe (ES/EN) sobre cuatro dimensiones y 16 perfiles de personalidad. Incluye 64 cartas, cinco paradas (12, 24, 32, 48, 64), selección de intensidad, opción neutral, saltar, deshacer, revisión de preguntas omitidas y progreso guardado localmente. La versión 1.0 añade controles completos, efectos sonoros opcionales y el arte digital de 12 motivos con variaciones.
+Proyecto web de 64 cartas y 16 perfiles de personalidad, con interfaz bilingüe (ES/EN), cuatro dimensiones y paradas en 12, 24, 32, 48 y 64 preguntas. Esta es la versión activa; los experimentos anteriores están archivados.
 
-## Estado de carpetas
+## Estructura actual
 
-| Ruta | Estado | Uso |
-|---|---|---|
-| [`index.html`](./index.html) | **V1.0.1 · principal** | Punto de entrada estable |
-| [`manifest.webmanifest`](./manifest.webmanifest) | **V1.0.1 · principal** | Instalación de la aplicación |
-| [`beta/`](./beta/) | **Recursos compartidos + pruebas históricas** | Las páginas antiguas son experimentos; `beta/js/` y `beta/art/v3/` son dependencias de v1.0 y no deben eliminarse |
-| [`playtest/`](./playtest/) | **ARCHIVADO** | Demostración temprana de 12+20 preguntas, solo referencia |
-| [`archive/`](./archive/) | **ARCHIVO HISTÓRICO** | Copias navegables de los prototipos, con enlace de regreso a v1.0 |
-| `gesture-*` y laboratorios previos | **LEGADO/EXPERIMENTAL** | No forman parte del punto de entrada v1.0; conservar hasta revisar las dependencias |
+| Ruta | Función |
+| --- | --- |
+| [`index.html`](./index.html) | Aplicación estable v1.0.1 |
+| [`manifest.webmanifest`](./manifest.webmanifest) | Instalación PWA estable |
+| [`js/`](./js/) y [`js/engine/`](./js/engine/) | Código activo, puntuación, contenido y motor del cuestionario |
+| [`assets/art/`](./assets/art/) | Doce ilustraciones WebP reutilizadas por las 64 cartas |
+| [`assets/icon.svg`](./assets/icon.svg) | Icono utilizado por la versión estable |
+| [`archive/`](./archive/) | Código histórico congelado, galerías y versiones anteriores |
+| `beta/`, `playtest/`, `playtest-64/`, `gesture-lab.html` | **Únicamente redirecciones de compatibilidad** a las versiones archivadas |
+| `gesture-manifest.webmanifest` y `gesture-icon.svg` | Alias mínimos para instalaciones antiguas; conservar sus URL por compatibilidad |
 
-## Actualización 1.0.1 (23/11/2026)
+**Importante:** no desarrollar código nuevo dentro de `archive/` ni de las carpetas de compatibilidad. Todos los cambios de la aplicación actual deben realizarse en `index.html`, `js/` y `assets/`.
 
-- La carta de bienvenida muestra solo «Bienvenido» / «Welcome» en la esquina izquierda, sin número.
-- Tres estrellas (✦ ✧ ✦) adornan el centro superior de todas las cartas; la cabecera usa tres columnas con espacio reservado para evitar solapamientos.
-- Eliminado el consejo antiguo sobre «Prueba primero 150 px» del panel de ajustes.
-- Se conserva el progreso de las versiones anteriores y la misma dirección de publicación.
+## Funciones que deben preservarse
 
-## Cambios v1.0
+- Progreso guardado localmente con la clave `type16.beta.v1` (se conserva para no perder partidas anteriores).
+- Preferencia de sonido guardada con la clave `type16.beta2.sound`.
+- Cinco niveles de respuesta, neutral, saltar, deshacer, revisar preguntas omitidas y tutorial.
+- Opciones de ajustes: idioma, pantalla completa, sonido, sensibilidad, guardar y salir, reiniciar.
+- Doce diseños con ornamentaciones y variaciones de color; cartas 00 de bienvenida y 01–64 de preguntas.
 
-- Tuerca SVG completamente rediseñada desde cero.
-- Panel de ajustes con idioma, pantalla completa, sonido, sensibilidad, inclinación, **Continuar**, **Guardar y salir** y **Reiniciar test** (requiere confirmación).
-- Las decisiones reproducen un sonido original de carta, que puede desactivarse y recuerda la preferencia.
-- 12 motivos WebP reutilizados en las 64 cartas con adornos SVG y variaciones de color.
-- Se mantiene la misma clave de almacenamiento del progreso anterior para no perder partidas existentes.
+## Límites del cuestionario
 
-## Notas técnicas
+La versión es un **lanzamiento de software**, no una validación psicométrica. Se conservan las 32 preguntas OEJTS y sus reglas de puntuación separadas de las 32 preguntas complementarias experimentales. El resultado es orientativo y no una evaluación clínica ni un MBTI oficial.
 
-La versión 1.0 es un **lanzamiento de software**, no una certificación de validez psicométrica. Las 32 preguntas OEJTS se puntúan mediante la clave de referencia y las otras 32 son contenido complementario exploratorio. Conservamos la documentación de sus límites y las advertencias en el resultado.
+## Archivo y compatibilidad
 
-Los recursos compartidos bajo `beta/` siguen **activos** aunque las versiones antiguas de esa carpeta estén archivadas. No moverlos ni borrarlos hasta migrarlos a una carpeta común y actualizar las importaciones.
+[Consultar archivo histórico](./archive/README.md) · [Ver copias archivadas](./archive/index.html)
 
-[Historial de versiones y copias archivadas](./archive/README.md)
+Los antiguos enlaces se conservan mediante páginas de redirección y cada prototipo archivado utiliza una copia congelada de sus dependencias en `archive/runtime/js/`; así no depende de futuras modificaciones del código principal.
+
+**Reorganización:** migración por Git sin regenerar los WebP, preservando el SHA de los archivos binarios. La versión estable sigue en la misma dirección y con las mismas claves de almacenamiento.

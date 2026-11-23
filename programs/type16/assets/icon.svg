@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="TYPE/16">
+<rect width="512" height="512" rx="104" fill="#171c27"/>
+<rect x="76" y="55" width="360" height="402" rx="32" fill="#e8ddc6" stroke="#d7ad73" stroke-width="12"/>
+<rect x="94" y="73" width="324" height="366" rx="21" fill="none" stroke="#ab8d63" stroke-width="3"/>
+<path d="M256 94L282 220L408 256L282 292L256 418L230 292L104 256L230 220Z" fill="#9e5f62"/>
+<circle cx="256" cy="256" r="46" fill="#e8ddc6"/>
+<text x="256" y="127" text-anchor="middle" fill="#6c5547" font-family="Georgia,serif" font-size="29" letter-spacing="3">TYPE</text>
+<text x="256" y="416" text-anchor="middle" fill="#6c5547" font-family="Georgia,serif" font-size="30" letter-spacing="3">/ 16</text>
+</svg>
