@@ -44,6 +44,15 @@ node tools/engine-smoke.mjs
 
 El motor no necesita dependencias de terceros ni compilación. `npm test` ejecuta también los tests antiguos de puntuación e idioma y los tests nuevos de estado, banco, selección y propiedades. El `smoke` imprime resultados en JSON sin cargar ninguna página.
 
+## Dirección artística y cartas — planificación, sin gráficos
+
+El lenguaje visual aprobado es **tarot editorial contemporáneo / pequeñas escenas alegóricas**, respetando el diseño de `gesture-lab.html` v0.11.1. La fase actual **solo documenta conceptos**: no se han generado imágenes, SVG ni otros assets gráficos, y la interfaz publicada sigue intacta.
+
+- [Guía de ilustración y especificación de biblioteca SVG](docs/ART_DIRECTION.md) — estética, paleta heredada, trazo, composición, legibilidad móvil, neutralidad de A/B, reglas técnicas y proceso de aprobación.
+- [Diseño conceptual de las cartas](docs/CARD_CONCEPTS.md) — anatomía, storyboard detallado de Q11 («La mesa compartida»), conceptos de Q12/Q22/Q25, briefs de las 12 preguntas rápidas y mapa de las 20 restantes.
+
+**Próxima pieza de arte:** una única ilustración maestra Q11, únicamente cuando se autorice generar el primer SVG; probarla a escala real antes de construir una biblioteca extensa.
+
 ## Estado pendiente
 
 1. Revisar y corregir los textos ES/EN de las 32 preguntas: revisar `QUESTION_AUDIT.md` y mantener un registro de cambios.
