@@ -1,12 +1,12 @@
-# TYPE/16 — Recorrido completo de 64 preguntas (PLAN EDITORIAL v0.1)
+# TYPE/16 — Recorrido completo de 64 preguntas (PLAN EDITORIAL v0.2)
 
-**Fecha:** 23/11/2026 · **Estado:** propuesta de diseño, NO implementada en `playtest` ni en Gesture Lab v0.11.1.  
+**Fecha:** 23/11/2026 · **Estado:** propuesta de diseño y revisión editorial v0.2, NO implementada en `playtest` ni en Gesture Lab v0.11.1.  
 **Objetivo:** diseñar un viaje por etapas con **64 ítems, 16 por dimensión**, sin convertir la experiencia en un formulario de 64 pantallas indistinguibles.
 
 ## 1. Decisión estructural
 
 - **Q01–Q32:** instrumento de partida **OEJTS 1.2 (Eric Jorgenson, 2015)**. Texto de opciones y clave `js/scoring.js` se mantienen intactos. Atribución/licencia de los ítems originales y sus adaptaciones: **CC BY-NC-SA 4.0**, https://openpsychometrics.org/tests/OJTS/development/OEJTS1.2.pdf . El español sigue siendo borrador editorial.
-- **Q33–Q64:** **32 propuestas nuevas TYPE/16**, 8 por dimensión. Son redacciones **originales en ES y EN**, deliberadamente situacionales; pendientes de revisión humana, contraste semántico y prueba de comprensión.
+- **Q33–Q64:** **32 propuestas nuevas TYPE/16**, 8 por dimensión, revisadas editorialmente en v0.2 (17 sustituciones, 7 ajustes, 8 conservadas). Redacciones **originales en ES y EN**, situacionales; pendientes de prueba con personas, contraste semántico y comprobación psicométrica. Ver [auditoría de complementariedad](EDITORIAL_REVIEW_NEW_32.md).
 - No mezclar las puntuaciones de ambos bancos ni presentar la escala de 64 como OEJTS. No generar porcentajes de exactitud, confianza o fiabilidad sin datos de validación.
 - Todos los ítems usan las **cinco opciones gestuales** del laboratorio: muy A, algo A, neutral, algo B, muy B; *saltar* no equivale a neutral.
 - Los enunciados personalizados son **capas editoriales nuevas**, no modificaciones de las frases OEJTS. Deben revisarse por posible cambio de significado antes de publicarse.
@@ -89,46 +89,48 @@ La columna «A / B» reproduce las **opciones ES actuales**, conservadas sin alt
 
 **Enunciados EN de estas 32 cartas:** incluidos en el JSON de planificación, no introducidos en la UI actual. En Q02, Q06, Q27, Q29 y otros ítems problemáticos, ninguna pregunta introductoria debe aparentar «resolver» las limitaciones del par de afirmaciones. Se revisarán con calma en la fase editorial.
 
-## 5. Las 32 preguntas nuevas — propuestas ES
+## 5. Las 32 preguntas nuevas — versión editorial revisada v0.2
 
-Cada nueva pregunta tiene un identificador estable, un contexto concreto y dos opciones igualmente defendibles. **`Polo alto` = lado que provisionalmente expresaría E/N/T/P, nunca una clave OEJTS oficial.** Para el usuario final esta etiqueta NO se muestra.
+Los textos de Q33–Q64 se revisaron **uno por uno** contra el banco original OEJTS y contra sus compañeras. **17 preguntas se sustituyeron, 7 se ajustaron y 8 se conservaron**. El detalle y las posibles redundancias restantes están en el [informe de revisión de las 32 nuevas](EDITORIAL_REVIEW_NEW_32.md).
 
-| ID · eje | Pregunta sugerida | A · izquierda | B · derecha | Polo alto |
+Estas opciones y enunciados **no están validados ni implementados** en el prototipo. La columna «Polo alto» representa una **clave de trabajo**, no una puntuación oficial ni una garantía de que la pregunta mida ese eje.
+
+| ID · eje | Pregunta revisada | A · izquierda | B · derecha | Polo alto |
 |---|---|---|---|---|
-| Q33 · IE | Al incorporarte a una actividad con gente nueva, ¿qué te sale primero? | Empezar a conversar mientras conozco el ambiente | Observar el ambiente y acercarme poco a poco | A |
+| Q33 · IE | Al llegar a una actividad informal con personas que conoces poco, ¿qué te resulta más natural? | Empezar una conversación para entrar en el ambiente | Observar un poco antes de sumarme a la conversación | A |
 | Q34 · IE | Cuando una idea todavía está poco clara, ¿cómo prefieres desarrollarla? | Pensarla a solas antes de compartirla | Hablarla con alguien para ir dándole forma | B |
-| Q35 · IE | Después de varias horas de actividades compartidas, ¿qué te apetece más? | Dedicar un rato a una actividad individual | Seguir compartiendo alguna actividad con otras personas | B |
-| Q36 · IE | Cuando surge un asunto interesante en un grupo pequeño, ¿qué haces más a menudo? | Participo pronto para explorar ideas entre todos | Escucho primero y aporto cuando lo he pensado | A |
+| Q35 · IE | En una actividad que puedes explorar a tu ritmo, ¿cómo prefieres vivirla? | Explorarla por mi cuenta y comentar después lo descubierto | Ir intercambiando impresiones mientras la exploro | B |
+| Q36 · IE | En una conversación de grupo que te interesa, ¿cómo sueles incorporarte? | Intervengo mientras vamos dando forma a las ideas | Escucho el intercambio y aporto cuando he pensado mi idea | A |
 | Q37 · SN | Al aprender a usar una herramienta, ¿qué te ayuda más al principio? | Probar una tarea concreta con ella | Comprender primero la idea general de su funcionamiento | B |
-| Q38 · SN | Al mirar el plano de un lugar desconocido, ¿qué miras primero? | Calles, distancias y puntos concretos | Patrones del recorrido y posibilidades de exploración | B |
-| Q39 · SN | Cuando recuerdas una historia, ¿qué suele permanecer más en tu memoria? | La idea que conecta lo ocurrido | Los detalles concretos de lo ocurrido | A |
-| Q40 · SN | Al imaginar un proyecto futuro, ¿en qué piensas primero? | En las posibilidades que podría abrir | En sus recursos y requisitos concretos | A |
+| Q38 · SN | Al observar el plano de un lugar nuevo, ¿qué te llama la atención primero? | Los lugares concretos y las distancias entre ellos | La estructura general y cómo se conectan las zonas | B |
+| Q39 · SN | Después de ver varios ejemplos parecidos, ¿qué tiendes a buscar primero? | Una pauta general que los conecte | Las diferencias concretas entre los ejemplos | A |
+| Q40 · SN | Cuando encuentras un objeto cuyo uso no conoces, ¿qué te interesa explorar antes? | Qué otros usos podría llegar a tener | Cómo está hecho y para qué sirve actualmente | A |
 | Q41 · FT | Si tu equipo discrepa sobre un plan, ¿qué te ayuda más a decidir? | Comparar las razones usando criterios comunes | Comprender lo que necesita cada participante | A |
-| Q42 · FT | Cuando alguien te pide consejo sobre una decisión difícil, ¿por dónde empiezas? | Por comprender cómo le afecta personalmente | Por examinar las opciones y sus consecuencias | B |
-| Q43 · FT | Al valorar una propuesta para varias personas, ¿qué pesa primero? | Cómo puede afectar a quienes participen | Si los argumentos y criterios son consistentes | B |
-| Q44 · FT | Si dos soluciones parecen razonables, ¿qué suele ayudarte a elegir? | Comparar sistemáticamente ventajas y dificultades | Considerar cuál encaja mejor con las personas implicadas | A |
-| Q45 · JP | Cuando empiezas un proyecto con tiempo flexible, ¿qué prefieres? | Establecer etapas y un orden inicial | Probar caminos antes de fijar un orden | B |
-| Q46 · JP | Durante una escapada sin obligaciones, ¿qué te atrae más? | Dejar varias posibilidades abiertas según el momento | Organizar de antemano las visitas principales | A |
+| Q42 · FT | Cuando alguien presenta una propuesta que te interesa, ¿qué te apetece comprender primero? | Qué motivaciones personales hay detrás de la propuesta | Qué argumentos y consecuencias sostienen la propuesta | B |
+| Q43 · FT | Al comparar dos maneras de comunicar la misma noticia, ¿qué valoras primero? | Cómo puede recibirla emocionalmente quien la escucha | Que el mensaje sea preciso y esté bien argumentado | B |
+| Q44 · FT | Al analizar la decisión de un personaje de una historia, ¿qué te interesa entender primero? | Si su razonamiento encaja con los hechos | Qué siente y qué valores le han llevado a decidir | A |
+| Q45 · JP | Cuando un proyecto admite varios objetivos posibles, ¿qué te ayuda más al comenzar? | Elegir un objetivo y unas etapas iniciales | Explorar posibilidades antes de fijar un objetivo | B |
+| Q46 · JP | Si una actividad termina antes de lo previsto y te queda tiempo libre, ¿qué haces más a menudo? | Elegir en el momento algo que me apetezca hacer | Adelantar otra actividad que ya tenía prevista | A |
 | Q47 · JP | Cuando tienes varias tareas por delante, ¿cómo prefieres afrontarlas? | Decidir un orden y avanzar paso a paso | Alternarlas según lo que pida cada momento | B |
 | Q48 · JP | Si una condición importante cambia a mitad de un plan, ¿qué haces primero? | Explorar nuevas alternativas y ajustar la marcha | Reorganizar las etapas para mantener una ruta clara | A |
-| Q49 · IE | Cuando descubres algo que te entusiasma, ¿qué te sale primero? | Compartirlo y comentarlo con alguien | Explorarlo por mi cuenta antes de contarlo | A |
+| Q49 · IE | Después de conocer a alguien con quien has conectado, ¿qué suele apetecerte más? | Proponer pronto otra ocasión para coincidir | Disfrutar del encuentro sin organizar otro inmediatamente | A |
 | Q50 · IE | En un encuentro con personas que conoces, ¿qué parte disfrutas más? | Tener algunas conversaciones tranquilas y largas | Moverme entre conversaciones diferentes | B |
-| Q51 · IE | Cuando un proyecto te sale especialmente bien, ¿cómo prefieres celebrarlo? | Compartiendo el momento con varias personas | Disfrutándolo de manera más reservada | A |
-| Q52 · IE | Si tienes que preparar una propuesta, ¿qué proceso te resulta más natural? | Escribirla o pensarla primero de forma individual | Desarrollarla mediante una conversación inicial | B |
+| Q51 · IE | En una visita o taller participativo, si te surge una duda, ¿cómo prefieres plantearla? | Preguntarla durante el intercambio abierto del grupo | Reflexionar primero y consultarla después en privado | A |
+| Q52 · IE | En una actividad compartida donde cada cual desarrolla una parte, ¿qué prefieres? | Trabajar primero en mi parte y contrastarla al final | Ir comentando avances e ideas durante el proceso | B |
 | Q53 · SN | Para explicar una idea compleja, ¿qué recurso utilizas primero? | Un ejemplo específico que se pueda observar | Una analogía que conecte varios conceptos | B |
-| Q54 · SN | Al visitar una exposición, ¿qué te atrae más de entrada? | Las conexiones entre piezas, épocas o ideas | Los materiales y detalles de cada pieza | A |
-| Q55 · SN | Cuando lees un informe con muchos datos, ¿qué buscas primero? | Cifras y observaciones específicas | Tendencias y relaciones generales | B |
-| Q56 · SN | Si un enfoque no funciona, ¿qué exploras primero? | Otras maneras posibles de plantear el problema | Qué paso concreto ha fallado en el enfoque actual | A |
-| Q57 · FT | Al comentar el borrador de alguien que ha pedido tu opinión, ¿qué priorizas? | Identificar mejoras concretas y sus motivos | Comprender primero qué quiere expresar la persona | A |
-| Q58 · FT | Cuando dos personas discrepan, ¿qué te ayuda a intervenir? | Escuchar qué preocupa a cada una | Acordar criterios claros para resolver la diferencia | B |
-| Q59 · FT | Si una regla admite excepciones, ¿qué te parece más importante al decidir? | Considerar las circunstancias particulares | Mantener criterios coherentes y explicables | B |
+| Q54 · SN | Al mirar por primera vez una imagen que no conoces, ¿qué captas antes? | Las historias o relaciones que podría sugerir | Sus formas, colores y detalles visibles | A |
+| Q55 · SN | Si ves varios datos sencillos sobre un tema, ¿qué tiendes a mirar primero? | Qué indica cada dato concreto | Qué tendencia aparece al considerarlos juntos | B |
+| Q56 · SN | Si algo deja de funcionar como esperabas, ¿qué te interesa investigar primero? | Si hace falta plantear el problema de otra manera | En qué paso concreto comenzó a fallar | A |
+| Q57 · FT | Si alguien te pide comentar una creación suya, ¿qué te sale hacer primero? | Señalar qué aspectos podrían mejorarse y por qué | Preguntar qué quiere expresar y qué es importante para esa persona | A |
+| Q58 · FT | Si alguien defiende una opinión diferente de la tuya, ¿qué te interesa preguntar primero? | Qué experiencias y prioridades le han llevado a verla así | Qué argumentos y pruebas apoyan esa opinión | B |
+| Q59 · FT | Cuando tienes que comunicar una decisión inesperada a otra persona, ¿qué procuras abordar primero? | Reconocer cómo puede afectarle | Explicar los criterios que justifican la decisión | B |
 | Q60 · FT | Cuando lees un debate complejo, ¿qué observas primero? | Si los argumentos están bien fundamentados | Qué valores importan a quienes participan | A |
-| Q61 · JP | Antes de empezar una actividad creativa, ¿cómo te gusta proceder? | Experimentar con materiales y decidir durante el proceso | Elegir pasos y herramientas con antelación | A |
-| Q62 · JP | Si dispones de un fin de semana libre, ¿cómo prefieres organizarlo? | Decidir antes cuándo haré cada actividad | Ir eligiendo actividades conforme avance | B |
-| Q63 · JP | Cuando recibes una tarea compleja, ¿qué te ayuda más a arrancar? | Dividirla en una secuencia de pasos | Abrir varias vías y ajustar al ver cuál funciona | B |
-| Q64 · JP | Al organizar una actividad en grupo, ¿qué prefieres dejar decidido? | Solo lo imprescindible, dejando margen a ideas nuevas | Los detalles principales para que todo esté previsto | A |
+| Q61 · JP | Si una versión de algo que estás creando ya funciona, ¿qué sueles preferir? | Mantenerla abierta para seguir probando variaciones | Darla por terminada y pasar al siguiente paso | A |
+| Q62 · JP | Si tienes varias actividades personales previstas para un día libre, ¿cómo distribuyes el tiempo? | Asigno franjas aproximadas a cada actividad | Dejo flexibles los tiempos y ajusto sobre la marcha | B |
+| Q63 · JP | Si recibes una tarea con indicaciones poco definidas, ¿qué te ayuda más a arrancar? | Acordar primero qué se espera y qué pasos seguir | Hacer una primera prueba y concretar a partir de ella | B |
+| Q64 · JP | Si ya habías decidido cómo pasar una tarde y aparece otra posibilidad atractiva, ¿qué te resulta más natural? | Replantear la tarde para incorporar la novedad | Mantener mi idea inicial y dejar la novedad para otro momento | A |
 
-**Inglés:** el JSON adjunto contiene traducción EN inicial de cada enunciado y cada polo. Ninguna está aprobada. Estilo editorial deseado: situaciones cotidianas, una sola preferencia por carta, longitud móvil legible; sustituir un par si se solapa excesivamente con otro.
+El JSON adjunto contiene la versión inglesa paralela y el registro de revisión editorial por ítem. Que ocho temas por dimensión tengan **nombres diferentes no prueba independencia estadística**: habrá que contrastar estructura, redundancias reales y comprensión.
 
 ## 6. Rúbrica de calidad para cada pregunta nueva
 
@@ -164,7 +166,7 @@ Tras revisar datos, podría plantearse una lectura combinada de 16 por eje; sin 
 
 1. **Aceptar o corregir** las paradas 12 / 24 / 32 / 48 / 64.
 2. Revisar los enunciados personalizados para Q01–Q32, sobre todo en términos de fidelidad a la fuente.
-3. Revisar **las 32 nuevas** por contexto, imparcialidad y solapamiento; cerrar su nombre/versión.
+3. Contrastar con participantes **las 32 nuevas ya revisadas** por contexto, imparcialidad, comprensión, eje previsto y solapamiento; cerrar su nombre/versión solo tras el piloto.
 4. Probar el texto más largo y las paradas dentro de Gesture Lab v0.11.1 (sin rehacer la interfaz original).
 5. Diseñar una vista de progreso **12 → 24 → 32 → 48 → 64**, que explique la diferencia entre lectura provisional, referencia y extensión.
 6. Preparar motor extendido **independiente**; tests de cuotas por dimensión, omisiones, restauración, claves A/B, bilingüismo y cálculo OEJTS intacto.
