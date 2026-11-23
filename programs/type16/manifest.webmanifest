@@ -1,0 +1,19 @@
+{
+  "name": "TYPE/16 — Atlas de personalidad",
+  "short_name": "TYPE/16",
+  "description": "Cuatro dimensiones, 16 perfiles y 64 cartas interactivas",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#171c27",
+  "theme_color": "#171c27",
+  "icons": [
+    {
+      "src": "./gesture-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
