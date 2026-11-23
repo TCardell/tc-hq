@@ -1,6 +1,6 @@
-# TYPE/16 — Versión 1.0
+# TYPE/16 — Versión 1.0.1
 
-**Versión publicada:** [Abrir TYPE/16](https://t.cardell.es/programs/type16/) · [Código principal](./index.html)
+**Versión publicada (1.0.1):** [Abrir TYPE/16](https://t.cardell.es/programs/type16/) · [Código principal](./index.html)
 
 TYPE/16 es una aplicación interactiva bilingüe (ES/EN) sobre cuatro dimensiones y 16 perfiles de personalidad. Incluye 64 cartas, cinco paradas (12, 24, 32, 48, 64), selección de intensidad, opción neutral, saltar, deshacer, revisión de preguntas omitidas y progreso guardado localmente. La versión 1.0 añade controles completos, efectos sonoros opcionales y el arte digital de 12 motivos con variaciones.
 
@@ -8,12 +8,19 @@ TYPE/16 es una aplicación interactiva bilingüe (ES/EN) sobre cuatro dimensione
 
 | Ruta | Estado | Uso |
 |---|---|---|
-| [`index.html`](./index.html) | **V1.0 · principal** | Punto de entrada estable |
-| [`manifest.webmanifest`](./manifest.webmanifest) | **V1.0 · principal** | Instalación de la aplicación |
+| [`index.html`](./index.html) | **V1.0.1 · principal** | Punto de entrada estable |
+| [`manifest.webmanifest`](./manifest.webmanifest) | **V1.0.1 · principal** | Instalación de la aplicación |
 | [`beta/`](./beta/) | **Recursos compartidos + pruebas históricas** | Las páginas antiguas son experimentos; `beta/js/` y `beta/art/v3/` son dependencias de v1.0 y no deben eliminarse |
 | [`playtest/`](./playtest/) | **ARCHIVADO** | Demostración temprana de 12+20 preguntas, solo referencia |
 | [`archive/`](./archive/) | **ARCHIVO HISTÓRICO** | Copias navegables de los prototipos, con enlace de regreso a v1.0 |
 | `gesture-*` y laboratorios previos | **LEGADO/EXPERIMENTAL** | No forman parte del punto de entrada v1.0; conservar hasta revisar las dependencias |
+
+## Actualización 1.0.1 (23/11/2026)
+
+- La carta de bienvenida muestra solo «Bienvenido» / «Welcome» en la esquina izquierda, sin número.
+- Tres estrellas (✦ ✧ ✦) adornan el centro superior de todas las cartas; la cabecera usa tres columnas con espacio reservado para evitar solapamientos.
+- Eliminado el consejo antiguo sobre «Prueba primero 150 px» del panel de ajustes.
+- Se conserva el progreso de las versiones anteriores y la misma dirección de publicación.
 
 ## Cambios v1.0
 
