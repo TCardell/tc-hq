@@ -974,11 +974,11 @@ function createExperience64(plan,{scoreOriginals,interpretOriginals}){
   return Object.freeze({plan,order,checkpoints,item,question,newSession,nextItem,act,validateSession,restoreSession,stageInfo,completion,checkpointReport});
 }
 
-import {scoreAll} from './beta/js/scoring.js';
-import {displayOptions,renderDeepAnalysis} from './beta/js/enhancements.js';
-import {buildInterpretation} from './beta/js/engine/interpretation.js';
-import {getCardArt,auditArtwork,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices} from './beta/js/artwork.js';
-import {TYPE_COPY} from './beta/js/engine/interpretation-copy.js';
+import {scoreAll} from './js/scoring.js';
+import {displayOptions,renderDeepAnalysis} from './js/enhancements.js';
+import {buildInterpretation} from './js/engine/interpretation.js';
+import {getCardArt,auditArtwork,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices} from './js/artwork.js';
+import {TYPE_COPY} from './js/engine/interpretation-copy.js';
 const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
 const createSession=(o)=>experience.newSession(o);
 const restoreSession=(s)=>experience.restoreSession(s);
@@ -1238,7 +1238,7 @@ function intro(){
     (ART_PREVIEW_MODE==='v2'?'Preview: V2 illustrations':'Preview: your selected illustrations')):null;
  const artPreviewBanner=artPreviewLabel?`<span class="beta-art-preview-note">✦ ${safe(artPreviewLabel)}</span>`:'';
  const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
- return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./beta/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones V3':'Gallery of 12 V3 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./archive/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones V3':'Gallery of 12 V3 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
 }
 
 // V3 art is deliberately separate from the original V1/V2 gallery and SVG registry.
@@ -1255,7 +1255,7 @@ const V3_ORNAMENTS = [
 function v3VariantFor(id){const n=Number(id)||0;return {ornament:(n*7+Math.floor(n/5)*3)%V3_ORNAMENTS.length,tone:n%3,green:n%4===0||n%7===3};}
 function getV3Art(id){
  const n=Number(id),motif=MOTIF_BY_QUESTION[n]||'criteria',v=v3VariantFor(n);
- return '<img class="v3-image" src="./beta/art/v3/'+motif+'.webp" alt="" aria-hidden="true" width="660" height="330" loading="eager" decoding="async" draggable="false">'+
+ return '<img class="v3-image" src="./assets/art/'+motif+'.webp" alt="" aria-hidden="true" width="660" height="330" loading="eager" decoding="async" draggable="false">'+
   '<svg class="v3-ornaments" viewBox="0 0 330 150" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+V3_ORNAMENTS[v.ornament]+'</svg>';
 }
 function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,previewSession=state.session){
