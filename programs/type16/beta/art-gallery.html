@@ -55,7 +55,7 @@ h1{font:500 clamp(35px,7vw,59px)/1.1 var(--serif);margin:12px 0 14px;letter-spac
 .composition{border:1px solid #b99c7245;border-radius:8px}
 .composition summary{cursor:pointer;padding:9px 11px;list-style:none;color:#ded0b9;font-size:11px}
 .composition summary::-webkit-details-marker{display:none}.composition[open] summary{border-bottom:1px solid #b99c7245}
-.composition .mini-grid{padding:8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.composition .mini-grid{padding:11px;display:grid;gap:13px}.mini-tile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.mini-tile>small{grid-column:1/-1}
 .mini-tile{min-width:0}.mini-tile .mini-art{background:var(--paper);border-radius:4px;aspect-ratio:220 / 145;overflow:hidden}
 .mini-art svg{display:block;width:100%;height:100%}.mini-tile small{display:block;font:10px var(--mono);color:#e1c89f;text-align:center;margin:4px 0}
 .fineprint{margin:20px 0 40px;padding-top:17px;border-top:1px solid var(--line);color:#b3ada7;font:12px/1.65 var(--sans)}
@@ -69,7 +69,7 @@ h1{font:500 clamp(35px,7vw,59px)/1.1 var(--serif);margin:12px 0 14px;letter-spac
 <body>
 <div class="shell">
   <nav class="topline"><a class="logo" href="./index.html">TYPE<b>/</b>16</a><a class="back-link" href="./index.html">← Volver al test</a></nav>
-  <header class="hero"><div class="eyebrow">Atlas visual · Archivo de versiones</div><h1>Dos interpretaciones de cada símbolo.</h1><p>Los <strong>doce motivos originales (V1)</strong> se conservan intactos. Las nuevas <strong>V2</strong> son alternativas geométricas distintas, no simples variaciones de color. Compáralas, elige las que prefieras y prueba tu combinación en las cartas. Tu selección es provisional: no cambia la beta ni las respuestas guardadas.</p></header>
+  <header class="hero"><div class="eyebrow">Atlas visual · Archivo de versiones</div><h1>Un símbolo, varias interpretaciones.</h1><p>Los <strong>doce motivos originales (V1)</strong> se conservan intactos. Las nuevas <strong>V2</strong> son alternativas geométricas distintas, no simples variaciones de color. Podremos incorporar V3, V4 y posteriores sin borrar ni sustituir las versiones anteriores. Compáralas, elige las que prefieras y prueba tu combinación en las cartas. Tu selección es provisional: no cambia la beta ni las respuestas guardadas.</p></header>
   <section class="toolbar" aria-label="Tus preferencias visuales">
     <div><h2 id="progressTitle">Tu selección · 0 de 12</h2><p>Marca una versión para cada motivo. Puedes cambiarla o desmarcarla cuando quieras; queda guardada en este navegador.</p><div class="progressline" aria-hidden="true"><span id="progressBar"></span></div></div>
     <div class="controls">
@@ -80,7 +80,7 @@ h1{font:500 clamp(35px,7vw,59px)/1.1 var(--serif);margin:12px 0 14px;letter-spac
     </div>
   </section>
   <main id="gallery"></main>
-  <footer class="fineprint">TYPE/16 · 12 motivos maestros · 64 asignaciones temáticas. Los marcos V1, V2 y V3 (dentro de «Composiciones») son variaciones de encuadre distintas de las versiones del símbolo. Cuando añadamos V3 del símbolo, aparecerá como una columna más automáticamente.</footer>
+  <footer class="fineprint">TYPE/16 · 12 motivos maestros · 64 asignaciones temáticas. Los encuadres 1, 2 y 3 (dentro de «Composiciones») son variaciones decorativas, independientes de las versiones del símbolo. Cuando añadamos V3 del símbolo, aparecerá como una columna más automáticamente.</footer>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <script type="module">
