@@ -95,43 +95,43 @@ const STAGE_NAMES={
 };
 const COPY={
  es:{
-  title:'Un análisis más profundo',intro:'Un retrato construido a partir de tus elecciones, no de suposiciones sobre ti.',
-  summary:'Síntesis de tus preferencias',portrait:'La combinación de referencia',extendedPortrait:'La combinación exploratoria',
+  title:'Más allá de las cuatro letras',intro:'Una mirada a tus preferencias, sus coincidencias y los matices que aparecen al responder.',
+  summary:'Tu combinación en detalle',portrait:'Lo que muestran las primeras cartas',extendedPortrait:'Las preferencias en nuevas situaciones',
   noPortrait:'Todavía no hay una combinación definida en las cuatro dimensiones.',
-  baseNote:'Este resumen describe únicamente el banco de 32 preguntas originales.',
-  extendedNote:'Este segundo resumen interpreta el índice experimental de las preguntas contestadas. No es una tipología validada.',
-  trend:'Cómo ha evolucionado la lectura',trendDetail:'Comparación recalculada con las respuestas registradas actualmente, incluidas las revisadas después de una parada. No es una medición de estabilidad.',
+  baseNote:'La primera mirada a tu forma de ser.',
+  extendedNote:'Una mirada complementaria a tus elecciones cotidianas.',
+  trend:'Tu retrato a lo largo del viaje',trendDetail:'Observa cómo se va dibujando tu combinación al conocer nuevas facetas de ti.',
   open:'Abierta',contrast:'Coincidencias y contrastes',mixed:'Hay señales que se inclinan hacia ambos polos.',
   match:'Las preguntas nuevas y las originales apuntan hacia el mismo polo en esta dimensión.',
   differ:'Las respuestas nuevas apuntan al polo contrario. Merece la pena explorar el contexto, no etiquetarlo como error.',
   insufficient:'Faltan respuestas en uno de los bloques para establecer una comparación.',
-  evidenceTitle:'Qué respuestas sustentan cada lectura',evidenceIntro:'Abre una dimensión para consultar ejemplos concretos de ambos polos. No son pruebas de un rasgo estable.',
+  evidenceTitle:'De dónde nace cada tendencia',evidenceIntro:'Descubre qué elecciones apoyan cada inclinación y cuáles aportan matices distintos.',
   low:'Respuestas orientadas hacia',high:'Respuestas orientadas hacia',neutral:'Respuestas neutrales',
   noExamples:'No hay respuestas orientadas hacia este polo.',seenFrom:'Banco de referencia',seenNew:'Situaciones nuevas',
   gentle:'Inclinación ligera en las respuestas',clear:'Inclinación más marcada en las respuestas',
   balanced:'Sin una inclinación definida en las respuestas',notObserved:'Sin respuestas suficientes para una lectura',
-  strong:'marcada',soft:'moderada',source:'Sin efecto de las preguntas adicionales sobre la puntuación OEJTS',
-  cautious:'Una lectura de 64 ítems no es automáticamente más fiable que una de 32. Las preguntas nuevas necesitan pruebas de comprensión y validación.',
+  strong:'marcada',soft:'moderada',source:'Las situaciones nuevas complementan la referencia de las primeras cartas',
+  cautious:'Este retrato describe tendencias de tus respuestas, no una verdad definitiva sobre tu personalidad.',
   skip:'Las omisiones se excluyen de los cálculos, no cuentan como respuestas neutrales.'
  },
  en:{
-  title:'A deeper reading',intro:'A portrait based on your choices, not assumptions about you.',
-  summary:'Your preference overview',portrait:'The reference combination',extendedPortrait:'The exploratory combination',
+  title:'Beyond the four letters',intro:'A closer look at your preferences, recurring patterns and unexpected nuances.',
+  summary:'Your combination in detail',portrait:'What the first cards reveal',extendedPortrait:'Preferences in new situations',
   noPortrait:'The four axes do not yet form an unambiguous combination.',
-  baseNote:'This description comes only from the original 32-item bank.',
-  extendedNote:'This description relates to an experimental index of answered items, not a validated typology.',
-  trend:'How the reading changed',trendDetail:'Recalculated from currently recorded answers, including answers reviewed after a checkpoint. It does not measure stability.',
+  baseNote:'A first perspective on your tendencies.',
+  extendedNote:'A complementary perspective from everyday choices.',
+  trend:'Your portrait along the journey',trendDetail:'See how your four-letter portrait takes shape as new facets emerge.',
   open:'Unresolved',contrast:'Agreements and contrasts',mixed:'Some answers point toward each pole.',
   match:'The new and original answers lean toward the same pole on this axis.',
   differ:'The new answers lean toward the opposite pole. Context may help explain this; it is not an error.',
   insufficient:'One of the sets lacks enough answers for a comparison.',
-  evidenceTitle:'Which answers contribute to the reading',evidenceIntro:'Expand an axis to see concrete examples pointing in both directions. They do not prove a fixed trait.',
+  evidenceTitle:'Where your tendencies come from',evidenceIntro:'Explore which choices support each tendency and which add nuance.',
   low:'Answers pointing toward',high:'Answers pointing toward',neutral:'Neutral answers',
   noExamples:'No answers point toward this pole.',seenFrom:'Reference bank',seenNew:'New situations',
   gentle:'Slight observed leaning',clear:'More pronounced observed leaning',
   balanced:'No clear observed leaning',notObserved:'Not enough answers yet',
-  strong:'strong',soft:'moderate',source:'New items do not alter the original OEJTS reference score',
-  cautious:'A 64-item reading is not automatically more reliable than a 32-item one. New questions need comprehension testing and validation.',
+  strong:'strong',soft:'moderate',source:'The new situations complement the original reference portrait',
+  cautious:'This portrait describes patterns in your answers, not a definitive statement about your personality.',
   skip:'Skipped items do not contribute to the calculations; they are not neutral answers.'
  }
 };
@@ -160,8 +160,85 @@ function codeAt(answers,items){
 }
 
 /** More explanation, not a psychometric confidence estimator. */
+
+// Editorial interpretation: separate from scoring. No diagnosis, norming or invented confidence.
+const PORTRAIT_COPY={
+ es:{
+  headline:'Tu personalidad, en perspectiva',intro:'A medida que respondes, empieza a aparecer una forma de relacionarte con el mundo. No son etiquetas cerradas: son preferencias que pueden variar según el momento.',
+  tentative:'El perfil que empieza a dibujarse',codeLead:'Por ahora, la combinación que sugieren tus respuestas es',
+  noCode:'Todavía hay preferencias muy próximas entre sí. Eso también forma parte de tu retrato: no necesitas encajar a la fuerza en cuatro letras.',
+  patterns:'Cómo se expresa en tu día a día',twoSided:'Aparecen elecciones en ambos sentidos. Puede que adaptes este estilo según la situación.',
+  soft:'La inclinación es suave y admite bastante variación.',missing:'Aún quedan aspectos por descubrir en esta dimensión.',
+  overview:'Qué significan las cuatro dimensiones',reflect:'Tus siguientes decisiones pueden afinar este retrato, aportar ejemplos nuevos o mostrar excepciones interesantes.',
+  axis:{
+   IE:{name:'Energía y relación con los demás',legend:'I: Introversión · E: Extraversión',
+     low:['I · Introversión','Parece que valoras el espacio para reflexionar, recargar energía o desarrollar algunas ideas por tu cuenta. Eso no impide disfrutar de la compañía.'],
+     high:['E · Extraversión','En varias situaciones tiendes a involucrarte en el intercambio con otras personas y a desarrollar ideas mientras interactúas. Esto no significa querer compañía siempre.'],
+     open:'Por ahora alternas entre momentos de interacción y momentos de reflexión individual.'},
+   SN:{name:'Percepción y formas de explorar',legend:'S: Sensación (Sensing) · N: Intuición (iNtuition)',
+     low:['S · Sensación','Tus elecciones tienden a partir de hechos, ejemplos y detalles que puedes observar directamente antes de buscar una interpretación más amplia.'],
+     high:['N · Intuición','Tiendes a fijarte en conexiones, posibilidades y patrones generales, incluso cuando todavía no están todos los detalles disponibles.'],
+     open:'A veces partes de detalles concretos y otras de conexiones o posibilidades generales.'},
+   FT:{name:'Criterios al decidir',legend:'F: Sentimiento (Feeling) · T: Pensamiento (Thinking)',
+     low:['F · Sentimiento','Parece importante para ti considerar los valores, las personas implicadas y el impacto humano de las decisiones. Esto no excluye el análisis.'],
+     high:['T · Pensamiento','Tus elecciones suelen dar peso a la coherencia de los argumentos, los criterios y las consecuencias lógicas. Esto no implica falta de sensibilidad.'],
+     open:'Tus respuestas reparten el peso entre los criterios analíticos y la consideración personal.'},
+   JP:{name:'Organización y posibilidades',legend:'J: Juicio (Judging) · P: Percepción (Perceiving)',
+     low:['J · Juicio','Parece que agradeces ordenar las posibilidades, preparar etapas y dar cierre a decisiones cuando lo consideras oportuno.'],
+     high:['P · Percepción','Tiendes a mantener alternativas abiertas y a ajustar el camino conforme descubres información o surgen oportunidades.'],
+     open:'Según el contexto, puedes preferir tanto organizar como explorar opciones abiertas.'}
+  }
+ },
+ en:{
+  headline:'Your personality, in perspective',intro:'With each answer, a picture of how you engage with the world begins to emerge. These are not fixed labels: preferences can vary with context.',
+  tentative:'The profile beginning to emerge',codeLead:'For now, the combination suggested by your choices is',
+  noCode:'Some preferences are still very close. That too is part of your portrait: you do not have to fit neatly into four letters.',
+  patterns:'How these preferences appear in everyday life',twoSided:'Your answers point in both directions. Your approach may vary with the situation.',
+  soft:'This leaning is gentle and leaves room for variation.',missing:'There is still more to explore on this dimension.',
+  overview:'What the four dimensions mean',reflect:'Your next choices may refine this portrait, add examples or reveal interesting exceptions.',
+  axis:{
+   IE:{name:'Energy and connecting with others',legend:'I: Introversion · E: Extraversion',
+     low:['I · Introversion','You may value space to reflect, recharge or develop ideas on your own. This does not mean you cannot enjoy company.'],
+     high:['E · Extraversion','In several situations you tend to engage with others and work through ideas while interacting. This does not mean wanting company all the time.'],
+     open:'For now you alternate between interacting with others and reflecting independently.'},
+   SN:{name:'Perception and exploration',legend:'S: Sensing · N: iNtuition',
+     low:['S · Sensing','Your choices tend to start from tangible facts, examples and details before turning to a wider interpretation.'],
+     high:['N · iNtuition','You often notice patterns, connections and wider possibilities even before every detail is available.'],
+     open:'Sometimes you start from tangible details, and sometimes from wider connections and possibilities.'},
+   FT:{name:'Criteria for decisions',legend:'F: Feeling · T: Thinking',
+     low:['F · Feeling','You may put weight on values, the people involved and the human impact of decisions. This does not exclude analysis.'],
+     high:['T · Thinking','You often weigh coherent arguments, criteria and logical consequences. This does not imply a lack of sensitivity.'],
+     open:'Your answers spread emphasis across analytical criteria and personal considerations.'},
+   JP:{name:'Structure and open options',legend:'J: Judging · P: Perceiving',
+     low:['J · Judging','You may prefer setting an order, preparing stages and bringing decisions to a close when it helps.'],
+     high:['P · Perceiving','You may prefer leaving options open and adjusting your path when new information or opportunities appear.'],
+     open:'Depending on the context, you may favour either structure or open-ended exploration.'}
+  }
+ }
+};
+function renderProfileContext({report,session,plan,lang,esc}){
+ const w=PORTRAIT_COPY[lang],items=plan.questions.filter(q=>session.seen.includes(q.id));
+ const observed=analyzeAnswers(session,items),code=codeAt(session.answers,items);
+ const copy=code.includes('?')?null:TYPE_COPY[code]?.[lang];
+ const stage=report.checkpoint;
+ const isPreliminary=stage<32||!report.sourceFull;
+ const codeMarkup=copy?
+   '<div class="portrait-code"><span>'+esc(isPreliminary?w.tentative:w.codeLead)+'</span><strong>'+esc(code)+'</strong><h3>'+esc(copy.title)+'</h3><p>'+esc(copy.summary)+'</p></div>':
+   '<div class="portrait-code portrait-open"><h3>'+esc(w.tentative)+'</h3><p>'+esc(w.noCode)+'</p></div>';
+ const section=AXIS_ORDER.map(axis=>{
+  const ax=w.axis[axis],rows=observed.filter(r=>r.axis===axis),sum=rows.reduce((total,r)=>total+r.centered,0);
+  const low=rows.filter(r=>r.centered<0).length,high=rows.filter(r=>r.centered>0).length;
+  const meaningful=rows.length>=2;
+  const leaning=meaningful&&sum!==0?(sum<0?ax.low:ax.high):null;
+  const variation=low>0&&high>0?w.twoSided:(!meaningful?w.missing:Math.abs(sum)/(2*rows.length)<.25?w.soft:'');
+  return '<article class="portrait-dimension"><div class="portrait-axis-top"><span>'+esc(axis.replace('IE','I · E').replace('SN','S · N').replace('FT','F · T').replace('JP','J · P'))+'</span><small>'+rows.length+' / '+(stage<=32?'8':'16')+'</small></div><h4>'+esc(ax.name)+'</h4><p class="portrait-axis-legend">'+esc(ax.legend)+'</p><h5>'+esc(leaning?leaning[0]:(lang==='es'?'Preferencia abierta':'Open preference'))+'</h5><p>'+esc(leaning?leaning[1]:ax.open)+'</p>'+(variation?'<p class="portrait-nuance">'+esc(variation)+'</p>':'')+'</article>';
+ }).join('');
+ return '<section class="depth-section portrait-context" aria-label="'+esc(w.headline)+'"><div class="portrait-kicker">✧ · TYPE / XVI</div><h3>'+esc(w.headline)+'</h3><p class="portrait-context-lead">'+esc(w.intro)+'</p>'+codeMarkup+'<h3 class="portrait-dim-title">'+esc(w.overview)+'</h3><div class="portrait-dimension-grid">'+section+'</div><p class="portrait-reflection">'+esc(w.reflect)+'</p></section>';
+}
+
 export function renderDeepAnalysis({report,session,plan,locale='es',escapeHTML}){
  const lang=locale==='en'?'en':'es',w=COPY[lang],esc=escapeHTML;
+ const portrait=renderProfileContext({report,session,plan,lang,esc});
  const sourceItems=plan.questions.filter(q=>q.id<=32);
  const completedItems=plan.questions.filter(q=>session.seen.includes(q.id));
  const observations=analyzeAnswers(session,completedItems);
@@ -216,7 +293,7 @@ export function renderDeepAnalysis({report,session,plan,locale='es',escapeHTML})
   }).join('');
   contrasts=`<section class="depth-section"><h3>${esc(w.contrast)}</h3>${cards}</section>`;
  }
- return `<section class="depth-report" aria-label="${esc(w.title)}"><h2>${esc(w.title)}</h2><p class="depth-lead">${esc(w.intro)}</p><section class="depth-section"><h3>${esc(w.summary)}</h3><div class="depth-portraits">${originalNarrative}${extendedNarrative}</div></section><section class="depth-section"><h3>${esc(w.trend)}</h3><p class="depth-muted">${esc(w.trendDetail)}</p><ol class="depth-timeline">${stageRows}</ol></section>${contrasts}<section class="depth-section"><h3>${esc(w.evidenceTitle)}</h3><p class="depth-muted">${esc(w.evidenceIntro)}</p><div class="depth-evidence">${scoreRows}</div></section>${caution}</section>`;
+ return `<section class="depth-report" aria-label="${esc(w.title)}"><h2>${esc(w.title)}</h2><p class="depth-lead">${esc(w.intro)}</p>${portrait}<section class="depth-section"><h3>${esc(w.summary)}</h3><div class="depth-portraits">${originalNarrative}${extendedNarrative}</div></section><section class="depth-section"><h3>${esc(w.trend)}</h3><p class="depth-muted">${esc(w.trendDetail)}</p><ol class="depth-timeline">${stageRows}</ol></section>${contrasts}<section class="depth-section"><h3>${esc(w.evidenceTitle)}</h3><p class="depth-muted">${esc(w.evidenceIntro)}</p><div class="depth-evidence">${scoreRows}</div></section>${caution}</section>`;
 }
 
 /** Developer-facing structural assertions; never used to manufacture confidence. */
