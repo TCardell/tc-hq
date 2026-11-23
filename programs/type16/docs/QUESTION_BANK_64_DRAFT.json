@@ -1,12 +1,14 @@
 {
-  "schema": "type16-64-editorial-plan-v0.1",
+  "schema": "type16-64-editorial-plan-v0.2",
   "status": "planning-only",
   "updated": "2026-11-23",
   "notes": [
     "NOT a shipped change to the app",
     "Original OEJTS 1.2 answers and scoring preserved and distinct from proposed TYPE/16 questions",
     "Original 32 Spanish translation remains unvalidated",
-    "Scoring of 32 new items is a proposed experimental index, not psychometrically validated"
+    "Scoring of 32 new items is a proposed experimental index, not psychometrically validated",
+    "Editorial content review improves variety and risk awareness, not statistical reliability",
+    "All 32 new items need comprehension testing and empirical item analysis before including in any confidence claim"
   ],
   "stages": [
     {
@@ -693,29 +695,43 @@
     },
     {
       "id": 33,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "inicio de interacción",
+      "facet": "iniciativa social en situaciones nuevas",
       "highPoleSide": "A",
       "stem": {
-        "es": "Al incorporarte a una actividad con gente nueva, ¿qué te sale primero?",
-        "en": "When joining an activity with new people, what comes first?"
+        "es": "Al llegar a una actividad informal con personas que conoces poco, ¿qué te resulta más natural?",
+        "en": "When arriving at an informal activity with people you barely know, what feels more natural?"
       },
       "a": {
-        "es": "Empezar a conversar mientras conozco el ambiente",
-        "en": "Start chatting as I get to know the setting"
+        "es": "Empezar una conversación para entrar en el ambiente",
+        "en": "Start a conversation to settle into the setting"
       },
       "b": {
-        "es": "Observar el ambiente y acercarme poco a poco",
-        "en": "Observe the setting and join in gradually"
+        "es": "Observar un poco antes de sumarme a la conversación",
+        "en": "Observe for a while before joining the conversation"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          19,
+          31
+        ],
+        "firstDraftOverlaps": [
+          36,
+          49
+        ],
+        "remainingRisk": "La timidez o familiaridad pueden influir, aunque la pregunta sea de preferencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 34,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "procesamiento de ideas",
+      "facet": "procesamiento social de ideas",
       "highPoleSide": "B",
       "stem": {
         "es": "Cuando una idea todavía está poco clara, ¿cómo prefieres desarrollarla?",
@@ -729,53 +745,94 @@
         "es": "Hablarla con alguien para ir dándole forma",
         "en": "Talk it through with someone to shape it"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          11,
+          19
+        ],
+        "firstDraftOverlaps": [
+          52
+        ],
+        "remainingRisk": "Puede depender del tipo de idea o de interlocutor.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 35,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "recuperación de energía",
+      "facet": "interacción durante la exploración personal",
       "highPoleSide": "B",
       "stem": {
-        "es": "Después de varias horas de actividades compartidas, ¿qué te apetece más?",
-        "en": "After hours of shared activities, what appeals more?"
+        "es": "En una actividad que puedes explorar a tu ritmo, ¿cómo prefieres vivirla?",
+        "en": "In an activity you can explore at your own pace, how do you prefer to experience it?"
       },
       "a": {
-        "es": "Dedicar un rato a una actividad individual",
-        "en": "Spend time on an individual activity"
+        "es": "Explorarla por mi cuenta y comentar después lo descubierto",
+        "en": "Explore on my own and discuss what I found afterward"
       },
       "b": {
-        "es": "Seguir compartiendo alguna actividad con otras personas",
-        "en": "Continue sharing an activity with others"
+        "es": "Ir intercambiando impresiones mientras la exploro",
+        "en": "Exchange impressions with someone as I explore"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          3,
+          11,
+          15
+        ],
+        "firstDraftOverlaps": [
+          34,
+          52
+        ],
+        "remainingRisk": "El gusto por la actividad o la compañía puede influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 36,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "participación",
+      "facet": "momento de participación grupal",
       "highPoleSide": "A",
       "stem": {
-        "es": "Cuando surge un asunto interesante en un grupo pequeño, ¿qué haces más a menudo?",
-        "en": "When an interesting topic comes up in a small group, what do you usually do?"
+        "es": "En una conversación de grupo que te interesa, ¿cómo sueles incorporarte?",
+        "en": "In a group conversation that interests you, how do you usually join in?"
       },
       "a": {
-        "es": "Participo pronto para explorar ideas entre todos",
-        "en": "Join in early to explore ideas together"
+        "es": "Intervengo mientras vamos dando forma a las ideas",
+        "en": "Contribute while the ideas are taking shape"
       },
       "b": {
-        "es": "Escucho primero y aporto cuando lo he pensado",
-        "en": "Listen first and contribute after thinking it through"
+        "es": "Escucho el intercambio y aporto cuando he pensado mi idea",
+        "en": "Listen to the exchange and contribute after thinking it through"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          19,
+          31
+        ],
+        "firstDraftOverlaps": [
+          33
+        ],
+        "remainingRisk": "Diferenciar necesidad de reflexión de comodidad al hablar.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 37,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "aprendizaje",
+      "facet": "entrada al aprendizaje práctico",
       "highPoleSide": "B",
       "stem": {
         "es": "Al aprender a usar una herramienta, ¿qué te ayuda más al principio?",
@@ -789,73 +846,125 @@
         "es": "Comprender primero la idea general de su funcionamiento",
         "en": "Understand the general idea behind how it works"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          8,
+          28
+        ],
+        "firstDraftOverlaps": [
+          53
+        ],
+        "remainingRisk": "Puede variar según familiaridad con la herramienta.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 38,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "observación espacial",
+      "facet": "orientación espacial y patrones",
       "highPoleSide": "B",
       "stem": {
-        "es": "Al mirar el plano de un lugar desconocido, ¿qué miras primero?",
-        "en": "When looking at a map of an unfamiliar place, what do you notice first?"
+        "es": "Al observar el plano de un lugar nuevo, ¿qué te llama la atención primero?",
+        "en": "When looking at a map of a new place, what catches your attention first?"
       },
       "a": {
-        "es": "Calles, distancias y puntos concretos",
-        "en": "Streets, distances and specific landmarks"
+        "es": "Los lugares concretos y las distancias entre ellos",
+        "en": "Specific places and the distances between them"
       },
       "b": {
-        "es": "Patrones del recorrido y posibilidades de exploración",
-        "en": "Route patterns and possibilities for exploration"
+        "es": "La estructura general y cómo se conectan las zonas",
+        "en": "The overall layout and how the areas connect"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          24,
+          32
+        ],
+        "firstDraftOverlaps": [
+          54
+        ],
+        "remainingRisk": "La habilidad de orientarse puede contaminar la preferencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 39,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "recuerdo",
+      "facet": "inferencia de reglas desde casos",
       "highPoleSide": "A",
       "stem": {
-        "es": "Cuando recuerdas una historia, ¿qué suele permanecer más en tu memoria?",
-        "en": "When you remember a story, what tends to stay with you?"
+        "es": "Después de ver varios ejemplos parecidos, ¿qué tiendes a buscar primero?",
+        "en": "After seeing several similar examples, what do you tend to look for first?"
       },
       "a": {
-        "es": "La idea que conecta lo ocurrido",
-        "en": "The idea that connects what happened"
+        "es": "Una pauta general que los conecte",
+        "en": "A general pattern connecting them"
       },
       "b": {
-        "es": "Los detalles concretos de lo ocurrido",
-        "en": "The specific details of what happened"
+        "es": "Las diferencias concretas entre los ejemplos",
+        "en": "The specific differences between the examples"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          20,
+          24
+        ],
+        "firstDraftOverlaps": [
+          55
+        ],
+        "remainingRisk": "No confundir capacidad de encontrar patrones con preferencia de atención.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 40,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "proyección",
+      "facet": "curiosidad sobre objetos desconocidos",
       "highPoleSide": "A",
       "stem": {
-        "es": "Al imaginar un proyecto futuro, ¿en qué piensas primero?",
-        "en": "When imagining a future project, what do you first consider?"
+        "es": "Cuando encuentras un objeto cuyo uso no conoces, ¿qué te interesa explorar antes?",
+        "en": "When you encounter an object whose purpose you do not know, what interests you first?"
       },
       "a": {
-        "es": "En las posibilidades que podría abrir",
-        "en": "The possibilities it might open up"
+        "es": "Qué otros usos podría llegar a tener",
+        "en": "What other uses it might have"
       },
       "b": {
-        "es": "En sus recursos y requisitos concretos",
-        "en": "Its specific resources and requirements"
+        "es": "Cómo está hecho y para qué sirve actualmente",
+        "en": "How it is made and what it is currently used for"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          12,
+          28
+        ],
+        "firstDraftOverlaps": [
+          37
+        ],
+        "remainingRisk": "La curiosidad puede depender del objeto concreto.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 41,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "desacuerdos",
+      "facet": "criterios en desacuerdos colectivos",
       "highPoleSide": "A",
       "stem": {
         "es": "Si tu equipo discrepa sobre un plan, ¿qué te ayuda más a decidir?",
@@ -869,113 +978,196 @@
         "es": "Comprender lo que necesita cada participante",
         "en": "Understand what each participant needs"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          22,
+          26
+        ],
+        "firstDraftOverlaps": [
+          43,
+          44,
+          58
+        ],
+        "remainingRisk": "El contraste 'criterios/personas' puede activar deseabilidad social.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 42,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "consejo",
+      "facet": "razones y motivaciones de propuestas",
       "highPoleSide": "B",
       "stem": {
-        "es": "Cuando alguien te pide consejo sobre una decisión difícil, ¿por dónde empiezas?",
-        "en": "When someone asks for advice about a difficult decision, where do you start?"
+        "es": "Cuando alguien presenta una propuesta que te interesa, ¿qué te apetece comprender primero?",
+        "en": "When someone presents an idea that interests you, what would you first like to understand?"
       },
       "a": {
-        "es": "Por comprender cómo le afecta personalmente",
-        "en": "By understanding how it affects them personally"
+        "es": "Qué motivaciones personales hay detrás de la propuesta",
+        "en": "The personal motivations behind the proposal"
       },
       "b": {
-        "es": "Por examinar las opciones y sus consecuencias",
-        "en": "By examining options and their consequences"
+        "es": "Qué argumentos y consecuencias sostienen la propuesta",
+        "en": "The reasoning and consequences supporting the proposal"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          2,
+          22
+        ],
+        "firstDraftOverlaps": [
+          57
+        ],
+        "remainingRisk": "Necesidades humanas y razones pueden coexistir; pedir primera atención.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 43,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "evaluación colectiva",
+      "facet": "prioridades en la comunicación",
       "highPoleSide": "B",
       "stem": {
-        "es": "Al valorar una propuesta para varias personas, ¿qué pesa primero?",
-        "en": "When assessing a proposal for several people, what matters first?"
+        "es": "Al comparar dos maneras de comunicar la misma noticia, ¿qué valoras primero?",
+        "en": "When comparing two ways of sharing the same news, what do you first value?"
       },
       "a": {
-        "es": "Cómo puede afectar a quienes participen",
-        "en": "How it might affect those involved"
+        "es": "Cómo puede recibirla emocionalmente quien la escucha",
+        "en": "How the listener may receive it emotionally"
       },
       "b": {
-        "es": "Si los argumentos y criterios son consistentes",
-        "en": "Whether its reasoning and criteria are consistent"
+        "es": "Que el mensaje sea preciso y esté bien argumentado",
+        "en": "Whether the message is precise and well reasoned"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          30
+        ],
+        "firstDraftOverlaps": [
+          41,
+          59
+        ],
+        "remainingRisk": "Ambas prioridades son valiosas y suelen combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 44,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "elección",
+      "facet": "interpretación de decisiones narrativas",
       "highPoleSide": "A",
       "stem": {
-        "es": "Si dos soluciones parecen razonables, ¿qué suele ayudarte a elegir?",
-        "en": "If two solutions seem reasonable, what usually helps you choose?"
+        "es": "Al analizar la decisión de un personaje de una historia, ¿qué te interesa entender primero?",
+        "en": "When analyzing a character's decision in a story, what do you first want to understand?"
       },
       "a": {
-        "es": "Comparar sistemáticamente ventajas y dificultades",
-        "en": "Systematically compare advantages and difficulties"
+        "es": "Si su razonamiento encaja con los hechos",
+        "en": "Whether their reasoning fits the facts"
       },
       "b": {
-        "es": "Considerar cuál encaja mejor con las personas implicadas",
-        "en": "Consider which better suits those involved"
+        "es": "Qué siente y qué valores le han llevado a decidir",
+        "en": "What they feel and which values shaped their decision"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          22,
+          30
+        ],
+        "firstDraftOverlaps": [
+          42
+        ],
+        "remainingRisk": "La interpretación de ficción no equivale necesariamente a decisiones reales.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 45,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "arranque de proyectos",
+      "facet": "definición inicial de objetivos",
       "highPoleSide": "B",
       "stem": {
-        "es": "Cuando empiezas un proyecto con tiempo flexible, ¿qué prefieres?",
-        "en": "When starting a project with flexible timing, what do you prefer?"
+        "es": "Cuando un proyecto admite varios objetivos posibles, ¿qué te ayuda más al comenzar?",
+        "en": "When a project has several possible goals, what helps you get started?"
       },
       "a": {
-        "es": "Establecer etapas y un orden inicial",
-        "en": "Set stages and an initial order"
+        "es": "Elegir un objetivo y unas etapas iniciales",
+        "en": "Choose a goal and some initial stages"
       },
       "b": {
-        "es": "Probar caminos antes de fijar un orden",
-        "en": "Try different paths before fixing an order"
+        "es": "Explorar posibilidades antes de fijar un objetivo",
+        "en": "Explore possibilities before settling on a goal"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          13,
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          63
+        ],
+        "remainingRisk": "Definir metas y explorar opciones pueden combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 46,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "ocio",
+      "facet": "uso de tiempo inesperadamente libre",
       "highPoleSide": "A",
       "stem": {
-        "es": "Durante una escapada sin obligaciones, ¿qué te atrae más?",
-        "en": "During an obligation-free getaway, what appeals more?"
+        "es": "Si una actividad termina antes de lo previsto y te queda tiempo libre, ¿qué haces más a menudo?",
+        "en": "If an activity ends early and you have some free time, what do you usually do?"
       },
       "a": {
-        "es": "Dejar varias posibilidades abiertas según el momento",
-        "en": "Leave options open depending on the moment"
+        "es": "Elegir en el momento algo que me apetezca hacer",
+        "en": "Choose something I feel like doing at that moment"
       },
       "b": {
-        "es": "Organizar de antemano las visitas principales",
-        "en": "Plan the main visits ahead of time"
+        "es": "Adelantar otra actividad que ya tenía prevista",
+        "en": "Get a head start on another activity I had planned"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          13,
+          21,
+          25
+        ],
+        "firstDraftOverlaps": [
+          62
+        ],
+        "remainingRisk": "La disponibilidad y obligaciones externas pueden influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 47,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "gestión de tareas",
+      "facet": "alternancia o secuenciación de tareas",
       "highPoleSide": "B",
       "stem": {
         "es": "Cuando tienes varias tareas por delante, ¿cómo prefieres afrontarlas?",
@@ -989,13 +1181,26 @@
         "es": "Alternarlas según lo que pida cada momento",
         "en": "Switch between them as the moment calls for it"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          5,
+          9
+        ],
+        "firstDraftOverlaps": [
+          63
+        ],
+        "remainingRisk": "El número de tareas y las exigencias de atención pueden influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 48,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "cambios de planes",
+      "facet": "reestructuración ante cambios",
       "highPoleSide": "A",
       "stem": {
         "es": "Si una condición importante cambia a mitad de un plan, ¿qué haces primero?",
@@ -1009,33 +1214,59 @@
         "es": "Reorganizar las etapas para mantener una ruta clara",
         "en": "Reorganize stages to keep a clear route"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          64
+        ],
+        "remainingRisk": "Puede depender de consecuencias reales del cambio.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 49,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "expresión de entusiasmo",
+      "facet": "continuidad de contactos sociales",
       "highPoleSide": "A",
       "stem": {
-        "es": "Cuando descubres algo que te entusiasma, ¿qué te sale primero?",
-        "en": "When you discover something exciting, what comes first?"
+        "es": "Después de conocer a alguien con quien has conectado, ¿qué suele apetecerte más?",
+        "en": "After meeting someone you really connected with, what tends to appeal more?"
       },
       "a": {
-        "es": "Compartirlo y comentarlo con alguien",
-        "en": "Share it and discuss it with someone"
+        "es": "Proponer pronto otra ocasión para coincidir",
+        "en": "Suggest another occasion to meet soon"
       },
       "b": {
-        "es": "Explorarlo por mi cuenta antes de contarlo",
-        "en": "Explore it by myself before telling others"
+        "es": "Disfrutar del encuentro sin organizar otro inmediatamente",
+        "en": "Enjoy the encounter without immediately planning another"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          19,
+          23
+        ],
+        "firstDraftOverlaps": [
+          33
+        ],
+        "remainingRisk": "La iniciativa depende también del interés personal y de normas culturales.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 50,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "amplitud social",
+      "facet": "amplitud frente a profundidad conversacional",
       "highPoleSide": "B",
       "stem": {
         "es": "En un encuentro con personas que conoces, ¿qué parte disfrutas más?",
@@ -1049,53 +1280,94 @@
         "es": "Moverme entre conversaciones diferentes",
         "en": "Moving among different conversations"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          19,
+          23
+        ],
+        "firstDraftOverlaps": [
+          33,
+          49
+        ],
+        "remainingRisk": "La profundidad conversacional no es un indicador exclusivo de I/E; probar discriminación.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 51,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "celebración",
+      "facet": "interacción pública voluntaria",
       "highPoleSide": "A",
       "stem": {
-        "es": "Cuando un proyecto te sale especialmente bien, ¿cómo prefieres celebrarlo?",
-        "en": "When a project goes especially well, how do you prefer to celebrate?"
+        "es": "En una visita o taller participativo, si te surge una duda, ¿cómo prefieres plantearla?",
+        "en": "At an interactive visit or workshop, if a question comes to mind, how do you prefer to ask it?"
       },
       "a": {
-        "es": "Compartiendo el momento con varias personas",
-        "en": "Sharing the moment with several people"
+        "es": "Preguntarla durante el intercambio abierto del grupo",
+        "en": "Ask it during the open group discussion"
       },
       "b": {
-        "es": "Disfrutándolo de manera más reservada",
-        "en": "Enjoying it in a more private way"
+        "es": "Reflexionar primero y consultarla después en privado",
+        "en": "Think it through first and ask privately afterward"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          27,
+          31
+        ],
+        "firstDraftOverlaps": [
+          36
+        ],
+        "remainingRisk": "La ansiedad al hablar en público puede contaminar la respuesta.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 52,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "IE",
-      "facet": "elaboración colaborativa",
+      "facet": "ritmo del intercambio colaborativo",
       "highPoleSide": "B",
       "stem": {
-        "es": "Si tienes que preparar una propuesta, ¿qué proceso te resulta más natural?",
-        "en": "If you need to prepare a proposal, which process feels more natural?"
+        "es": "En una actividad compartida donde cada cual desarrolla una parte, ¿qué prefieres?",
+        "en": "In a shared activity where everyone works on a part, what do you prefer?"
       },
       "a": {
-        "es": "Escribirla o pensarla primero de forma individual",
-        "en": "Write or think it through individually first"
+        "es": "Trabajar primero en mi parte y contrastarla al final",
+        "en": "Work on my part first and compare notes at the end"
       },
       "b": {
-        "es": "Desarrollarla mediante una conversación inicial",
-        "en": "Develop it through an initial conversation"
+        "es": "Ir comentando avances e ideas durante el proceso",
+        "en": "Discuss progress and ideas throughout the process"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          11,
+          19
+        ],
+        "firstDraftOverlaps": [
+          34,
+          35
+        ],
+        "remainingRisk": "Distinguir estilo de cooperación de capacidad de trabajar en grupo.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 53,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "explicaciones",
+      "facet": "analogías frente a ejemplos al explicar",
       "highPoleSide": "B",
       "stem": {
         "es": "Para explicar una idea compleja, ¿qué recurso utilizas primero?",
@@ -1109,133 +1381,229 @@
         "es": "Una analogía que conecte varios conceptos",
         "en": "An analogy connecting several concepts"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          8,
+          28,
+          32
+        ],
+        "firstDraftOverlaps": [
+          37
+        ],
+        "remainingRisk": "Familiaridad con el tema cambia el recurso explicativo.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 54,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "atención cultural",
+      "facet": "lectura literal o interpretativa de imágenes",
       "highPoleSide": "A",
       "stem": {
-        "es": "Al visitar una exposición, ¿qué te atrae más de entrada?",
-        "en": "When visiting an exhibition, what first draws you in?"
+        "es": "Al mirar por primera vez una imagen que no conoces, ¿qué captas antes?",
+        "en": "When first looking at an unfamiliar image, what do you notice first?"
       },
       "a": {
-        "es": "Las conexiones entre piezas, épocas o ideas",
-        "en": "Connections among works, eras or ideas"
+        "es": "Las historias o relaciones que podría sugerir",
+        "en": "The stories or connections it might suggest"
       },
       "b": {
-        "es": "Los materiales y detalles de cada pieza",
-        "en": "The materials and details of each piece"
+        "es": "Sus formas, colores y detalles visibles",
+        "en": "Its visible shapes, colors and details"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          20,
+          24
+        ],
+        "firstDraftOverlaps": [
+          38,
+          55
+        ],
+        "remainingRisk": "El interés por el arte o la cultura puede influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 55,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "lectura de datos",
+      "facet": "detalle o tendencia en datos sencillos",
       "highPoleSide": "B",
       "stem": {
-        "es": "Cuando lees un informe con muchos datos, ¿qué buscas primero?",
-        "en": "When reading a data-heavy report, what do you look for first?"
+        "es": "Si ves varios datos sencillos sobre un tema, ¿qué tiendes a mirar primero?",
+        "en": "When you see several simple facts or numbers on a topic, what do you tend to look at first?"
       },
       "a": {
-        "es": "Cifras y observaciones específicas",
-        "en": "Specific figures and observations"
+        "es": "Qué indica cada dato concreto",
+        "en": "What each individual piece of data says"
       },
       "b": {
-        "es": "Tendencias y relaciones generales",
-        "en": "Overall trends and relationships"
+        "es": "Qué tendencia aparece al considerarlos juntos",
+        "en": "What trend appears when looking at them together"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          24,
+          28
+        ],
+        "firstDraftOverlaps": [
+          39,
+          54
+        ],
+        "remainingRisk": "Evitar que requiera conocimientos de estadística.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 56,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "SN",
-      "facet": "resolución de problemas",
+      "facet": "diagnóstico local frente a replanteamiento",
       "highPoleSide": "A",
       "stem": {
-        "es": "Si un enfoque no funciona, ¿qué exploras primero?",
-        "en": "If an approach fails, what do you explore first?"
+        "es": "Si algo deja de funcionar como esperabas, ¿qué te interesa investigar primero?",
+        "en": "If something stops working as expected, what do you want to investigate first?"
       },
       "a": {
-        "es": "Otras maneras posibles de plantear el problema",
-        "en": "Other possible ways to frame the problem"
+        "es": "Si hace falta plantear el problema de otra manera",
+        "en": "Whether the problem needs to be framed differently"
       },
       "b": {
-        "es": "Qué paso concreto ha fallado en el enfoque actual",
-        "en": "Which specific step failed in the current approach"
+        "es": "En qué paso concreto comenzó a fallar",
+        "en": "At which specific step things started going wrong"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          4,
+          28
+        ],
+        "firstDraftOverlaps": [
+          40
+        ],
+        "remainingRisk": "También refleja estrategias de resolución de problemas y experiencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 57,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "retroalimentación",
+      "facet": "devolución y propósito del autor",
       "highPoleSide": "A",
       "stem": {
-        "es": "Al comentar el borrador de alguien que ha pedido tu opinión, ¿qué priorizas?",
-        "en": "When commenting on someone's draft at their request, what comes first?"
+        "es": "Si alguien te pide comentar una creación suya, ¿qué te sale hacer primero?",
+        "en": "When someone asks for feedback on something they created, what comes first?"
       },
       "a": {
-        "es": "Identificar mejoras concretas y sus motivos",
-        "en": "Identify concrete improvements and why they matter"
+        "es": "Señalar qué aspectos podrían mejorarse y por qué",
+        "en": "Point out what could be improved and why"
       },
       "b": {
-        "es": "Comprender primero qué quiere expresar la persona",
-        "en": "Understand what the person wants to express"
+        "es": "Preguntar qué quiere expresar y qué es importante para esa persona",
+        "en": "Ask what they want to express and what matters to them"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          18,
+          22
+        ],
+        "firstDraftOverlaps": [
+          43
+        ],
+        "remainingRisk": "Se debe respetar que ambos estilos pueden combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 58,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "mediación",
+      "facet": "comprender un desacuerdo interpersonal",
       "highPoleSide": "B",
       "stem": {
-        "es": "Cuando dos personas discrepan, ¿qué te ayuda a intervenir?",
-        "en": "When two people disagree, what helps you step in?"
+        "es": "Si alguien defiende una opinión diferente de la tuya, ¿qué te interesa preguntar primero?",
+        "en": "If someone holds a different opinion from yours, what would you ask first?"
       },
       "a": {
-        "es": "Escuchar qué preocupa a cada una",
-        "en": "Listen to what concerns each person"
+        "es": "Qué experiencias y prioridades le han llevado a verla así",
+        "en": "Which experiences and priorities led them to see it that way"
       },
       "b": {
-        "es": "Acordar criterios claros para resolver la diferencia",
-        "en": "Agree on clear criteria for resolving the disagreement"
+        "es": "Qué argumentos y pruebas apoyan esa opinión",
+        "en": "Which arguments and evidence support that opinion"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          22
+        ],
+        "firstDraftOverlaps": [
+          41,
+          60
+        ],
+        "remainingRisk": "Las dos preguntas pueden ser razonables; no confundir empatía con ser F.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 59,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "equidad",
+      "facet": "explicación de decisiones delicadas",
       "highPoleSide": "B",
       "stem": {
-        "es": "Si una regla admite excepciones, ¿qué te parece más importante al decidir?",
-        "en": "If a rule allows exceptions, what matters more when deciding?"
+        "es": "Cuando tienes que comunicar una decisión inesperada a otra persona, ¿qué procuras abordar primero?",
+        "en": "When sharing an unexpected decision with someone, what do you try to address first?"
       },
       "a": {
-        "es": "Considerar las circunstancias particulares",
-        "en": "Consider each person's circumstances"
+        "es": "Reconocer cómo puede afectarle",
+        "en": "Acknowledge how it might affect them"
       },
       "b": {
-        "es": "Mantener criterios coherentes y explicables",
-        "en": "Keep the criteria consistent and explainable"
+        "es": "Explicar los criterios que justifican la decisión",
+        "en": "Explain the criteria behind the decision"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          26,
+          30
+        ],
+        "firstDraftOverlaps": [
+          43
+        ],
+        "remainingRisk": "La cortesía social puede provocar respuestas normativas; pilotar.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 60,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "FT",
-      "facet": "debate",
+      "facet": "lectura de argumentos frente a valores",
       "highPoleSide": "A",
       "stem": {
         "es": "Cuando lees un debate complejo, ¿qué observas primero?",
@@ -1249,87 +1617,198 @@
         "es": "Qué valores importan a quienes participan",
         "en": "Which values matter to the people involved"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          2,
+          22
+        ],
+        "firstDraftOverlaps": [
+          58
+        ],
+        "remainingRisk": "Puede compartir contenido con Q58; comprobar correlación y redundancia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 61,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "creación",
+      "facet": "cierre frente a exploración de versiones",
       "highPoleSide": "A",
       "stem": {
-        "es": "Antes de empezar una actividad creativa, ¿cómo te gusta proceder?",
-        "en": "Before starting a creative activity, how do you prefer to proceed?"
+        "es": "Si una versión de algo que estás creando ya funciona, ¿qué sueles preferir?",
+        "en": "If a version of something you are creating already works, what do you prefer?"
       },
       "a": {
-        "es": "Experimentar con materiales y decidir durante el proceso",
-        "en": "Experiment with materials and decide as I go"
+        "es": "Mantenerla abierta para seguir probando variaciones",
+        "en": "Keep it open to try more variations"
       },
       "b": {
-        "es": "Elegir pasos y herramientas con antelación",
-        "en": "Choose steps and tools in advance"
+        "es": "Darla por terminada y pasar al siguiente paso",
+        "en": "Consider it finished and move on to the next step"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          45,
+          63
+        ],
+        "remainingRisk": "Puede mezclarse con perfeccionismo o motivación.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 62,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "tiempo libre",
+      "facet": "bloques de tiempo frente a flexibilidad",
       "highPoleSide": "B",
       "stem": {
-        "es": "Si dispones de un fin de semana libre, ¿cómo prefieres organizarlo?",
-        "en": "If you have a free weekend, how do you prefer to organize it?"
+        "es": "Si tienes varias actividades personales previstas para un día libre, ¿cómo distribuyes el tiempo?",
+        "en": "If you have several personal activities planned on a free day, how do you allocate your time?"
       },
       "a": {
-        "es": "Decidir antes cuándo haré cada actividad",
-        "en": "Decide ahead when to do each activity"
+        "es": "Asigno franjas aproximadas a cada actividad",
+        "en": "Assign approximate time slots to each activity"
       },
       "b": {
-        "es": "Ir eligiendo actividades conforme avance",
-        "en": "Choose activities as the weekend unfolds"
+        "es": "Dejo flexibles los tiempos y ajusto sobre la marcha",
+        "en": "Leave the timing flexible and adjust as I go"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          1,
+          13
+        ],
+        "firstDraftOverlaps": [
+          46
+        ],
+        "remainingRisk": "Las obligaciones fijas hacen menos aplicable la preferencia; preguntar por tiempo propio.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 63,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "complejidad",
+      "facet": "respuesta a instrucciones ambiguas",
       "highPoleSide": "B",
       "stem": {
-        "es": "Cuando recibes una tarea compleja, ¿qué te ayuda más a arrancar?",
-        "en": "When given a complex task, what helps you get started?"
+        "es": "Si recibes una tarea con indicaciones poco definidas, ¿qué te ayuda más a arrancar?",
+        "en": "If you receive a task with vague instructions, what helps you start?"
       },
       "a": {
-        "es": "Dividirla en una secuencia de pasos",
-        "en": "Break it into a sequence of steps"
+        "es": "Acordar primero qué se espera y qué pasos seguir",
+        "en": "Clarify what is expected and which steps to follow"
       },
       "b": {
-        "es": "Abrir varias vías y ajustar al ver cuál funciona",
-        "en": "Explore several paths and adapt to what works"
+        "es": "Hacer una primera prueba y concretar a partir de ella",
+        "en": "Try an initial version and refine the plan from there"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          9,
+          25
+        ],
+        "firstDraftOverlaps": [
+          45
+        ],
+        "remainingRisk": "Depende de la experiencia, reglas y consecuencias de equivocarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     },
     {
       "id": 64,
-      "source": "TYPE16-DRAFT-1",
+      "source": "TYPE16-DRAFT-2",
       "axis": "JP",
-      "facet": "coordinación",
+      "facet": "revisión de planes personales ya elegidos",
       "highPoleSide": "A",
       "stem": {
-        "es": "Al organizar una actividad en grupo, ¿qué prefieres dejar decidido?",
-        "en": "When organizing a group activity, what do you prefer to settle?"
+        "es": "Si ya habías decidido cómo pasar una tarde y aparece otra posibilidad atractiva, ¿qué te resulta más natural?",
+        "en": "If you have chosen how to spend an afternoon and another appealing option appears, what feels more natural?"
       },
       "a": {
-        "es": "Solo lo imprescindible, dejando margen a ideas nuevas",
-        "en": "Only essentials, leaving room for new ideas"
+        "es": "Replantear la tarde para incorporar la novedad",
+        "en": "Rethink the afternoon to fit in the new option"
       },
       "b": {
-        "es": "Los detalles principales para que todo esté previsto",
-        "en": "The main details, so the plan is clear"
+        "es": "Mantener mi idea inicial y dejar la novedad para otro momento",
+        "en": "Stick with the original idea and save the new option for another time"
       },
-      "editorialStatus": "concept-not-approved"
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          48
+        ],
+        "remainingRisk": "La novedad puede resultar más o menos atractiva según intereses.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
     }
-  ]
+  ],
+  "editorialReview": {
+    "version": "v0.2",
+    "originalItemsUnchanged": true,
+    "revisionCounts": {
+      "keep": 8,
+      "polish": 7,
+      "replace": 17
+    },
+    "reviewedNewIds": [
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64
+    ],
+    "scoringStatus": "New items not scored in app; directional assignment is a working hypothesis",
+    "validationStatus": "No human comprehension test, reliability study, factor analysis, differential item functioning or predictive validation"
+  }
 }
