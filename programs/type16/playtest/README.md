@@ -1,3 +1,7 @@
+> **🗃 ARCHIVADO — prueba histórica, no mantener.** Versión estable: **[TYPE/16 v1.0](../index.html)**. Copia preservada en [archivo histórico](../archive/playtest-legacy.html).
+
+---
+
 # TYPE/16 Playtest (preview only)
 
 This folder is an isolated test built from Gesture Lab v0.11.1. The original `../gesture-lab.html` remains unchanged.
