@@ -32,3 +32,25 @@ Esta beta usa una copia inmutable de la lógica de selección, sesiones, puntuac
 3. Verificar las imágenes y las áreas desplegables en móvil y escritorio.
 4. Comprobar que una recarga conserva la partida; opcionalmente importar una partida antigua sin sobrescribirla.
 5. Comprobar que los resultados OEJTS siguen independientes de las 32 preguntas nuevas.
+
+## Revisión Beta I.1 — cabecera editorial y comparación de arte V1/V2
+
+- **Cabeceras:** primera carta `Bienvenido` / `Welcome`; las siguientes `Carta 02` / `Card 02`, etc., según la posición en la baraja (también en la revisión de omitidas). A la derecha solo `Atlas`; `TYPE/16` se conserva únicamente en el pie. No se muestra la estrella central de cabecera.
+- **Arte V1 intacto:** los 12 maestros SVG originales siguen en `js/artwork.js`, sin sustituciones ni cambios de trazados.
+- **Nueva V2:** `js/artwork-v2.js` contiene otros **12 SVG distintos por composición y silueta** que mantienen el mismo lenguaje geométrico y paleta. No son cambios de color ni de marco.
+- **Registro extensible:** `ART_VERSIONS`, `getMotifVersions(motif)`, `getMotifArt(motif,{version,frameVariant})`, `getCardArt(id,frameVariant,version)`. Para V3, añadir un módulo que exporte sus doce motivos y registrarlo en `VERSION_LIBRARY` de `artwork.js`; la galería se adapta automáticamente.
+- **Galería comparativa** en `art-gallery.html`: V1 y V2 lado a lado, con descripción conceptual, preguntas asociadas y tres encuadres opcionales. Permite marcar / desmarcar cada favorita, copiar la selección y restablecerla.
+- **Preferencias visuales independientes:** se guardan localmente bajo `type16.beta.art-choices.v1`, sin cambiar `type16.beta.v1` ni el historial de respuestas. La selección es un borrador, no la colección definitiva.
+- **Previsualización en las cartas:** `./index.html?art=v2` aplica V2 a todos los motivos; `./index.html?art=selection` usa las versiones elegidas y V1 para las que aún no tienen decisión. `index.html` sin parámetros mantiene V1 sin cambios. Cambiar el arte **no afecta puntuación, progreso ni resultados**.
+- **Trabajo reversible:** toda la revisión se limita al subdirectorio `programs/type16/beta/`, sin editar el prototipo 64 anterior ni Gesture Lab.
+
+### URLs
+
+- Beta normal: https://t.cardell.es/programs/type16/beta/index.html
+- Comparar arte: https://t.cardell.es/programs/type16/beta/art-gallery.html
+- Ver toda la V2: https://t.cardell.es/programs/type16/beta/index.html?art=v2
+- Ver selección guardada: https://t.cardell.es/programs/type16/beta/index.html?art=selection
+
+### Revisión recomendada
+
+Comparar V1 y V2 en móvil y escritorio; comprobar el texto `Bienvenido` de la primera carta y el número correcto de las demás; seleccionar distintas V1/V2, recargar la galería y comprobar persistencia; abrir las dos modalidades de previsualización y confirmar que los resultados de las cinco paradas no cambian.
