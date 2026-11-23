@@ -22,3 +22,11 @@ Banco y auditoria editorial de esta version:
 ../docs/EDITORIAL_REVIEW_NEW_32.md
 
 Desarrollo en pruebas; no constituye herramienta clinica ni MBTI oficial.
+
+
+## Revision 64.1 — grammar and detailed interpretation
+
+- Original 32 OEJTS response pairs are displayed as first-person statements in Spanish and English through `js/enhancements.js` (render-only; stored source strings, scoring direction and ids are unchanged).
+- Added expandable answer-level evidence for both poles of every axis, separate original/extended illustrative portraits, plus a five-stage trajectory recalculated from current recorded responses.
+- The new questions and results remain exploratory, not a psychometrically calibrated confidence measure. Original OEJTS score is isolated from new items.
+- Existing `type16.playtest64.v1` local saved progress remains compatible; Gesture Lab v0.11.1 is unchanged.

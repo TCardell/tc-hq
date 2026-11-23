@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181e29">
 <meta name="description" content="TYPE/16 · Prototipo de cartas interactivas, mobile-first y bilingüe.">
-<title>TYPE/16 · Playtest 64 · Cinco paradas</title>
+<title>TYPE/16 · Playtest 64 · Análisis ampliado</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -442,6 +442,47 @@ body.in-deck{height:100dvh}
 .result-actions{display:flex!important;flex-direction:column;align-items:stretch;gap:10px}.result-actions .start-btn,.result-actions .tool{width:100%;margin:0;text-align:center;justify-content:center}.result-actions .result-secondary{background:#292f40!important;color:#eddbc0!important;border:1px solid #b6a37d!important;padding:12px;border-radius:10px}.result-actions .quiet-btn{align-self:center}.skipped-note{color:#efd2a4}
 @media (max-width:370px){.app.playing .card-options .copy{font-size:10px!important}.app.playing .card-art{min-height:65px}.playtest-results .result-code{font-size:42px}.result-compare{gap:7px}.result-compare>div{padding:8px}}
 @media (max-height:610px){.app.playing .card-art{height:80px;min-height:65px}.app.playing .card-question{font-size:16px}.app.playing .card-options{min-height:84px}.app.playing .response-banner{min-height:46px}.app.playing .response-row{gap:4px}}
+
+/* TYPE/16 64.1 — evidence-led results, collapsible to remain comfortable on mobile */
+.depth-report{margin:27px 0 20px;padding:0;color:#e9e2d6}
+.depth-report>h2{font:500 clamp(25px,5vw,32px)/1.2 var(--serif);margin:0 0 7px;color:#f1ddb5}
+.depth-report h3{font:500 21px/1.2 var(--serif);margin:0 0 13px;color:#efd9b8}
+.depth-report h4{font:650 12px/1.4 var(--sans);margin:0 0 9px;color:#d6c3aa}
+.depth-lead{font-size:14px;color:#d7cbbc;line-height:1.5;margin:0 0 18px}
+.depth-section{padding:18px 17px;border:1px solid #ffffff21;border-radius:16px;background:linear-gradient(155deg,#253043bb,#1a2331cb);margin:12px 0}
+.depth-portraits{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.depth-portrait{border-radius:13px;padding:16px;background:#d9cdb9;color:#39373b;border:1px solid #e1cb9c}
+.depth-portrait.depth-experimental{background:#d4c7d1;border-color:#ac92b4}
+.depth-portrait .depth-overline{color:#605c58;font:650 10px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.09em}
+.depth-portrait h3{font:500 22px/1.23 var(--serif);color:#333948;margin:8px 0}
+.depth-portrait p{font-size:13px;color:#474046;line-height:1.6;margin:0 0 10px}
+.depth-portrait small{display:block;border-top:1px solid #8f847459;padding-top:10px;font-size:11px;line-height:1.45;color:#675b55}
+.depth-muted{font-size:12px;color:#c4b8ac;line-height:1.55;margin:2px 0 14px}
+.depth-timeline{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:0;border-left:2px solid #b39b77;}
+.depth-stage{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0 -7px;padding:12px 10px 12px 18px;position:relative;border-bottom:1px solid #ffffff1a;font-size:12px;color:#ded4c5}
+.depth-stage:before{position:absolute;left:0;top:50%;width:12px;height:12px;content:'';border-radius:50%;background:#dfc390;transform:translateY(-50%)}
+.depth-stage b{font:550 18px/1.2 var(--serif);white-space:nowrap;letter-spacing:.10em;color:#eddbc1}
+.depth-contrast-alert,.depth-contrast-muted{font-size:12px;line-height:1.55;color:#d5c5b5;border-left:3px solid #8ca39b;padding:8px 8px 8px 12px;background:#ffffff07;margin:7px 0}
+.depth-contrast-alert{border-left-color:#d2ac8b}
+.depth-evidence{display:grid;gap:8px}
+.depth-axis{border-radius:11px;background:#10182664;border:1px solid #ffffff21;overflow:hidden}
+.depth-axis summary{cursor:pointer;padding:15px 13px;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.depth-axis summary::-webkit-details-marker{display:none}
+.depth-axis summary strong{font:500 16px/1.2 var(--serif);color:#eedbbe}
+.depth-axis summary span{font:400 11px/1.3 var(--sans);color:#b9b7b1;text-align:right}
+.depth-axis summary::after{content:'+';font-size:20px;color:#dec194;margin-left:4px}
+.depth-axis[open] summary:after{content:'−'}
+.depth-axis:focus-within{border-color:#d7ad73}
+.depth-axis-content{border-top:1px solid #ffffff18;padding:13px}
+.depth-side{margin-bottom:15px}
+.depth-side ul{margin:0;padding-left:16px;display:grid;gap:11px}
+.depth-side li{font-size:13px;line-height:1.4;color:#eaded0}
+.depth-source{display:block;color:#b6aa9c;font:500 10px/1.4 var(--mono);margin-bottom:4px}
+.depth-side p,.depth-meta{color:#b9b5b1;font-size:11px;line-height:1.5;margin:0}
+.depth-caution{border-top:1px solid #ffffff29;padding-top:14px;font-size:12px;line-height:1.6;color:#bdb8b2}
+@media(min-width:860px){.depth-section{padding:24px}.depth-report{max-width:970px;margin:25px auto}.depth-evidence{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:370px){.depth-section{padding:14px 11px}.depth-axis summary{padding:13px 9px}.depth-axis summary strong{font-size:14px}.depth-axis summary span{font-size:10px}}
+
 </style>
 </head>
 <body>
@@ -631,6 +672,7 @@ function createExperience64(plan,{scoreOriginals,interpretOriginals}){
 }
 
 import {scoreAll} from './js/scoring.js';
+import {displayOptions,renderDeepAnalysis} from './js/enhancements.js';
 import {buildInterpretation} from './js/engine/interpretation.js';
 const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
 const createSession=(o)=>experience.newSession(o);
@@ -646,8 +688,8 @@ function cardData(session){
   const item=experience.question(session);
   if(item===null)return null;
   return {id:item.id,scene:SCENES[item.id]||axisScenes[item.axis],
-    es:[item.stem.es,item.a.es,item.b.es],
-    en:[item.stem.en,item.a.en,item.b.en]};
+    es:[item.stem.es,...displayOptions(item,'es')],
+    en:[item.stem.en,...displayOptions(item,'en')]};
 }
 
 const words={
@@ -823,7 +865,8 @@ function summary(){
   (showNew?compare:'<h2 class="result-code">'+safe(baselineCode)+'</h2><h3>'+safe(type.title||w.resultNoType)+'</h3><p class="result-story">'+safe(story)+'</p><p class="result-caption">'+safe(baselineStatus)+'</p>')+
   '</div>'+
   '<h2 class="result-heading">'+safe(w.resultDetails)+'</h2><p class="result-description">'+safe(w.resultScale)+'</p>'+
-  '<div class="result-axes">'+axisRows+'</div>'+
+  '<div class="result-axes">'+axisRows+'</div>'+ 
+  renderDeepAnalysis({report,session:s,plan:PLAN64,locale:state.lang,escapeHTML:safe})+
   (report.skipped?'<p class="result-description skipped-note">'+safe(w.resultSkipped)+'</p>':'')+
   '<p class="result-description">'+safe(w.resultDisclaimer)+' '+safe(w.resultArt)+'</p>'+
   '<div class="lab-actions result-actions">'+
