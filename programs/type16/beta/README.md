@@ -1,3 +1,7 @@
+> **🗃 ARCHIVADO — versiones de prueba.** La versión publicada es **[TYPE/16 v1.0](../index.html)**. No seguir desarrollando las páginas beta; sus copias están en [archivo histórico](../archive/). **Importante:** `js/` y `art/v3/` siguen siendo recursos activos de v1.0 y NO deben borrarse ni moverse sin migrar las dependencias.
+
+---
+
 # TYPE/16 · Beta I · Atlas de personalidad
 
 **Enlace de GitHub Pages:** https://t.cardell.es/programs/type16/beta/
