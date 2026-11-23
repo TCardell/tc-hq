@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="robots" content="noindex,follow">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#181e29">
+<meta name="description" content="TYPE/16: un atlas interactivo de 16 perfiles de personalidad, cuatro dimensiones, 64 cartas y cinco paradas.">
+<title>ARCHIVO · TYPE/16 · Beta I · Atlas de personalidad</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="../beta/manifest.webmanifest">
+<style>
+/* Fully self-contained: native fonts; no external assets or requests. */
+:root{--ink:#171c27;--ink2:#242b39;--cream:#efe7d8;--paper:#e8ddc6;--gold:#d7ad73;--muted:#a7abac;--soft:#d9c4a2;--red:#9e5f62;--teal:#456b67;--mono:'DM Mono',Consolas,monospace;--serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}html{min-height:100%;background:var(--ink)}body{margin:0;min-height:100svh;background:radial-gradient(ellipse 95% 68% at 50% 20%,#303747 0%,#1b222d 62%,#171c27 100%);font-family:var(--sans);color:#f1e7d8;-webkit-font-smoothing:antialiased}body:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");z-index:20;mix-blend-mode:soft-light}
+button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid #e9bd83;outline-offset:4px}a{color:inherit}button:disabled{opacity:.32;cursor:default}.app{min-height:100svh;max-width:520px;margin:0 auto;display:flex;flex-direction:column;padding:calc(13px + env(safe-area-inset-top)) max(17px,env(safe-area-inset-right)) calc(13px + env(safe-area-inset-bottom)) max(17px,env(safe-area-inset-left));gap:0}.masthead{height:50px;display:flex;align-items:center;justify-content:space-between;flex:none}.brand{display:flex;align-items:center;gap:9px;font:500 14px/1 var(--serif);letter-spacing:.055em}.brand-mark{height:26px;width:22px;border:1px solid #a9957b;border-radius:3px;display:grid;place-items:center;color:#d7b991;font-size:16px;transform:rotate(-8deg)}.brand strong{font-size:17px;font-weight:500;color:#fff3de}.slash{color:#c6a87e}.top-right{display:flex;align-items:center;gap:7px}.quiet-btn{height:35px;min-width:38px;padding:0 10px;border:1px solid #ffffff26;border-radius:8px;background:#ffffff08;color:#d9d2c9;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:500 11px/1 var(--mono);letter-spacing:.04em}.quiet-btn:hover,.quiet-btn:active{background:#ffffff1d;border-color:#d8b78a88}.quiet-btn svg{width:15px;height:15px;stroke:currentColor}.section-label{font:500 9px/1.55 var(--mono);letter-spacing:.21em;text-transform:uppercase;color:#baab95}.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.intro{flex:1;min-height:550px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 5px 35px}.intro-eyebrow{margin:24px 0 9px;font:500 10px var(--mono);letter-spacing:.3em;color:#d4b991;text-transform:uppercase}.intro-title{font:500 clamp(65px,15vw,87px)/.95 var(--serif);margin:0 0 19px;letter-spacing:-.07em;color:#f8eedd}.intro-title span{color:#cda36c}.intro-desc{font:400 16px/1.6 var(--sans);max-width:325px;color:#d8d0c5;margin:0 0 9px}.intro-desc.smaller{font-size:13px;color:#b8b5b6;margin-bottom:25px}.start-btn{width:min(100%,326px);min-height:56px;background:#dec59a;color:#292a2d;border:1px solid #f4dfba;border-radius:11px;letter-spacing:.03em;font-weight:700;display:flex;justify-content:center;align-items:center;gap:15px;box-shadow:0 12px 30px #0004;transition:background .17s,transform .17s}.start-btn:hover{background:#f2d5a5;transform:translateY(-2px)}.start-btn:active{transform:translateY(1px)}.start-btn svg{width:17px}.intro-foot{font:400 11px/1.55 var(--mono);color:#aeb0b1;margin-top:20px;max-width:315px}.hero-stack{position:relative;width:215px;height:240px;filter:drop-shadow(0 21px 28px #0006);margin:20px 0 3px}.hero-back{position:absolute;width:166px;height:224px;border:1px solid #bf9f6f;border-radius:10px;left:25px;top:8px;background:linear-gradient(135deg,#304455,#171d2b);transform:rotate(-14deg)}.hero-back:nth-child(2){background:#755c60;transform:rotate(12deg)}.hero-front{position:absolute;width:168px;height:225px;left:23px;top:6px;border:3px double #b98f5d;border-radius:10px;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}.hero-front:before{content:'';position:absolute;inset:7px;border:1px solid #aa856449;border-radius:4px}.hero-front svg{width:142px;height:184px}.hero-front .serial{position:absolute;bottom:14px;font:500 9px var(--mono);color:#6c5141;letter-spacing:.2em}.stage{flex:1;min-height:0;display:flex;flex-direction:column}.progress-block{padding:4px 1px 13px;flex:none}.progress-label{font:500 10px var(--mono);letter-spacing:.09em;color:#d6cbb9}.progress-line{height:2px;background:#c8ae8b35;margin-top:11px;position:relative}.progress-line-fill{height:100%;width:0;background:#e0bb83;transition:width .35s ease}.status-dots{display:flex;align-items:center;gap:4px}.status-dots i{display:block;width:3px;height:3px;background:#9a8e7c;border-radius:50%}.status-dots i:nth-child(1){background:#dfbc83}.deck-area{position:relative;flex:1;min-height:350px;max-height:620px;isolation:isolate;display:flex;align-items:stretch;justify-content:center;padding:8px 8px 14px}.deck-layer{position:absolute;inset:15px 16px 19px;pointer-events:none;border:1px solid #bfa982;border-radius:15px;background:linear-gradient(145deg,#c9bca4,#8f8070);box-shadow:0 13px 18px #0002;transition:transform .25s,opacity .25s}.deck-layer.back{transform:translate(2px,8px) rotate(3.7deg);opacity:.4}.deck-layer.mid{transform:translate(-2px,4px) rotate(-2.6deg);opacity:.75;background:linear-gradient(160deg,#d7c3a3,#a08d77)}.card{z-index:2;position:relative;width:100%;min-width:0;background:linear-gradient(157deg,#f1e8d7 0%,#e4d7be 70%,#eadfc9 100%);border:1px solid #d8c096;border-radius:14px;color:#2e2b2e;touch-action:none;user-select:none;cursor:grab;transform-origin:50% 90%;box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset;will-change:transform,opacity;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .4s cubic-bezier(.19,1,.23,1),box-shadow .2s}.card.dragging{transition:none;cursor:grabbing;box-shadow:0 32px 74px #03060f9c}.card.entering{animation:card-in .48s cubic-bezier(.18,.88,.23,1.15) both}.card.is-leaving{transition:transform .31s cubic-bezier(.4,.1,.8,.37),opacity .31s ease;opacity:0;pointer-events:none}.card:after{content:'';pointer-events:none;position:absolute;inset:8px;border:1px solid #a67d5444;border-radius:8px}.card:before{content:'';pointer-events:none;position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 4px,#754b3b05 5px);mix-blend-mode:multiply}.card-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:21px 26px 2px;font:500 9px var(--mono);letter-spacing:.11em;color:#846b51}.card-top .diamond{font:18px var(--serif);line-height:10px;color:#a58154}.card-art{width:min(100% - 50px,320px);height:clamp(108px,25vh,175px);margin:2px auto 0;display:grid;place-items:center;position:relative;flex-shrink:1;overflow:hidden;border-radius:95px 95px 6px 6px;background:linear-gradient(180deg,#ddd0b8 0%,#e7d8bc 90%);box-shadow:inset 0 1px 15px #9c80502e}.card-art svg{height:100%;max-width:100%;filter:drop-shadow(0 5px 1px #4b403128)}.card-question{margin:0 25px;font:500 clamp(19px,5.2vw,25px)/1.17 var(--serif);text-align:center;color:#3b3435;letter-spacing:-.035em;flex-shrink:0}.card-options{display:grid;grid-template-columns:1fr 18px 1fr;gap:8px;align-items:stretch;margin:0 19px 15px;min-height:70px}.option{border-top:1px solid #a78c6d;padding:10px 5px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}.option .ab{font:500 9px var(--mono);letter-spacing:.13em;color:#917452}.option .copy{font:600 clamp(12px,3.35vw,15px)/1.23 var(--sans);color:#423a35;hyphens:auto;overflow-wrap:anywhere}.option-mid{display:grid;place-items:center;color:#b29978;font:16px var(--serif)}.card-bottom{border-top:1px solid #aa94736e;display:flex;justify-content:space-between;align-items:center;margin:0 24px 15px;padding-top:10px;font:500 8px var(--mono);color:#947d5f;letter-spacing:.2em}.seal{position:absolute;left:50%;top:17%;transform:translate(-50%,-50%) rotate(-11deg) scale(.82);border:3px double #8b4f54;border-radius:8px;padding:11px 13px;opacity:0;pointer-events:none;z-index:7;font:800 clamp(19px,6vw,27px)/1 var(--sans);letter-spacing:.08em;color:#86434a;background:#fff5e06b;text-align:center;transition:opacity .13s,transform .13s;white-space:nowrap;box-shadow:0 0 0 3px #8b4f541a}.seal.right{color:#386b62;border-color:#386b62;transform:translate(-50%,-50%) rotate(10deg) scale(.82)}.seal.neutral{color:#655e72;border-color:#655e72;transform:translate(-50%,-50%) rotate(-5deg) scale(.82)}.seal.visible{opacity:1;transform:translate(-50%,-50%) rotate(-11deg) scale(1)}.seal.right.visible{transform:translate(-50%,-50%) rotate(10deg) scale(1)}.seal.neutral.visible{transform:translate(-50%,-50%) rotate(-5deg) scale(1)}.gesture-zone{flex:none;padding:1px 5px 0}.feedback{display:flex;align-items:center;justify-content:center;min-height:29px;color:#e1cfb1;font:500 11px var(--mono);letter-spacing:.035em;text-align:center;transition:color .2s}.feedback.highlight{color:#f5d198}.gesture-legend{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:3px auto 13px;font-size:11px;color:#bfc0c1}.gesture-legend span{display:flex;align-items:center;gap:6px}.gesture-legend b{font-size:15px;font-weight:400;color:#ddbb8d}.response-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.response{min-height:52px;border:1px solid #6f6b70;border-radius:9px;background:#ffffff09;color:#eadbc7;display:grid;place-items:center;gap:2px;padding:6px 2px;transition:background .18s,border .18s,transform .18s}.response:hover{background:#ffffff15;border-color:#d5af77}.response:active{transform:scale(.95)}.response strong{font:600 14px var(--serif)}.response small{font:500 clamp(8px,2.2vw,10px)/1.15 var(--sans);color:#c6c0bd;text-align:center}.response.neutral{border-color:#a18c6b}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:11px;padding:13px 3px 3px}.tool{color:#c6bead;background:transparent;border:0;min-height:44px;min-width:65px;padding:0 5px;font:500 12px var(--sans);display:flex;align-items:center;gap:7px}.tool:last-child{justify-content:flex-end}.tool:hover{color:#fff3d8}.tool .ico{font-size:19px;line-height:1}.lab-summary{flex:1;display:flex;flex-direction:column;justify-content:center;gap:19px;padding:12px 3px 25px}.summary-panel{padding:31px 22px;border:1px solid #9b876b;border-radius:16px;background:linear-gradient(160deg,#282e3d,#1d2430);box-shadow:0 14px 38px #0003;text-align:center}.summary-icon{font:43px var(--serif);color:#d0ac7a}.summary-title{font:500 36px/1.08 var(--serif);color:#f1dfbf;margin:14px 0}.summary-copy{font-size:14px;line-height:1.6;color:#d1ccc7;margin:0}.summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:27px}.summary-stat{border-top:1px solid #98826465;padding-top:11px}.summary-stat strong{display:block;font:500 25px var(--serif);color:#e5bd84}.summary-stat span{font-size:10px;color:#bfc0c2}.summary-note{font:400 12px/1.55 var(--sans);color:#adafb3;text-align:center}.lab-actions{display:grid;gap:9px}.lab-actions .start-btn{width:100%;max-width:none}.settings{position:fixed;z-index:40;inset:0;background:#000a;display:grid;align-items:end;justify-items:center;padding:0}.settings[hidden]{display:none}.settings-card{width:min(100%,520px);padding:25px 25px calc(24px + env(safe-area-inset-bottom));border-radius:23px 23px 0 0;background:linear-gradient(165deg,#303848,#202733);border:1px solid #a68a63;box-shadow:0 -12px 36px #0005}.settings-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.settings-head h2{font:500 27px var(--serif);margin:0;color:#f2e0c3}.settings-card p{font-size:13px;line-height:1.6;color:#c6c3c0}.settings-label{font-size:12px;color:#ebd2a9;display:flex;justify-content:space-between;gap:5px;margin-top:21px}.settings-card input{width:100%;accent-color:#dbb882;margin:15px 0 12px;height:28px}.settings-scale{display:flex;justify-content:space-between;color:#a8aab1;font:10px var(--mono)}.settings-tip{margin-top:18px;border-left:2px solid var(--gold);padding-left:12px}.settings-close{border:1px solid #b6a081;background:#e5d3ae;color:#262831;border-radius:10px;min-height:47px;font-weight:700;width:100%;margin-top:18px}.footer{color:#9299a1;font:400 10px/1.5 var(--mono);letter-spacing:.02em;text-align:center;padding:8px 0 0}.hidden{display:none!important}
+@keyframes card-in{from{opacity:.25;transform:translateY(40px) scale(.94) rotate(-4deg)}55%{opacity:1}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@media(max-height:680px){.app{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom))}.masthead{height:40px}.progress-block{padding-bottom:8px}.deck-area{min-height:310px;padding-top:3px;padding-bottom:7px}.card-top{padding-top:14px}.card-art{height:100px}.card-question{font-size:18px}.card-options{min-height:58px;margin-bottom:8px}.card-bottom{margin-bottom:10px}.response{min-height:45px}.toolbar{padding:5px 3px 0}.gesture-legend{margin-bottom:6px}.footer{padding-top:2px}}
+@media(max-width:350px){.app{padding-left:11px;padding-right:11px}.card-question{font-size:18px;margin:0 17px}.card-options{margin-left:13px;margin-right:13px}.card-top{padding-left:18px;padding-right:18px}.card-bottom{margin-left:18px;margin-right:18px}.option .copy{font-size:12px}.deck-area{min-height:335px}}
+@media(min-width:700px){.app{min-height:100vh;padding-top:22px;padding-bottom:24px}.deck-area{max-height:580px}.card-art{height:185px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* TYPE/16 GESTURE LAB V3 · immersive portrait format / static feedback */
+html{min-height:100%;overscroll-behavior-y:none}
+.app{min-height:100dvh}
+.app.playing{padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:calc(7px + env(safe-area-inset-bottom));max-width:510px}
+.app.playing .stage{flex:1;min-height:0}
+.app.playing .deck-area{flex:1;min-height:330px;max-height:none;padding:7px 7px 7px}
+.app.playing .deck-layer{inset:14px 14px 14px}
+.app.playing .card{border-radius:15px;min-height:0}
+.app.playing .card-top{padding:18px 22px 0}
+.app.playing .card-art{width:min(calc(100% - 34px),360px);height:clamp(115px,25dvh,220px);margin:9px auto 0;flex-shrink:1;min-height:105px}
+.app.playing .card-question{margin:0 21px;font-size:clamp(19px,5.1vw,26px)}
+.app.playing .card-options{margin:0 17px 10px;min-height:78px;gap:8px}
+.app.playing .card-bottom{margin:0 20px 13px;padding-top:7px}
+.app.playing .gesture-zone{padding:6px 0 0;display:grid;gap:7px}
+.response-banner{height:62px;min-height:62px;border:1px solid #b49973;border-radius:11px;
+ background:linear-gradient(120deg,#323d4e,#202837 72%);box-shadow:inset 0 1px #d6b58c2e,0 6px 22px #0003;
+ display:grid;grid-template-columns:34px 1fr 34px;align-items:center;gap:5px;padding:5px 12px;text-align:center;
+ transition:background .15s ease,border-color .15s,box-shadow .15s}
+.banner-ornament{font:22px Georgia,serif;color:#bda27c}
+.banner-text{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+.banner-kicker{font:500 9px/1.1 var(--mono);letter-spacing:.24em;color:#c9b495}
+.response-banner #feedback{font:600 clamp(15px,4.3vw,21px)/1.25 var(--serif);color:#f5e7ce;letter-spacing:.015em;min-height:25px}
+.response-banner.selected{border-color:#e0bb85;box-shadow:inset 0 1px #f1dcb858,0 8px 25px #0005}
+.response-banner.selected.left{background:linear-gradient(120deg,#583844,#242d3b 80%)}
+.response-banner.selected.right{background:linear-gradient(120deg,#274a48,#242d3b 80%)}
+.response-banner.selected.neutral{background:linear-gradient(120deg,#464253,#242d3b 80%)}
+.response-banner.selected.strong{border-color:#f0d39b}
+.response-banner.selected.strong #feedback{font-size:clamp(18px,5.1vw,24px);color:#ffe7b4}
+.app.playing .response-row{gap:6px}
+.app.playing .response{min-height:54px;border-radius:10px;padding:5px 1px;background:#ffffff07}
+.app.playing .response strong{font-size:18px}
+.app.playing .response small{font-size:clamp(9px,2.3vw,11px)}
+.app.playing .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0}
+.app.playing .tool{display:flex;align-items:center;justify-content:center;gap:10px;min-height:47px;padding:7px 12px;
+ border:1px solid #746b6c;border-radius:11px;background:#ffffff0d;color:#eee0ca;font-weight:700;font-size:13px}
+.app.playing .tool:last-child{justify-content:center}
+.app.playing .tool:hover{background:#ffffff1c;border-color:#d4b485}
+.app.playing .tool .ico{font-size:23px}
+.play-dock{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:35px}
+.stage-progress{display:flex;flex:1;align-items:center;gap:9px;min-width:0}
+.deck-counter{white-space:nowrap;font:500 10px var(--mono);color:#c0b3a0;letter-spacing:.1em}
+.progress-mini{height:2px;max-width:90px;flex:1;border-radius:8px;background:#d0c09b45;overflow:hidden}
+.progress-mini span{display:block;height:100%;background:#deb77f;transition:width .24s}
+.dock-buttons{display:flex;gap:6px;align-items:center}
+.dock-btn{display:grid;place-items:center;min-width:36px;height:35px;padding:0 7px;background:#ffffff08;
+ color:#d7c5ad;border:1px solid #ffffff36;border-radius:8px;font:500 10px var(--mono)}
+.dock-btn svg{width:17px;height:17px;stroke:currentColor}
+.dock-btn:hover{background:#ffffff20}
+.intro-fullscreen{margin-top:-6px;min-height:44px;background:none;border:0;color:#d5c3a6;text-decoration:underline;text-underline-offset:5px;font-size:13px}
+.settings-toggle{display:flex;align-items:center;gap:12px;margin-top:14px;color:#e6d5b8;font-size:12px;line-height:1.45}
+.settings-toggle input{width:20px;height:20px;accent-color:#d3b381;margin:0;flex:none}
+.settings-card{max-height:min(92dvh,780px);overflow-y:auto}
+.tutorial-screen{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:13px;padding:10px 6px 24px}
+.tutorial-emblem{font:42px Georgia,serif;color:var(--gold)}
+.tutorial-screen h1{font:500 clamp(29px,8vw,39px)/1.08 var(--serif);color:#f2dfbf;margin:0}
+.tutorial-lead{font-size:14px;line-height:1.5;color:#d4cbc1;margin:0;max-width:320px}
+.tutorial-compass{position:relative;display:grid;grid-template-columns:1fr 120px 1fr;grid-template-rows:45px 110px 45px;
+ width:min(100%,310px);align-items:center;justify-items:center;color:#d7c6a6}
+.tutorial-compass span{display:flex;align-items:center;flex-direction:column;font:25px Georgia,serif;gap:3px}
+.tutorial-compass small{font:600 10px var(--sans);color:#c4b9ac}
+.compass-up{grid-column:2;grid-row:1}.compass-left{grid-column:1;grid-row:2}.compass-card{grid-column:2;grid-row:2;
+ width:95px;height:108px;border:3px double #bca17a;border-radius:8px;background:#ddd0b5;color:#8c5c56;justify-content:center;box-shadow:0 8px 18px #0005}
+.compass-card small{color:#6f5b4a}.compass-right{grid-column:3;grid-row:2}.compass-down{grid-column:2;grid-row:3}
+.tutorial-steps{border:1px solid #bfa57d6f;border-radius:11px;text-align:left;padding:11px 16px;background:#ffffff08;width:min(100%,360px)}
+.tutorial-steps p{font-size:12px;line-height:1.55;margin:6px 0;color:#e7d9c2}
+.tutorial-steps p+ p{border-top:1px solid #ffffff18;padding-top:7px}
+.tutorial-note{color:#bfc1c0;font-size:11px;max-width:320px;line-height:1.5;margin:0 0 4px}
+.tutorial-screen .start-btn{flex-shrink:0}
+@media(max-height:720px){
+ .app.playing .deck-area{min-height:295px;padding:4px 5px}
+ .app.playing .card-art{height:clamp(90px,20dvh,135px);min-height:85px;margin-top:3px}
+ .app.playing .card-top{padding-top:13px}
+ .app.playing .card-question{font-size:clamp(17px,5vw,22px)}
+ .app.playing .card-options{min-height:55px;margin-bottom:7px}
+ .app.playing .card-bottom{margin-bottom:8px}
+ .app.playing .gesture-zone{gap:5px}
+ .response-banner{height:54px;min-height:54px}
+ .app.playing .response{min-height:46px}
+ .app.playing .tool{min-height:44px}
+ .play-dock{min-height:32px}
+}
+@media(max-width:350px){
+ .app.playing .card-art{width:calc(100% - 30px)}
+ .app.playing .card-options{margin-left:10px;margin-right:10px;gap:5px}
+ .app.playing .card-question{margin-left:14px;margin-right:14px}
+ .response-banner{grid-template-columns:22px 1fr 22px;padding-left:7px;padding-right:7px}
+ .tutorial-compass{grid-template-columns:1fr 110px 1fr;width:100%}
+}
+@media(prefers-reduced-motion:reduce){.response-banner,.progress-mini span{transition:none!important}}
+/* TYPE/16 V4 — performance, live practice card and compact viewport layout */
+body.in-deck::before{display:none} /* costly fixed noise blend does not repaint during drags */
+.app.playing{height:100dvh;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.app.playing .stage{min-height:0;flex:1}
+.app.playing .deck-area{min-height:240px;flex:1;max-height:none;overflow:visible}
+.app.playing .card{min-height:0;backface-visibility:hidden;contain:layout paint style;transform:translate3d(0,0,0);}
+.app.playing .card.dragging{box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset}
+.app.playing .card:before{mix-blend-mode:normal}
+.app.playing .response-banner{height:auto;min-height:62px;overflow:visible;padding:8px 10px}
+.app.playing .banner-text{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.app.playing .banner-kicker{line-height:1.35}
+.app.playing .response-banner #feedback{min-height:0;line-height:1.22;overflow-wrap:anywhere}
+.app.playing .gesture-zone{min-width:0;padding:5px 1px 0}
+.app.playing .toolbar{flex-shrink:0}
+.gesture-stamp{position:absolute;z-index:10;top:15%;width:max-content;max-width:46%;padding:10px 11px;opacity:0;pointer-events:none;
+ border:3px double #844c51;border-radius:8px;color:#844c51;background:#f8edd5f5;box-shadow:0 5px 10px #4f3d3424;
+ font:800 clamp(14px,4.1vw,20px)/1.16 var(--sans);letter-spacing:.01em;text-align:center;
+ transform:translate3d(0,-5px,0) rotate(-6deg);transition:opacity .13s ease,transform .13s ease;}
+.gesture-stamp.visible{opacity:1;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-right{right:12px;left:auto;transform:translate3d(0,0,0) rotate(6deg)}
+.gesture-stamp.on-left{left:12px;right:auto;border-color:#3f746c;color:#35665e;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-center{left:50%;right:auto;max-width:65%;transform:translate3d(-50%,0,0) rotate(-4deg);border-color:#716479;color:#64536e}
+.gesture-stamp.strong{font-size:clamp(17px,4.6vw,23px);border-width:4px}
+.practice-guide{margin:-9px 18px 0;text-align:center;color:#806a50;font-size:clamp(10px,2.8vw,12px);font-weight:650;line-height:1.3}
+.app.playing .card.practice-idle{animation:practice-wiggle 3.5s ease-in-out infinite;will-change:transform}
+@keyframes practice-wiggle{0%,10%,90%,100%{transform:translate3d(0,0,0) rotate(0)}23%{transform:translate3d(-17px,0,0) rotate(-2.6deg)}43%{transform:translate3d(14px,0,0) rotate(2.2deg)}61%{transform:translate3d(-8px,0,0) rotate(-1.1deg)}74%{transform:translate3d(0,0,0) rotate(0)}}
+@media(max-height:710px){
+ .app.playing .deck-area{min-height:215px}
+ .app.playing .card-top{padding-top:12px}
+ .app.playing .card-art{height:clamp(65px,16dvh,115px);min-height:65px;margin-top:1px}
+ .app.playing .card-question{font-size:clamp(16px,4.7vw,21px);line-height:1.12}
+ .app.playing .card-options{min-height:47px;margin-bottom:5px}
+ .app.playing .card-bottom{margin-bottom:7px;padding-top:5px}
+ .app.playing .response-banner{min-height:54px;padding:5px 8px}
+ .app.playing .response{min-height:43px}
+ .app.playing .tool{min-height:42px}
+ .app.playing .play-dock{min-height:31px}
+ .app.playing .gesture-zone{gap:5px}
+ .practice-guide{margin:-6px 10px 0;font-size:10px}
+}
+@media(max-height:590px){
+ .app.playing{padding-top:3px;padding-bottom:calc(3px + env(safe-area-inset-bottom))}
+ .app.playing .deck-area{min-height:195px;padding:2px 4px}
+ .app.playing .card-top{padding-top:8px}
+ .app.playing .card-art{height:65px;min-height:45px}
+ .app.playing .card-question{font-size:clamp(14px,4.5vw,18px)}
+ .app.playing .card-options{min-height:40px}
+ .app.playing .card-bottom{margin-bottom:4px}
+ .app.playing .response-banner{min-height:49px}
+ .app.playing .response{min-height:40px}
+ .app.playing .tool{min-height:38px}
+ .app.playing .play-dock{min-height:29px}
+}
+@media(prefers-reduced-motion:reduce){.app.playing .card.practice-idle{animation:none!important}.gesture-stamp{transition:none!important}}
+\n/* TYPE/16 V5: fixed response panel and genuine face-down / flip-deal choreography. */
+.app.playing .response-banner{height:64px;min-height:64px;max-height:64px;overflow:hidden;padding:5px 9px}
+.app.playing .banner-text{display:grid;grid-template-rows:12px 33px;align-content:center;gap:2px;min-width:0;overflow:hidden}
+.app.playing .banner-kicker{font-size:9px;line-height:12px;white-space:nowrap}
+.app.playing .response-banner #feedback{display:grid;place-content:center;height:33px;min-height:33px;max-height:33px;font:650 clamp(13px,3.7vw,18px)/1.13 var(--serif);overflow:hidden;overflow-wrap:anywhere;text-align:center}
+.app.playing .response-banner.selected.strong #feedback{font-size:clamp(13px,3.7vw,18px);font-weight:800}
+.app.playing .card{overflow:visible;background:transparent;border:none;box-shadow:none;contain:layout style;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;backface-visibility:visible;-webkit-backface-visibility:visible}
+.app.playing .card::before,.app.playing .card::after{content:none}
+.app.playing .card-front,.app.playing .card-reverse{position:absolute;inset:0;border-radius:15px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.app.playing .card-front{display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;color:#2e2b2e;background:linear-gradient(157deg,#f1e8d7 0%,#e4d7be 70%,#eadfc9 100%);border:1px solid #d8c096;box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset}
+.app.playing .card-front::after{content:'';pointer-events:none;position:absolute;inset:8px;border:1px solid #a67d5444;border-radius:8px}
+.app.playing .card-reverse{display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:25px 13px;background:repeating-linear-gradient(35deg,transparent 0 19px,#f1e3c908 20px 21px),linear-gradient(135deg,#29394b,#473e4e 55%,#29384a);border:4px double #dbb783;transform:rotateY(180deg);box-shadow:inset 0 0 0 7px #1c2436,0 21px 45px #0006;color:#efdbb6}
+.app.playing .card-reverse::after{content:'';position:absolute;inset:15px;border:1px solid #d9b88a99;border-radius:6px;pointer-events:none}
+.reverse-runes{font:500 15px Georgia,serif;letter-spacing:.8em;color:#d4af83}
+.reverse-sigil{display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center;border:2px solid #d8b787;width:min(51%,180px);aspect-ratio:1;border-radius:50%;font:76px Georgia,serif;line-height:1;box-shadow:0 0 0 13px #d3ac6e17;color:#edce9c}
+.reverse-sigil span{font:700 clamp(12px,3vw,16px) Georgia,serif;letter-spacing:.15em}
+.app.playing .deck-area{perspective:1100px;-webkit-perspective:1100px}
+.app.playing .deck-layer.mid{overflow:hidden;background:repeating-linear-gradient(35deg,#313c4c 0 17px,#3b4653 18px 19px);border:3px double #e2c08b;box-shadow:inset 0 0 0 10px #222d3d,0 12px 23px #0005}
+.app.playing .deck-layer.mid::before{content:'✧';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:100px Georgia,serif;color:#c9aa7f;border:2px solid #bb9769;border-radius:50%;width:154px;height:154px;display:grid;place-content:center}
+.app.playing .deck-layer.mid::after{content:'TYPE / 16';position:absolute;top:68%;left:50%;transform:translateX(-50%);font:600 13px Georgia,serif;letter-spacing:.22em;color:#ead0a5;white-space:nowrap}
+@keyframes tarot-deal{0%{transform:translate3d(0,16px,0) rotateY(-180deg) scale(.975)}55%{transform:translate3d(0,8px,0) rotateY(-91deg) scale(.988)}100%{transform:translate3d(0,0,0) rotateY(0deg) scale(1)}}
+.app.playing .card.deal-flip{animation:tarot-deal .62s cubic-bezier(.22,.68,.12,1) both}
+.app.playing .card.dragging{box-shadow:none}
+@media(max-height:710px){.app.playing .response-banner{height:57px;min-height:57px;max-height:57px;padding:3px 7px}.app.playing .banner-text{grid-template-rows:10px 31px;gap:1px}.app.playing .response-banner #feedback{height:31px;min-height:31px;max-height:31px;font-size:clamp(12px,3.4vw,16px)}.app.playing .response-banner.selected.strong #feedback{font-size:clamp(12px,3.4vw,16px)}}
+@media(prefers-reduced-motion:reduce){.app.playing .card.deal-flip{animation:none!important}}
+
+/* Cross-browser two-face flip: avoid mirrored front faces on mobile WebView/Chromium. */
+.app.playing .card{transform-style:flat;-webkit-transform-style:flat}
+.app.playing .card-reverse{transform:none;opacity:0;visibility:hidden}
+@keyframes tarot-deal-safe{0%{transform:translate3d(0,12px,0) scaleX(.975)}42%{transform:translate3d(0,9px,0) scaleX(.12)}50%{transform:translate3d(0,8px,0) scaleX(.016)}58%{transform:translate3d(0,7px,0) scaleX(.12)}100%{transform:translate3d(0,0,0) scaleX(1)}}
+@keyframes tarot-back-visible{0%,49.9%{opacity:1;visibility:visible}50%,100%{opacity:0;visibility:hidden}}
+@keyframes tarot-front-visible{0%,49.9%{opacity:0;visibility:hidden}50%,100%{opacity:1;visibility:visible}}
+.app.playing .card.deal-flip{animation:tarot-deal-safe .62s cubic-bezier(.4,.12,.25,1) both}
+.app.playing .card.deal-flip .card-front{animation:tarot-front-visible .62s steps(1,end) both}
+.app.playing .card.deal-flip .card-reverse{animation:tarot-back-visible .62s steps(1,end) both}
+@media(prefers-reduced-motion:reduce){.app.playing .card.deal-flip .card-front,.app.playing .card.deal-flip .card-reverse{animation:none!important}}
+
+/* TYPE/16 V6 — desktop stage is behind the foreground cards, never above them. */
+.desktop-scenery{display:none;pointer-events:none}
+@media (min-width:760px){
+  .desktop-scenery{display:block;position:fixed;inset:0;opacity:0;z-index:0;overflow:hidden;transition:opacity .36s ease;pointer-events:none}
+  .desktop-scenery>svg{display:block;width:100%;height:100%;object-fit:cover}
+  .desktop-scenery .scenery-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 58% 75% at 50% 51%,#0b12202b 0%,#0b122052 74%,#0b12207a 100%)}
+  body.in-deck .desktop-scenery{opacity:1}
+  .app{position:relative;z-index:1}
+  .app.playing{overflow:visible}
+  .app.playing .stage{position:relative;z-index:2}
+  .app.playing .deck-area{position:relative;z-index:3}
+  .app.playing .card{z-index:5}
+}
+/* Avoid motion-fill overriding the following drag style even if the animation timer is delayed. */
+.app.playing .card.dragging{animation:none!important}
+.app.playing .card.dragging .card-front,.app.playing .card.dragging .card-reverse{animation:none!important}
+@media(prefers-reduced-motion:reduce){.desktop-scenery{transition:none}}
+
+/* TYPE/16 V7 — preserve physical card proportions at low browser zoom.
+   Desktop viewport may be thousands of CSS pixels; do not stretch a card to fill its height. */
+@media (min-width:760px){
+  .app.playing .deck-area{
+    align-items:center;
+    justify-content:center;
+  }
+  .app.playing .card{
+    flex:0 0 auto;
+    width:min(100%, 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio: .69;
+    height:auto;
+    min-height:0;
+    align-self:center;
+  }
+  .app.playing .deck-layer{
+    inset:auto;
+    top:50%;
+    left:50%;
+    width:min(calc(100% - 14px), 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio:.69;
+    height:auto;
+  }
+  .app.playing .deck-layer.back{
+    transform:translate(calc(-50% + 2px), calc(-50% + 12px)) rotate(3.7deg);
+  }
+  .app.playing .deck-layer.mid{
+    transform:translate(calc(-50% - 2px), calc(-50% + 6px)) rotate(-2.6deg);
+  }
+}
+/* Reuse the exact same reverse art/layout while it is static and while it turns. */
+.app.playing .card-reverse,.app.playing .deck-layer.mid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:25px 13px;
+  background:repeating-linear-gradient(35deg,transparent 0 19px,#f1e3c908 20px 21px),linear-gradient(135deg,#29394b,#473e4e 55%,#29384a);
+  border:4px double #dbb783;
+  border-radius:15px;
+  box-shadow:inset 0 0 0 7px #1c2436,0 21px 45px #0006;
+  color:#efdbb6;
+}
+.app.playing .deck-layer.mid{opacity:1}
+.app.playing .deck-layer.mid::before{content:none}
+.app.playing .deck-layer.mid::after{
+  content:'';position:absolute;inset:15px;border:1px solid #d9b88a99;
+  border-radius:6px;pointer-events:none;left:15px;top:15px;transform:none;
+  width:auto;height:auto;font:inherit;color:inherit;white-space:normal;
+}
+/* Larger card alternatives: clear A/B signposts and legible short descriptions. */
+.app.playing .option{gap:6px;padding:8px 4px 6px}
+.app.playing .option .ab{font-size:clamp(13px,3.8vw,17px);font-weight:800;letter-spacing:.08em;line-height:1.1}
+.app.playing .option .copy{font-size:clamp(14px,3.9vw,18px);font-weight:650;line-height:1.22}
+.app.playing .card-options{min-height:84px}
+/* Emphasis without changing layout: the choice panel remains a fixed height. */
+.app.playing .response-banner.selected:not(.strong){
+  border-color:#debb8e;
+  box-shadow:inset 0 0 0 1px #ebcfaa40,0 6px 22px #0003;
+}
+.app.playing .response-banner.selected #feedback{
+  font-weight:750;
+  color:#ffedca;
+  letter-spacing:.012em;
+}
+.app.playing .response-banner.selected.strong{
+  background:linear-gradient(120deg,#74444d,#293a43 55%,#31594f);
+  border-color:#f3cc88;
+  box-shadow:inset 0 0 0 1px #f3d59b8c,0 0 18px #d5a36e29,0 6px 22px #0004;
+}
+.app.playing .response-banner.selected.strong #feedback{
+  font-size:clamp(18px,4.9vw,24px);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.075em;
+  color:#fff0c8;
+  text-shadow:0 0 10px #f8d59373;
+}
+.app.playing .response-banner.selected.strong .banner-ornament{color:#f5d08e;text-shadow:0 0 7px #eed08a80}
+.app.playing .gesture-stamp{
+  font-size:clamp(16px,4.5vw,23px);
+  font-weight:850;
+  border-width:3px;
+  background:#fff4e0fa;
+  box-shadow:0 0 0 2px #bd8d6f55,0 9px 22px #201a1a45;
+  letter-spacing:.025em;
+}
+.app.playing .gesture-stamp.strong{
+  font-size:clamp(20px,5.6vw,29px);
+  font-weight:900;
+  color:#fff4d9;
+  border:4px double #fce1a9;
+  background:linear-gradient(135deg,#7d3c4b,#5b2e40);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  text-shadow:0 2px 3px #1d0f1a75;
+  box-shadow:0 0 0 3px #f7d59b88,0 10px 30px #23141b75;
+}
+.app.playing .gesture-stamp.strong.on-left{background:linear-gradient(135deg,#296a60,#1e504f);color:#fff2d9;border-color:#fce1a9}
+.app.playing .gesture-stamp.strong.on-right{background:linear-gradient(135deg,#8d4352,#603341);color:#fff2d9;border-color:#fce1a9}
+@media(max-height:710px){
+  .app.playing .card-options{min-height:60px}
+  .app.playing .option .ab{font-size:clamp(12px,3.7vw,15px)}
+  .app.playing .option .copy{font-size:clamp(13px,3.7vw,16px)}
+  .app.playing .response-banner.selected.strong #feedback{font-size:clamp(16px,4.2vw,20px)}
+}
+@media(max-height:590px){
+  .app.playing .card-options{min-height:44px}
+  .app.playing .option{gap:3px;padding:3px 3px}
+  .app.playing .option .copy{font-size:clamp(12px,3.6vw,14px)}
+}
+
+
+/* TYPE/16 V8 — keep flying cards from changing the document scroll size.
+   Clip at the actual viewport, NOT at the desktop card column, so the
+   artwork remains above the scenery until it crosses the browser edge. */
+html.deck-locked,body.in-deck{
+  height:100%;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+body.in-deck{height:100dvh}
+@media(min-width:760px){
+  .app.playing{overflow:visible}
+}
+
+.app.playing .response-banner.selected.choice-a{background:linear-gradient(110deg,#294d6c,#243c53 80%);border-color:#80a9c8;box-shadow:inset 0 0 0 1px #9ebed346,0 6px 22px #0003}
+.app.playing .response-banner.selected.choice-b{background:linear-gradient(110deg,#285949,#253e3b 80%);border-color:#78ae8d;box-shadow:inset 0 0 0 1px #a1c8ad45,0 6px 22px #0003}
+.app.playing .response-banner.selected.choice-a.strong{background:linear-gradient(115deg,#315f85,#203e5d);border-color:#a5d8ff;box-shadow:inset 0 0 0 1px #c0e3ff98,0 0 20px #659fc27b,0 7px 25px #071a2e87}
+.app.playing .response-banner.selected.choice-b.strong{background:linear-gradient(115deg,#32755d,#214f41);border-color:#b9efc5;box-shadow:inset 0 0 0 1px #ccf5c5a1,0 0 20px #62b78a72,0 7px 25px #0a261887}
+.app.playing .response-banner.selected.choice-a #feedback{color:#e8f3fc;text-shadow:none}
+.app.playing .response-banner.selected.choice-b #feedback{color:#e9f9ed;text-shadow:none}
+.app.playing .response-banner.selected.choice-a.strong #feedback{color:#f6fbff;text-shadow:0 0 12px #a9dcff98}
+.app.playing .response-banner.selected.choice-b.strong #feedback{color:#f4fff1;text-shadow:0 0 12px #b1f3be9e}
+.app.playing .response-banner.selected.choice-a .banner-ornament{color:#b4d6ed;text-shadow:0 0 7px #8abbe763}
+.app.playing .response-banner.selected.choice-b .banner-ornament{color:#bce0c1;text-shadow:0 0 7px #91cba163}
+.app.playing .gesture-stamp.choice-a{color:#234e70;border:3px double #5a89ab;background:linear-gradient(140deg,#f3f7f8,#deebf1);box-shadow:0 0 0 2px #8fb1c46b,0 8px 20px #1b3a5340}
+.app.playing .gesture-stamp.choice-b{color:#265a49;border:3px double #5c9678;background:linear-gradient(140deg,#f2f8ee,#dfede1);box-shadow:0 0 0 2px #9dc3a77c,0 8px 20px #173d2940}
+.app.playing .gesture-stamp.strong.on-right.choice-a{color:#f4faff;border:4px double #d4e9f8;background:linear-gradient(140deg,#2b628c,#204568);box-shadow:0 0 0 3px #9bcef1a6,0 0 20px #85bdd57e,0 10px 30px #102c4f92}
+.app.playing .gesture-stamp.strong.on-left.choice-b{color:#f3fff1;border:4px double #d5f0d6;background:linear-gradient(140deg,#34795c,#21583f);box-shadow:0 0 0 3px #a7e0baa6,0 0 20px #82c9a27e,0 10px 30px #0b382392}
+.app.playing .card.incoming-preview{position:absolute!important;z-index:4!important;flex:none!important;pointer-events:none!important;margin:0!important;min-height:0!important}
+
+/* TYPE/16 V10 — no stamp residue, no card re-entering after a preview. */
+.app.playing .gesture-stamp:not(.visible){visibility:hidden;opacity:0;transition:none!important}
+.app.playing .gesture-stamp.visible{visibility:visible}
+.app.playing .card.settled{animation:none!important;transform:none;opacity:1}
+/* Keep practice / ordinary toolbars identical in height so the deck does not jump. */
+.app.playing .toolbar{height:52px;min-height:52px;}
+.app.playing .toolbar .tool{height:100%;min-height:0;}
+/* Reverse ornamental text cannot be selected or dragged, on desktop or touch. */
+.app.playing .deck-area,.app.playing .deck-area *,
+.app.playing .card,.app.playing .card *{
+  -webkit-user-select:none!important;user-select:none!important;
+  -webkit-touch-callout:none;
+}
+.app.playing .deck-area{-webkit-tap-highlight-color:transparent}
+</style>
+<style>
+.app.playing .response[data-value="1"].gesture-active,.app.playing .response[data-value="2"].gesture-active{background:#32668f!important;border-color:#b5dcf9!important}
+.app.playing .response[data-value="4"].gesture-active,.app.playing .response[data-value="5"].gesture-active{background:#327859!important;border-color:#c0edcc!important}
+.app.playing .response.neutral.gesture-active{background:#57526c!important}
+.app.playing .toolbar .tool.gesture-active{background:#51455a!important}
+</style><style>
+@media(min-width:760px){
+ html[lang="en"] .app.playing .gesture-stamp:not(.on-center){
+  max-width:calc(100% - 30px);
+  white-space:nowrap;
+ }
+ html[lang="en"] .app.playing .gesture-stamp.strong{
+  font-size:clamp(17px, 1.7vw, 23px);
+  letter-spacing:.045em;
+ }
+}
+</style>
+<style>
+/* TYPE/16 standalone playtest, inserted after the v0.11.1 styles; no changes to the master */
+.app.playing .card-options .copy{overflow-wrap:anywhere;hyphens:auto;line-height:1.19;}
+.app.playing .card-question{font-size:clamp(18px,4.8vw,23px)}
+.app:not(.playing){max-width:560px;}
+.playtest-results{display:block!important;flex:1;min-width:0;width:100%;padding:18px 0 35px!important;overflow:visible!important;}
+.playtest-results .result-panel{margin:14px 0 19px;padding:22px;border-radius:19px;background:linear-gradient(158deg,#efe6d6,#d8c7aa);color:#302c2f;border:1px solid #dfbc8e;box-shadow:0 15px 42px #04091555;}
+.result-kicker{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:#765f4c;font-family:var(--mono)}
+.playtest-results .result-code{font-size:clamp(50px,16vw,84px);font-weight:500;letter-spacing:.10em;line-height:1.15;color:#2b3548;margin:12px 0 2px;font-family:var(--serif)}
+.playtest-results .result-panel h2{margin:0 0 10px;font-family:var(--serif);font-size:24px;color:#353139}
+.playtest-results .result-story{margin:0 0 12px;line-height:1.52;font-size:15px;color:#403b37}
+.playtest-results .result-caption{border-top:1px solid #a99177;padding-top:10px;margin:0;line-height:1.4;font-size:13px;color:#67584f}
+.result-heading{font:500 25px/1.2 var(--serif);margin:10px 0 6px}.result-description{color:#c7bcaf;font-size:12px;line-height:1.5;margin:6px 0 14px}
+.result-axes{display:grid;gap:10px;margin-bottom:15px}.result-axis{border-radius:12px;background:#ffffff09;border:1px solid #ffffff24;padding:13px}.result-axis-head{display:flex;justify-content:space-between;gap:9px;align-items:baseline;margin-bottom:12px}.result-axis-head strong{font:500 16px/1.25 var(--serif)}.result-axis-head span{font:10px var(--mono);color:#e0ceb3;white-space:nowrap}.result-track{height:8px;background:linear-gradient(90deg,#406881 0%,#b0a78f 49%,#af8567 100%);border-radius:99px;position:relative}.result-track:after{content:'';position:absolute;left:50%;height:14px;top:-3px;border-left:1px solid #efe6d6a0}.result-pointer{position:absolute;top:-5px;width:4px;height:18px;border-radius:3px;background:#fff3d7;border:1px solid #342c2a;box-shadow:0 1px 5px #0008;transform:translateX(-50%)}.result-axis p{margin:9px 0 0;color:#c6beb3;font-size:12px;line-height:1.5}.result-actions{display:flex!important;flex-direction:column;align-items:stretch;gap:10px}.result-actions .start-btn{width:100%;margin:0;text-align:center;justify-content:center}.result-actions .result-secondary{background:#292f40!important;color:#eddbc0!important;border:1px solid #b6a37d!important}.result-actions .quiet-btn{align-self:center}
+@media (max-width:370px){.app.playing .card-options .copy{font-size:11px!important}.app.playing .card-art{min-height:90px}.playtest-results .result-code{font-size:48px}}
+</style>
+
+<style>
+/* TYPE/16 — isolated 64-card preview. Original Gesture Lab styles are unchanged. */
+.app:not(.playing){max-width:600px}
+.app.playing .card-top{padding-top:12px}
+.app.playing .card-art{height:clamp(86px,18dvh,150px);min-height:75px;margin:6px auto 0;flex-shrink:1}
+.app.playing .card-question{font-size:clamp(16px,4.0vw,21px);line-height:1.17;margin:0 16px}
+.app.playing .card-options{margin:2px 13px 6px;min-height:94px;gap:5px}
+.app.playing .card-options .option{padding:7px 3px 5px}
+.app.playing .card-options .copy{font-size:clamp(10.5px,2.8vw,13px);overflow-wrap:anywhere;hyphens:auto;line-height:1.2}
+.app.playing .card-bottom{margin:0 17px 8px}
+.app.playing .card-reverse{padding:20px 12px}
+.app.playing .play-dock{min-height:30px}
+.app.playing .stage{min-height:0}
+.app.playing .deck-area{min-height:230px}
+.playtest-results{display:block!important;flex:1;min-width:0;width:100%;padding:10px 0 38px!important;overflow:visible!important;}
+.playtest-results .result-panel{margin:12px 0 15px;padding:19px;border-radius:19px;background:linear-gradient(158deg,#efe6d6,#d8c7aa);color:#302c2f;border:1px solid #dfbc8e;box-shadow:0 15px 42px #04091555;}
+.result-kicker{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#765f4c;font-family:var(--mono)}
+.checkpoint-title{font:500 clamp(25px,6.8vw,36px)/1.18 var(--serif);color:#34323a;margin:10px 0 7px}
+.checkpoint-description{color:#514744;line-height:1.44;font-size:14px;margin:0 0 12px}
+.result-stats{border-top:1px solid #a99177;padding-top:12px;display:flex;flex-wrap:wrap;gap:8px 15px;font-size:11px;color:#625249}
+.playtest-results .result-code{font-size:clamp(44px,14vw,74px);font-weight:500;letter-spacing:.10em;line-height:1.2;color:#2b3548;margin:11px 0 4px;font-family:var(--serif)}
+.playtest-results .result-panel h3{margin:0 0 9px;font:500 21px/1.2 var(--serif);color:#353139}
+.playtest-results .result-story{margin:0 0 12px;line-height:1.52;font-size:14px;color:#403b37}
+.playtest-results .result-caption{border-top:1px solid #a99177;padding-top:10px;margin:0;line-height:1.4;font-size:12px;color:#67584f}
+.result-heading{font:500 25px/1.2 var(--serif);margin:15px 0 6px}.result-description{color:#c7bcaf;font-size:12px;line-height:1.5;margin:6px 0 14px}
+.result-axes{display:grid;gap:11px;margin-bottom:15px}.result-axis{border-radius:12px;background:#ffffff0a;border:1px solid #ffffff24;padding:13px}.result-axis-head{display:flex;justify-content:space-between;gap:9px;align-items:baseline;margin-bottom:12px}.result-axis-head strong{font:500 16px/1.25 var(--serif)}.result-axis-head span{font:11px var(--mono);color:#e0ceb3;white-space:nowrap}.result-track{height:8px;background:linear-gradient(90deg,#406881 0%,#b0a78f 49%,#af8567 100%);border-radius:99px;position:relative}.result-track:after{content:'';position:absolute;left:50%;height:14px;top:-3px;border-left:1px solid #efe6d6a0}.result-pointer{position:absolute;top:-5px;width:4px;height:18px;border-radius:3px;background:#fff3d7;border:1px solid #342c2a;box-shadow:0 1px 5px #0008;transform:translateX(-50%)}.result-axis p{margin:9px 0 0;color:#c6beb3;font-size:12px;line-height:1.5}.result-nuance{font-style:italic}
+.result-subline{display:flex;justify-content:space-between;gap:8px;font-size:11px;margin:12px 0 8px}.result-subline b{font-weight:550;color:#e2d0af}.result-subline span{font-family:var(--mono);color:#f1e6d2}.extra-track{background:linear-gradient(90deg,#5d597b 0%,#978e97 50%,#769b83 100%)}.combined-track{background:linear-gradient(90deg,#466c87 0%,#9b958b 50%,#9b7b66 100%)}
+.result-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 0}.result-compare>div{background:#ffffff40;border:1px solid #b49c7f;padding:12px;border-radius:12px}.result-compare .result-kicker{font-size:9px}.result-compare .compare-code{font:500 clamp(19px,5vw,32px)/1.3 var(--serif);letter-spacing:.08em;color:#283346;display:block;margin:8px 0}.result-compare p{font-size:11px;color:#574c46;line-height:1.4;margin:0}
+.journey-timeline{display:flex;justify-content:space-between;gap:6px;position:relative;margin:17px 0 16px}.journey-step{border:1px solid #857461;background:#243043;border-radius:100px;padding:7px 8px;font:500 12px var(--mono);min-width:47px;text-align:center;color:#c6bba4}.journey-step.reached{border-color:#b7a07d;color:#eedbbc}.journey-step.current{background:#d9bc8c;color:#263144;border-color:#f1ddb4;font-weight:800}
+.result-actions{display:flex!important;flex-direction:column;align-items:stretch;gap:10px}.result-actions .start-btn,.result-actions .tool{width:100%;margin:0;text-align:center;justify-content:center}.result-actions .result-secondary{background:#292f40!important;color:#eddbc0!important;border:1px solid #b6a37d!important;padding:12px;border-radius:10px}.result-actions .quiet-btn{align-self:center}.skipped-note{color:#efd2a4}
+@media (max-width:370px){.app.playing .card-options .copy{font-size:10px!important}.app.playing .card-art{min-height:65px}.playtest-results .result-code{font-size:42px}.result-compare{gap:7px}.result-compare>div{padding:8px}}
+@media (max-height:610px){.app.playing .card-art{height:80px;min-height:65px}.app.playing .card-question{font-size:16px}.app.playing .card-options{min-height:84px}.app.playing .response-banner{min-height:46px}.app.playing .response-row{gap:4px}}
+
+/* TYPE/16 64.1 — evidence-led results, collapsible to remain comfortable on mobile */
+.depth-report{margin:27px 0 20px;padding:0;color:#e9e2d6}
+.depth-report>h2{font:500 clamp(25px,5vw,32px)/1.2 var(--serif);margin:0 0 7px;color:#f1ddb5}
+.depth-report h3{font:500 21px/1.2 var(--serif);margin:0 0 13px;color:#efd9b8}
+.depth-report h4{font:650 12px/1.4 var(--sans);margin:0 0 9px;color:#d6c3aa}
+.depth-lead{font-size:14px;color:#d7cbbc;line-height:1.5;margin:0 0 18px}
+.depth-section{padding:18px 17px;border:1px solid #ffffff21;border-radius:16px;background:linear-gradient(155deg,#253043bb,#1a2331cb);margin:12px 0}
+.depth-portraits{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+.depth-portrait{border-radius:13px;padding:16px;background:#d9cdb9;color:#39373b;border:1px solid #e1cb9c}
+.depth-portrait.depth-experimental{background:#d4c7d1;border-color:#ac92b4}
+.depth-portrait .depth-overline{color:#605c58;font:650 10px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.09em}
+.depth-portrait h3{font:500 22px/1.23 var(--serif);color:#333948;margin:8px 0}
+.depth-portrait p{font-size:13px;color:#474046;line-height:1.6;margin:0 0 10px}
+.depth-portrait small{display:block;border-top:1px solid #8f847459;padding-top:10px;font-size:11px;line-height:1.45;color:#675b55}
+.depth-muted{font-size:12px;color:#c4b8ac;line-height:1.55;margin:2px 0 14px}
+.depth-timeline{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:0;border-left:2px solid #b39b77;}
+.depth-stage{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 0 -7px;padding:12px 10px 12px 18px;position:relative;border-bottom:1px solid #ffffff1a;font-size:12px;color:#ded4c5}
+.depth-stage:before{position:absolute;left:0;top:50%;width:12px;height:12px;content:'';border-radius:50%;background:#dfc390;transform:translateY(-50%)}
+.depth-stage b{font:550 18px/1.2 var(--serif);white-space:nowrap;letter-spacing:.10em;color:#eddbc1}
+.depth-contrast-alert,.depth-contrast-muted{font-size:12px;line-height:1.55;color:#d5c5b5;border-left:3px solid #8ca39b;padding:8px 8px 8px 12px;background:#ffffff07;margin:7px 0}
+.depth-contrast-alert{border-left-color:#d2ac8b}
+.depth-evidence{display:grid;gap:8px}
+.depth-axis{border-radius:11px;background:#10182664;border:1px solid #ffffff21;overflow:hidden}
+.depth-axis summary{cursor:pointer;padding:15px 13px;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.depth-axis summary::-webkit-details-marker{display:none}
+.depth-axis summary strong{font:500 16px/1.2 var(--serif);color:#eedbbe}
+.depth-axis summary span{font:400 11px/1.3 var(--sans);color:#b9b7b1;text-align:right}
+.depth-axis summary::after{content:'+';font-size:20px;color:#dec194;margin-left:4px}
+.depth-axis[open] summary:after{content:'−'}
+.depth-axis:focus-within{border-color:#d7ad73}
+.depth-axis-content{border-top:1px solid #ffffff18;padding:13px}
+.depth-side{margin-bottom:15px}
+.depth-side ul{margin:0;padding-left:16px;display:grid;gap:11px}
+.depth-side li{font-size:13px;line-height:1.4;color:#eaded0}
+.depth-source{display:block;color:#b6aa9c;font:500 10px/1.4 var(--mono);margin-bottom:4px}
+.depth-side p,.depth-meta{color:#b9b5b1;font-size:11px;line-height:1.5;margin:0}
+.depth-caution{border-top:1px solid #ffffff29;padding-top:14px;font-size:12px;line-height:1.6;color:#bdb8b2}
+@media(min-width:860px){.depth-section{padding:24px}.depth-report{max-width:970px;margin:25px auto}.depth-evidence{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:370px){.depth-section{padding:14px 11px}.depth-axis summary{padding:13px 9px}.depth-axis summary strong{font-size:14px}.depth-axis summary span{font-size:10px}}
+
+
+/* TYPE/16 · Atlas edition: readability, restrained ornament and 16-type cover */
+.intro{min-height:0;justify-content:flex-start;padding:12px 5px 30px}
+.intro .hero-stack{margin:1px 0 -8px;transform:scale(.83);height:206px;transform-origin:top center}
+.intro .intro-eyebrow{margin:12px 0 7px;font-size:11px;letter-spacing:.22em}
+.intro .intro-title{font-size:clamp(60px,13vw,84px);margin:0 0 12px}
+.intro .intro-desc{max-width:465px;margin-bottom:8px}
+.intro .intro-desc.smaller{font-size:13px;line-height:1.5;margin-bottom:12px}
+.intro-atlas{width:100%;max-width:480px;padding:14px 12px 11px;margin:12px 0 9px;border:1px solid #af956e66;border-radius:12px;background:#131a2699;box-shadow:inset 0 1px #f3d6a613}
+.intro-atlas h2{font:500 17px/1.22 var(--serif);color:#f0d8b4;text-align:left;margin:0 0 12px}
+.intro-dimension-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.intro-dimension{display:flex;align-items:flex-start;text-align:left;gap:9px;border:1px solid #d8b58732;border-radius:7px;padding:9px 7px;min-width:0;background:#ffffff04}
+.intro-dimension>b{font:600 11px/1.5 var(--mono);white-space:nowrap;color:#e4b978}
+.intro-dimension span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.intro-dimension strong{font:600 12px/1.25 var(--sans);color:#efe2cc}
+.intro-dimension small{font:400 11px/1.35 var(--sans);color:#bdb4a9}
+.intro-types{width:100%;max-width:480px;text-align:left;margin:0 0 14px;background:#ffffff04;border:1px solid #b5a17b55;border-radius:10px;overflow:hidden}
+.intro-types summary{list-style:none;padding:13px 14px;cursor:pointer;color:#edd5af;font:600 13px/1.35 var(--sans);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.intro-types summary::-webkit-details-marker{display:none}
+.intro-types[open] summary{border-bottom:1px solid #b5a17b38}
+.intro-types p{margin:10px 13px;color:#c9bdae;font-size:12px;line-height:1.5}
+.intro-type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 12px 12px}
+.intro-type{display:flex;align-items:baseline;gap:8px;padding:8px 7px;background:#ffffff08;border-radius:7px;min-width:0}
+.intro-type b{font:600 12px var(--mono);color:#e6bd84;flex:none}
+.intro-type small{font:400 11px/1.4 var(--sans);color:#e9dbc5}
+.intro-resume{width:100%;max-width:480px;margin:4px 0 14px;padding:13px 15px 11px;text-align:left;border-radius:12px;border:1px solid #e0bd84;background:linear-gradient(135deg,#394459,#2d3243);box-shadow:0 0 0 3px #d4ad7030,0 12px 32px #0004}
+.intro-resume-head{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#f5d8aa;font:650 12px/1.3 var(--mono);letter-spacing:.06em}
+.intro-resume-head strong{font-size:14px}
+.intro-resume-track{height:5px;background:#ffffff29;border-radius:99px;overflow:hidden;margin:12px 0 7px}
+.intro-resume-track span{display:block;height:100%;background:#ebbf80;border-radius:99px}
+.intro-resume p{font:400 12px/1.5 var(--sans);color:#ddd2c2;margin:0}
+.intro-resume p b{color:#f7deb5}
+.intro .start-btn{max-width:480px;width:100%}
+.app.playing .card-front::before{content:'';position:absolute;inset:14px;border:1px solid #b79a6e66;border-radius:9px;pointer-events:none}
+.app.playing .card-front::after{border-color:#a67d5470}
+.app.playing .card-art{background:radial-gradient(ellipse at 50% 38%,#eee0c8,#dfcfb4 78%);box-shadow:inset 0 0 0 1px #9b7d5555,inset 0 2px 18px #9c80502e}
+.app.playing .card-art::before{content:'';position:absolute;inset:6px;border:1px solid #987c596b;border-radius:94px 94px 5px 5px;pointer-events:none;z-index:2}
+.app.playing .card-art::after{content:'✦';position:absolute;bottom:2px;left:calc(50% - 6px);color:#8d725a;font:12px Georgia,serif;opacity:.65;pointer-events:none}
+.app.playing .card-top{font-size:clamp(9.7px,2.45vw,11px);letter-spacing:.1em;padding-left:20px;padding-right:20px}
+.app.playing .card-bottom{font-size:clamp(9.5px,2.4vw,10.7px);letter-spacing:.1em;min-height:17px}
+.app.playing .card-options{min-height:103px;margin-bottom:7px;gap:7px}
+.app.playing .card-options .option{justify-content:flex-start;gap:8px;min-width:0;padding-top:9px}
+.app.playing .card-options .option .ab{font:700 clamp(12px,3.1vw,15px)/1.1 var(--mono);color:#8b603d;letter-spacing:.09em;white-space:nowrap;flex:0 0 auto}
+.app.playing .card-options .option .copy{font:600 clamp(11.4px,3.05vw,14.4px)/1.22 var(--sans);hyphens:auto;overflow-wrap:anywhere}
+.playtest-results .result-panel{position:relative;border:1px solid #d5aa72;box-shadow:0 12px 28px #06091570, inset 0 0 0 4px #e9dfcb}
+.playtest-results .result-panel::after{content:'✧  ✦  ✧';display:block;margin-top:16px;text-align:center;font:13px var(--serif);letter-spacing:.28em;color:#9d7c56}
+.playtest-results .checkpoint-title{font-size:clamp(30px,6.9vw,39px)}
+.playtest-results .checkpoint-description{font:400 15px/1.5 var(--serif);color:#53453e}
+.playtest-results .result-heading{color:#f0dfbd}
+.playtest-results .result-stats{font-size:12px}
+@media(max-width:370px){.intro-dimension-grid{grid-template-columns:1fr 1fr}.intro-dimension{gap:5px;padding:8px 5px}.intro-dimension strong{font-size:11px}.intro .intro-title{font-size:58px}.app.playing .card-options .option .copy{font-size:11.7px!important}.app.playing .card-top,.app.playing .card-bottom{font-size:9.5px}}
+@media(max-height:640px){.app.playing .card-options{min-height:89px}.app.playing .card-options .option{gap:4px}.app.playing .card-options .option .ab{font-size:12px}.app.playing .card-art{min-height:68px}.intro .hero-stack{height:175px;transform:scale(.73)}}
+
+/* Atlas edition — readable, layered personality interpretations at every stop */
+.portrait-context{position:relative;margin-top:19px;padding:21px 18px;background:linear-gradient(160deg,#f0e6d4,#d8c6a9);border:1px solid #e1bc86;color:#393039;box-shadow:inset 0 0 0 4px #c6a6813b,0 17px 35px #0003}
+.portrait-context::after{content:'✧ ✦ ✧';position:absolute;top:14px;right:18px;color:#a68660;letter-spacing:.3em;font:13px var(--serif)}
+.portrait-kicker{font:600 10px/1.3 var(--mono);letter-spacing:.16em;color:#886649}
+.depth-report .portrait-context>h3{font:500 clamp(25px,5.6vw,33px)/1.15 var(--serif);color:#3f3942;margin:11px 0 10px}
+.portrait-context-lead{font:400 15px/1.6 var(--serif);color:#50473f;margin:0 0 16px}
+.portrait-code{padding:15px 16px;background:#fff9e884;border:1px solid #b79b74;border-radius:12px;box-shadow:inset 0 1px #fff8e0}
+.portrait-code>span{display:block;font:650 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#86694e}
+.portrait-code>strong{display:block;font:500 clamp(37px,8vw,54px)/1.2 var(--serif);letter-spacing:.12em;color:#293a4b;margin:7px 0 0}
+.depth-report .portrait-code h3{font:500 21px/1.2 var(--serif);color:#3e363b;margin:6px 0 9px}
+.portrait-code p{font:400 14px/1.65 var(--sans);color:#51443e;margin:0}
+.depth-report .portrait-dim-title{font:500 20px/1.2 var(--serif);color:#51433e;margin:22px 0 12px}
+.portrait-dimension-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.portrait-dimension{border:1px solid #b79e7b8c;border-radius:10px;background:#fff8e68c;padding:14px}
+.portrait-axis-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.portrait-axis-top span{font:700 12px/1.3 var(--mono);color:#a27245;letter-spacing:.12em}
+.portrait-axis-top small{font:500 11px var(--mono);color:#8d7660}
+.depth-report .portrait-dimension h4{color:#393b44;font:500 18px/1.2 var(--serif);margin:8px 0}
+.depth-report .portrait-dimension h5{color:#664e3e;font:700 13px/1.3 var(--sans);margin:12px 0 4px}
+.portrait-dimension p{color:#514a45;line-height:1.57;font-size:13.5px;margin:0}
+.portrait-dimension .portrait-axis-legend{font:450 11.5px/1.4 var(--sans);color:#786955;border-bottom:1px solid #b79b754d;padding-bottom:10px}
+.portrait-dimension .portrait-nuance{font-style:italic;color:#725c51;margin-top:8px}
+.portrait-reflection{border-top:1px solid #ac8b6e8a;color:#564e44;padding-top:11px;margin:18px 0 0;font:italic 14px/1.6 var(--serif)}
+@media(min-width:550px){.portrait-dimension-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:360px){.portrait-context{padding:16px 12px}.portrait-dimension{padding:11px}}
+
+/* TYPE/16 64.3 — geometry-only refinements to the approved card frame.
+   Illustrations, scoring, text and interaction are intentionally untouched. */
+.app.playing .card-top{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);
+  justify-content:initial;
+  align-items:center;
+  column-gap:5px;
+  min-height:33px;
+  padding:20px 27px 0;
+}
+.app.playing .card-top > span:first-child{
+  grid-column:1;
+  justify-self:start;
+  min-width:0;
+  white-space:nowrap;
+}
+.app.playing .card-top > .diamond{
+  grid-column:2;
+  justify-self:center;
+  display:grid;
+  width:24px;
+  height:24px;
+  place-items:center;
+  line-height:1;
+  font-size:20px;
+}
+.app.playing .card-top > span:last-child{
+  grid-column:3;
+  justify-self:end;
+  white-space:nowrap;
+}
+.app.playing .card-bottom{
+  position:relative;
+  z-index:1;
+  margin:0 27px 25px;
+  padding-top:8px;
+  min-height:21px;
+  line-height:1.3;
+  align-items:center;
+  border-top-color:#aa94734d;
+}
+@media(max-width:350px){
+  .app.playing .card-top{padding:18px 22px 0;column-gap:3px;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr)}
+  .app.playing .card-top > .diamond{width:22px;height:22px;font-size:19px}
+  .app.playing .card-bottom{margin:0 22px 22px;padding-top:6px;min-height:18px}
+}
+@media(max-height:640px){
+  .app.playing .card-top{padding-top:16px;min-height:29px}
+  .app.playing .card-bottom{margin-bottom:21px;padding-top:6px;min-height:18px}
+}
+
+/* TYPE/16 — BETA I. Original geometric illustrations, quiet textures, layered insights. */
+.app.playing .card-art.beta-art{
+ width:min(calc(100% - 47px),330px);
+ height:clamp(90px,18dvh,150px);min-height:72px;
+ border-radius:76px 76px 8px 8px;
+ background:#eee3d0;
+ box-shadow:inset 0 0 0 1px #9c815b47,inset 0 3px 19px #ae94701c;
+}
+.app.playing .card-art.beta-art svg{width:100%;height:100%;max-width:100%;filter:none;display:block}
+.app.playing .card-art.beta-art::before{inset:7px 10px;border:1px solid #a18a673b;border-radius:70px 70px 7px 7px}
+.app.playing .card-art.beta-art::after{content:none;display:none}
+.app.playing .card-front{background:linear-gradient(165deg,#f2e9d9,#e8dcc6 58%,#e8dbc3)}
+.app.playing .card-top .diamond{font-size:20px;line-height:1;transform:translateY(-1px)}
+.playtest-results .result-axes{gap:9px}
+.playtest-results .result-axis{padding:13px 14px;border-color:#d5c2a52f}
+.playtest-results .result-axis-head strong{font-size:17px}
+.playtest-results .result-axis p{font-size:13px;line-height:1.52}
+.beta-axis-compare{border-top:1px solid #c7ac7d48;margin:14px 0 0}
+.beta-axis-compare summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#f0d7ae;font:600 12px/1.4 var(--sans);padding:11px 0 6px}
+.beta-axis-compare summary::-webkit-details-marker{display:none}
+.beta-axis-compare summary span{font:18px/1 var(--serif);transition:transform .2s}
+.beta-axis-compare[open] summary span{transform:rotate(45deg)}
+.beta-axis-compare-inner{padding:7px 0 4px}
+.beta-axis-compare-inner .result-subline{margin:9px 0 7px}
+.beta-axis-compare-inner .result-track{height:6px}
+.beta-report{margin:13px 0 20px}
+.beta-report .portrait-context{margin:16px 0 22px}
+.beta-portrait-accordion{margin-top:14px;border-top:1px solid #ae94735e}
+.beta-portrait-accordion summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 1px;color:#4b4042;font:500 18px/1.25 var(--serif)}
+.beta-portrait-accordion summary::-webkit-details-marker{display:none}
+.beta-portrait-accordion summary span{font:17px Georgia,serif;color:#96744d;transition:transform .2s}
+.beta-portrait-accordion[open] summary span{transform:rotate(45deg)}
+.beta-portrait-accordion .portrait-dimension-grid{padding-top:2px}
+.beta-explore{margin:17px 0 22px}
+.beta-explore-header{padding:5px 3px 16px;text-align:center}
+.beta-explore-header>span{color:#d1b486;font-size:20px}
+.beta-explore-header h3{margin:4px 0 7px;color:#f2d7ab;font:500 28px/1.2 var(--serif)}
+.beta-explore-header p{margin:0 auto;max-width:480px;color:#c9bdac;font-size:13px;line-height:1.55}
+.beta-details{margin:0 0 10px;border:1px solid #bca07865;border-radius:13px;background:linear-gradient(120deg,#27313e,#202936);box-shadow:0 5px 17px #090e1d48;overflow:hidden}
+.beta-details>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;padding:16px 17px}
+.beta-details>summary::-webkit-details-marker{display:none}
+.beta-details>summary:hover{background:#ffffff08}
+.beta-details-summary{display:flex;flex-direction:column;gap:5px}
+.beta-details-summary strong{font:500 18px/1.24 var(--serif);color:#f0dfc2}
+.beta-details-summary small{font:400 12px/1.4 var(--sans);color:#bdb4aa}
+.beta-details-plus{flex:none;display:grid;place-items:center;width:29px;height:29px;border:1px solid #bda07a79;border-radius:50%;font:18px/1 Georgia,serif;color:#dfc194;transition:transform .2s}
+.beta-details[open]>summary .beta-details-plus{transform:rotate(45deg)}
+.beta-details-body{padding:14px 15px 19px;border-top:1px solid #bfa17946}
+.beta-details-body>.depth-portraits{margin:0}
+.beta-details-body .depth-portrait{margin-top:0}
+.beta-details-body .depth-timeline{margin-bottom:4px}
+.beta-details-body .depth-evidence{margin-top:8px}
+.beta-details-body>.depth-section{margin:0;padding:0;background:none;border:0}
+.beta-details-body>.depth-section h3{font-size:18px}
+.beta-report>.depth-caution{font-size:11.5px;color:#b9ada0;line-height:1.55;margin:13px 6px 20px}
+.beta-import{display:block;width:min(100%,480px);min-height:43px;margin:0 0 11px;padding:9px 13px;background:transparent;border:1px solid #e0be8077;border-radius:10px;color:#f1d8b4;font:600 12px/1.4 var(--sans);letter-spacing:.01em}
+.beta-import:hover,.beta-import:focus-visible{background:#e0be801a;border-color:#efd3a5}
+@media(max-height:650px){.app.playing .card-art.beta-art{height:clamp(65px,14dvh,95px);min-height:65px}}
+@media(max-width:350px){
+ .app.playing .card-art.beta-art{width:min(calc(100% - 35px),330px);min-height:64px}
+ .beta-details>summary{padding:13px 12px}
+ .beta-details-summary strong{font-size:17px}
+ .beta-details-body{padding:13px 11px}
+}
+
+/* TYPE/16 · Quiet two-corner heading. Previous centred star deliberately removed. */
+.app.playing .card-top{
+ display:flex;grid-template-columns:none;
+ justify-content:space-between;align-items:center;
+ min-height:32px;padding:19px 27px 0;
+ font:600 clamp(10px,2.45vw,11.5px)/1.2 var(--sans);
+ letter-spacing:.035em;color:#82684d;
+}
+.app.playing .card-top>span:first-child,.app.playing .card-top>span:last-child{
+ grid-column:auto;justify-self:auto;white-space:nowrap;min-width:0;
+}
+.app.playing .card-top>span:last-child{font:500 clamp(12px,2.8vw,13.5px)/1.2 var(--serif);letter-spacing:.04em;text-transform:none}
+@media(max-width:350px){.app.playing .card-top{padding:17px 22px 0;font-size:10px}}
+@media(max-height:640px){.app.playing .card-top{min-height:29px;padding-top:15px}}
+.beta-art-preview-note{
+ display:block;margin:0 auto 12px;padding:7px 12px;border:1px solid #ddbc7a77;
+ background:#e9c78b0d;border-radius:6px;color:#e9ceac;
+ font:600 11px/1.4 var(--mono);letter-spacing:.02em;
+}
+.intro-art-gallery{display:inline-flex;align-items:center;justify-content:center;gap:5px;margin:4px 0 14px;min-height:36px;padding:7px 12px;font:600 12px/1.3 var(--sans);letter-spacing:.02em;color:#ddbe95;text-decoration:none;border-bottom:1px solid #ae8f687d}.intro-art-gallery:hover{color:#ffe4b3;border-bottom-color:#f0ca92}
+</style>
+</head>
+<body>
+<div role="note" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#182332;color:#f2dbb6;font:600 12px/1.3 system-ui,sans-serif;padding:7px 14px;text-align:center;box-shadow:0 2px 10px #0007">🗃 Versión histórica (Beta I — SVG) · <a href="../index.html" style="color:#ffe2a0">Abrir TYPE/16 v1.0</a></div>
+<div class="desktop-scenery" aria-hidden="true">
+<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="type-sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#151d33"/><stop offset=".49" stop-color="#3c4459"/><stop offset=".86" stop-color="#706070"/><stop offset="1" stop-color="#96786b"/></linearGradient>
+  <linearGradient id="type-horizon" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bf967c" stop-opacity=".72"/><stop offset="1" stop-color="#4b5362" stop-opacity=".06"/></linearGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#type-sky)"/>
+<path d="M0 510Q400 442 810 475T1600 476V900H0Z" fill="url(#type-horizon)"/>
+<circle cx="1270" cy="205" r="72" fill="#e0c59b" opacity=".82"/>
+<circle cx="1270" cy="205" r="95" fill="none" stroke="#e0c59b" opacity=".21" stroke-width="2"/>
+<g fill="#e9cfaa" opacity=".7"><circle cx="110" cy="109" r="2"/><circle cx="290" cy="215" r="1.5"/><circle cx="427" cy="129" r="2"/><circle cx="745" cy="71" r="1.4"/><circle cx="1030" cy="114" r="2.3"/><circle cx="1390" cy="85" r="1.6"/><circle cx="1510" cy="258" r="2"/><circle cx="98" cy="319" r="1.4"/><circle cx="606" cy="194" r="1"/></g>
+<path d="M0 563L160 443 298 521 505 357 700 511 920 385 1147 517 1380 369 1600 523V900H0Z" fill="#465063"/>
+<path d="M0 647L180 552 357 610 538 484 740 613 953 519 1150 634 1420 484 1600 567V900H0Z" fill="#333e50"/>
+<path d="M0 753L225 662 409 706 600 627 807 706 1035 609 1277 702 1475 611 1600 655V900H0Z" fill="#273647"/>
+<path d="M0 815Q210 748 401 787T810 765T1190 773T1600 737V900H0Z" fill="#1b293b"/>
+<g fill="#172739" opacity=".87"><path d="M40 900V610l-42 80h27l-37 78h38l-55 132Z"/><path d="M115 900V635l-49 89h30L61 792h48l-54 108Z"/><path d="M1516 900V600l-43 88h27l-36 79h38l-55 133Z"/><path d="M1580 900V663l-37 75h25l-30 64h32l-48 98Z"/></g>
+<g stroke="#c4a47e" stroke-width="2" fill="none" opacity=".29"><path d="M0 900h1600"/><path d="M58 740Q160 700 260 743"/><path d="M1360 754Q1480 718 1570 757"/></g>
+</svg>
+<div class="scenery-vignette"></div></div>
+<div class="app" id="app"></div>
+<div class="settings" id="settings" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title"><div class="settings-card"><div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" aria-label="Close">✕</button></div><p id="settings-copy"></p><label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label><input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div><label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label><p class="settings-tip" id="settings-tip"></p><button class="settings-close" id="settings-done"></button></div></div>
+<script type="module">
+const PLAN64 = /*TYPE16_BANK_START*/
+{"schema":"type16-64-editorial-plan-v0.2","status":"planning-only","updated":"2026-11-23","notes":["NOT a shipped change to the app","Original OEJTS 1.2 answers and scoring preserved and distinct from proposed TYPE/16 questions","Original 32 Spanish translation remains unvalidated","Scoring of 32 new items is a proposed experimental index, not psychometrically validated","Editorial content review improves variety and risk awareness, not statistical reliability","All 32 new items need comprehension testing and empirical item analysis before including in any confidence claim"],"stages":[{"checkpoint":12,"title":"Primera impresión","ids":[3,12,22,25,15,20,14,13,11,32,26,17],"description":"3 ítems OEJTS por dimensión; una primera lectura, no una tipología concluyente","kind":"oejts-partial"},{"checkpoint":24,"title":"Mapa en formación","ids":[19,24,2,1,7,28,18,21,23,4,30,29],"description":"6 ítems OEJTS por dimensión; tendencias observadas y matices, sin puntuación oficial","kind":"oejts-partial"},{"checkpoint":32,"title":"Retrato de referencia","ids":[31,8,6,5,27,16,10,9],"description":"8 ítems OEJTS por dimensión; referencia completa únicamente con 32 respuestas válidas","kind":"oejts-full"},{"checkpoint":48,"title":"Contrastes cotidianos","ids":[33,37,41,45,34,38,42,46,35,39,43,47,36,40,44,48],"description":"4 ítems nuevos por dimensión; comparación experimental con referencia de 32","kind":"type16-draft"},{"checkpoint":64,"title":"Retrato extendido","ids":[49,53,57,61,50,54,58,62,51,55,59,63,52,56,60,64],"description":"8 ítems TYPE/16 nuevos por dimensión; interpretación experimental completa","kind":"type16-draft"}],"questions":[{"id":1,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"Para recordar tareas, ¿qué recurso utilizas más?","en":"When remembering tasks, which approach fits you better?"},"a":{"es":"Hace listas","en":"makes lists"},"b":{"es":"Confía en su memoria","en":"relies on memory"},"editorialStatus":"concept-not-approved"},{"id":2,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"Ante una idea que te proponen, ¿qué actitud te describe mejor?","en":"When someone presents an idea, which attitude fits you better?"},"a":{"es":"Es escéptico/a","en":"sceptical"},"b":{"es":"Quiere creer","en":"wants to believe"},"editorialStatus":"concept-not-approved"},{"id":3,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"Cuando pasas tiempo a solas, ¿con qué te identificas más?","en":"When spending time alone, which description fits you better?"},"a":{"es":"Se aburre pasando tiempo a solas","en":"bored by time alone"},"b":{"es":"Necesita tiempo a solas","en":"needs time alone"},"editorialStatus":"concept-not-approved"},{"id":4,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"Ante las cosas tal y como son, ¿cuál es tu tendencia?","en":"When faced with things as they are, which tendency fits you better?"},"a":{"es":"Acepta las cosas tal como son","en":"accepts things as they are"},"b":{"es":"No le satisface cómo están las cosas","en":"unsatisfied with the ways things are"},"editorialStatus":"concept-not-approved"},{"id":5,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"¿Cómo sueles mantener tu habitación?","en":"How do you usually keep your room?"},"a":{"es":"Mantiene su habitación ordenada","en":"keeps a clean room"},"b":{"es":"Deja las cosas en cualquier sitio","en":"just puts stuff where ever"},"editorialStatus":"concept-not-approved"},{"id":6,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"¿Cómo te relacionas con la idea de una mente «robótica»?","en":"How do you relate to the idea of a 'robotic' mind?"},"a":{"es":"Considera «robótico» un insulto","en":"thinks 'robotic' is an insult"},"b":{"es":"Aspira a tener una mente mecánica","en":"strives to have a mechanical mind"},"editorialStatus":"concept-not-approved"},{"id":7,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"¿Qué nivel de energía suele describirte mejor?","en":"Which energy level usually describes you better?"},"a":{"es":"Enérgico/a","en":"energetic"},"b":{"es":"Tranquilo/a","en":"mellow"},"editorialStatus":"concept-not-approved"},{"id":8,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"En una evaluación, ¿qué formato prefieres?","en":"In an assessment, which format do you prefer?"},"a":{"es":"Prefiere exámenes tipo test","en":"prefer to take multiple choice test"},"b":{"es":"Prefiere respuestas de desarrollo","en":"prefer essay answers"},"editorialStatus":"concept-not-approved"},{"id":9,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"¿Qué palabra describe mejor tu manera de organizarte?","en":"Which word describes your way of organizing things better?"},"a":{"es":"Caótico/a","en":"chaotic"},"b":{"es":"Organizado/a","en":"organized"},"editorialStatus":"concept-not-approved"},{"id":10,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"¿Cómo suelen afectarte los comentarios que pueden herir?","en":"How do potentially hurtful remarks tend to affect you?"},"a":{"es":"Se siente herido/a fácilmente","en":"easily hurt"},"b":{"es":"Es difícil herir sus sentimientos","en":"thick-skinned"},"editorialStatus":"concept-not-approved"},{"id":11,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"¿En qué entorno sueles trabajar mejor?","en":"In which setting do you usually work best?"},"a":{"es":"Trabaja mejor en grupo","en":"works best in groups"},"b":{"es":"Trabaja mejor a solas","en":"works best alone"},"editorialStatus":"concept-not-approved"},{"id":12,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"¿Hacia qué momento tiende a dirigirse tu atención?","en":"Which point in time tends to draw your attention?"},"a":{"es":"Se centra en el presente","en":"focused on the present"},"b":{"es":"Se centra en el futuro","en":"focused on the future"},"editorialStatus":"concept-not-approved"},{"id":13,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"¿Con cuánta antelación acostumbras a planificar?","en":"How far ahead do you usually plan?"},"a":{"es":"Planifica con mucha antelación","en":"plans far ahead"},"b":{"es":"Planifica en el último momento","en":"plans at the last minute"},"editorialStatus":"concept-not-approved"},{"id":14,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"¿Qué tipo de reconocimiento valoras más de los demás?","en":"What kind of recognition do you value most from others?"},"a":{"es":"Busca el respeto de los demás","en":"wants people's respect"},"b":{"es":"Busca el cariño de los demás","en":"wants their love"},"editorialStatus":"concept-not-approved"},{"id":15,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"¿Qué efecto suelen tener en ti las fiestas?","en":"How do parties tend to affect you?"},"a":{"es":"Las fiestas le dejan agotado/a","en":"gets worn out by parties"},"b":{"es":"Las fiestas le dan energía","en":"gets fired up by parties"},"editorialStatus":"concept-not-approved"},{"id":16,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"¿Cómo sueles situarte dentro de un grupo?","en":"How do you tend to fit into a group?"},"a":{"es":"Encaja entre los demás","en":"fits in"},"b":{"es":"Destaca entre los demás","en":"stands out"},"editorialStatus":"concept-not-approved"},{"id":17,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"Al tomar decisiones, ¿qué tendencia te representa más?","en":"When making decisions, which tendency fits you better?"},"a":{"es":"Mantiene abiertas sus opciones","en":"keeps options open"},"b":{"es":"Se compromete con una decisión","en":"commits"},"editorialStatus":"concept-not-approved"},{"id":18,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"¿Qué habilidad te gustaría desarrollar especialmente?","en":"Which ability would you especially like to develop?"},"a":{"es":"Quiere ser bueno/a reparando cosas","en":"wants to be good at fixing things"},"b":{"es":"Quiere ser bueno/a ayudando a personas a mejorar","en":"wants to be good at fixing people"},"editorialStatus":"concept-not-approved"},{"id":19,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"En una conversación, ¿qué haces con más frecuencia?","en":"In a conversation, what do you do more often?"},"a":{"es":"Habla más","en":"talks more"},"b":{"es":"Escucha más","en":"listens more"},"editorialStatus":"concept-not-approved"},{"id":20,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"Cuando cuentas un acontecimiento, ¿qué tiendes a destacar?","en":"When recounting an event, what do you tend to emphasize?"},"a":{"es":"Al contar un suceso, explica qué ocurrió","en":"when describing an event, will tell people what happened"},"b":{"es":"Al contar un suceso, explica qué significó","en":"when describing an event, will tell people what it meant"},"editorialStatus":"concept-not-approved"},{"id":21,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"Ante una tarea pendiente, ¿qué sueles hacer?","en":"When a task is waiting, what do you tend to do?"},"a":{"es":"Se pone a trabajar enseguida","en":"gets work done right away"},"b":{"es":"Deja las tareas para más tarde","en":"procrastinates"},"editorialStatus":"concept-not-approved"},{"id":22,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"Al tomar decisiones, ¿qué suele guiarte más?","en":"When making a decision, what usually guides you more?"},"a":{"es":"Sigue al corazón","en":"follows the heart"},"b":{"es":"Sigue a la cabeza","en":"follows the head"},"editorialStatus":"concept-not-approved"},{"id":23,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"¿Qué te apetece más en tu tiempo libre?","en":"What appeals to you more in your free time?"},"a":{"es":"Se queda en casa","en":"stays at home"},"b":{"es":"Sale a divertirse","en":"goes out on the town"},"editorialStatus":"concept-not-approved"},{"id":24,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"Al explorar un tema, ¿qué te interesa más?","en":"When exploring a topic, what interests you more?"},"a":{"es":"Prefiere la visión de conjunto","en":"wants the big picture"},"b":{"es":"Prefiere los detalles","en":"wants the details"},"editorialStatus":"concept-not-approved"},{"id":25,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"Antes de realizar una actividad, ¿qué enfoque prefieres?","en":"Before an activity, which approach do you prefer?"},"a":{"es":"Improvisa","en":"improvises"},"b":{"es":"Se prepara","en":"prepares"},"editorialStatus":"concept-not-approved"},{"id":26,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"Ante un dilema moral, ¿qué suele guiarte más?","en":"When facing a moral dilemma, what tends to guide you more?"},"a":{"es":"Basa la moralidad en la justicia","en":"bases morality on justice"},"b":{"es":"Basa la moralidad en la compasión","en":"bases morality on compassion"},"editorialStatus":"concept-not-approved"},{"id":27,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"Cuando necesitas llamar a alguien que está lejos, ¿qué te describe mejor?","en":"When you need to call to someone far away, which fits you better?"},"a":{"es":"Le cuesta gritar muy fuerte","en":"finds it difficult to yell very loudly"},"b":{"es":"Le sale natural gritar a alguien que está lejos","en":"yelling to others when they are far away comes naturally"},"editorialStatus":"concept-not-approved"},{"id":28,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"¿Qué enfoque te atrae más para conocer un tema?","en":"Which approach appeals to you more when learning about a topic?"},"a":{"es":"Teórico/a","en":"theoretical"},"b":{"es":"Empírico/a","en":"empirical"},"editorialStatus":"concept-not-approved"},{"id":29,"source":"OEJTS-1.2","axis":"JP","stem":{"es":"¿Dónde tiendes a poner más intensidad?","en":"Where do you tend to invest more intensity?"},"a":{"es":"Trabaja intensamente","en":"works hard"},"b":{"es":"Se divierte intensamente","en":"plays hard"},"editorialStatus":"concept-not-approved"},{"id":30,"source":"OEJTS-1.2","axis":"FT","stem":{"es":"¿Cómo describirías tu relación con las emociones?","en":"How would you describe your relationship with emotions?"},"a":{"es":"Se siente incómodo/a con las emociones","en":"uncomfortable with emotions"},"b":{"es":"Valora las emociones","en":"values emotions"},"editorialStatus":"concept-not-approved"},{"id":31,"source":"OEJTS-1.2","axis":"IE","stem":{"es":"Ante un público, ¿qué tendencia reconoces en ti?","en":"In front of an audience, which tendency do you recognize in yourself?"},"a":{"es":"Le gusta actuar delante de otras personas","en":"likes to perform in front of other people"},"b":{"es":"Evita hablar en público","en":"avoids public speaking"},"editorialStatus":"concept-not-approved"},{"id":32,"source":"OEJTS-1.2","axis":"SN","stem":{"es":"Para comprender algo, ¿qué preguntas te surgen primero?","en":"When trying to understand something, which questions arise first?"},"a":{"es":"Quiere saber quién, qué y cuándo","en":"likes to know 'who?', 'what?', 'when?'"},"b":{"es":"Quiere saber por qué","en":"likes to know 'why?'"},"editorialStatus":"concept-not-approved"},{"id":33,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"iniciativa social en situaciones nuevas","highPoleSide":"A","stem":{"es":"Al llegar a una actividad informal con personas que conoces poco, ¿qué te resulta más natural?","en":"When arriving at an informal activity with people you barely know, what feels more natural?"},"a":{"es":"Empezar una conversación para entrar en el ambiente","en":"Start a conversation to settle into the setting"},"b":{"es":"Observar un poco antes de sumarme a la conversación","en":"Observe for a while before joining the conversation"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[19,31],"firstDraftOverlaps":[36,49],"remainingRisk":"La timidez o familiaridad pueden influir, aunque la pregunta sea de preferencia.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":34,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"procesamiento social de ideas","highPoleSide":"B","stem":{"es":"Cuando una idea todavía está poco clara, ¿cómo prefieres desarrollarla?","en":"When an idea is still unclear, how do you prefer to develop it?"},"a":{"es":"Pensarla a solas antes de compartirla","en":"Think it through privately before sharing"},"b":{"es":"Hablarla con alguien para ir dándole forma","en":"Talk it through with someone to shape it"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[11,19],"firstDraftOverlaps":[52],"remainingRisk":"Puede depender del tipo de idea o de interlocutor.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":35,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"interacción durante la exploración personal","highPoleSide":"B","stem":{"es":"En una actividad que puedes explorar a tu ritmo, ¿cómo prefieres vivirla?","en":"In an activity you can explore at your own pace, how do you prefer to experience it?"},"a":{"es":"Explorarla por mi cuenta y comentar después lo descubierto","en":"Explore on my own and discuss what I found afterward"},"b":{"es":"Ir intercambiando impresiones mientras la exploro","en":"Exchange impressions with someone as I explore"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[3,11,15],"firstDraftOverlaps":[34,52],"remainingRisk":"El gusto por la actividad o la compañía puede influir.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":36,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"momento de participación grupal","highPoleSide":"A","stem":{"es":"En una conversación de grupo que te interesa, ¿cómo sueles incorporarte?","en":"In a group conversation that interests you, how do you usually join in?"},"a":{"es":"Intervengo mientras vamos dando forma a las ideas","en":"Contribute while the ideas are taking shape"},"b":{"es":"Escucho el intercambio y aporto cuando he pensado mi idea","en":"Listen to the exchange and contribute after thinking it through"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[19,31],"firstDraftOverlaps":[33],"remainingRisk":"Diferenciar necesidad de reflexión de comodidad al hablar.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":37,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"entrada al aprendizaje práctico","highPoleSide":"B","stem":{"es":"Al aprender a usar una herramienta, ¿qué te ayuda más al principio?","en":"When learning to use a tool, what helps you at first?"},"a":{"es":"Probar una tarea concreta con ella","en":"Try a concrete task with it"},"b":{"es":"Comprender primero la idea general de su funcionamiento","en":"Understand the general idea behind how it works"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[8,28],"firstDraftOverlaps":[53],"remainingRisk":"Puede variar según familiaridad con la herramienta.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":38,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"orientación espacial y patrones","highPoleSide":"B","stem":{"es":"Al observar el plano de un lugar nuevo, ¿qué te llama la atención primero?","en":"When looking at a map of a new place, what catches your attention first?"},"a":{"es":"Los lugares concretos y las distancias entre ellos","en":"Specific places and the distances between them"},"b":{"es":"La estructura general y cómo se conectan las zonas","en":"The overall layout and how the areas connect"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[24,32],"firstDraftOverlaps":[54],"remainingRisk":"La habilidad de orientarse puede contaminar la preferencia.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":39,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"inferencia de reglas desde casos","highPoleSide":"A","stem":{"es":"Después de ver varios ejemplos parecidos, ¿qué tiendes a buscar primero?","en":"After seeing several similar examples, what do you tend to look for first?"},"a":{"es":"Una pauta general que los conecte","en":"A general pattern connecting them"},"b":{"es":"Las diferencias concretas entre los ejemplos","en":"The specific differences between the examples"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[20,24],"firstDraftOverlaps":[55],"remainingRisk":"No confundir capacidad de encontrar patrones con preferencia de atención.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":40,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"curiosidad sobre objetos desconocidos","highPoleSide":"A","stem":{"es":"Cuando encuentras un objeto cuyo uso no conoces, ¿qué te interesa explorar antes?","en":"When you encounter an object whose purpose you do not know, what interests you first?"},"a":{"es":"Qué otros usos podría llegar a tener","en":"What other uses it might have"},"b":{"es":"Cómo está hecho y para qué sirve actualmente","en":"How it is made and what it is currently used for"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[12,28],"firstDraftOverlaps":[37],"remainingRisk":"La curiosidad puede depender del objeto concreto.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":41,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"criterios en desacuerdos colectivos","highPoleSide":"A","stem":{"es":"Si tu equipo discrepa sobre un plan, ¿qué te ayuda más a decidir?","en":"If your team disagrees about a plan, what helps you decide?"},"a":{"es":"Comparar las razones usando criterios comunes","en":"Compare reasons using shared criteria"},"b":{"es":"Comprender lo que necesita cada participante","en":"Understand what each participant needs"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[22,26],"firstDraftOverlaps":[43,44,58],"remainingRisk":"El contraste 'criterios/personas' puede activar deseabilidad social.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":42,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"razones y motivaciones de propuestas","highPoleSide":"B","stem":{"es":"Cuando alguien presenta una propuesta que te interesa, ¿qué te apetece comprender primero?","en":"When someone presents an idea that interests you, what would you first like to understand?"},"a":{"es":"Qué motivaciones personales hay detrás de la propuesta","en":"The personal motivations behind the proposal"},"b":{"es":"Qué argumentos y consecuencias sostienen la propuesta","en":"The reasoning and consequences supporting the proposal"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[2,22],"firstDraftOverlaps":[57],"remainingRisk":"Necesidades humanas y razones pueden coexistir; pedir primera atención.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":43,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"prioridades en la comunicación","highPoleSide":"B","stem":{"es":"Al comparar dos maneras de comunicar la misma noticia, ¿qué valoras primero?","en":"When comparing two ways of sharing the same news, what do you first value?"},"a":{"es":"Cómo puede recibirla emocionalmente quien la escucha","en":"How the listener may receive it emotionally"},"b":{"es":"Que el mensaje sea preciso y esté bien argumentado","en":"Whether the message is precise and well reasoned"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[14,30],"firstDraftOverlaps":[41,59],"remainingRisk":"Ambas prioridades son valiosas y suelen combinarse.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":44,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"interpretación de decisiones narrativas","highPoleSide":"A","stem":{"es":"Al analizar la decisión de un personaje de una historia, ¿qué te interesa entender primero?","en":"When analyzing a character's decision in a story, what do you first want to understand?"},"a":{"es":"Si su razonamiento encaja con los hechos","en":"Whether their reasoning fits the facts"},"b":{"es":"Qué siente y qué valores le han llevado a decidir","en":"What they feel and which values shaped their decision"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[22,30],"firstDraftOverlaps":[42],"remainingRisk":"La interpretación de ficción no equivale necesariamente a decisiones reales.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":45,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"definición inicial de objetivos","highPoleSide":"B","stem":{"es":"Cuando un proyecto admite varios objetivos posibles, ¿qué te ayuda más al comenzar?","en":"When a project has several possible goals, what helps you get started?"},"a":{"es":"Elegir un objetivo y unas etapas iniciales","en":"Choose a goal and some initial stages"},"b":{"es":"Explorar posibilidades antes de fijar un objetivo","en":"Explore possibilities before settling on a goal"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[13,17,25],"firstDraftOverlaps":[63],"remainingRisk":"Definir metas y explorar opciones pueden combinarse.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":46,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"uso de tiempo inesperadamente libre","highPoleSide":"A","stem":{"es":"Si una actividad termina antes de lo previsto y te queda tiempo libre, ¿qué haces más a menudo?","en":"If an activity ends early and you have some free time, what do you usually do?"},"a":{"es":"Elegir en el momento algo que me apetezca hacer","en":"Choose something I feel like doing at that moment"},"b":{"es":"Adelantar otra actividad que ya tenía prevista","en":"Get a head start on another activity I had planned"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[13,21,25],"firstDraftOverlaps":[62],"remainingRisk":"La disponibilidad y obligaciones externas pueden influir.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":47,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"alternancia o secuenciación de tareas","highPoleSide":"B","stem":{"es":"Cuando tienes varias tareas por delante, ¿cómo prefieres afrontarlas?","en":"When several tasks are ahead, how do you prefer to tackle them?"},"a":{"es":"Decidir un orden y avanzar paso a paso","en":"Decide an order and work step by step"},"b":{"es":"Alternarlas según lo que pida cada momento","en":"Switch between them as the moment calls for it"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[5,9],"firstDraftOverlaps":[63],"remainingRisk":"El número de tareas y las exigencias de atención pueden influir.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":48,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"reestructuración ante cambios","highPoleSide":"A","stem":{"es":"Si una condición importante cambia a mitad de un plan, ¿qué haces primero?","en":"If a major condition changes midway through a plan, what do you do first?"},"a":{"es":"Explorar nuevas alternativas y ajustar la marcha","en":"Explore alternatives and adapt as you go"},"b":{"es":"Reorganizar las etapas para mantener una ruta clara","en":"Reorganize stages to keep a clear route"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[17,25],"firstDraftOverlaps":[64],"remainingRisk":"Puede depender de consecuencias reales del cambio.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":49,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"continuidad de contactos sociales","highPoleSide":"A","stem":{"es":"Después de conocer a alguien con quien has conectado, ¿qué suele apetecerte más?","en":"After meeting someone you really connected with, what tends to appeal more?"},"a":{"es":"Proponer pronto otra ocasión para coincidir","en":"Suggest another occasion to meet soon"},"b":{"es":"Disfrutar del encuentro sin organizar otro inmediatamente","en":"Enjoy the encounter without immediately planning another"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[19,23],"firstDraftOverlaps":[33],"remainingRisk":"La iniciativa depende también del interés personal y de normas culturales.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":50,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"amplitud frente a profundidad conversacional","highPoleSide":"B","stem":{"es":"En un encuentro con personas que conoces, ¿qué parte disfrutas más?","en":"At a gathering with people you know, what do you enjoy more?"},"a":{"es":"Tener algunas conversaciones tranquilas y largas","en":"Having a few quiet, longer conversations"},"b":{"es":"Moverme entre conversaciones diferentes","en":"Moving among different conversations"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[19,23],"firstDraftOverlaps":[33,49],"remainingRisk":"La profundidad conversacional no es un indicador exclusivo de I/E; probar discriminación.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":51,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"interacción pública voluntaria","highPoleSide":"A","stem":{"es":"En una visita o taller participativo, si te surge una duda, ¿cómo prefieres plantearla?","en":"At an interactive visit or workshop, if a question comes to mind, how do you prefer to ask it?"},"a":{"es":"Preguntarla durante el intercambio abierto del grupo","en":"Ask it during the open group discussion"},"b":{"es":"Reflexionar primero y consultarla después en privado","en":"Think it through first and ask privately afterward"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[27,31],"firstDraftOverlaps":[36],"remainingRisk":"La ansiedad al hablar en público puede contaminar la respuesta.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":52,"source":"TYPE16-DRAFT-2","axis":"IE","facet":"ritmo del intercambio colaborativo","highPoleSide":"B","stem":{"es":"En una actividad compartida donde cada cual desarrolla una parte, ¿qué prefieres?","en":"In a shared activity where everyone works on a part, what do you prefer?"},"a":{"es":"Trabajar primero en mi parte y contrastarla al final","en":"Work on my part first and compare notes at the end"},"b":{"es":"Ir comentando avances e ideas durante el proceso","en":"Discuss progress and ideas throughout the process"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[11,19],"firstDraftOverlaps":[34,35],"remainingRisk":"Distinguir estilo de cooperación de capacidad de trabajar en grupo.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":53,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"analogías frente a ejemplos al explicar","highPoleSide":"B","stem":{"es":"Para explicar una idea compleja, ¿qué recurso utilizas primero?","en":"When explaining a complex idea, what do you use first?"},"a":{"es":"Un ejemplo específico que se pueda observar","en":"A specific, observable example"},"b":{"es":"Una analogía que conecte varios conceptos","en":"An analogy connecting several concepts"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[8,28,32],"firstDraftOverlaps":[37],"remainingRisk":"Familiaridad con el tema cambia el recurso explicativo.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":54,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"lectura literal o interpretativa de imágenes","highPoleSide":"A","stem":{"es":"Al mirar por primera vez una imagen que no conoces, ¿qué captas antes?","en":"When first looking at an unfamiliar image, what do you notice first?"},"a":{"es":"Las historias o relaciones que podría sugerir","en":"The stories or connections it might suggest"},"b":{"es":"Sus formas, colores y detalles visibles","en":"Its visible shapes, colors and details"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[20,24],"firstDraftOverlaps":[38,55],"remainingRisk":"El interés por el arte o la cultura puede influir.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":55,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"detalle o tendencia en datos sencillos","highPoleSide":"B","stem":{"es":"Si ves varios datos sencillos sobre un tema, ¿qué tiendes a mirar primero?","en":"When you see several simple facts or numbers on a topic, what do you tend to look at first?"},"a":{"es":"Qué indica cada dato concreto","en":"What each individual piece of data says"},"b":{"es":"Qué tendencia aparece al considerarlos juntos","en":"What trend appears when looking at them together"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[24,28],"firstDraftOverlaps":[39,54],"remainingRisk":"Evitar que requiera conocimientos de estadística.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":56,"source":"TYPE16-DRAFT-2","axis":"SN","facet":"diagnóstico local frente a replanteamiento","highPoleSide":"A","stem":{"es":"Si algo deja de funcionar como esperabas, ¿qué te interesa investigar primero?","en":"If something stops working as expected, what do you want to investigate first?"},"a":{"es":"Si hace falta plantear el problema de otra manera","en":"Whether the problem needs to be framed differently"},"b":{"es":"En qué paso concreto comenzó a fallar","en":"At which specific step things started going wrong"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[4,28],"firstDraftOverlaps":[40],"remainingRisk":"También refleja estrategias de resolución de problemas y experiencia.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":57,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"devolución y propósito del autor","highPoleSide":"A","stem":{"es":"Si alguien te pide comentar una creación suya, ¿qué te sale hacer primero?","en":"When someone asks for feedback on something they created, what comes first?"},"a":{"es":"Señalar qué aspectos podrían mejorarse y por qué","en":"Point out what could be improved and why"},"b":{"es":"Preguntar qué quiere expresar y qué es importante para esa persona","en":"Ask what they want to express and what matters to them"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"polish","closestOriginalIds":[18,22],"firstDraftOverlaps":[43],"remainingRisk":"Se debe respetar que ambos estilos pueden combinarse.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":58,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"comprender un desacuerdo interpersonal","highPoleSide":"B","stem":{"es":"Si alguien defiende una opinión diferente de la tuya, ¿qué te interesa preguntar primero?","en":"If someone holds a different opinion from yours, what would you ask first?"},"a":{"es":"Qué experiencias y prioridades le han llevado a verla así","en":"Which experiences and priorities led them to see it that way"},"b":{"es":"Qué argumentos y pruebas apoyan esa opinión","en":"Which arguments and evidence support that opinion"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[14,22],"firstDraftOverlaps":[41,60],"remainingRisk":"Las dos preguntas pueden ser razonables; no confundir empatía con ser F.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":59,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"explicación de decisiones delicadas","highPoleSide":"B","stem":{"es":"Cuando tienes que comunicar una decisión inesperada a otra persona, ¿qué procuras abordar primero?","en":"When sharing an unexpected decision with someone, what do you try to address first?"},"a":{"es":"Reconocer cómo puede afectarle","en":"Acknowledge how it might affect them"},"b":{"es":"Explicar los criterios que justifican la decisión","en":"Explain the criteria behind the decision"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[14,26,30],"firstDraftOverlaps":[43],"remainingRisk":"La cortesía social puede provocar respuestas normativas; pilotar.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":60,"source":"TYPE16-DRAFT-2","axis":"FT","facet":"lectura de argumentos frente a valores","highPoleSide":"A","stem":{"es":"Cuando lees un debate complejo, ¿qué observas primero?","en":"When reading a complex debate, what do you notice first?"},"a":{"es":"Si los argumentos están bien fundamentados","en":"Whether the arguments are well supported"},"b":{"es":"Qué valores importan a quienes participan","en":"Which values matter to the people involved"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"keep","closestOriginalIds":[2,22],"firstDraftOverlaps":[58],"remainingRisk":"Puede compartir contenido con Q58; comprobar correlación y redundancia.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":61,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"cierre frente a exploración de versiones","highPoleSide":"A","stem":{"es":"Si una versión de algo que estás creando ya funciona, ¿qué sueles preferir?","en":"If a version of something you are creating already works, what do you prefer?"},"a":{"es":"Mantenerla abierta para seguir probando variaciones","en":"Keep it open to try more variations"},"b":{"es":"Darla por terminada y pasar al siguiente paso","en":"Consider it finished and move on to the next step"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[17,25],"firstDraftOverlaps":[45,63],"remainingRisk":"Puede mezclarse con perfeccionismo o motivación.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":62,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"bloques de tiempo frente a flexibilidad","highPoleSide":"B","stem":{"es":"Si tienes varias actividades personales previstas para un día libre, ¿cómo distribuyes el tiempo?","en":"If you have several personal activities planned on a free day, how do you allocate your time?"},"a":{"es":"Asigno franjas aproximadas a cada actividad","en":"Assign approximate time slots to each activity"},"b":{"es":"Dejo flexibles los tiempos y ajusto sobre la marcha","en":"Leave the timing flexible and adjust as I go"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[1,13],"firstDraftOverlaps":[46],"remainingRisk":"Las obligaciones fijas hacen menos aplicable la preferencia; preguntar por tiempo propio.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":63,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"respuesta a instrucciones ambiguas","highPoleSide":"B","stem":{"es":"Si recibes una tarea con indicaciones poco definidas, ¿qué te ayuda más a arrancar?","en":"If you receive a task with vague instructions, what helps you start?"},"a":{"es":"Acordar primero qué se espera y qué pasos seguir","en":"Clarify what is expected and which steps to follow"},"b":{"es":"Hacer una primera prueba y concretar a partir de ella","en":"Try an initial version and refine the plan from there"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[9,25],"firstDraftOverlaps":[45],"remainingRisk":"Depende de la experiencia, reglas y consecuencias de equivocarse.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}},{"id":64,"source":"TYPE16-DRAFT-2","axis":"JP","facet":"revisión de planes personales ya elegidos","highPoleSide":"A","stem":{"es":"Si ya habías decidido cómo pasar una tarde y aparece otra posibilidad atractiva, ¿qué te resulta más natural?","en":"If you have chosen how to spend an afternoon and another appealing option appears, what feels more natural?"},"a":{"es":"Replantear la tarde para incorporar la novedad","en":"Rethink the afternoon to fit in the new option"},"b":{"es":"Mantener mi idea inicial y dejar la novedad para otro momento","en":"Stick with the original idea and save the new option for another time"},"editorialStatus":"reviewed-draft-needs-pilot","editorialReview":{"action":"replace","closestOriginalIds":[17,25],"firstDraftOverlaps":[48],"remainingRisk":"La novedad puede resultar más o menos atractiva según intereses.","reviewed":"2026-11-23","evidence":"editorial-only-not-validated"}}],"editorialReview":{"version":"v0.2","originalItemsUnchanged":true,"revisionCounts":{"keep":8,"polish":7,"replace":17},"reviewedNewIds":[33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64],"scoringStatus":"New items not scored in app; directional assignment is a working hypothesis","validationStatus":"No human comprehension test, reliability study, factor analysis, differential item functioning or predictive validation"}}
+/*TYPE16_BANK_END*/;
+
+/** TYPE/16 64-card experience: client-side, deterministic, no data upload.
+ * Keeps OEJTS-32 results separate from the experimental TYPE/16 additions.
+ */
+const SESSION_64_VERSION = 1;
+const AXIS_NAMES = Object.freeze({
+  IE:{es:['Introversión','Extraversión'],en:['Introversion','Extraversion'],low:'I',high:'E'},
+  SN:{es:['Sensación','Intuición'],en:['Sensing','Intuition'],low:'S',high:'N'},
+  FT:{es:['Sentimiento','Pensamiento'],en:['Feeling','Thinking'],low:'F',high:'T'},
+  JP:{es:['Juicio','Percepción'],en:['Judging','Perceiving'],low:'J',high:'P'}
+});
+const AXES64 = Object.freeze(Object.keys(AXIS_NAMES));
+function createExperience64(plan,{scoreOriginals,interpretOriginals}){
+  if(!plan || !Array.isArray(plan.questions)||!Array.isArray(plan.stages))throw Error('Missing question manifest');
+  if(typeof scoreOriginals!=='function'||typeof interpretOriginals!=='function')throw Error('Missing original OEJTS evaluators');
+  const items=new Map(plan.questions.map(q=>[q.id,q]));
+  const order=plan.stages.flatMap(s=>s.ids);
+  const checkpoints=plan.stages.map(s=>s.checkpoint);
+  const axisIds=AXES64;
+  const verified=()=>{
+    if(items.size!==64||order.length!==64||new Set(order).size!==64||!order.every(x=>items.has(x)))throw Error('Invalid 64-question bank');
+    if(checkpoints.join(',')!=='12,24,32,48,64')throw Error('Wrong checkpoint configuration');
+    if(plan.questions.filter(q=>q.id>32).length!==32)throw Error('Expected 32 additional questions');
+    for(const a of axisIds){
+      const added=plan.questions.filter(q=>q.id>32&&q.axis===a);
+      if(added.length!==8||added.filter(q=>q.highPoleSide==='A').length!==4)throw Error('Invalid axis balance '+a);
+    }
+    for(const s of plan.stages){
+      const stageIds=order.slice(0,s.checkpoint);
+      const counts=axisIds.map(a=>stageIds.filter(id=>items.get(id).axis===a).length);
+      if(new Set(counts).size!==1)throw Error('Unequal axis coverage at '+s.checkpoint);
+      if(s.checkpoint<=32&&stageIds.some(id=>id>32))throw Error('Reference items must be first');
+    }
+    for(const q of plan.questions){
+      if(!['IE','SN','FT','JP'].includes(q.axis) || !['es','en'].every(lang=>q.stem?.[lang]&&q.a?.[lang]&&q.b?.[lang]))throw Error('Missing item copy '+q.id);
+      if(q.id>32&& !['A','B'].includes(q.highPoleSide))throw Error('Missing provisional pole '+q.id);
+    }
+    return true;
+  };
+  verified();
+  const copy=s=>JSON.parse(JSON.stringify(s));
+  const isValue=v=>Number.isInteger(v)&&v>=1&&v<=5;
+  const snap=s=>({
+    locale:s.locale,phase:s.phase,seen:[...s.seen],answers:{...s.answers},skipped:[...s.skipped],
+    reviewQueue:[...s.reviewQueue],reviewIndex:s.reviewIndex,checkpoint:s.checkpoint
+  });
+  const withUndo=(s,t)=>{t.history=[...s.history,snap(s)].slice(-80);return t};
+  const fresh=locale=>({version:SESSION_64_VERSION,locale,phase:'play',seen:[],answers:{},skipped:[],reviewQueue:[],reviewIndex:0,checkpoint:0,history:[]});
+  const newSession=({locale='es'}={})=>{if(!['es','en'].includes(locale))throw Error('Invalid locale');return fresh(locale)};
+  const nextItem=s=>{
+    if(s.phase==='review')return s.reviewQueue[s.reviewIndex]??null;
+    if(s.phase==='play')return order[s.seen.length]??null;
+    return null;
+  };
+  const validateSession=s=>{
+    if(!s||s.version!==SESSION_64_VERSION||!['es','en'].includes(s.locale)||!['play','review','checkpoint'].includes(s.phase))throw Error('Invalid saved session');
+    if(!Array.isArray(s.seen)||s.seen.length>64||!s.seen.every((id,i)=>id===order[i]))throw Error('Unexpected question sequence');
+    if(!s.answers||typeof s.answers!=='object'||!Array.isArray(s.skipped)||new Set(s.skipped).size!==s.skipped.length)throw Error('Invalid answers/skips');
+    for(const [k,v] of Object.entries(s.answers)){const id=Number(k);if(!s.seen.includes(id)||!isValue(v))throw Error('Invalid answer '+k)}
+    for(const id of s.skipped)if(!s.seen.includes(id)||Object.hasOwn(s.answers,id))throw Error('Invalid skip '+id);
+    if(Object.keys(s.answers).length+s.skipped.length!==s.seen.length)throw Error('Missing answer/skip partition');
+    if(!checkpoints.includes(s.checkpoint) && s.checkpoint!==0)throw Error('Invalid checkpoint');
+    if(s.phase==='checkpoint'&&s.checkpoint!==s.seen.length)throw Error('Checkpoint not at boundary');
+    if(s.phase==='review'&&(!Array.isArray(s.reviewQueue)||!s.reviewQueue.length||!Number.isInteger(s.reviewIndex)||s.reviewIndex<0||s.reviewIndex>=s.reviewQueue.length))throw Error('Broken review queue');
+    if(!Array.isArray(s.history)||s.history.length>80)throw Error('Invalid history');
+    return s;
+  };
+  const restoreSession=value=>{
+    const state=typeof value==='string'?JSON.parse(value):copy(value);
+    return validateSession(state);
+  };
+  const act=(s,action)=>{
+    validateSession(s);
+    const type=action?.type;
+    if(type==='language'){
+      if(!['es','en'].includes(action.locale))throw Error('Bad locale');
+      return {...s,locale:action.locale};
+    }
+    if(type==='undo'){
+      if(!s.history.length)return s;
+      const before=s.history.at(-1),history=s.history.slice(0,-1);
+      return validateSession({...copy(before),version:SESSION_64_VERSION,history});
+    }
+    if(type==='answer'){
+      if(s.phase!=='play'&&s.phase!=='review')throw Error('Not answering a question');
+      const id=nextItem(s),value=action.value;
+      if(action.id!==id||!(value===null||isValue(value)))throw Error('Invalid answer or wrong question');
+      const t=copy(s);
+      if(t.phase==='play')t.seen.push(id);
+      if(value===null){delete t.answers[id];if(!t.skipped.includes(id))t.skipped.push(id)}
+      else{t.answers[id]=value;t.skipped=t.skipped.filter(x=>x!==id)}
+      if(t.phase==='play'){
+        if(checkpoints.includes(t.seen.length)){
+          t.phase='checkpoint';t.checkpoint=t.seen.length;
+        }
+      } else {
+        t.reviewIndex++;
+        if(t.reviewIndex>=t.reviewQueue.length){t.phase='checkpoint';t.reviewIndex=0;t.reviewQueue=[];t.checkpoint=t.seen.length}
+      }
+      return validateSession(withUndo(s,t));
+    }
+    if(type==='continue'){
+      if(s.phase!=='checkpoint'||s.seen.length>=64)throw Error('Cannot continue past final checkpoint');
+      const t=copy(s);t.phase='play';t.reviewQueue=[];t.reviewIndex=0;
+      return validateSession(withUndo(s,t));
+    }
+    if(type==='review'){
+      if(s.phase!=='checkpoint'||!s.skipped.length)throw Error('No skipped questions');
+      const t=copy(s);t.phase='review';t.reviewQueue=[...s.skipped];t.reviewIndex=0;
+      return validateSession(withUndo(s,t));
+    }
+    throw Error('Unknown action');
+  };
+  const item=id=>items.get(id)??null;
+  const question=(s)=>nextItem(s)===null?null:item(nextItem(s));
+  const stageInfo=(s)=>plan.stages.find(x=>x.checkpoint===s.checkpoint)??null;
+  const completion=s=>s.seen.length;
+  const checkpointReport=s=>{
+    validateSession(s);
+    const originalAnswers=Object.fromEntries(Object.entries(s.answers).filter(([id])=>Number(id)<=32));
+    const originalSkips=s.skipped.filter(id=>id<=32);
+    const baseline=scoreOriginals(originalAnswers);
+    const interpretation=interpretOriginals(originalAnswers,{locale:s.locale,skipped:originalSkips});
+    const extra={};
+    for(const axis of axisIds){
+      const original=baseline.axes.find(a=>a.id===axis);
+      const newForAxis=plan.questions.filter(q=>q.id>32&&q.axis===axis&&s.seen.includes(q.id));
+      const answeredNew=newForAxis.filter(q=>Object.hasOwn(s.answers,q.id));
+      const centeredNew=answeredNew.reduce((v,q)=>v+(q.highPoleSide==='B'?1:-1)*(s.answers[q.id]-3),0);
+      const respondedNew=answeredNew.length;
+      const newPosition=respondedNew?Math.max(0,Math.min(100,50+25*centeredNew/respondedNew)):null;
+      const originalCount=original.count;
+      const combinedCount=originalCount+respondedNew;
+      const combined=original.centered+centeredNew;
+      const combinedLetter=!combinedCount||combined===0?null:combined>0?AXIS_NAMES[axis].high:AXIS_NAMES[axis].low;
+      const newLetter=!respondedNew||centeredNew===0?null:centeredNew>0?AXIS_NAMES[axis].high:AXIS_NAMES[axis].low;
+      const baselineLetter=original.preferred;
+      extra[axis]={id:axis,originalCount,originalCentered:original.centered,originalPosition:original.position,
+        originalLetter:baselineLetter,originalOfficialLetter:original.officialLetter,
+        answeredNew:respondedNew,seenNew:newForAxis.length,newCentered:centeredNew,
+        newPosition,newLetter,combinedCount,combinedCentered:combined,combinedLetter,
+        combinedPosition:combinedCount?Math.max(0,Math.min(100,50+25*combined/combinedCount)):null,
+        differingDirections:baselineLetter!==null&&newLetter!==null&&baselineLetter!==newLetter};
+    }
+    const originalAnswered=Object.keys(originalAnswers).length;
+    const newAnswered=Object.keys(s.answers).length-originalAnswered;
+    const allAxis=axisIds.map(a=>extra[a]);
+    const combinedCode=allAxis.every(a=>a.combinedLetter)?allAxis.map(a=>a.combinedLetter).join(''):null;
+    // No official or psychometrically validated probability is ever computed.
+    return {checkpoint:s.checkpoint,seen:s.seen.length,answered:Object.keys(s.answers).length,
+      skipped:s.skipped.length,originalAnswered,newAnswered,baseline,interpretation,extra,
+      combinedCode,hasUnresolvedAxis:allAxis.some(a=>a.combinedLetter===null),
+      sourceFull:baseline.complete,sourceType:baseline.officialType,
+      answeredPerAxis:Object.fromEntries(axisIds.map(a=>[a,extra[a].combinedCount])),
+      nextCheckpoint:checkpoints.find(c=>c>s.seen.length)??null,
+      disclaimer:'Editorial exploration, not a validated diagnostic or a statistical confidence measure.'};
+  };
+  return Object.freeze({plan,order,checkpoints,item,question,newSession,nextItem,act,validateSession,restoreSession,stageInfo,completion,checkpointReport});
+}
+
+import {scoreAll} from '../beta/js/scoring.js';
+import {displayOptions,renderDeepAnalysis} from '../beta/js/enhancements.js';
+import {buildInterpretation} from '../beta/js/engine/interpretation.js';
+import {getCardArt,auditArtwork,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices} from '../beta/js/artwork.js';
+import {TYPE_COPY} from '../beta/js/engine/interpretation-copy.js';
+const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
+const createSession=(o)=>experience.newSession(o);
+const restoreSession=(s)=>experience.restoreSession(s);
+const nextItem=(s)=>experience.nextItem(s);
+const transition=(s,a)=>experience.act(s,a);
+(()=>{'use strict';
+const KEY='type16.beta.v1'; // independent from the 64-card prototype
+const ART_PREVIEW_MODE=(()=>{
+ try{
+  const mode=new URLSearchParams(window.location?.search||'').get('art');
+  return mode==='v2'||mode==='selection'?mode:null;
+ }catch{return null}
+})();
+const SAVED_ART_CHOICES=(()=>{
+ try{return sanitizeArtChoices(JSON.parse(localStorage.getItem(ART_SELECTION_KEY)||'{}'));}
+ catch{return {}}
+})();
+const cardArtVersion=id=>{
+ if(ART_PREVIEW_MODE==='v2')return 'v2';
+ if(ART_PREVIEW_MODE==='selection')return SAVED_ART_CHOICES[MOTIF_BY_QUESTION[id]]||'v1';
+ return 'v1';
+};
+
+const rawCards=Array(64).fill(null); // legacy lab compatibility
+function cardData(session){
+ const item=experience.question(session);
+ if(item===null)return null;
+ return {id:item.id,es:[item.stem.es,...displayOptions(item,'es')],en:[item.stem.en,...displayOptions(item,'en')]};
+}
+const artAudit=auditArtwork(PLAN64.questions);
+if(!artAudit.ok)throw new Error('TYPE/16 artwork assignment: '+artAudit.errors.join(', '));
+
+const words={
+ es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V9',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
+ en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V9',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
+};
+
+Object.assign(words.es,{intro:'12 cartas para explorar tus preferencias. Después podrás profundizar con otras 20.',introSmall:'Prototipo de cuestionario · Arte provisional del laboratorio · Resultado orientativo',start:'Empezar el cuestionario',done:'Tu primera lectura',doneSub:'Un resultado orientativo, basado solo en las respuestas que has dado.',again:'Reiniciar el test',footer:'TYPE/16 · PROTOTIPO 12 + 20 / TC-HQ',resultLabel:'LECTURA DE PREFERENCIAS',resultQuick:'Primer recorrido',resultFull:'Recorrido completo',resultEarly:'Las cuatro letras son provisionales hasta completar las 32 preguntas.',resultFullNote:'Has completado el recorrido de 32 preguntas.',resultUnknown:'Todavía no hay suficiente información para presentar cuatro letras sin ocultar empates o ausencias.',resultContinue:'Profundizar · 20 cartas más',resultReview:'Revisar preguntas saltadas',resultCoverage:'Preguntas respondidas',resultAxis:'Preferencias observadas por dimensión',resultScale:'Posición descriptiva de las respuestas (no probabilidad)',resultNoData:'Aún no hay respuestas en esta dimensión',resultNoType:'Perfil aún indeterminado',resultDetails:'Lectura por dimensión',resultDisclaimer:'Experiencia educativa y orientativa; no es una prueba clínica ni un diagnóstico. La adaptación a cartas no está validada.',resultArt:'Los motivos son los del laboratorio original; las ilustraciones definitivas siguen pendientes.'});
+Object.assign(words.en,{intro:'12 cards to explore your preferences. You can then go deeper with 20 more.',introSmall:'Questionnaire prototype · Temporary art from the lab · Exploratory reading',start:'Start the questionnaire',done:'Your first reading',doneSub:'An exploratory result based only on your answers.',again:'Restart test',footer:'TYPE/16 · 12 + 20 PLAYTEST / TC-HQ',resultLabel:'PREFERENCE READING',resultQuick:'First journey',resultFull:'Full journey',resultEarly:'The four letters remain provisional until all 32 questions are answered.',resultFullNote:'You have completed all 32 questions.',resultUnknown:'There is not yet enough information to present four letters without hiding ties or missing answers.',resultContinue:'Go deeper · 20 more cards',resultReview:'Review skipped questions',resultCoverage:'Questions answered',resultAxis:'Observed preferences by dimension',resultScale:'Descriptive response position (not probability)',resultNoData:'No answers in this dimension yet',resultNoType:'Type not determined yet',resultDetails:'Reading by dimension',resultDisclaimer:'Educational and exploratory only; not a clinical test or diagnosis. The card-based presentation is not validated.',resultArt:'Motifs are temporary artwork from the original lab; final illustrations are still pending.'});
+
+
+Object.assign(words.es,{
+ intro:'64 cartas, cinco paradas. Empieza con 12 y decide hasta dónde quieres explorar.',
+ introSmall:'Prototipo de 64 cartas · Paradas 12 / 24 / 32 / 48 / 64 · Arte provisional',
+ start:'Comenzar el viaje',footer:'TYPE/16 · PROTOTIPO 64 · TC-HQ',
+ resultLabel:'LECTURA DE PREFERENCIAS',resultQuick:'Primera impresión',resultFull:'Retrato de referencia',
+ resultContinue:'Continuar el viaje',resultReview:'Revisar saltadas',resultNoType:'Preferencia aún abierta',
+ resultDetails:'Las cuatro dimensiones',resultScale:'Posiciones descriptivas; no indican fiabilidad ni probabilidad',
+ resultDisclaimer:'Experiencia educativa y orientativa. No es una prueba clínica ni un indicador estadístico de certeza.',
+ resultArt:'Arte temporal heredado de Gesture Lab. No se utilizan los SVG rechazados.',
+ resultCoverage:'Respuestas registradas',resultPause:'Guardar y salir',resultUndo:'Deshacer última respuesta',
+ resultSource:'Referencia OEJTS · 32 preguntas',resultExtended:'Exploración TYPE/16 · 64 cartas',
+ resultNewOnly:'Nuevas situaciones',resultComparison:'Comparación de enfoques',resultNoContrast:'Aún no hay respuestas suficientes para contrastar ambos bancos.',
+ resultDifferent:'Las respuestas de las situaciones nuevas apuntan en otra dirección para este eje. Es un matiz para explorar, no un error.',
+ resultStable:'Los dos bloques muestran la misma inclinación observada en este eje.',
+ resultUnclear:'La lectura no está definida o contiene un empate.',
+ resultProvisional:'Lectura descriptiva provisional; faltan respuestas.',resultOriginalFull:'Referencia completa del cuestionario original, sin garantía de precisión psicológica.',
+ resultOriginalMissing:'Para calcular la referencia completa deben estar contestadas las 32 preguntas originales.',
+ resultExperimental:'Índice ampliado experimental. No reemplaza ni recalibra la puntuación OEJTS.',
+ resultSkipped:'Puedes continuar con preguntas saltadas. Solo las contestadas contribuyen al resultado.',
+ resultTie:'Hay un empate en este eje. No forzamos una dirección.',resultFinished:'Fin del viaje · Has llegado a la quinta parada.',
+ checkpointIntro:'Una pausa para observar lo que han sugerido tus respuestas.',
+ checkpointNext:'Próxima parada',checkpointSeen:'Cartas vistas',checkpointAnswered:'Contestadas',checkpointSkipped:'Saltadas'
+});
+Object.assign(words.en,{
+ intro:'64 cards, five checkpoints. Start with 12 and choose how deep to explore.',
+ introSmall:'64-card playtest · Checkpoints 12 / 24 / 32 / 48 / 64 · Placeholder artwork',
+ start:'Begin the journey',footer:'TYPE/16 · 64-CARD PLAYTEST · TC-HQ',
+ resultLabel:'PREFERENCE READING',resultQuick:'First impression',resultFull:'Reference portrait',
+ resultContinue:'Continue the journey',resultReview:'Review skipped',resultNoType:'Preference still open',
+ resultDetails:'The four dimensions',resultScale:'Descriptive positions, not reliability or probability measures',
+ resultDisclaimer:'Educational and exploratory. Not a clinical test or a statistical confidence indicator.',
+ resultArt:'Temporary Gesture Lab artwork. None of the rejected SVGs are used.',
+ resultCoverage:'Answers recorded',resultPause:'Save and leave',resultUndo:'Undo last answer',
+ resultSource:'OEJTS reference · 32 questions',resultExtended:'TYPE/16 exploration · 64 cards',
+ resultNewOnly:'New situations',resultComparison:'Comparing perspectives',resultNoContrast:'Not enough answers yet to compare both item sets.',
+ resultDifferent:'New situations point in another direction on this axis. It is a nuance worth exploring, not an error.',
+ resultStable:'Both sets of questions show the same observed leaning on this axis.',
+ resultUnclear:'This axis is unresolved or tied.',resultProvisional:'Provisional descriptive reading; more answers remain.',
+ resultOriginalFull:'Complete original reference scoring, without any guarantee of psychological precision.',
+ resultOriginalMissing:'All 32 original items must be answered to calculate the full reference result.',
+ resultExperimental:'Experimental extended index. It does not replace or recalibrate OEJTS scoring.',
+ resultSkipped:'You can continue with skipped questions. Only answered items contribute to results.',
+ resultTie:'This axis is tied; no leaning is forced.',resultFinished:'Journey complete · You reached the fifth checkpoint.',
+ checkpointIntro:'A moment to observe what your answers suggest.',
+ checkpointNext:'Next checkpoint',checkpointSeen:'Cards seen',checkpointAnswered:'Answered',checkpointSkipped:'Skipped'
+});
+// Human-facing copy for the personality atlas; underlying scores are unchanged.
+Object.assign(words.es,{
+ heroEyebrow:'UN ATLAS DE PERSONALIDAD',tagline:'Explora tu manera de pensar, sentir, relacionarte y decidir.',
+ intro:'64 cartas · 16 posibles perfiles · 4 dimensiones · 5 paradas para descubrir tus preferencias a tu ritmo.',
+ introSmall:'Una experiencia de autoconocimiento; el retrato describe preferencias y no define quién eres.',
+ resume:'Retomar mi recorrido',start:'Descubrir mi perfil',
+ footer:'TYPE/16 · ATLAS DE PERSONALIDAD',
+ series:'ATLAS DE PREFERENCIAS',resultLabel:'TU RETRATO',resultScale:'Cada dimensión revela una preferencia observada: el centro indica respuestas diversas o equilibrio.',
+ resultDisclaimer:'Una lectura para conocerte y reflexionar, no una evaluación clínica ni una definición permanente de tu personalidad.',
+ resultArt:'',resultOriginalFull:'Has completado tu retrato de referencia: ocho respuestas por dimensión.',
+ resultOriginalMissing:'Todavía quedan preguntas por responder antes de cerrar el retrato de referencia.',
+ resultExperimental:'Una nueva mirada a tus preferencias a través de situaciones cotidianas.',
+ resultProvisional:'Este retrato muestra lo que destaca por ahora en tus elecciones.',
+ resultDifferent:'Las nuevas situaciones revelan otra tendencia: quizá expreses preferencias distintas según el contexto.',
+ resultStable:'Las situaciones nuevas y las primeras cartas coinciden en esta inclinación.',
+ resultNoContrast:'Todavía hay pocas respuestas en uno de los grupos para ver cómo se relacionan.',
+ checkpointIntro:'Cada elección añade un matiz a tu retrato.'
+});
+Object.assign(words.en,{
+ heroEyebrow:'AN ATLAS OF PERSONALITY',tagline:'Explore how you think, feel, connect and decide.',
+ intro:'64 cards · 16 possible profiles · 4 dimensions · 5 stops to discover your preferences at your own pace.',
+ introSmall:'A journey of self-discovery: preferences describe tendencies, not everything about you.',
+ resume:'Resume my journey',start:'Discover my profile',
+ footer:'TYPE/16 · PERSONALITY ATLAS',
+ series:'ATLAS OF PREFERENCES',resultLabel:'YOUR PORTRAIT',resultScale:'Each dimension reveals an observed preference; the centre indicates varied or balanced answers.',
+ resultDisclaimer:'A reading for reflection and self-understanding, not a clinical assessment or a permanent definition of your personality.',
+ resultArt:'',resultOriginalFull:'Your reference portrait is complete: eight answers per dimension.',
+ resultOriginalMissing:'Some answers are still missing before your reference portrait can be completed.',
+ resultExperimental:'A fresh perspective on your preferences through everyday situations.',
+ resultProvisional:'This portrait reflects what currently stands out in your choices.',
+ resultDifferent:'The new situations reveal a different tendency: your preferences may vary by context.',
+ resultStable:'The new situations and earlier cards lean in the same direction.',
+ resultNoContrast:'There are not yet enough responses to compare both sets of situations.',
+ checkpointIntro:'Every choice adds another nuance to your portrait.'
+});
+Object.assign(words.es,{
+ resultSource:'Tu primer retrato · 32 cartas',resultExtended:'Tu retrato ampliado',resultNewOnly:'Nuevas situaciones',
+ resultSkipped:'Hay cartas que dejaste para después. Puedes volver a ellas para completar tu lectura.',
+ resultNoType:'Una combinación todavía abierta',
+ resultEarly:'Las primeras cartas apuntan hacia una combinación, todavía con posibles cambios.'
+});
+Object.assign(words.en,{
+ resultSource:'Your first portrait · 32 cards',resultExtended:'Your extended portrait',resultNewOnly:'New situations',
+ resultSkipped:'There are cards you left for later. You can return to them to complete your reading.',
+ resultNoType:'A combination still taking shape',
+ resultEarly:'Your first cards point toward a combination, with room for change.'
+});
+Object.assign(words.es,{
+ heroEyebrow:'ATLAS DE PERSONALIDAD · BETA I',
+ tagline:'Una forma distinta de explorar cómo eres.',
+ intro:'64 cartas, cuatro dimensiones y 16 perfiles posibles. Puedes detenerte en cinco paradas y descubrir tus preferencias paso a paso.',
+ introSmall:'Una experiencia orientativa de autoconocimiento. Tus respuestas se guardan en este navegador.',
+ footer:'TYPE/16 · BETA I / TC-HQ',
+ resultSource:'Tu primera lectura · 32 cartas',resultExtended:'Tu retrato ampliado'
+});
+Object.assign(words.en,{
+ heroEyebrow:'PERSONALITY ATLAS · BETA I',
+ tagline:'A different way to explore who you are.',
+ intro:'64 cards, four dimensions and 16 possible profiles. Pause at five stops to discover your preferences step by step.',
+ introSmall:'An exploratory self-discovery experience. Your answers stay in this browser.',
+ footer:'TYPE/16 · BETA I / TC-HQ',
+ resultSource:'Your first reading · 32 cards',resultExtended:'Your extended portrait'
+});
+const checkpointNames={12:['Primera impresión','First impression'],24:['Mapa en formación','Mapping your preferences'],32:['Retrato de referencia','Reference portrait'],48:['Contrastes cotidianos','Everyday contrasts'],64:['Retrato extendido','Extended portrait']};
+const checkpointDescriptions={
+ 12:['Las primeras cartas dejan entrever cómo te relacionas, percibes, decides y organizas tus ideas.','Your first cards hint at how you connect, perceive, decide and organize your ideas.'],
+ 24:['Algunas inclinaciones se repiten; otras muestran una personalidad más llena de matices.','Some tendencies recur; others reveal a more nuanced portrait.'],
+ 32:['Un retrato de tus preferencias a través de las cuatro dimensiones.','A portrait of your preferences across all four dimensions.'],
+ 48:['Nuevas situaciones muestran dónde mantienes tus preferencias y dónde cambian con el contexto.','New situations reveal where your preferences hold and where context makes a difference.'],
+ 64:['Todas las cartas están sobre la mesa. Descubre los rasgos que destacan y los matices que te hacen singular.','All cards are on the table. Explore your prominent tendencies and the nuances that make you unique.']
+}
+const localText=(pair)=>pair[state.lang==='es'?0:1];
+
+const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function detectLanguage(){const pref=navigator.languages?.length?navigator.languages:[navigator.language];for(const p of pref){const v=String(p||'').toLowerCase();if(/^(es|ca|gl|eu)(-|$)/.test(v))return'es';if(/^en(-|$)/.test(v))return'en'}return'en'}
+function load(){
+ const lang=detectLanguage();
+ const fresh=()=>({v:7,lang,i:0,threshold:150,diagonal:true,started:false,tutorialSeen:false,tutorialActive:false,session:createSession({locale:lang})});
+ try{
+   const current=JSON.parse(localStorage.getItem(KEY)||'null');
+   if(current?.v!==7 || !['es','en'].includes(current.lang))return fresh();
+   const session=restoreSession(current.session);
+   if(session.locale!==current.lang)return fresh();
+   return {...fresh(),...current,session,i:session.seen.length,threshold:Number.isFinite(current.threshold)?Math.min(210,Math.max(110,current.threshold)):150,diagonal:current.diagonal!==false,started:Boolean(current.started),tutorialSeen:Boolean(current.tutorialSeen),tutorialActive:Boolean(current.tutorialActive)&&session.seen.length===0};
+ }catch{return fresh()}
+}
+ let state=load(),busy=false,revealNext=false;
+let skipNextEntrance=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+const iconGear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.3"/><path d="M10 2h4l.6 2.3 2.2.9 2.1-1.2 2.7 2.7-1.2 2.1.9 2.2L23 11v2l-2.3.6-.9 2.2 1.2 2.1-2.7 2.7-2.1-1.2-2.2.9L13 23h-2l-.6-2.3-2.2-.9-2.1 1.2-2.7-2.7 1.2-2.1-.9-2.2L1 13v-2l2.3-.6.9-2.2L3 6.1l2.7-2.7 2.1 1.2 2.2-.9z" transform="translate(0 -1) scale(.96)"/></svg>';
+function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
+function footer(){return `<footer class="footer">${W().footer}</footer>`}
+function legacyPreview(){
+ if(state.session.seen.length)return null;
+ try{
+  const saved=JSON.parse(localStorage.getItem('type16.playtest64.v1')||'null');
+  if(saved?.v!==7||!saved.session?.seen?.length)return null;
+  const old=restoreSession(saved.session);
+  return old.seen.length?old:null;
+ }catch{return null}
+}
+function intro(){
+ const w=W(),seen=state.session.seen.length,answered=Object.keys(state.session.answers).length,
+  nextStop=experience.checkpoints.find(n=>n>seen)||64;
+ const axes=state.lang==='es'?[
+  ['I / E','Introversión · Extraversión','Dónde orientas tu energía'],
+  ['S / N','Sensación · Intuición','Cómo percibes la información'],
+  ['F / T','Sentimiento · Pensamiento','Cómo valoras las decisiones'],
+  ['J / P','Juicio · Percepción','Cómo organizas tus opciones']
+ ]:[
+  ['I / E','Introversion · Extraversion','Where you direct your energy'],
+  ['S / N','Sensing · Intuition','How you take in information'],
+  ['F / T','Feeling · Thinking','How you weigh decisions'],
+  ['J / P','Judging · Perceiving','How you approach structure']
+ ];
+ const axisMarkup=axes.map(([code,name,description])=>`<div class='intro-dimension'><b>${code}</b><span><strong>${safe(name)}</strong><small>${safe(description)}</small></span></div>`).join('');
+ const types=Object.entries(TYPE_COPY).sort(([a],[b])=>a.localeCompare(b)).map(([code,copy])=>`<span class='intro-type'><b>${code}</b><small>${safe(copy[state.lang].title)}</small></span>`).join('');
+ const legacy=legacyPreview();
+ const importPanel=legacy?`<button class='beta-import' data-action='import-legacy'>↶ &nbsp;${state.lang==='es'?'Recuperar mi partida anterior':'Import my previous progress'} · ${legacy.seen.length}/64</button>`:'';
+ const artPreviewLabel=ART_PREVIEW_MODE?(state.lang==='es'?
+    (ART_PREVIEW_MODE==='v2'?'Vista previa: ilustraciones V2':'Vista previa: tu selección de ilustraciones'):
+    (ART_PREVIEW_MODE==='v2'?'Preview: V2 illustrations':'Preview: your selected illustrations')):null;
+ const artPreviewBanner=artPreviewLabel?`<span class="beta-art-preview-note">✦ ${safe(artPreviewLabel)}</span>`:'';
+ const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='../beta/art-gallery.html'>✧ ${state.lang==='es'?'Comparar ilustraciones V1 / V2':'Compare V1 / V2 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
+}
+function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,previewSession=state.session){
+  let w=W(),
+      q=practice?{es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:cardData(previewSession),
+      [stem,a,b]=q[state.lang];
+  // Deck number, not source item ID: preserves correct labels during skipped-item review.
+  const deckNumber=practice?0:experience.order.indexOf(q.id)+1;
+  const num=practice?'00':String(deckNumber).padStart(2,'0');
+  const titleLeft=practice||deckNumber===1?(state.lang==='es'?'Bienvenido':'Welcome'):
+    (state.lang==='es'?'Carta ':'Card ')+num;
+  const id=practice?1:q.id;
+  return `<div class="card-top"><span>${safe(titleLeft)}</span><span>Atlas</span></div>
+    <div class="card-art beta-art" data-art="${practice?'practice':q.id}" data-art-version="${cardArtVersion(id)}">${getCardArt(id,null,cardArtVersion(id))}</div>
+    <h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
+    ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
+    <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
+    <div class="card-bottom"><span>✧ · TYPE/16</span><span>${practice?'NO. 00':'Q'+String(q.id).padStart(2,'0')}</span></div>`;
+}
+// One shared decorative reverse, for the exposed stack and the card being dealt.
+function reverseFace(){return '<div class="reverse-runes">✦ · ✧ · ✦</div><div class="reverse-sigil">✧<span>TYPE/16</span></div><div class="reverse-runes">✦ · ✧ · ✦</div>'}
+function quiz(){
+  let w=W(),practice=state.tutorialActive,review=state.session.phase==='review',idx=practice?0:review?state.session.reviewIndex+1:state.i+1,total=review?state.session.reviewQueue.length:(experience.checkpoints.find(n=>n>state.session.seen.length)||64);
+  return `<section class="stage" aria-label="${w.series}">
+  <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true">${reverseFace()}</div>
+    <article class="card ${revealNext?'deal-flip':skipNextEntrance?'settled':'entering'}" id="card" aria-describedby="card-question"><div class="card-front">${cardHTML()}<div class="gesture-stamp" id="gesture-stamp" aria-hidden="true"></div></div><div class="card-reverse" aria-hidden="true">${reverseFace()}</div></article></div>
+  <div class="gesture-zone">
+    <div class="response-banner" id="response-banner" role="status" aria-live="polite" aria-atomic="true">
+      <span class="banner-ornament" aria-hidden="true">✦</span><div class="banner-text"><span class="banner-kicker">${practice?w.practiceLabel:w.pick}</span><strong id="feedback">${practice?w.practiceMessage:w.pickHint}</strong></div><span class="banner-ornament" aria-hidden="true">✦</span>
+    </div>
+    <div class="response-row" role="group" aria-label="${w.choice}">
+      <button class="response" data-value="1" aria-label="${w.strongA}"><strong>««</strong><small>${w.strongA}</small></button>
+      <button class="response" data-value="2" aria-label="${w.softA}"><strong>‹</strong><small>${w.softA}</small></button>
+      <button class="response neutral" data-value="3" aria-label="${w.neutral}"><strong>◇</strong><small>${w.neutral}</small></button>
+      <button class="response" data-value="4" aria-label="${w.softB}"><strong>›</strong><small>${w.softB}</small></button>
+      <button class="response" data-value="5" aria-label="${w.strongB}"><strong>»»</strong><small>${w.strongB}</small></button>
+    </div>
+    <div class="toolbar">
+      ${practice?`<button class="tool" disabled><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip-practice">${w.practiceSkip}<span class="ico" aria-hidden="true">→</span></button>`:
+       `<button class="tool" data-action="undo" ${state.session.history.length===0?'disabled':''}><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip">${w.skip}<span class="ico" aria-hidden="true">↓</span></button>`}
+    </div>
+    <div class="play-dock"><div class="stage-progress" aria-label="${practice?w.practiceCount:w.stageCount} ${idx}/${total}"><span class="deck-counter">${practice?w.practiceCount.toUpperCase():w.stageCount.toUpperCase()} · ${String(idx).padStart(2,'0')}/${String(total).padStart(2,'0')}</span><span class="progress-mini"><span style="width:${Math.min(100,(idx/total)*100)}%"></span></span></div>
+      <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button><button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
+    </div>
+  </div></section>`
+}
+function summary(){
+ const w=W(),s=state.session,stage=s.checkpoint,report=experience.checkpointReport(s);
+ const type=report.interpretation.brief.type;
+ const stageName=localText(checkpointNames[stage]),stageDescription=localText(checkpointDescriptions[stage]);
+ const showNew=stage>32,mayContinue=stage<64,mayReview=s.skipped.length>0;
+ const baselineCode=report.sourceType||type.code||'· · · ·';
+ const baselineStatus=report.sourceFull?w.resultOriginalFull:w.resultOriginalMissing;
+ const story=type.readable?type.summary:(type.note||w.resultNoType);
+ const experimentalCode=report.combinedCode||'· · · ·';
+ const fmt=n=>n===null||n===undefined?'—':n;
+ const axisRows=AXES64.map(axisId=>{
+   const axis=report.extra[axisId],name=AXIS_NAMES[axisId],pair=name[state.lang];
+   const originalPosition=axis.originalPosition===null?50:Math.max(0,Math.min(100,axis.originalPosition));
+   const newPosition=axis.newPosition===null?50:Math.max(0,Math.min(100,axis.newPosition));
+   const combinedPosition=axis.combinedPosition===null?50:Math.max(0,Math.min(100,axis.combinedPosition));
+   const l=axis.originalLetter||'—',n=axis.newLetter||'—',c=axis.combinedLetter||'—';
+   const situationMessage=axis.answeredNew===0?w.resultNoContrast:
+     axis.differingDirections?w.resultDifferent:
+     axis.newLetter&&axis.originalLetter?w.resultStable:w.resultUnclear;
+   const mainPos=showNew?combinedPosition:originalPosition;
+   const mainLetter=showNew?c:l;
+   const mainCount=showNew?axis.combinedCount:axis.originalCount;
+   const mainTotal=showNew?16:8;
+   const extraBlock=showNew?
+     '<details class="beta-axis-compare"><summary>'+safe(state.lang==='es'?'Comparar ambas lecturas':'Compare both readings')+' <span aria-hidden="true">＋</span></summary><div class="beta-axis-compare-inner">'+
+     '<div class="result-subline"><b>'+safe(w.resultSource)+'</b><span>'+safe(l)+' · '+axis.originalCount+'/8</span></div>'+
+     '<div class="result-track"><i class="result-pointer" style="left:'+originalPosition.toFixed(1)+'%"></i></div>'+
+     '<div class="result-subline"><b>'+safe(w.resultNewOnly)+'</b><span>'+safe(n)+' · '+axis.answeredNew+'/8</span></div>'+
+     '<div class="result-track extra-track"><i class="result-pointer" style="left:'+newPosition.toFixed(1)+'%"></i></div>'+
+     '<p class="result-nuance">'+safe(situationMessage)+'</p></div></details>':'';
+   const text=report.interpretation.dimensions.find(a=>a.id===axisId)?.reading||'';
+   return '<div class="result-axis"><div class="result-axis-head"><strong>'+safe(pair[0])+' / '+safe(pair[1])+'</strong><span>'+safe(mainLetter)+' · '+mainCount+'/'+mainTotal+'</span></div>'+
+     '<div class="result-track"><i class="result-pointer" style="left:'+mainPos.toFixed(1)+'%"></i></div>'+
+     '<p>'+safe(text)+'</p>'+extraBlock+'</div>';
+ }).join('');
+ const progress=experience.checkpoints.map(n=>'<span class="journey-step '+(n===stage?'current':n<stage?'reached':'')+'">'+n+'</span>').join('');
+ const compare=showNew?'<div class="result-compare"><div><div class="result-kicker">'+safe(w.resultSource)+'</div><strong class="compare-code">'+safe(baselineCode)+'</strong><p>'+safe(baselineStatus)+'</p></div>'+
+   '<div><div class="result-kicker">'+safe(w.resultExtended)+'</div><strong class="compare-code">'+safe(experimentalCode)+'</strong><p>'+safe(w.resultExperimental)+'</p></div></div>':'';
+ return '<section class="lab-summary playtest-results" aria-label="'+safe(w.resultLabel)+'">'+
+  '<div class="section-label">TYPE / 16 · '+safe(stageName)+'</div>'+
+  '<div class="journey-timeline" aria-label="'+safe(w.checkpointSeen)+'">'+progress+'</div>'+
+  '<div class="result-panel"><div class="result-kicker">'+safe(w.resultLabel)+' · '+stage+'/64</div>'+
+  '<h1 class="checkpoint-title">'+safe(stageName)+'</h1><p class="checkpoint-description">'+safe(stageDescription)+'</p>'+
+  '<div class="result-stats"><span>'+safe(w.checkpointSeen)+': '+stage+'</span><span>'+safe(w.checkpointAnswered)+': '+report.answered+'</span><span>'+safe(w.checkpointSkipped)+': '+report.skipped+'</span></div>'+
+  (showNew?compare:'<h2 class="result-code">'+safe(baselineCode)+'</h2><h3>'+safe(type.title||w.resultNoType)+'</h3><p class="result-story">'+safe(story)+'</p><p class="result-caption">'+safe(baselineStatus)+'</p>')+
+  '</div>'+
+  '<h2 class="result-heading">'+safe(w.resultDetails)+'</h2><p class="result-description">'+safe(w.resultScale)+'</p>'+
+  '<div class="result-axes">'+axisRows+'</div>'+ 
+  renderDeepAnalysis({report,session:s,plan:PLAN64,locale:state.lang,escapeHTML:safe})+
+  (report.skipped?'<p class="result-description skipped-note">'+safe(w.resultSkipped)+'</p>':'')+
+  '<p class="result-description">'+safe(w.resultDisclaimer)+' '+safe(w.resultArt)+'</p>'+
+  '<div class="lab-actions result-actions">'+
+   (mayContinue?'<button class="start-btn" data-action="continue">'+safe(w.resultContinue)+' → '+report.nextCheckpoint+'/64</button>':'')+
+   (mayReview?'<button class="start-btn result-secondary" data-action="review">'+safe(w.resultReview)+' ('+report.skipped+')</button>':'')+
+   '<button class="tool result-secondary" data-action="undo" '+(s.history.length===0?'disabled':'')+'>↶ '+safe(w.resultUndo)+'</button>'+
+   '<button class="quiet-btn" data-action="pause">'+safe(w.resultPause)+'</button>'+
+   '<button class="quiet-btn" data-action="restart">↺ '+safe(w.again)+'</button></div>'+
+ '</section>';
+}
+function draw(){
+  document.documentElement.lang=state.lang;
+  const checkpoint=['checkpoint','done'].includes(state.session.phase);
+   const play=state.started&&!checkpoint && (state.tutorialActive || nextItem(state.session)!==null);
+  app.classList.toggle('playing',play);
+  document.body.classList.toggle('in-deck',play);
+  document.documentElement.classList.toggle('deck-locked',play);
+  app.innerHTML=(play?'':masthead())+(state.started?(checkpoint?summary():play?quiz():intro()):intro())+(play?'':footer());
+  if(play){
+    bindPointer();
+    if(state.tutorialActive)armPracticeSway();
+    const card=document.querySelector('#card');
+    if(card?.classList.contains('deal-flip')){
+      const settle=()=>card.classList.remove('deal-flip');
+      card.addEventListener('animationend',event=>{
+        if(event.target===card && event.animationName==='tarot-deal-safe')settle();
+      });
+      window.setTimeout(settle,680); // Cross-browser fallback if animationend never fires.
+    }
+  }
+  revealNext=false;
+  skipNextEntrance=false;
+}
+function armPracticeSway(){
+  const card=document.querySelector('#card');
+  if(!card||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  setTimeout(()=>{if(card.isConnected && state.tutorialActive && !busy && !card.classList.contains('dragging')){card.classList.remove('entering');card.classList.add('practice-idle')}},1150);
+}
+function finishPractice(previewAlreadyFlipped=false){state.tutorialActive=false;state.tutorialSeen=true;state.started=true;revealNext=!previewAlreadyFlipped;skipNextEntrance=previewAlreadyFlipped;persist();draw()}
+
+function showChoice(choice,hint=W().pickHint){
+  const fb=document.querySelector('#feedback');
+  const banner=document.querySelector('#response-banner');
+  const stamp=document.querySelector('#gesture-stamp');
+  if(!fb||!banner||!stamp)return;
+  const active=choice?(choice.value===null?
+    document.querySelector('.toolbar [data-action="skip"],.toolbar [data-action="skip-practice"]'):
+    document.querySelector('.response[data-value="'+choice.value+'"]')):null;
+  document.querySelectorAll('.response.gesture-active,.toolbar .tool.gesture-active').forEach(button=>{
+    if(button!==active)button.classList.remove('gesture-active');
+  });
+  if(active)active.classList.add('gesture-active');
+  fb.textContent=choice?choice.text:hint;
+  const side=choice?.side==='left'?'choice-a':choice?.side==='right'?'choice-b':'neutral';
+  banner.className='response-banner'+(choice?' selected '+side+(choice.strong?' strong':''):'');
+  stamp.textContent=choice?choice.text:'';
+  stamp.className='gesture-stamp'+(choice?' visible '+(choice.side==='left'?'on-right choice-a':choice.side==='right'?'on-left choice-b':'on-center')+(choice.strong?' strong':''):'');
+}
+
+function record(value,exitX=0,exitY=0){
+  if(busy)return;
+  busy=true;
+  const practice=state.tutorialActive;
+  const card=document.querySelector('#card');
+  const label=value===null?W().skip:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1];
+  showChoice({value,text:label,side:value===1||value===2?'left':value===4||value===5?'right':'neutral',strong:value===1||value===5});
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const pendingSession=practice?null:transition(state.session,{type:'answer',id:nextItem(state.session),value});
+   const nextIndex=practice?state.i:pendingSession.seen.length;
+   const hasNext=practice?true:nextItem(pendingSession)!==null;
+  let completed=false,previewStarted=false,previewAt=0,previewTimer=0;
+  const beginPreview=()=>{
+    previewTimer=0;
+    if(completed||!hasNext||!card?.isConnected||reduced)return;
+    const deck=document.querySelector('.deck-area');
+    if(!deck)return;
+    const upcoming=document.createElement('article');
+    upcoming.className='card deal-flip incoming-preview';
+    upcoming.setAttribute('aria-hidden','true');
+    upcoming.innerHTML='<div class="card-front">'+cardHTML(nextIndex,false,true,practice?state.session:pendingSession)+'</div><div class="card-reverse" aria-hidden="true">'+reverseFace()+'</div>';
+    upcoming.style.width=card.offsetWidth+'px';
+    upcoming.style.height=card.offsetHeight+'px';
+    upcoming.style.left=((deck.clientWidth-card.offsetWidth)/2)+'px';
+    upcoming.style.top=((deck.clientHeight-card.offsetHeight)/2)+'px';
+    deck.appendChild(upcoming);
+    previewStarted=true;
+    previewAt=performance.now();
+  };
+  const advance=()=>{
+    if(practice)finishPractice(previewStarted);
+    else{
+      state.session=pendingSession;
+       state.i=state.session.seen.length;
+       revealNext=hasNext&&!previewStarted;
+      skipNextEntrance=previewStarted;
+      persist();draw();
+    }
+    busy=false;
+  };
+  const finish=()=>{
+    if(completed)return;
+    completed=true;
+    if(previewTimer){clearTimeout(previewTimer);previewTimer=0;}
+    if(card)card.style.visibility='hidden';
+    const wait=reduced?0:previewStarted?
+      Math.max(15,640-(performance.now()-previewAt)):105;
+    window.setTimeout(advance,wait);
+  };
+  if(!card){finish();return;}
+  const startTransform=getComputedStyle(card).transform;
+  card.classList.remove('dragging','entering','deal-flip','practice-idle');
+  const deck=document.querySelector('.deck-area').getBoundingClientRect();
+  const cardWidth=card.offsetWidth,cardHeight=card.offsetHeight;
+  const cardLeft=deck.left+(deck.width-cardWidth)/2;
+  const cardRight=cardLeft+cardWidth;
+  const cardTop=deck.top+(deck.height-cardHeight)/2;
+  const cardBottom=cardTop+cardHeight;
+  const x=value===3||value===null?0:value<=2?
+    -Math.ceil(cardRight+48):Math.ceil(window.innerWidth-cardLeft+48);
+  const y=value===null?Math.ceil(window.innerHeight-cardTop+48):
+    value===3?-Math.ceil(cardBottom+48):
+    exitY===0?-36:Math.max(-125,Math.min(125,exitY));
+  const finalTransform=`translate3d(${x}px,${y}px,0) rotate(${x===0?0:x>0?17:-17}deg) scale(.96)`;
+  const duration=Math.round(Math.max(540,Math.min(780,330+Math.hypot(x,y)*.43)));
+  if(reduced||!card.animate){card.style.transform=finalTransform;finish();return;}
+  try{
+    const anim=card.animate([
+      {transform:startTransform==='none'?'translate3d(0,0,0)':startTransform,opacity:1},
+      {transform:finalTransform,opacity:0}
+    ],{duration,easing:'cubic-bezier(.22,.65,.28,1)',fill:'forwards'});
+    if(hasNext)previewTimer=window.setTimeout(beginPreview,Math.max(0,duration-500));
+    anim.finished.then(finish,finish);
+    window.setTimeout(finish,duration+240);
+  }catch{card.style.transform=finalTransform;finish();}
+}
+
+function classify(dx,dy,threshold){
+  const ax=Math.abs(dx),ay=Math.abs(dy);
+  if(ay>=70 && ay>=ax*1.3)return {value:dy<0?3:null,text:dy<0?W().neutral:W().skip,side:'neutral'};
+  if(ax<52 || ax<ay*.7)return null;
+  const yInfluence=state.diagonal===false?0:Math.max(-62,Math.min(62,dy*.72));
+  const effective=ax+yInfluence, strong=effective>=threshold;
+  const value=dx<0?(strong?1:2):(strong?5:4),side=dx<0?'left':'right';
+  return {value,text:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1],side,effective,strong};
+}
+function bindPointer(){
+  const card=document.querySelector('#card'),fb=document.querySelector('#feedback'),banner=document.querySelector('#response-banner'),stamp=document.querySelector('#gesture-stamp');
+  if(!card)return;
+  let pos=null,frame=0,latest=null,lastChoice='';
+  const initialHint=state.tutorialActive?W().practiceMessage:W().pickHint;
+  const feedback=choice=>{
+    const key=choice?String(choice.value):'none';
+    if(key===lastChoice)return;
+    lastChoice=key;
+    showChoice(choice,initialHint);
+  };
+  const paint=()=>{
+    frame=0;if(!pos||!latest)return;
+    const {dx,dy}=latest;
+    const dragX=Math.sign(dx)*(Math.min(95,Math.abs(dx))+Math.max(0,Math.abs(dx)-95)*.25);
+    const dragY=Math.sign(dy)*(Math.min(80,Math.abs(dy))+Math.max(0,Math.abs(dy)-80)*.2);
+    card.style.transform=`translate3d(${dragX}px,${dragY*.8}px,0) rotate(${Math.max(-14,Math.min(14,dragX*.05))}deg)`;
+    feedback(classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150))));
+  };
+  const cancelFrame=()=>{if(frame){cancelAnimationFrame(frame);frame=0;}};
+  const cleanup=()=>{
+    cancelFrame();pos=null;latest=null;card.classList.remove('dragging');card.style.transform='';feedback(null);
+    if(state.tutorialActive && !matchMedia('(prefers-reduced-motion:reduce)').matches)card.classList.add('practice-idle');
+  };
+  const deck=card.closest('.deck-area');
+  deck.addEventListener('selectstart',event=>event.preventDefault());
+  deck.addEventListener('dragstart',event=>event.preventDefault());
+  card.addEventListener('pointerdown',e=>{
+    if(busy||e.button!==0||pos)return;
+    e.preventDefault();
+    if(window.getSelection()?.rangeCount)window.getSelection().removeAllRanges();
+    pos={x:e.clientX,y:e.clientY,id:e.pointerId};latest={dx:0,dy:0};lastChoice='';
+    // Interrupt the deal animation cleanly: its CSS fill mode otherwise overrides
+    // inline translate3d() and makes all subsequent cards appear undraggable.
+    card.classList.remove('entering','deal-flip','practice-idle');
+    card.classList.add('dragging');
+    try{card.setPointerCapture(e.pointerId)}catch{}
+  });
+  card.addEventListener('pointermove',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    const samples=e.getCoalescedEvents?.();const latestEvent=samples?.length?samples[samples.length-1]:e;
+    latest={dx:latestEvent.clientX-pos.x,dy:latestEvent.clientY-pos.y};
+    if(!frame)frame=requestAnimationFrame(paint);
+  },{passive:true});
+  card.addEventListener('pointerup',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    cancelFrame();
+    const dx=e.clientX-pos.x,dy=e.clientY-pos.y;
+    const choice=classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150)));
+    pos=null;latest=null;
+    if(!choice){cleanup();return;}
+    feedback(choice);
+    record(choice.value,dx,dy);
+  });
+  card.addEventListener('pointercancel',cleanup);
+  card.addEventListener('lostpointercapture',()=>{if(pos&&!busy)cleanup()});
+}
+function toggleSettings(open){
+ modal.hidden=!open;
+ if(open){let w=W();
+  document.querySelector('#settings-title').textContent=w.settingsTitle;
+  document.querySelector('#settings-copy').textContent=w.settingsCopy;
+  document.querySelector('#sensitivity-label').textContent=w.sensitivity;
+  document.querySelector('#settings-tip').textContent=w.settingsTip;
+  document.querySelector('#settings-done').textContent=w.settingsDone;
+  document.querySelector('#threshold').value=state.threshold||150;
+  document.querySelector('#threshold-value').textContent=(state.threshold||150)+' px';
+  document.querySelector('#diagonal-label').textContent=w.diagonalLabel;
+  document.querySelector('#diagonal').checked=state.diagonal!==false;
+  document.querySelector('#close-settings').focus();
+ }
+}
+function attemptFullscreenOnStart(){
+  // Browsers require a user gesture: this runs immediately inside the Start click, not during page load.
+  if(document.fullscreenElement||!document.documentElement.requestFullscreen)return;
+  try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});p?.catch?.(()=>{});}catch{}
+}
+function toggleFullscreen(){
+ if(document.fullscreenElement){document.exitFullscreen?.();return;}
+ if(document.documentElement.requestFullscreen){
+   try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});
+     if(p&&typeof p.catch==='function')p.catch(()=>alert(W().fsHelp));
+   }catch{alert(W().fsHelp)}
+ }else alert(W().fsHelp);
+}
+
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-action],[data-value]');if(!b||busy)return;
+  if(b.hasAttribute('data-value')){record(Number(b.dataset.value));return}
+  switch(b.dataset.action){
+   case'language':state.lang=state.lang==='es'?'en':'es';state.session=transition(state.session,{type:'language',locale:state.lang});persist();draw();break;
+   case'start':attemptFullscreenOnStart();state.tutorialActive=!state.tutorialSeen&&state.i===0;state.started=true;persist();draw();break;
+   case'skip-practice':finishPractice();break;
+   case'fullscreen':toggleFullscreen();break;
+   case'settings':toggleSettings(true);break;
+   case'undo':if(state.session.history.length){state.session=transition(state.session,{type:'undo'});state.i=state.session.seen.length;persist();draw()}break;
+   case'skip':record(null);break;
+   case'continue':state.session=transition(state.session,{type:'continue'});state.i=state.session.seen.length;state.started=true;revealNext=true;persist();draw();break;
+   case'review':state.session=transition(state.session,{type:'review'});state.i=state.session.seen.length;state.started=true;revealNext=true;persist();draw();break;
+   case'import-legacy':{
+     const old=legacyPreview();if(!old)break;
+     state.lang=old.locale;state.session=old;state.i=old.seen.length;
+     state.started=false;state.tutorialSeen=true;state.tutorialActive=false;
+     persist();draw();break;
+   }
+   case'pause':state.started=false;persist();draw();break;
+   case'restart':if(confirm(W().resetQuestion)){const lang=state.lang,threshold=state.threshold,diagonal=state.diagonal;state={v:7,lang,i:0,threshold,diagonal,started:false,tutorialSeen:false,tutorialActive:false,session:createSession({locale:lang})};persist();draw()}break;
+  }
+});
+document.querySelector('#diagonal').addEventListener('change',e=>{state.diagonal=e.target.checked;persist()});document.querySelector('#threshold').addEventListener('input',e=>{state.threshold=Number(e.target.value);document.querySelector('#threshold-value').textContent=state.threshold+' px';persist()});document.querySelector('#close-settings').addEventListener('click',()=>toggleSettings(false));document.querySelector('#settings-done').addEventListener('click',()=>toggleSettings(false));modal.addEventListener('click',e=>{if(e.target===modal)toggleSettings(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)toggleSettings(false);if(e.target.matches('input')||!modal.hidden||!state.started||nextItem(state.session)===null||busy)return;const map={ArrowLeft:2,ArrowRight:4,ArrowUp:3,ArrowDown:null,a:1,d:5};if(Object.prototype.hasOwnProperty.call(map,e.key)){e.preventDefault();record(map[e.key])}});
+draw();
+})();
+</script>
+</body>
+</html>
