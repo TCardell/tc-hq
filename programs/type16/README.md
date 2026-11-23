@@ -58,7 +58,8 @@ El lenguaje visual aprobado es **tarot editorial contemporáneo / pequeñas esce
 Esta extensión **todavía no está implementada** y no altera el prototipo ni Gesture Lab v0.11.1.
 
 - [Recorrido de 64 cartas y cinco paradas](docs/QUESTION_ROADMAP_64.md): hitos 12/24/32/48/64, reglas de puntuación separadas, presentación y propuestas de enunciado.
-- [Banco editorial bilingüe de 64 preguntas — borrador](docs/QUESTION_BANK_64_DRAFT.json): Q01–Q32 originales intactos con nuevos enunciados propuestos, Q33–Q64 situacionales nuevos (ES/EN), asignación de ejes/polos y orden editorial.
+- [Banco editorial bilingüe de 64 preguntas — borrador revisado v0.2](docs/QUESTION_BANK_64_DRAFT.json): Q01–Q32 originales intactos con nuevos enunciados propuestos, Q33–Q64 situacionales revisados (ES/EN), asignación de ejes/polos y orden editorial.
+- [Revisión de complementariedad de las 32 preguntas nuevas](docs/EDITORIAL_REVIEW_NEW_32.md): 17 sustituidas, 7 ajustadas, 8 conservadas; proximidad con las preguntas de origen, riesgos residuales y pruebas necesarias antes de hablar de fiabilidad.
 
 **Criterio:** preservar las 32 preguntas OEJTS 1.2 y su clave matemática; describir las 32 preguntas nuevas como exploración TYPE/16 independiente hasta que exista una base para evaluar su comportamiento.
 
