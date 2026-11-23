@@ -718,6 +718,9 @@ body.in-deck{height:100dvh}
 .app.playing .card-art.beta-art.v3-image-art.v3-color-2 .v3-image{transform:scale(1.10)}
 /* Selectively recolor burgundy areas, retaining gold, blue, mauve and alpha. */
 .app.playing .card-art.beta-art.v3-image-art.v3-green .v3-image{filter:url(#type16-burgundy-green)!important}
+.type16-sound-button{display:inline-flex;align-items:center;justify-content:center}
+.type16-sound-button svg{width:17px;height:17px;stroke:currentColor}
+.type16-sound-button[aria-pressed="false"]{color:#a49b90}
 </style>
 </head>
 <body>
@@ -1094,8 +1097,42 @@ function load(){
 }
  let state=load(),busy=false,revealNext=false;
 let skipNextEntrance=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+
+/* Beta II — original paper-card sound: tiny synthesized swish plus a soft tactile landing. */
+const SOUND_KEY='type16.beta2.sound';
+let soundEnabled=true,cardAudio=null;
+try{soundEnabled=localStorage.getItem(SOUND_KEY)!=='off'}catch{}
+const soundIconOn='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15 9a5 5 0 0 1 0 6M18 6a9 9 0 0 1 0 12"/></svg>';
+const soundIconOff='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 5 6m0-6-5 6"/></svg>';
+function soundLabel(){return soundEnabled?(state.lang==='es'?'Desactivar sonido':'Mute card sounds'):(state.lang==='es'?'Activar sonido':'Enable card sounds');}
+function soundButton(cls){return '<button class="'+cls+' type16-sound-button" type="button" data-action="sound" aria-pressed="'+String(soundEnabled)+'" aria-label="'+soundLabel()+'" title="'+soundLabel()+'">'+(soundEnabled?soundIconOn:soundIconOff)+'</button>';}
+function toggleSound(){
+ soundEnabled=!soundEnabled;
+ try{localStorage.setItem(SOUND_KEY,soundEnabled?'on':'off')}catch{}
+ document.querySelectorAll('.type16-sound-button').forEach(b=>{b.innerHTML=soundEnabled?soundIconOn:soundIconOff;b.setAttribute('aria-pressed',String(soundEnabled));b.setAttribute('aria-label',soundLabel());b.title=soundLabel();});
+}
+function playCardSound(value){
+ if(!soundEnabled)return;
+ const API=window.AudioContext||window.webkitAudioContext;
+ if(!API)return;
+ try{
+  if(!cardAudio)cardAudio=new API();
+  if(cardAudio.state==='suspended')cardAudio.resume().catch(()=>{});
+  const t=cardAudio.currentTime+.012,rate=cardAudio.sampleRate,buffer=cardAudio.createBuffer(1,Math.ceil(rate*.24),rate),samples=buffer.getChannelData(0);
+  let last=0;for(let i=0;i<samples.length;i++){const r=Math.random()*2-1;samples[i]=.78*r+.22*last;last=r;}
+  const src=cardAudio.createBufferSource(),paper=cardAudio.createBiquadFilter(),swish=cardAudio.createGain();src.buffer=buffer;
+  paper.type='bandpass';paper.frequency.setValueAtTime(760,t);paper.frequency.exponentialRampToValueAtTime(2250,t+.19);paper.Q.value=.68;
+  swish.gain.setValueAtTime(.0001,t);swish.gain.linearRampToValueAtTime(value===null?0.065:0.09,t+.029);swish.gain.exponentialRampToValueAtTime(.0001,t+.22);
+  src.connect(paper);paper.connect(swish);swish.connect(cardAudio.destination);src.start(t);src.stop(t+.23);
+  const osc=cardAudio.createOscillator(),thud=cardAudio.createGain();osc.type='sine';
+  osc.frequency.setValueAtTime(150,t+.12);osc.frequency.exponentialRampToValueAtTime(82,t+.28);
+  thud.gain.setValueAtTime(.0001,t+.12);thud.gain.linearRampToValueAtTime(.032,t+.15);thud.gain.exponentialRampToValueAtTime(.0001,t+.29);
+  osc.connect(thud);thud.connect(cardAudio.destination);osc.start(t+.12);osc.stop(t+.30);
+ }catch{/* Silent fall-back when Web Audio is unavailable. */}
+}
+
 const iconGear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.3"/><path d="M10 2h4l.6 2.3 2.2.9 2.1-1.2 2.7 2.7-1.2 2.1.9 2.2L23 11v2l-2.3.6-.9 2.2 1.2 2.1-2.7 2.7-2.1-1.2-2.2.9L13 23h-2l-.6-2.3-2.2-.9-2.1 1.2-2.7-2.7 1.2-2.1-.9-2.2L1 13v-2l2.3-.6.9-2.2L3 6.1l2.7-2.7 2.1 1.2 2.2-.9z" transform="translate(0 -1) scale(.96)"/></svg>';
-function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
+function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button>${soundButton('quiet-btn')}<button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
 function footer(){return `<footer class="footer">${W().footer}</footer>`}
 function legacyPreview(){
  if(state.session.seen.length)return null;
@@ -1189,7 +1226,7 @@ function quiz(){
        `<button class="tool" data-action="undo" ${state.session.history.length===0?'disabled':''}><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip">${w.skip}<span class="ico" aria-hidden="true">↓</span></button>`}
     </div>
     <div class="play-dock"><div class="stage-progress" aria-label="${practice?w.practiceCount:w.stageCount} ${idx}/${total}"><span class="deck-counter">${practice?w.practiceCount.toUpperCase():w.stageCount.toUpperCase()} · ${String(idx).padStart(2,'0')}/${String(total).padStart(2,'0')}</span><span class="progress-mini"><span style="width:${Math.min(100,(idx/total)*100)}%"></span></span></div>
-      <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button><button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
+      <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button>${soundButton('dock-btn')}<button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
     </div>
   </div></section>`
 }
@@ -1304,6 +1341,7 @@ function showChoice(choice,hint=W().pickHint){
 function record(value,exitX=0,exitY=0){
   if(busy)return;
   busy=true;
+  playCardSound(value);
   const practice=state.tutorialActive;
   const card=document.querySelector('#card');
   const label=value===null?W().skip:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1];
@@ -1478,6 +1516,7 @@ app.addEventListener('click',e=>{
   if(b.hasAttribute('data-value')){record(Number(b.dataset.value));return}
   switch(b.dataset.action){
    case'language':state.lang=state.lang==='es'?'en':'es';state.session=transition(state.session,{type:'language',locale:state.lang});persist();draw();break;
+   case'sound':toggleSound();break;
    case'start':attemptFullscreenOnStart();state.tutorialActive=!state.tutorialSeen&&state.i===0;state.started=true;persist();draw();break;
    case'skip-practice':finishPractice();break;
    case'fullscreen':toggleFullscreen();break;
