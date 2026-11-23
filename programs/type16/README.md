@@ -15,7 +15,7 @@ Proyecto web de 64 cartas y 16 perfiles de personalidad, con interfaz bilingüe 
 | [`assets/icon.svg`](./assets/icon.svg) | Icono utilizado por la versión estable |
 | [`archive/`](./archive/) | Código histórico congelado, galerías y versiones anteriores |
 | `beta/`, `playtest/`, `playtest-64/`, `gesture-lab.html` | **Únicamente redirecciones de compatibilidad** a las versiones archivadas |
-| `gesture-manifest.webmanifest` | Alias de instalación histórico hacia la versión estable |
+| `gesture-manifest.webmanifest` y `gesture-icon.svg` | Alias mínimos para instalaciones antiguas; conservar sus URL por compatibilidad |
 
 **Importante:** no desarrollar código nuevo dentro de `archive/` ni de las carpetas de compatibilidad. Todos los cambios de la aplicación actual deben realizarse en `index.html`, `js/` y `assets/`.
 
