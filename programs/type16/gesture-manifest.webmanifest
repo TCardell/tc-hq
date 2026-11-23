@@ -1,16 +1,15 @@
 {
-  "name": "TYPE/16 — Card Atelier · Gesture Lab",
+  "name": "TYPE/16 — versión actual",
   "short_name": "TYPE/16",
-  "description": "Mobile-first interactive tarot-style card gesture laboratory.",
-  "start_url": "./gesture-lab.html",
+  "description": "Ruta histórica de instalación; abre la versión estable",
+  "start_url": "./",
   "scope": "./",
-  "display": "fullscreen",
-  "orientation": "portrait-primary",
+  "display": "standalone",
   "background_color": "#171c27",
   "theme_color": "#171c27",
   "icons": [
     {
-      "src": "./gesture-icon.svg",
+      "src": "./assets/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
