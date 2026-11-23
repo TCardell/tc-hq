@@ -22,7 +22,7 @@
 | `programs/` | Aplicaciones independientes: archivos HTML individuales o proyectos con varias carpetas (por ejemplo, `programs/calculator/`). |
 | `programs.json` | Catálogo de programas y carpetas utilizado por TC/OS. |
 | `pages/`, `media/` | Otras páginas y recursos. |
-| `iconos.html`, `not_found.html`, `style.css`, `robots.txt` | Páginas y recursos auxiliares. |
+| `iconos.html`, `not_found.html`, `robots.txt` | Páginas y recursos auxiliares. |
 
 ## Uso y desarrollo
 
