@@ -968,6 +968,15 @@ let skipNextEntrance=false;const app=document.querySelector('#app');const modal=
 const iconGear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.3"/><path d="M10 2h4l.6 2.3 2.2.9 2.1-1.2 2.7 2.7-1.2 2.1.9 2.2L23 11v2l-2.3.6-.9 2.2 1.2 2.1-2.7 2.7-2.1-1.2-2.2.9L13 23h-2l-.6-2.3-2.2-.9-2.1 1.2-2.7-2.7 1.2-2.1-.9-2.2L1 13v-2l2.3-.6.9-2.2L3 6.1l2.7-2.7 2.1 1.2 2.2-.9z" transform="translate(0 -1) scale(.96)"/></svg>';
 function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
 function footer(){return `<footer class="footer">${W().footer}</footer>`}
+function legacyPreview(){
+ if(state.session.seen.length)return null;
+ try{
+  const saved=JSON.parse(localStorage.getItem('type16.playtest64.v1')||'null');
+  if(saved?.v!==7||!saved.session?.seen?.length)return null;
+  const old=restoreSession(saved.session);
+  return old.seen.length?old:null;
+ }catch{return null}
+}
 function intro(){
  const w=W(),seen=state.session.seen.length,answered=Object.keys(state.session.answers).length,
   nextStop=experience.checkpoints.find(n=>n>seen)||64;
@@ -984,8 +993,10 @@ function intro(){
  ];
  const axisMarkup=axes.map(([code,name,description])=>`<div class='intro-dimension'><b>${code}</b><span><strong>${safe(name)}</strong><small>${safe(description)}</small></span></div>`).join('');
  const types=Object.entries(TYPE_COPY).sort(([a],[b])=>a.localeCompare(b)).map(([code,copy])=>`<span class='intro-type'><b>${code}</b><small>${safe(copy[state.lang].title)}</small></span>`).join('');
+ const legacy=legacyPreview();
+ const importPanel=legacy?`<button class='beta-import' data-action='import-legacy'>↶ &nbsp;${state.lang==='es'?'Recuperar mi partida anterior':'Import my previous progress'} · ${legacy.seen.length}/64</button>`:'';
  const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
- return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><div class='intro-foot'>${w.introSmall}</div></section>`;
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><div class='intro-foot'>${w.introSmall}</div></section>`;
 }
 function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,previewSession=state.session){
   let w=W(),
@@ -1311,6 +1322,12 @@ app.addEventListener('click',e=>{
    case'skip':record(null);break;
    case'continue':state.session=transition(state.session,{type:'continue'});state.i=state.session.seen.length;state.started=true;revealNext=true;persist();draw();break;
    case'review':state.session=transition(state.session,{type:'review'});state.i=state.session.seen.length;state.started=true;revealNext=true;persist();draw();break;
+   case'import-legacy':{
+     const old=legacyPreview();if(!old)break;
+     state.lang=old.locale;state.session=old;state.i=old.seen.length;
+     state.started=false;state.tutorialSeen=true;state.tutorialActive=false;
+     persist();draw();break;
+   }
    case'pause':state.started=false;persist();draw();break;
    case'restart':if(confirm(W().resetQuestion)){const lang=state.lang,threshold=state.threshold,diagonal=state.diagonal;state={v:7,lang,i:0,threshold,diagonal,started:false,tutorialSeen:false,tutorialActive:false,session:createSession({locale:lang})};persist();draw()}break;
   }
