@@ -483,6 +483,58 @@ body.in-deck{height:100dvh}
 @media(min-width:860px){.depth-section{padding:24px}.depth-report{max-width:970px;margin:25px auto}.depth-evidence{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:370px){.depth-section{padding:14px 11px}.depth-axis summary{padding:13px 9px}.depth-axis summary strong{font-size:14px}.depth-axis summary span{font-size:10px}}
 
+
+/* TYPE/16 · Atlas edition: readability, restrained ornament and 16-type cover */
+.intro{min-height:0;justify-content:flex-start;padding:12px 5px 30px}
+.intro .hero-stack{margin:1px 0 -8px;transform:scale(.83);height:206px;transform-origin:top center}
+.intro .intro-eyebrow{margin:12px 0 7px;font-size:11px;letter-spacing:.22em}
+.intro .intro-title{font-size:clamp(60px,13vw,84px);margin:0 0 12px}
+.intro .intro-desc{max-width:465px;margin-bottom:8px}
+.intro .intro-desc.smaller{font-size:13px;line-height:1.5;margin-bottom:12px}
+.intro-atlas{width:100%;max-width:480px;padding:14px 12px 11px;margin:12px 0 9px;border:1px solid #af956e66;border-radius:12px;background:#131a2699;box-shadow:inset 0 1px #f3d6a613}
+.intro-atlas h2{font:500 17px/1.22 var(--serif);color:#f0d8b4;text-align:left;margin:0 0 12px}
+.intro-dimension-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.intro-dimension{display:flex;align-items:flex-start;text-align:left;gap:9px;border:1px solid #d8b58732;border-radius:7px;padding:9px 7px;min-width:0;background:#ffffff04}
+.intro-dimension>b{font:600 11px/1.5 var(--mono);white-space:nowrap;color:#e4b978}
+.intro-dimension span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.intro-dimension strong{font:600 12px/1.25 var(--sans);color:#efe2cc}
+.intro-dimension small{font:400 11px/1.35 var(--sans);color:#bdb4a9}
+.intro-types{width:100%;max-width:480px;text-align:left;margin:0 0 14px;background:#ffffff04;border:1px solid #b5a17b55;border-radius:10px;overflow:hidden}
+.intro-types summary{list-style:none;padding:13px 14px;cursor:pointer;color:#edd5af;font:600 13px/1.35 var(--sans);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.intro-types summary::-webkit-details-marker{display:none}
+.intro-types[open] summary{border-bottom:1px solid #b5a17b38}
+.intro-types p{margin:10px 13px;color:#c9bdae;font-size:12px;line-height:1.5}
+.intro-type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:0 12px 12px}
+.intro-type{display:flex;align-items:baseline;gap:8px;padding:8px 7px;background:#ffffff08;border-radius:7px;min-width:0}
+.intro-type b{font:600 12px var(--mono);color:#e6bd84;flex:none}
+.intro-type small{font:400 11px/1.4 var(--sans);color:#e9dbc5}
+.intro-resume{width:100%;max-width:480px;margin:4px 0 14px;padding:13px 15px 11px;text-align:left;border-radius:12px;border:1px solid #e0bd84;background:linear-gradient(135deg,#394459,#2d3243);box-shadow:0 0 0 3px #d4ad7030,0 12px 32px #0004}
+.intro-resume-head{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#f5d8aa;font:650 12px/1.3 var(--mono);letter-spacing:.06em}
+.intro-resume-head strong{font-size:14px}
+.intro-resume-track{height:5px;background:#ffffff29;border-radius:99px;overflow:hidden;margin:12px 0 7px}
+.intro-resume-track span{display:block;height:100%;background:#ebbf80;border-radius:99px}
+.intro-resume p{font:400 12px/1.5 var(--sans);color:#ddd2c2;margin:0}
+.intro-resume p b{color:#f7deb5}
+.intro .start-btn{max-width:480px;width:100%}
+.app.playing .card-front::before{content:'';position:absolute;inset:14px;border:1px solid #b79a6e66;border-radius:9px;pointer-events:none}
+.app.playing .card-front::after{border-color:#a67d5470}
+.app.playing .card-art{background:radial-gradient(ellipse at 50% 38%,#eee0c8,#dfcfb4 78%);box-shadow:inset 0 0 0 1px #9b7d5555,inset 0 2px 18px #9c80502e}
+.app.playing .card-art::before{content:'';position:absolute;inset:6px;border:1px solid #987c596b;border-radius:94px 94px 5px 5px;pointer-events:none;z-index:2}
+.app.playing .card-art::after{content:'✦';position:absolute;bottom:2px;left:calc(50% - 6px);color:#8d725a;font:12px Georgia,serif;opacity:.65;pointer-events:none}
+.app.playing .card-top{font-size:clamp(9.7px,2.45vw,11px);letter-spacing:.1em;padding-left:20px;padding-right:20px}
+.app.playing .card-bottom{font-size:clamp(9.5px,2.4vw,10.7px);letter-spacing:.1em;min-height:17px}
+.app.playing .card-options{min-height:103px;margin-bottom:7px;gap:7px}
+.app.playing .card-options .option{justify-content:flex-start;gap:8px;min-width:0;padding-top:9px}
+.app.playing .card-options .option .ab{font:700 clamp(12px,3.1vw,15px)/1.1 var(--mono);color:#8b603d;letter-spacing:.09em;white-space:nowrap;flex:0 0 auto}
+.app.playing .card-options .option .copy{font:600 clamp(11.4px,3.05vw,14.4px)/1.22 var(--sans);hyphens:auto;overflow-wrap:anywhere}
+.playtest-results .result-panel{position:relative;border:1px solid #d5aa72;box-shadow:0 12px 28px #06091570, inset 0 0 0 4px #e9dfcb}
+.playtest-results .result-panel::after{content:'✧  ✦  ✧';display:block;margin-top:16px;text-align:center;font:13px var(--serif);letter-spacing:.28em;color:#9d7c56}
+.playtest-results .checkpoint-title{font-size:clamp(30px,6.9vw,39px)}
+.playtest-results .checkpoint-description{font:400 15px/1.5 var(--serif);color:#53453e}
+.playtest-results .result-heading{color:#f0dfbd}
+.playtest-results .result-stats{font-size:12px}
+@media(max-width:370px){.intro-dimension-grid{grid-template-columns:1fr 1fr}.intro-dimension{gap:5px;padding:8px 5px}.intro-dimension strong{font-size:11px}.intro .intro-title{font-size:58px}.app.playing .card-options .option .copy{font-size:11.7px!important}.app.playing .card-top,.app.playing .card-bottom{font-size:9.5px}}
+@media(max-height:640px){.app.playing .card-options{min-height:89px}.app.playing .card-options .option{gap:4px}.app.playing .card-options .option .ab{font-size:12px}.app.playing .card-art{min-height:68px}.intro .hero-stack{height:175px;transform:scale(.73)}}
 </style>
 </head>
 <body>
@@ -674,6 +726,7 @@ function createExperience64(plan,{scoreOriginals,interpretOriginals}){
 import {scoreAll} from './js/scoring.js';
 import {displayOptions,renderDeepAnalysis} from './js/enhancements.js';
 import {buildInterpretation} from './js/engine/interpretation.js';
+import {TYPE_COPY} from './js/engine/interpretation-copy.js';
 const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
 const createSession=(o)=>experience.newSession(o);
 const restoreSession=(s)=>experience.restoreSession(s);
@@ -684,10 +737,11 @@ const KEY='type16.playtest64.v1'; // 64-card independent save key
 const rawCards=Array(64).fill(null); // legacy lab compatibility
 const SCENES={3:'moon',12:'sun',22:'balance',25:'hourglass',15:'door',20:'star',14:'hand',13:'clock',11:'door',32:'star',26:'balance',17:'hourglass'};
 const axisScenes={IE:'moon',SN:'star',FT:'balance',JP:'hourglass'};
+const motifPools={IE:['moon','door','conversation','constellation','keys'],SN:['star','map','prism','telescope','sun'],FT:['balance','hand','vessel','quill','compassRose'],JP:['hourglass','clock','labyrinth','keys','map']};
 function cardData(session){
   const item=experience.question(session);
   if(item===null)return null;
-  return {id:item.id,scene:SCENES[item.id]||axisScenes[item.axis],
+  return {id:item.id,scene:SCENES[item.id]||(motifPools[item.axis]?.[(item.id*7)%motifPools[item.axis].length]||axisScenes[item.axis]),
     es:[item.stem.es,...displayOptions(item,'es')],
     en:[item.stem.en,...displayOptions(item,'en')]};
 }
@@ -747,14 +801,49 @@ Object.assign(words.en,{
  checkpointIntro:'A moment to observe what your answers suggest.',
  checkpointNext:'Next checkpoint',checkpointSeen:'Cards seen',checkpointAnswered:'Answered',checkpointSkipped:'Skipped'
 });
+// Human-facing copy for the personality atlas; underlying scores are unchanged.
+Object.assign(words.es,{
+ heroEyebrow:'UN ATLAS DE PERSONALIDAD',tagline:'Explora tu manera de pensar, sentir, relacionarte y decidir.',
+ intro:'64 cartas · 16 posibles perfiles · 4 dimensiones · 5 paradas para descubrir tus preferencias a tu ritmo.',
+ introSmall:'Una experiencia de autoconocimiento; el retrato describe preferencias y no define quién eres.',
+ resume:'Retomar mi recorrido',start:'Descubrir mi perfil',
+ footer:'TYPE/16 · ATLAS DE PERSONALIDAD',
+ series:'ATLAS DE PREFERENCIAS',resultLabel:'TU RETRATO',resultScale:'Cada dimensión revela una preferencia observada: el centro indica respuestas diversas o equilibrio.',
+ resultDisclaimer:'Una lectura para conocerte y reflexionar, no una evaluación clínica ni una definición permanente de tu personalidad.',
+ resultArt:'',resultOriginalFull:'Has completado tu retrato de referencia: ocho respuestas por dimensión.',
+ resultOriginalMissing:'Todavía quedan preguntas por responder antes de cerrar el retrato de referencia.',
+ resultExperimental:'Una nueva mirada a tus preferencias a través de situaciones cotidianas.',
+ resultProvisional:'Este retrato muestra lo que destaca por ahora en tus elecciones.',
+ resultDifferent:'Las nuevas situaciones revelan otra tendencia: quizá expreses preferencias distintas según el contexto.',
+ resultStable:'Las situaciones nuevas y las primeras cartas coinciden en esta inclinación.',
+ resultNoContrast:'Todavía hay pocas respuestas en uno de los grupos para ver cómo se relacionan.',
+ checkpointIntro:'Cada elección añade un matiz a tu retrato.'
+});
+Object.assign(words.en,{
+ heroEyebrow:'AN ATLAS OF PERSONALITY',tagline:'Explore how you think, feel, connect and decide.',
+ intro:'64 cards · 16 possible profiles · 4 dimensions · 5 stops to discover your preferences at your own pace.',
+ introSmall:'A journey of self-discovery: preferences describe tendencies, not everything about you.',
+ resume:'Resume my journey',start:'Discover my profile',
+ footer:'TYPE/16 · PERSONALITY ATLAS',
+ series:'ATLAS OF PREFERENCES',resultLabel:'YOUR PORTRAIT',resultScale:'Each dimension reveals an observed preference; the centre indicates varied or balanced answers.',
+ resultDisclaimer:'A reading for reflection and self-understanding, not a clinical assessment or a permanent definition of your personality.',
+ resultArt:'',resultOriginalFull:'Your reference portrait is complete: eight answers per dimension.',
+ resultOriginalMissing:'Some answers are still missing before your reference portrait can be completed.',
+ resultExperimental:'A fresh perspective on your preferences through everyday situations.',
+ resultProvisional:'This portrait reflects what currently stands out in your choices.',
+ resultDifferent:'The new situations reveal a different tendency: your preferences may vary by context.',
+ resultStable:'The new situations and earlier cards lean in the same direction.',
+ resultNoContrast:'There are not yet enough responses to compare both sets of situations.',
+ checkpointIntro:'Every choice adds another nuance to your portrait.'
+});
 const checkpointNames={12:['Primera impresión','First impression'],24:['Mapa en formación','Mapping your preferences'],32:['Retrato de referencia','Reference portrait'],48:['Contrastes cotidianos','Everyday contrasts'],64:['Retrato extendido','Extended portrait']};
 const checkpointDescriptions={
- 12:['Primeras señales, todavía muy provisionales.','First signals, still very provisional.'],
- 24:['Nuevas respuestas ayudan a observar patrones y excepciones.','More answers help reveal patterns and exceptions.'],
- 32:['Ya puedes consultar la lectura de referencia de 32 preguntas, si las has contestado todas.','You can now see the complete 32-question reference, if you answered every original item.'],
- 48:['Contrastamos la referencia con 16 situaciones nuevas, sin mezclarlas con la puntuación oficial.','We compare the reference with 16 new situations without mixing them into official scoring.'],
- 64:['Comparamos los 32 ítems de referencia con los 32 nuevos. No es una medición de certeza.','We compare the 32 reference items with all 32 new ones. This is not a certainty measure.']
-};
+ 12:['Las primeras cartas dejan entrever cómo te relacionas, percibes, decides y organizas tus ideas.','Your first cards hint at how you connect, perceive, decide and organize your ideas.'],
+ 24:['Algunas inclinaciones se repiten; otras muestran una personalidad más llena de matices.','Some tendencies recur; others reveal a more nuanced portrait.'],
+ 32:['Un retrato de tus preferencias a través de las cuatro dimensiones.','A portrait of your preferences across all four dimensions.'],
+ 48:['Nuevas situaciones muestran dónde mantienes tus preferencias y dónde cambian con el contexto.','New situations reveal where your preferences hold and where context makes a difference.'],
+ 64:['Todas las cartas están sobre la mesa. Descubre los rasgos que destacan y los matices que te hacen singular.','All cards are on the table. Explore your prominent tendencies and the nuances that make you unique.']
+}
 const localText=(pair)=>pair[state.lang==='es'?0:1];
 
 const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -781,17 +870,45 @@ const motifs={
  sun:`<circle cx="110" cy="70" r="36" fill="#cc9471"/><circle cx="110" cy="70" r="23" fill="#eac69b"/><g stroke="#a86e62" stroke-width="5" stroke-linecap="round"><path d="M110 10V24M110 117V131M50 70H64M156 70H170M68 28L77 38M143 105L152 115M152 28L143 38M77 105L68 115"/></g>`,
  door:`<path d="M55 133V22Q110 -19 165 22V133" fill="#af8c74" stroke="#826155" stroke-width="5"/><path d="M72 133V30Q110 1 148 30V133" fill="#344d5e"/><path d="M110 33V133" stroke="#d3ab79" stroke-width="4"/><circle cx="98" cy="89" r="3.5" fill="#f0d4a7"/><circle cx="122" cy="89" r="3.5" fill="#f0d4a7"/><path d="M35 133H185" stroke="#8e7863" stroke-width="3"/>`,
  hand:`<path d="M72 123L60 94Q54 80 63 75Q71 71 78 82L88 96V38Q88 30 96 30Q104 30 104 38V69V25Q104 16 113 17Q122 17 122 26V69V35Q122 27 130 28Q138 28 138 36V75V52Q138 45 146 46Q154 47 154 55V92Q154 120 131 133H95Z" fill="#c89777" stroke="#855f57" stroke-width="3"/><path d="M104 69V90M122 69V93M138 75V94" stroke="#936a5b" stroke-width="2"/>`,
- clock:`<circle cx="110" cy="72" r="61" fill="#59757d" stroke="#ae875f" stroke-width="7"/><circle cx="110" cy="72" r="47" fill="#e9dbc4"/><path d="M110 31V72L138 88" stroke="#6c5560" stroke-linecap="round" stroke-width="6" fill="none"/><circle cx="110" cy="72" r="6" fill="#b47667"/><g fill="#88694d"><circle cx="110" cy="37" r="3"/><circle cx="145" cy="72" r="3"/><circle cx="110" cy="107" r="3"/><circle cx="75" cy="72" r="3"/></g>`
+ clock:`<circle cx="110" cy="72" r="61" fill="#59757d" stroke="#ae875f" stroke-width="7"/><circle cx="110" cy="72" r="47" fill="#e9dbc4"/><path d="M110 31V72L138 88" stroke="#6c5560" stroke-linecap="round" stroke-width="6" fill="none"/><circle cx="110" cy="72" r="6" fill="#b47667"/><g fill="#88694d"><circle cx="110" cy="37" r="3"/><circle cx="145" cy="72" r="3"/><circle cx="110" cy="107" r="3"/><circle cx="75" cy="72" r="3"/></g>`,
+  map:`<rect x="55" y="25" width="110" height="89" rx="4" fill="#eadac0" stroke="#8a725d" stroke-width="3"/><path d="M88 27v85M132 27v85M58 59l29-13 45 15 31-14M57 91l31-12 44 11 31-13" stroke="#b08b70" stroke-width="2" fill="none"/><path d="M71 88Q93 39 117 75T156 49" fill="none" stroke="#ab726b" stroke-width="4" stroke-dasharray="4 6"/><circle cx="117" cy="75" r="7" fill="#546d78"/><path d="M112 125h25M122 115v24" stroke="#ac8660" stroke-width="2"/>`,
+  constellation:`<circle cx="110" cy="73" r="57" fill="none" stroke="#ad9374" stroke-width="2"/><path d="M66 95L92 48 136 67 157 38M92 48l-10-20m54 39 13 42" fill="none" stroke="#536b77" stroke-width="3"/><g fill="#b07865"><circle cx="66" cy="95" r="6"/><circle cx="92" cy="48" r="8"/><circle cx="136" cy="67" r="6"/><circle cx="157" cy="38" r="7"/><circle cx="149" cy="109" r="4"/></g><path d="M42 41l5 5 5-5-5-5zm126 63l5 5 5-5-5-5z" fill="#a98260"/>`,
+  conversation:`<path d="M41 43Q41 17 71 17H107Q136 17 136 46V66Q136 90 104 90H83L65 108V89Q41 81 41 60Z" fill="#b77e71" stroke="#765a56" stroke-width="3"/><path d="M101 58Q101 33 128 33H157Q182 33 182 60V84Q182 104 154 104H147L163 124 128 105Q101 105 101 78Z" fill="#627b82" stroke="#465963" stroke-width="3"/><g fill="#e9d6b5"><circle cx="72" cy="54" r="4"/><circle cx="88" cy="54" r="4"/><circle cx="105" cy="54" r="4"/><circle cx="126" cy="74" r="4"/><circle cx="141" cy="74" r="4"/><circle cx="156" cy="74" r="4"/></g>`,
+  compassRose:`<circle cx="110" cy="71" r="60" fill="#d3c4ab" stroke="#9e7d5d" stroke-width="3"/><circle cx="110" cy="71" r="47" fill="none" stroke="#ae8b68" stroke-width="2"/><path d="M110 10L122 61 169 71 122 82 110 132 99 82 51 71 99 61Z" fill="#ad756c" stroke="#6f5961" stroke-width="2"/><path d="M110 25L110 71 148 71 110 83Z" fill="#5a7180"/><circle cx="110" cy="71" r="10" fill="#e8cfa9" stroke="#8b6b5c" stroke-width="2"/><path d="M48 20l7 6M166 23l-7 7M49 117l7-7M166 117l-7-7" stroke="#a17d59" stroke-width="2"/>`,
+  vessel:`<path d="M83 23h54M97 23v24Q68 62 72 92Q75 118 110 131Q145 118 148 92Q152 62 123 47V23" fill="#d6a77e" stroke="#82645a" stroke-width="4"/><path d="M77 86Q110 64 143 87V93Q110 119 77 93Z" fill="#ac706a" opacity=".8"/><path d="M90 52Q110 61 130 52" stroke="#f0dcba" stroke-width="3" fill="none"/><path d="M110 6v12M59 57l-10-6m122 6 10-6M72 127l-7 7m83-7 7 7" stroke="#b08d6a" stroke-width="2"/>`,
+  quill:`<path d="M71 116Q65 65 127 19Q163 7 169 18Q166 74 103 107Z" fill="#66808a" stroke="#5b6572" stroke-width="3"/><path d="M70 125Q121 52 165 21" stroke="#e5d6b9" stroke-width="3" fill="none"/><path d="M93 88L99 51m8 25 25-29M79 106l31-1" stroke="#e5d6b9" stroke-width="2"/><path d="M64 118q46 13 85 0" fill="none" stroke="#a77d64" stroke-width="2"/><circle cx="156" cy="112" r="5" fill="#b77769"/>`,
+  keys:`<circle cx="86" cy="54" r="23" fill="none" stroke="#a77562" stroke-width="8"/><path d="M103 72l43 44h17v-12h12V92h-21l-37-36" stroke="#a77562" stroke-width="9" stroke-linejoin="round" fill="none"/><circle cx="86" cy="54" r="8" fill="#d1c1a5"/><path d="M46 118h61M51 127h56" stroke="#9f846a" stroke-width="2"/>`,
+  labyrinth:`<circle cx="110" cy="71" r="62" fill="none" stroke="#9c7b60" stroke-width="4"/><path d="M110 20v23h28V35h-11M82 21v28H65v42H92v20h33V90H97V65h44v-9h29M110 122v-9M65 72h18" stroke="#637b83" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="110" cy="71" r="6" fill="#af7469"/>`,
+  prism:`<path d="M108 18L41 120h137Z" fill="#e5cead" stroke="#7c625c" stroke-width="4"/><path d="M108 18L109 120H41Z" fill="#9cabb0" opacity=".7"/><path d="M24 65h70M126 78l80-39M126 85l80-2M126 92l80 38" stroke="#a77165" stroke-width="4"/><path d="M135 78l59-32M142 86l55 1M138 95l56 32" stroke="#67848a" stroke-width="2"/>`,
+  telescope:`<path d="M76 90l70-56 18 24-73 55Z" fill="#5d7780" stroke="#42545d" stroke-width="3"/><path d="M77 94L63 82l22-17 12 13M151 32l17-14 20 26-21 14" fill="#bd9774" stroke="#815e56" stroke-width="3"/><path d="M113 97l-14 35m14-35 19 35M83 132h57" stroke="#765f5b" stroke-width="5"/><path d="M47 29l4 8 8 4-8 4-4 8-4-8-8-4 8-4M160 96l3 6 6 3-6 3-3 6-3-6-6-3 6-3" fill="#ae796a"/>`
 };
 function art(scene){return `<svg viewBox="0 0 220 145" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M21 131 Q110 94 199 131" stroke="#ac8c6d" stroke-width="2" fill="none" opacity=".38"/>${motifs[scene]||motifs.star}</svg>`}
 function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
 function footer(){return `<footer class="footer">${W().footer}</footer>`}
-function intro(){let w=W();return `<section class="intro"><div class="hero-stack" aria-hidden="true"><div class="hero-back"></div><div class="hero-back"></div><div class="hero-front"><span class="hero-front-svg">${art('sun')}</span><span class="serial">ARCANA · XVI</span></div></div><div class="intro-eyebrow">${w.heroEyebrow}</div><h1 class="intro-title">TYPE<span>/</span>16</h1><p class="intro-desc">${w.tagline}</p><p class="intro-desc smaller">${w.intro}</p><p class="intro-desc smaller">${state.i>0?safe(localText(checkpointNames[[12,24,32,48,64].filter(n=>n<=state.i).at(-1)]||checkpointNames[12]))+' · '+state.i+'/64':''}</p><button class="start-btn" data-action="start">${state.i>0?w.resume:w.start} <span aria-hidden="true">→</span></button><button class="intro-fullscreen" data-action="fullscreen">⛶ &nbsp;${w.introFull}</button><div class="intro-foot">${w.introSmall}</div></section>`}
+function intro(){
+ const w=W(),seen=state.session.seen.length,answered=Object.keys(state.session.answers).length,
+  nextStop=experience.checkpoints.find(n=>n>seen)||64;
+ const axes=state.lang==='es'?[
+  ['I / E','Introversión · Extraversión','Dónde orientas tu energía'],
+  ['S / N','Sensación · Intuición','Cómo percibes la información'],
+  ['F / T','Sentimiento · Pensamiento','Cómo valoras las decisiones'],
+  ['J / P','Juicio · Percepción','Cómo organizas tus opciones']
+ ]:[
+  ['I / E','Introversion · Extraversion','Where you direct your energy'],
+  ['S / N','Sensing · Intuition','How you take in information'],
+  ['F / T','Feeling · Thinking','How you weigh decisions'],
+  ['J / P','Judging · Perceiving','How you approach structure']
+ ];
+ const axisMarkup=axes.map(([code,name,description])=>`<div class='intro-dimension'><b>${code}</b><span><strong>${safe(name)}</strong><small>${safe(description)}</small></span></div>`).join('');
+ const types=Object.entries(TYPE_COPY).sort(([a],[b])=>a.localeCompare(b)).map(([code,copy])=>`<span class='intro-type'><b>${code}</b><small>${safe(copy[state.lang].title)}</small></span>`).join('');
+ const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${art('compassRose')}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><div class='intro-foot'>${w.introSmall}</div></section>`;
+}
 function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,previewSession=state.session){
   let w=W(),
       q=practice?{scene:'star',es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:cardData(previewSession),
       [stem,a,b]=q[state.lang],num=practice?'00':String(index+1).padStart(2,'0');
-  return `<div class="card-top"><span>${practice?w.practiceLabel:'THE DECK · '+num}</span><span class="diamond">✧</span><span>ARCANA / XVI</span></div>
+  return `<div class="card-top"><span>${practice?w.practiceLabel:(state.lang==='es'?'ATLAS · CARTA ':'ATLAS · CARD ')+num}</span><span class="diamond">✧</span><span>TYPE · XVI</span></div>
     <div class="card-art">${art(q.scene)}</div><h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
     ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
     <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
