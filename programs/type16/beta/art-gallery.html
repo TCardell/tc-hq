@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TYPE/16 · Biblioteca visual · Beta I</title>
+<style>
+:root{color-scheme:dark;--bg:#171d29;--panel:#222d3c;--line:#c8a77d66;--ink:#f2e5d0;--gold:#e6c08b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#34404f,#161c27 60%);color:var(--ink);font:14px/1.55 system-ui,Segoe UI,sans-serif}
+header{max-width:1150px;margin:auto;padding:35px 20px 17px}header small{letter-spacing:.23em;color:var(--gold)}h1{font:500 clamp(30px,6vw,45px)/1.2 Georgia,serif;margin:12px 0}header p{max-width:740px;color:#d0c4b4;margin:0 0 15px}
+a{color:var(--gold)}main{max-width:1150px;margin:0 auto;padding:10px 20px 55px}.family{margin:23px 0 31px}
+.family h2{font:500 25px Georgia,serif;color:#eed5b0;margin:0 0 14px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.motif{background:linear-gradient(135deg,#293444,#212938);border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 12px 25px #0004}
+.art{background:#eee3d0;aspect-ratio:1.7;display:grid;place-items:center;border-bottom:1px solid #a58a5b}
+.art svg{display:block;height:100%;width:100%}.motif .info{padding:15px 17px}.info h3{font:500 20px Georgia,serif;margin:0;color:#f7e0ba}.info small{display:block;color:#c4b5a0;margin-top:4px}
+.info code{display:block;margin-top:11px;font:11px/1.65 ui-monospace,Consolas,monospace;color:#d4ba92;overflow-wrap:anywhere}
+.variants{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:0 14px 14px}
+.variants>div{background:#eee3d0;aspect-ratio:1.7;border:1px solid #b49c76;border-radius:5px}.variants svg{width:100%;height:100%;display:block}
+footer{border-top:1px solid var(--line);max-width:1110px;margin:auto;padding:20px;color:#c9b79f}
+</style></head><body>
+<header><small>TYPE/16 · ATLAS VISUAL</small><h1>Doce motivos, una sola familia.</h1>
+<p>Biblioteca de ilustraciones geométricas de la beta. Cada motivo aparece en varias preguntas relacionadas por su temática; los pequeños cambios del marco aportan variedad sin introducir dibujos innecesariamente complejos.</p>
+<a href="./index.html">Volver a TYPE/16 Beta</a></header>
+<main id="gallery"></main>
+<footer>TYPE/16 · 12 motivos maestros · 64 asignaciones temáticas · 3 composiciones por motivo. Ilustraciones originales.</footer>
+<script type="module">
+import {getCardArt,MOTIF_GROUPS,MOTIF_BY_QUESTION,auditArtwork} from './js/artwork.js';
+const labels={sanctuary:'Recogimiento',threshold:'Umbral',exchange:'Intercambio',focus:'Enfoque',pattern:'Patrones',prism:'Perspectivas',balance:'Equilibrio',consideration:'Encuentro',criteria:'Criterios',interval:'Tiempo',paths:'Caminos',key:'Resolución'};
+const names={IE:'I / E · Interacción e interioridad',SN:'S / N · Percepción y posibilidades',FT:'F / T · Decisiones y valores',JP:'J / P · Estructura y flexibilidad'};
+const root=document.querySelector('#gallery');
+for(const [axis,motifs] of Object.entries(MOTIF_GROUPS)){
+ const section=document.createElement('section');section.className='family';
+ section.innerHTML='<h2>'+names[axis]+'</h2><div class="gallery"></div>';
+ const grid=section.querySelector('.gallery');
+ for(const motif of motifs){
+  const ids=Object.entries(MOTIF_BY_QUESTION).filter(([id,name])=>name===motif).map(([id])=>Number(id));
+  const main=document.createElement('article');main.className='motif';
+  main.innerHTML='<div class="art">'+getCardArt(ids[0],0)+'</div>'+
+    '<div class="info"><h3>'+labels[motif]+'</h3><small>'+ids.length+' cartas relacionadas</small><code>'+ids.map(x=>'Q'+String(x).padStart(2,'0')).join(' · ')+'</code></div>'+
+    '<div class="variants">'+[0,1,2].map(v=>'<div>'+getCardArt(ids[0],v)+'</div>').join('')+'</div>';
+  grid.append(main);
+ }root.append(section);
+}
+const audit=auditArtwork();if(!audit.ok)document.body.insertAdjacentHTML('afterbegin','<p>Advertencia: revisar las asignaciones del arte.</p>');
+</script></body></html>
