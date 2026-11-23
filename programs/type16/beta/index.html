@@ -1054,15 +1054,21 @@ function summary(){
    const situationMessage=axis.answeredNew===0?w.resultNoContrast:
      axis.differingDirections?w.resultDifferent:
      axis.newLetter&&axis.originalLetter?w.resultStable:w.resultUnclear;
-   const extraBlock=showNew?'<div class="result-subline"><b>'+safe(w.resultNewOnly)+'</b><span>'+safe(n)+' · '+axis.answeredNew+'/8</span></div>'+
-      '<div class="result-track extra-track"><i class="result-pointer" style="left:'+newPosition.toFixed(1)+'%"></i></div>'+
-      '<div class="result-subline"><b>'+safe(w.resultExtended)+'</b><span>'+safe(c)+' · '+axis.combinedCount+'/16</span></div>'+
-      '<div class="result-track combined-track"><i class="result-pointer" style="left:'+combinedPosition.toFixed(1)+'%"></i></div>'+
-      '<p class="result-nuance">'+safe(situationMessage)+'</p>':'';
+   const mainPos=showNew?combinedPosition:originalPosition;
+   const mainLetter=showNew?c:l;
+   const mainCount=showNew?axis.combinedCount:axis.originalCount;
+   const mainTotal=showNew?16:8;
+   const extraBlock=showNew?
+     '<details class="beta-axis-compare"><summary>'+safe(state.lang==='es'?'Comparar ambas lecturas':'Compare both readings')+' <span aria-hidden="true">＋</span></summary><div class="beta-axis-compare-inner">'+
+     '<div class="result-subline"><b>'+safe(w.resultSource)+'</b><span>'+safe(l)+' · '+axis.originalCount+'/8</span></div>'+
+     '<div class="result-track"><i class="result-pointer" style="left:'+originalPosition.toFixed(1)+'%"></i></div>'+
+     '<div class="result-subline"><b>'+safe(w.resultNewOnly)+'</b><span>'+safe(n)+' · '+axis.answeredNew+'/8</span></div>'+
+     '<div class="result-track extra-track"><i class="result-pointer" style="left:'+newPosition.toFixed(1)+'%"></i></div>'+
+     '<p class="result-nuance">'+safe(situationMessage)+'</p></div></details>':'';
    const text=report.interpretation.dimensions.find(a=>a.id===axisId)?.reading||'';
-   return '<div class="result-axis"><div class="result-axis-head"><strong>'+safe(pair[0])+' / '+safe(pair[1])+'</strong><span>'+safe(l)+' · '+axis.originalCount+'/8</span></div>'+
-    '<div class="result-track"><i class="result-pointer" style="left:'+originalPosition.toFixed(1)+'%"></i></div>'+
-    '<p>'+safe(text)+'</p>'+extraBlock+'</div>';
+   return '<div class="result-axis"><div class="result-axis-head"><strong>'+safe(pair[0])+' / '+safe(pair[1])+'</strong><span>'+safe(mainLetter)+' · '+mainCount+'/'+mainTotal+'</span></div>'+
+     '<div class="result-track"><i class="result-pointer" style="left:'+mainPos.toFixed(1)+'%"></i></div>'+
+     '<p>'+safe(text)+'</p>'+extraBlock+'</div>';
  }).join('');
  const progress=experience.checkpoints.map(n=>'<span class="journey-step '+(n===stage?'current':n<stage?'reached':'')+'">'+n+'</span>').join('');
  const compare=showNew?'<div class="result-compare"><div><div class="result-kicker">'+safe(w.resultSource)+'</div><strong class="compare-code">'+safe(baselineCode)+'</strong><p>'+safe(baselineStatus)+'</p></div>'+
