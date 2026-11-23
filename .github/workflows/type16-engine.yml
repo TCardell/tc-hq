@@ -1,0 +1,32 @@
+name: TYPE16 engine tests
+
+on:
+  push:
+    branches: [feature/type16-foundation]
+    paths:
+      - 'programs/type16/**'
+      - '.github/workflows/type16-engine.yml'
+  pull_request:
+    paths:
+      - 'programs/type16/**'
+      - '.github/workflows/type16-engine.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  engine:
+    name: Node.js 22 / questions, scoring and state machine
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: programs/type16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run unit and property tests
+        run: npm test
+      - name: Run headless engine smoke test
+        run: npm run smoke

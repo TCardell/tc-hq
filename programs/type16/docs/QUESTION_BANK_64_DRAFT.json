@@ -1,0 +1,1814 @@
+{
+  "schema": "type16-64-editorial-plan-v0.2",
+  "status": "planning-only",
+  "updated": "2026-11-23",
+  "notes": [
+    "NOT a shipped change to the app",
+    "Original OEJTS 1.2 answers and scoring preserved and distinct from proposed TYPE/16 questions",
+    "Original 32 Spanish translation remains unvalidated",
+    "Scoring of 32 new items is a proposed experimental index, not psychometrically validated",
+    "Editorial content review improves variety and risk awareness, not statistical reliability",
+    "All 32 new items need comprehension testing and empirical item analysis before including in any confidence claim"
+  ],
+  "stages": [
+    {
+      "checkpoint": 12,
+      "title": "Primera impresión",
+      "ids": [
+        3,
+        12,
+        22,
+        25,
+        15,
+        20,
+        14,
+        13,
+        11,
+        32,
+        26,
+        17
+      ],
+      "description": "3 ítems OEJTS por dimensión; una primera lectura, no una tipología concluyente",
+      "kind": "oejts-partial"
+    },
+    {
+      "checkpoint": 24,
+      "title": "Mapa en formación",
+      "ids": [
+        19,
+        24,
+        2,
+        1,
+        7,
+        28,
+        18,
+        21,
+        23,
+        4,
+        30,
+        29
+      ],
+      "description": "6 ítems OEJTS por dimensión; tendencias observadas y matices, sin puntuación oficial",
+      "kind": "oejts-partial"
+    },
+    {
+      "checkpoint": 32,
+      "title": "Retrato de referencia",
+      "ids": [
+        31,
+        8,
+        6,
+        5,
+        27,
+        16,
+        10,
+        9
+      ],
+      "description": "8 ítems OEJTS por dimensión; referencia completa únicamente con 32 respuestas válidas",
+      "kind": "oejts-full"
+    },
+    {
+      "checkpoint": 48,
+      "title": "Contrastes cotidianos",
+      "ids": [
+        33,
+        37,
+        41,
+        45,
+        34,
+        38,
+        42,
+        46,
+        35,
+        39,
+        43,
+        47,
+        36,
+        40,
+        44,
+        48
+      ],
+      "description": "4 ítems nuevos por dimensión; comparación experimental con referencia de 32",
+      "kind": "type16-draft"
+    },
+    {
+      "checkpoint": 64,
+      "title": "Retrato extendido",
+      "ids": [
+        49,
+        53,
+        57,
+        61,
+        50,
+        54,
+        58,
+        62,
+        51,
+        55,
+        59,
+        63,
+        52,
+        56,
+        60,
+        64
+      ],
+      "description": "8 ítems TYPE/16 nuevos por dimensión; interpretación experimental completa",
+      "kind": "type16-draft"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "Para recordar tareas, ¿qué recurso utilizas más?",
+        "en": "When remembering tasks, which approach fits you better?"
+      },
+      "a": {
+        "es": "Hace listas",
+        "en": "makes lists"
+      },
+      "b": {
+        "es": "Confía en su memoria",
+        "en": "relies on memory"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 2,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "Ante una idea que te proponen, ¿qué actitud te describe mejor?",
+        "en": "When someone presents an idea, which attitude fits you better?"
+      },
+      "a": {
+        "es": "Es escéptico/a",
+        "en": "sceptical"
+      },
+      "b": {
+        "es": "Quiere creer",
+        "en": "wants to believe"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 3,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "Cuando pasas tiempo a solas, ¿con qué te identificas más?",
+        "en": "When spending time alone, which description fits you better?"
+      },
+      "a": {
+        "es": "Se aburre pasando tiempo a solas",
+        "en": "bored by time alone"
+      },
+      "b": {
+        "es": "Necesita tiempo a solas",
+        "en": "needs time alone"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 4,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "Ante las cosas tal y como son, ¿cuál es tu tendencia?",
+        "en": "When faced with things as they are, which tendency fits you better?"
+      },
+      "a": {
+        "es": "Acepta las cosas tal como son",
+        "en": "accepts things as they are"
+      },
+      "b": {
+        "es": "No le satisface cómo están las cosas",
+        "en": "unsatisfied with the ways things are"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 5,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "¿Cómo sueles mantener tu habitación?",
+        "en": "How do you usually keep your room?"
+      },
+      "a": {
+        "es": "Mantiene su habitación ordenada",
+        "en": "keeps a clean room"
+      },
+      "b": {
+        "es": "Deja las cosas en cualquier sitio",
+        "en": "just puts stuff where ever"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 6,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "¿Cómo te relacionas con la idea de una mente «robótica»?",
+        "en": "How do you relate to the idea of a 'robotic' mind?"
+      },
+      "a": {
+        "es": "Considera «robótico» un insulto",
+        "en": "thinks 'robotic' is an insult"
+      },
+      "b": {
+        "es": "Aspira a tener una mente mecánica",
+        "en": "strives to have a mechanical mind"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 7,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "¿Qué nivel de energía suele describirte mejor?",
+        "en": "Which energy level usually describes you better?"
+      },
+      "a": {
+        "es": "Enérgico/a",
+        "en": "energetic"
+      },
+      "b": {
+        "es": "Tranquilo/a",
+        "en": "mellow"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 8,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "En una evaluación, ¿qué formato prefieres?",
+        "en": "In an assessment, which format do you prefer?"
+      },
+      "a": {
+        "es": "Prefiere exámenes tipo test",
+        "en": "prefer to take multiple choice test"
+      },
+      "b": {
+        "es": "Prefiere respuestas de desarrollo",
+        "en": "prefer essay answers"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 9,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "¿Qué palabra describe mejor tu manera de organizarte?",
+        "en": "Which word describes your way of organizing things better?"
+      },
+      "a": {
+        "es": "Caótico/a",
+        "en": "chaotic"
+      },
+      "b": {
+        "es": "Organizado/a",
+        "en": "organized"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 10,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "¿Cómo suelen afectarte los comentarios que pueden herir?",
+        "en": "How do potentially hurtful remarks tend to affect you?"
+      },
+      "a": {
+        "es": "Se siente herido/a fácilmente",
+        "en": "easily hurt"
+      },
+      "b": {
+        "es": "Es difícil herir sus sentimientos",
+        "en": "thick-skinned"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 11,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "¿En qué entorno sueles trabajar mejor?",
+        "en": "In which setting do you usually work best?"
+      },
+      "a": {
+        "es": "Trabaja mejor en grupo",
+        "en": "works best in groups"
+      },
+      "b": {
+        "es": "Trabaja mejor a solas",
+        "en": "works best alone"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 12,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "¿Hacia qué momento tiende a dirigirse tu atención?",
+        "en": "Which point in time tends to draw your attention?"
+      },
+      "a": {
+        "es": "Se centra en el presente",
+        "en": "focused on the present"
+      },
+      "b": {
+        "es": "Se centra en el futuro",
+        "en": "focused on the future"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 13,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "¿Con cuánta antelación acostumbras a planificar?",
+        "en": "How far ahead do you usually plan?"
+      },
+      "a": {
+        "es": "Planifica con mucha antelación",
+        "en": "plans far ahead"
+      },
+      "b": {
+        "es": "Planifica en el último momento",
+        "en": "plans at the last minute"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 14,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "¿Qué tipo de reconocimiento valoras más de los demás?",
+        "en": "What kind of recognition do you value most from others?"
+      },
+      "a": {
+        "es": "Busca el respeto de los demás",
+        "en": "wants people's respect"
+      },
+      "b": {
+        "es": "Busca el cariño de los demás",
+        "en": "wants their love"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 15,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "¿Qué efecto suelen tener en ti las fiestas?",
+        "en": "How do parties tend to affect you?"
+      },
+      "a": {
+        "es": "Las fiestas le dejan agotado/a",
+        "en": "gets worn out by parties"
+      },
+      "b": {
+        "es": "Las fiestas le dan energía",
+        "en": "gets fired up by parties"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 16,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "¿Cómo sueles situarte dentro de un grupo?",
+        "en": "How do you tend to fit into a group?"
+      },
+      "a": {
+        "es": "Encaja entre los demás",
+        "en": "fits in"
+      },
+      "b": {
+        "es": "Destaca entre los demás",
+        "en": "stands out"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 17,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "Al tomar decisiones, ¿qué tendencia te representa más?",
+        "en": "When making decisions, which tendency fits you better?"
+      },
+      "a": {
+        "es": "Mantiene abiertas sus opciones",
+        "en": "keeps options open"
+      },
+      "b": {
+        "es": "Se compromete con una decisión",
+        "en": "commits"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 18,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "¿Qué habilidad te gustaría desarrollar especialmente?",
+        "en": "Which ability would you especially like to develop?"
+      },
+      "a": {
+        "es": "Quiere ser bueno/a reparando cosas",
+        "en": "wants to be good at fixing things"
+      },
+      "b": {
+        "es": "Quiere ser bueno/a ayudando a personas a mejorar",
+        "en": "wants to be good at fixing people"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 19,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "En una conversación, ¿qué haces con más frecuencia?",
+        "en": "In a conversation, what do you do more often?"
+      },
+      "a": {
+        "es": "Habla más",
+        "en": "talks more"
+      },
+      "b": {
+        "es": "Escucha más",
+        "en": "listens more"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 20,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "Cuando cuentas un acontecimiento, ¿qué tiendes a destacar?",
+        "en": "When recounting an event, what do you tend to emphasize?"
+      },
+      "a": {
+        "es": "Al contar un suceso, explica qué ocurrió",
+        "en": "when describing an event, will tell people what happened"
+      },
+      "b": {
+        "es": "Al contar un suceso, explica qué significó",
+        "en": "when describing an event, will tell people what it meant"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 21,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "Ante una tarea pendiente, ¿qué sueles hacer?",
+        "en": "When a task is waiting, what do you tend to do?"
+      },
+      "a": {
+        "es": "Se pone a trabajar enseguida",
+        "en": "gets work done right away"
+      },
+      "b": {
+        "es": "Deja las tareas para más tarde",
+        "en": "procrastinates"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 22,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "Al tomar decisiones, ¿qué suele guiarte más?",
+        "en": "When making a decision, what usually guides you more?"
+      },
+      "a": {
+        "es": "Sigue al corazón",
+        "en": "follows the heart"
+      },
+      "b": {
+        "es": "Sigue a la cabeza",
+        "en": "follows the head"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 23,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "¿Qué te apetece más en tu tiempo libre?",
+        "en": "What appeals to you more in your free time?"
+      },
+      "a": {
+        "es": "Se queda en casa",
+        "en": "stays at home"
+      },
+      "b": {
+        "es": "Sale a divertirse",
+        "en": "goes out on the town"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 24,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "Al explorar un tema, ¿qué te interesa más?",
+        "en": "When exploring a topic, what interests you more?"
+      },
+      "a": {
+        "es": "Prefiere la visión de conjunto",
+        "en": "wants the big picture"
+      },
+      "b": {
+        "es": "Prefiere los detalles",
+        "en": "wants the details"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 25,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "Antes de realizar una actividad, ¿qué enfoque prefieres?",
+        "en": "Before an activity, which approach do you prefer?"
+      },
+      "a": {
+        "es": "Improvisa",
+        "en": "improvises"
+      },
+      "b": {
+        "es": "Se prepara",
+        "en": "prepares"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 26,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "Ante un dilema moral, ¿qué suele guiarte más?",
+        "en": "When facing a moral dilemma, what tends to guide you more?"
+      },
+      "a": {
+        "es": "Basa la moralidad en la justicia",
+        "en": "bases morality on justice"
+      },
+      "b": {
+        "es": "Basa la moralidad en la compasión",
+        "en": "bases morality on compassion"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 27,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "Cuando necesitas llamar a alguien que está lejos, ¿qué te describe mejor?",
+        "en": "When you need to call to someone far away, which fits you better?"
+      },
+      "a": {
+        "es": "Le cuesta gritar muy fuerte",
+        "en": "finds it difficult to yell very loudly"
+      },
+      "b": {
+        "es": "Le sale natural gritar a alguien que está lejos",
+        "en": "yelling to others when they are far away comes naturally"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 28,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "¿Qué enfoque te atrae más para conocer un tema?",
+        "en": "Which approach appeals to you more when learning about a topic?"
+      },
+      "a": {
+        "es": "Teórico/a",
+        "en": "theoretical"
+      },
+      "b": {
+        "es": "Empírico/a",
+        "en": "empirical"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 29,
+      "source": "OEJTS-1.2",
+      "axis": "JP",
+      "stem": {
+        "es": "¿Dónde tiendes a poner más intensidad?",
+        "en": "Where do you tend to invest more intensity?"
+      },
+      "a": {
+        "es": "Trabaja intensamente",
+        "en": "works hard"
+      },
+      "b": {
+        "es": "Se divierte intensamente",
+        "en": "plays hard"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 30,
+      "source": "OEJTS-1.2",
+      "axis": "FT",
+      "stem": {
+        "es": "¿Cómo describirías tu relación con las emociones?",
+        "en": "How would you describe your relationship with emotions?"
+      },
+      "a": {
+        "es": "Se siente incómodo/a con las emociones",
+        "en": "uncomfortable with emotions"
+      },
+      "b": {
+        "es": "Valora las emociones",
+        "en": "values emotions"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 31,
+      "source": "OEJTS-1.2",
+      "axis": "IE",
+      "stem": {
+        "es": "Ante un público, ¿qué tendencia reconoces en ti?",
+        "en": "In front of an audience, which tendency do you recognize in yourself?"
+      },
+      "a": {
+        "es": "Le gusta actuar delante de otras personas",
+        "en": "likes to perform in front of other people"
+      },
+      "b": {
+        "es": "Evita hablar en público",
+        "en": "avoids public speaking"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 32,
+      "source": "OEJTS-1.2",
+      "axis": "SN",
+      "stem": {
+        "es": "Para comprender algo, ¿qué preguntas te surgen primero?",
+        "en": "When trying to understand something, which questions arise first?"
+      },
+      "a": {
+        "es": "Quiere saber quién, qué y cuándo",
+        "en": "likes to know 'who?', 'what?', 'when?'"
+      },
+      "b": {
+        "es": "Quiere saber por qué",
+        "en": "likes to know 'why?'"
+      },
+      "editorialStatus": "concept-not-approved"
+    },
+    {
+      "id": 33,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "iniciativa social en situaciones nuevas",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Al llegar a una actividad informal con personas que conoces poco, ¿qué te resulta más natural?",
+        "en": "When arriving at an informal activity with people you barely know, what feels more natural?"
+      },
+      "a": {
+        "es": "Empezar una conversación para entrar en el ambiente",
+        "en": "Start a conversation to settle into the setting"
+      },
+      "b": {
+        "es": "Observar un poco antes de sumarme a la conversación",
+        "en": "Observe for a while before joining the conversation"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          19,
+          31
+        ],
+        "firstDraftOverlaps": [
+          36,
+          49
+        ],
+        "remainingRisk": "La timidez o familiaridad pueden influir, aunque la pregunta sea de preferencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 34,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "procesamiento social de ideas",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Cuando una idea todavía está poco clara, ¿cómo prefieres desarrollarla?",
+        "en": "When an idea is still unclear, how do you prefer to develop it?"
+      },
+      "a": {
+        "es": "Pensarla a solas antes de compartirla",
+        "en": "Think it through privately before sharing"
+      },
+      "b": {
+        "es": "Hablarla con alguien para ir dándole forma",
+        "en": "Talk it through with someone to shape it"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          11,
+          19
+        ],
+        "firstDraftOverlaps": [
+          52
+        ],
+        "remainingRisk": "Puede depender del tipo de idea o de interlocutor.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 35,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "interacción durante la exploración personal",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "En una actividad que puedes explorar a tu ritmo, ¿cómo prefieres vivirla?",
+        "en": "In an activity you can explore at your own pace, how do you prefer to experience it?"
+      },
+      "a": {
+        "es": "Explorarla por mi cuenta y comentar después lo descubierto",
+        "en": "Explore on my own and discuss what I found afterward"
+      },
+      "b": {
+        "es": "Ir intercambiando impresiones mientras la exploro",
+        "en": "Exchange impressions with someone as I explore"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          3,
+          11,
+          15
+        ],
+        "firstDraftOverlaps": [
+          34,
+          52
+        ],
+        "remainingRisk": "El gusto por la actividad o la compañía puede influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 36,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "momento de participación grupal",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "En una conversación de grupo que te interesa, ¿cómo sueles incorporarte?",
+        "en": "In a group conversation that interests you, how do you usually join in?"
+      },
+      "a": {
+        "es": "Intervengo mientras vamos dando forma a las ideas",
+        "en": "Contribute while the ideas are taking shape"
+      },
+      "b": {
+        "es": "Escucho el intercambio y aporto cuando he pensado mi idea",
+        "en": "Listen to the exchange and contribute after thinking it through"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          19,
+          31
+        ],
+        "firstDraftOverlaps": [
+          33
+        ],
+        "remainingRisk": "Diferenciar necesidad de reflexión de comodidad al hablar.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 37,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "entrada al aprendizaje práctico",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Al aprender a usar una herramienta, ¿qué te ayuda más al principio?",
+        "en": "When learning to use a tool, what helps you at first?"
+      },
+      "a": {
+        "es": "Probar una tarea concreta con ella",
+        "en": "Try a concrete task with it"
+      },
+      "b": {
+        "es": "Comprender primero la idea general de su funcionamiento",
+        "en": "Understand the general idea behind how it works"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          8,
+          28
+        ],
+        "firstDraftOverlaps": [
+          53
+        ],
+        "remainingRisk": "Puede variar según familiaridad con la herramienta.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 38,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "orientación espacial y patrones",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Al observar el plano de un lugar nuevo, ¿qué te llama la atención primero?",
+        "en": "When looking at a map of a new place, what catches your attention first?"
+      },
+      "a": {
+        "es": "Los lugares concretos y las distancias entre ellos",
+        "en": "Specific places and the distances between them"
+      },
+      "b": {
+        "es": "La estructura general y cómo se conectan las zonas",
+        "en": "The overall layout and how the areas connect"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          24,
+          32
+        ],
+        "firstDraftOverlaps": [
+          54
+        ],
+        "remainingRisk": "La habilidad de orientarse puede contaminar la preferencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 39,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "inferencia de reglas desde casos",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Después de ver varios ejemplos parecidos, ¿qué tiendes a buscar primero?",
+        "en": "After seeing several similar examples, what do you tend to look for first?"
+      },
+      "a": {
+        "es": "Una pauta general que los conecte",
+        "en": "A general pattern connecting them"
+      },
+      "b": {
+        "es": "Las diferencias concretas entre los ejemplos",
+        "en": "The specific differences between the examples"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          20,
+          24
+        ],
+        "firstDraftOverlaps": [
+          55
+        ],
+        "remainingRisk": "No confundir capacidad de encontrar patrones con preferencia de atención.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 40,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "curiosidad sobre objetos desconocidos",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Cuando encuentras un objeto cuyo uso no conoces, ¿qué te interesa explorar antes?",
+        "en": "When you encounter an object whose purpose you do not know, what interests you first?"
+      },
+      "a": {
+        "es": "Qué otros usos podría llegar a tener",
+        "en": "What other uses it might have"
+      },
+      "b": {
+        "es": "Cómo está hecho y para qué sirve actualmente",
+        "en": "How it is made and what it is currently used for"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          12,
+          28
+        ],
+        "firstDraftOverlaps": [
+          37
+        ],
+        "remainingRisk": "La curiosidad puede depender del objeto concreto.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 41,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "criterios en desacuerdos colectivos",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si tu equipo discrepa sobre un plan, ¿qué te ayuda más a decidir?",
+        "en": "If your team disagrees about a plan, what helps you decide?"
+      },
+      "a": {
+        "es": "Comparar las razones usando criterios comunes",
+        "en": "Compare reasons using shared criteria"
+      },
+      "b": {
+        "es": "Comprender lo que necesita cada participante",
+        "en": "Understand what each participant needs"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          22,
+          26
+        ],
+        "firstDraftOverlaps": [
+          43,
+          44,
+          58
+        ],
+        "remainingRisk": "El contraste 'criterios/personas' puede activar deseabilidad social.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 42,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "razones y motivaciones de propuestas",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Cuando alguien presenta una propuesta que te interesa, ¿qué te apetece comprender primero?",
+        "en": "When someone presents an idea that interests you, what would you first like to understand?"
+      },
+      "a": {
+        "es": "Qué motivaciones personales hay detrás de la propuesta",
+        "en": "The personal motivations behind the proposal"
+      },
+      "b": {
+        "es": "Qué argumentos y consecuencias sostienen la propuesta",
+        "en": "The reasoning and consequences supporting the proposal"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          2,
+          22
+        ],
+        "firstDraftOverlaps": [
+          57
+        ],
+        "remainingRisk": "Necesidades humanas y razones pueden coexistir; pedir primera atención.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 43,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "prioridades en la comunicación",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Al comparar dos maneras de comunicar la misma noticia, ¿qué valoras primero?",
+        "en": "When comparing two ways of sharing the same news, what do you first value?"
+      },
+      "a": {
+        "es": "Cómo puede recibirla emocionalmente quien la escucha",
+        "en": "How the listener may receive it emotionally"
+      },
+      "b": {
+        "es": "Que el mensaje sea preciso y esté bien argumentado",
+        "en": "Whether the message is precise and well reasoned"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          30
+        ],
+        "firstDraftOverlaps": [
+          41,
+          59
+        ],
+        "remainingRisk": "Ambas prioridades son valiosas y suelen combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 44,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "interpretación de decisiones narrativas",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Al analizar la decisión de un personaje de una historia, ¿qué te interesa entender primero?",
+        "en": "When analyzing a character's decision in a story, what do you first want to understand?"
+      },
+      "a": {
+        "es": "Si su razonamiento encaja con los hechos",
+        "en": "Whether their reasoning fits the facts"
+      },
+      "b": {
+        "es": "Qué siente y qué valores le han llevado a decidir",
+        "en": "What they feel and which values shaped their decision"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          22,
+          30
+        ],
+        "firstDraftOverlaps": [
+          42
+        ],
+        "remainingRisk": "La interpretación de ficción no equivale necesariamente a decisiones reales.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 45,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "definición inicial de objetivos",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Cuando un proyecto admite varios objetivos posibles, ¿qué te ayuda más al comenzar?",
+        "en": "When a project has several possible goals, what helps you get started?"
+      },
+      "a": {
+        "es": "Elegir un objetivo y unas etapas iniciales",
+        "en": "Choose a goal and some initial stages"
+      },
+      "b": {
+        "es": "Explorar posibilidades antes de fijar un objetivo",
+        "en": "Explore possibilities before settling on a goal"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          13,
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          63
+        ],
+        "remainingRisk": "Definir metas y explorar opciones pueden combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 46,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "uso de tiempo inesperadamente libre",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si una actividad termina antes de lo previsto y te queda tiempo libre, ¿qué haces más a menudo?",
+        "en": "If an activity ends early and you have some free time, what do you usually do?"
+      },
+      "a": {
+        "es": "Elegir en el momento algo que me apetezca hacer",
+        "en": "Choose something I feel like doing at that moment"
+      },
+      "b": {
+        "es": "Adelantar otra actividad que ya tenía prevista",
+        "en": "Get a head start on another activity I had planned"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          13,
+          21,
+          25
+        ],
+        "firstDraftOverlaps": [
+          62
+        ],
+        "remainingRisk": "La disponibilidad y obligaciones externas pueden influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 47,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "alternancia o secuenciación de tareas",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Cuando tienes varias tareas por delante, ¿cómo prefieres afrontarlas?",
+        "en": "When several tasks are ahead, how do you prefer to tackle them?"
+      },
+      "a": {
+        "es": "Decidir un orden y avanzar paso a paso",
+        "en": "Decide an order and work step by step"
+      },
+      "b": {
+        "es": "Alternarlas según lo que pida cada momento",
+        "en": "Switch between them as the moment calls for it"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          5,
+          9
+        ],
+        "firstDraftOverlaps": [
+          63
+        ],
+        "remainingRisk": "El número de tareas y las exigencias de atención pueden influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 48,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "reestructuración ante cambios",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si una condición importante cambia a mitad de un plan, ¿qué haces primero?",
+        "en": "If a major condition changes midway through a plan, what do you do first?"
+      },
+      "a": {
+        "es": "Explorar nuevas alternativas y ajustar la marcha",
+        "en": "Explore alternatives and adapt as you go"
+      },
+      "b": {
+        "es": "Reorganizar las etapas para mantener una ruta clara",
+        "en": "Reorganize stages to keep a clear route"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          64
+        ],
+        "remainingRisk": "Puede depender de consecuencias reales del cambio.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 49,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "continuidad de contactos sociales",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Después de conocer a alguien con quien has conectado, ¿qué suele apetecerte más?",
+        "en": "After meeting someone you really connected with, what tends to appeal more?"
+      },
+      "a": {
+        "es": "Proponer pronto otra ocasión para coincidir",
+        "en": "Suggest another occasion to meet soon"
+      },
+      "b": {
+        "es": "Disfrutar del encuentro sin organizar otro inmediatamente",
+        "en": "Enjoy the encounter without immediately planning another"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          19,
+          23
+        ],
+        "firstDraftOverlaps": [
+          33
+        ],
+        "remainingRisk": "La iniciativa depende también del interés personal y de normas culturales.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 50,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "amplitud frente a profundidad conversacional",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "En un encuentro con personas que conoces, ¿qué parte disfrutas más?",
+        "en": "At a gathering with people you know, what do you enjoy more?"
+      },
+      "a": {
+        "es": "Tener algunas conversaciones tranquilas y largas",
+        "en": "Having a few quiet, longer conversations"
+      },
+      "b": {
+        "es": "Moverme entre conversaciones diferentes",
+        "en": "Moving among different conversations"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          19,
+          23
+        ],
+        "firstDraftOverlaps": [
+          33,
+          49
+        ],
+        "remainingRisk": "La profundidad conversacional no es un indicador exclusivo de I/E; probar discriminación.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 51,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "interacción pública voluntaria",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "En una visita o taller participativo, si te surge una duda, ¿cómo prefieres plantearla?",
+        "en": "At an interactive visit or workshop, if a question comes to mind, how do you prefer to ask it?"
+      },
+      "a": {
+        "es": "Preguntarla durante el intercambio abierto del grupo",
+        "en": "Ask it during the open group discussion"
+      },
+      "b": {
+        "es": "Reflexionar primero y consultarla después en privado",
+        "en": "Think it through first and ask privately afterward"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          27,
+          31
+        ],
+        "firstDraftOverlaps": [
+          36
+        ],
+        "remainingRisk": "La ansiedad al hablar en público puede contaminar la respuesta.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 52,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "IE",
+      "facet": "ritmo del intercambio colaborativo",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "En una actividad compartida donde cada cual desarrolla una parte, ¿qué prefieres?",
+        "en": "In a shared activity where everyone works on a part, what do you prefer?"
+      },
+      "a": {
+        "es": "Trabajar primero en mi parte y contrastarla al final",
+        "en": "Work on my part first and compare notes at the end"
+      },
+      "b": {
+        "es": "Ir comentando avances e ideas durante el proceso",
+        "en": "Discuss progress and ideas throughout the process"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          11,
+          19
+        ],
+        "firstDraftOverlaps": [
+          34,
+          35
+        ],
+        "remainingRisk": "Distinguir estilo de cooperación de capacidad de trabajar en grupo.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 53,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "analogías frente a ejemplos al explicar",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Para explicar una idea compleja, ¿qué recurso utilizas primero?",
+        "en": "When explaining a complex idea, what do you use first?"
+      },
+      "a": {
+        "es": "Un ejemplo específico que se pueda observar",
+        "en": "A specific, observable example"
+      },
+      "b": {
+        "es": "Una analogía que conecte varios conceptos",
+        "en": "An analogy connecting several concepts"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          8,
+          28,
+          32
+        ],
+        "firstDraftOverlaps": [
+          37
+        ],
+        "remainingRisk": "Familiaridad con el tema cambia el recurso explicativo.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 54,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "lectura literal o interpretativa de imágenes",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Al mirar por primera vez una imagen que no conoces, ¿qué captas antes?",
+        "en": "When first looking at an unfamiliar image, what do you notice first?"
+      },
+      "a": {
+        "es": "Las historias o relaciones que podría sugerir",
+        "en": "The stories or connections it might suggest"
+      },
+      "b": {
+        "es": "Sus formas, colores y detalles visibles",
+        "en": "Its visible shapes, colors and details"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          20,
+          24
+        ],
+        "firstDraftOverlaps": [
+          38,
+          55
+        ],
+        "remainingRisk": "El interés por el arte o la cultura puede influir.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 55,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "detalle o tendencia en datos sencillos",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Si ves varios datos sencillos sobre un tema, ¿qué tiendes a mirar primero?",
+        "en": "When you see several simple facts or numbers on a topic, what do you tend to look at first?"
+      },
+      "a": {
+        "es": "Qué indica cada dato concreto",
+        "en": "What each individual piece of data says"
+      },
+      "b": {
+        "es": "Qué tendencia aparece al considerarlos juntos",
+        "en": "What trend appears when looking at them together"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          24,
+          28
+        ],
+        "firstDraftOverlaps": [
+          39,
+          54
+        ],
+        "remainingRisk": "Evitar que requiera conocimientos de estadística.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 56,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "SN",
+      "facet": "diagnóstico local frente a replanteamiento",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si algo deja de funcionar como esperabas, ¿qué te interesa investigar primero?",
+        "en": "If something stops working as expected, what do you want to investigate first?"
+      },
+      "a": {
+        "es": "Si hace falta plantear el problema de otra manera",
+        "en": "Whether the problem needs to be framed differently"
+      },
+      "b": {
+        "es": "En qué paso concreto comenzó a fallar",
+        "en": "At which specific step things started going wrong"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          4,
+          28
+        ],
+        "firstDraftOverlaps": [
+          40
+        ],
+        "remainingRisk": "También refleja estrategias de resolución de problemas y experiencia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 57,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "devolución y propósito del autor",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si alguien te pide comentar una creación suya, ¿qué te sale hacer primero?",
+        "en": "When someone asks for feedback on something they created, what comes first?"
+      },
+      "a": {
+        "es": "Señalar qué aspectos podrían mejorarse y por qué",
+        "en": "Point out what could be improved and why"
+      },
+      "b": {
+        "es": "Preguntar qué quiere expresar y qué es importante para esa persona",
+        "en": "Ask what they want to express and what matters to them"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "polish",
+        "closestOriginalIds": [
+          18,
+          22
+        ],
+        "firstDraftOverlaps": [
+          43
+        ],
+        "remainingRisk": "Se debe respetar que ambos estilos pueden combinarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 58,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "comprender un desacuerdo interpersonal",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Si alguien defiende una opinión diferente de la tuya, ¿qué te interesa preguntar primero?",
+        "en": "If someone holds a different opinion from yours, what would you ask first?"
+      },
+      "a": {
+        "es": "Qué experiencias y prioridades le han llevado a verla así",
+        "en": "Which experiences and priorities led them to see it that way"
+      },
+      "b": {
+        "es": "Qué argumentos y pruebas apoyan esa opinión",
+        "en": "Which arguments and evidence support that opinion"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          22
+        ],
+        "firstDraftOverlaps": [
+          41,
+          60
+        ],
+        "remainingRisk": "Las dos preguntas pueden ser razonables; no confundir empatía con ser F.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 59,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "explicación de decisiones delicadas",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Cuando tienes que comunicar una decisión inesperada a otra persona, ¿qué procuras abordar primero?",
+        "en": "When sharing an unexpected decision with someone, what do you try to address first?"
+      },
+      "a": {
+        "es": "Reconocer cómo puede afectarle",
+        "en": "Acknowledge how it might affect them"
+      },
+      "b": {
+        "es": "Explicar los criterios que justifican la decisión",
+        "en": "Explain the criteria behind the decision"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          14,
+          26,
+          30
+        ],
+        "firstDraftOverlaps": [
+          43
+        ],
+        "remainingRisk": "La cortesía social puede provocar respuestas normativas; pilotar.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 60,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "FT",
+      "facet": "lectura de argumentos frente a valores",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Cuando lees un debate complejo, ¿qué observas primero?",
+        "en": "When reading a complex debate, what do you notice first?"
+      },
+      "a": {
+        "es": "Si los argumentos están bien fundamentados",
+        "en": "Whether the arguments are well supported"
+      },
+      "b": {
+        "es": "Qué valores importan a quienes participan",
+        "en": "Which values matter to the people involved"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "keep",
+        "closestOriginalIds": [
+          2,
+          22
+        ],
+        "firstDraftOverlaps": [
+          58
+        ],
+        "remainingRisk": "Puede compartir contenido con Q58; comprobar correlación y redundancia.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 61,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "cierre frente a exploración de versiones",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si una versión de algo que estás creando ya funciona, ¿qué sueles preferir?",
+        "en": "If a version of something you are creating already works, what do you prefer?"
+      },
+      "a": {
+        "es": "Mantenerla abierta para seguir probando variaciones",
+        "en": "Keep it open to try more variations"
+      },
+      "b": {
+        "es": "Darla por terminada y pasar al siguiente paso",
+        "en": "Consider it finished and move on to the next step"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          45,
+          63
+        ],
+        "remainingRisk": "Puede mezclarse con perfeccionismo o motivación.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 62,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "bloques de tiempo frente a flexibilidad",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Si tienes varias actividades personales previstas para un día libre, ¿cómo distribuyes el tiempo?",
+        "en": "If you have several personal activities planned on a free day, how do you allocate your time?"
+      },
+      "a": {
+        "es": "Asigno franjas aproximadas a cada actividad",
+        "en": "Assign approximate time slots to each activity"
+      },
+      "b": {
+        "es": "Dejo flexibles los tiempos y ajusto sobre la marcha",
+        "en": "Leave the timing flexible and adjust as I go"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          1,
+          13
+        ],
+        "firstDraftOverlaps": [
+          46
+        ],
+        "remainingRisk": "Las obligaciones fijas hacen menos aplicable la preferencia; preguntar por tiempo propio.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 63,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "respuesta a instrucciones ambiguas",
+      "highPoleSide": "B",
+      "stem": {
+        "es": "Si recibes una tarea con indicaciones poco definidas, ¿qué te ayuda más a arrancar?",
+        "en": "If you receive a task with vague instructions, what helps you start?"
+      },
+      "a": {
+        "es": "Acordar primero qué se espera y qué pasos seguir",
+        "en": "Clarify what is expected and which steps to follow"
+      },
+      "b": {
+        "es": "Hacer una primera prueba y concretar a partir de ella",
+        "en": "Try an initial version and refine the plan from there"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          9,
+          25
+        ],
+        "firstDraftOverlaps": [
+          45
+        ],
+        "remainingRisk": "Depende de la experiencia, reglas y consecuencias de equivocarse.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    },
+    {
+      "id": 64,
+      "source": "TYPE16-DRAFT-2",
+      "axis": "JP",
+      "facet": "revisión de planes personales ya elegidos",
+      "highPoleSide": "A",
+      "stem": {
+        "es": "Si ya habías decidido cómo pasar una tarde y aparece otra posibilidad atractiva, ¿qué te resulta más natural?",
+        "en": "If you have chosen how to spend an afternoon and another appealing option appears, what feels more natural?"
+      },
+      "a": {
+        "es": "Replantear la tarde para incorporar la novedad",
+        "en": "Rethink the afternoon to fit in the new option"
+      },
+      "b": {
+        "es": "Mantener mi idea inicial y dejar la novedad para otro momento",
+        "en": "Stick with the original idea and save the new option for another time"
+      },
+      "editorialStatus": "reviewed-draft-needs-pilot",
+      "editorialReview": {
+        "action": "replace",
+        "closestOriginalIds": [
+          17,
+          25
+        ],
+        "firstDraftOverlaps": [
+          48
+        ],
+        "remainingRisk": "La novedad puede resultar más o menos atractiva según intereses.",
+        "reviewed": "2026-11-23",
+        "evidence": "editorial-only-not-validated"
+      }
+    }
+  ],
+  "editorialReview": {
+    "version": "v0.2",
+    "originalItemsUnchanged": true,
+    "revisionCounts": {
+      "keep": 8,
+      "polish": 7,
+      "replace": 17
+    },
+    "reviewedNewIds": [
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64
+    ],
+    "scoringStatus": "New items not scored in app; directional assignment is a working hypothesis",
+    "validationStatus": "No human comprehension test, reliability study, factor analysis, differential item functioning or predictive validation"
+  }
+}
