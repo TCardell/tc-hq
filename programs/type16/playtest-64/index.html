@@ -535,6 +535,32 @@ body.in-deck{height:100dvh}
 .playtest-results .result-stats{font-size:12px}
 @media(max-width:370px){.intro-dimension-grid{grid-template-columns:1fr 1fr}.intro-dimension{gap:5px;padding:8px 5px}.intro-dimension strong{font-size:11px}.intro .intro-title{font-size:58px}.app.playing .card-options .option .copy{font-size:11.7px!important}.app.playing .card-top,.app.playing .card-bottom{font-size:9.5px}}
 @media(max-height:640px){.app.playing .card-options{min-height:89px}.app.playing .card-options .option{gap:4px}.app.playing .card-options .option .ab{font-size:12px}.app.playing .card-art{min-height:68px}.intro .hero-stack{height:175px;transform:scale(.73)}}
+
+/* Atlas edition — readable, layered personality interpretations at every stop */
+.portrait-context{position:relative;margin-top:19px;padding:21px 18px;background:linear-gradient(160deg,#f0e6d4,#d8c6a9);border:1px solid #e1bc86;color:#393039;box-shadow:inset 0 0 0 4px #c6a6813b,0 17px 35px #0003}
+.portrait-context::after{content:'✧ ✦ ✧';position:absolute;top:14px;right:18px;color:#a68660;letter-spacing:.3em;font:13px var(--serif)}
+.portrait-kicker{font:600 10px/1.3 var(--mono);letter-spacing:.16em;color:#886649}
+.depth-report .portrait-context>h3{font:500 clamp(25px,5.6vw,33px)/1.15 var(--serif);color:#3f3942;margin:11px 0 10px}
+.portrait-context-lead{font:400 15px/1.6 var(--serif);color:#50473f;margin:0 0 16px}
+.portrait-code{padding:15px 16px;background:#fff9e884;border:1px solid #b79b74;border-radius:12px;box-shadow:inset 0 1px #fff8e0}
+.portrait-code>span{display:block;font:650 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#86694e}
+.portrait-code>strong{display:block;font:500 clamp(37px,8vw,54px)/1.2 var(--serif);letter-spacing:.12em;color:#293a4b;margin:7px 0 0}
+.depth-report .portrait-code h3{font:500 21px/1.2 var(--serif);color:#3e363b;margin:6px 0 9px}
+.portrait-code p{font:400 14px/1.65 var(--sans);color:#51443e;margin:0}
+.depth-report .portrait-dim-title{font:500 20px/1.2 var(--serif);color:#51433e;margin:22px 0 12px}
+.portrait-dimension-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.portrait-dimension{border:1px solid #b79e7b8c;border-radius:10px;background:#fff8e68c;padding:14px}
+.portrait-axis-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.portrait-axis-top span{font:700 12px/1.3 var(--mono);color:#a27245;letter-spacing:.12em}
+.portrait-axis-top small{font:500 11px var(--mono);color:#8d7660}
+.depth-report .portrait-dimension h4{color:#393b44;font:500 18px/1.2 var(--serif);margin:8px 0}
+.depth-report .portrait-dimension h5{color:#664e3e;font:700 13px/1.3 var(--sans);margin:12px 0 4px}
+.portrait-dimension p{color:#514a45;line-height:1.57;font-size:13.5px;margin:0}
+.portrait-dimension .portrait-axis-legend{font:450 11.5px/1.4 var(--sans);color:#786955;border-bottom:1px solid #b79b754d;padding-bottom:10px}
+.portrait-dimension .portrait-nuance{font-style:italic;color:#725c51;margin-top:8px}
+.portrait-reflection{border-top:1px solid #ac8b6e8a;color:#564e44;padding-top:11px;margin:18px 0 0;font:italic 14px/1.6 var(--serif)}
+@media(min-width:550px){.portrait-dimension-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:360px){.portrait-context{padding:16px 12px}.portrait-dimension{padding:11px}}
 </style>
 </head>
 <body>
@@ -835,6 +861,18 @@ Object.assign(words.en,{
  resultStable:'The new situations and earlier cards lean in the same direction.',
  resultNoContrast:'There are not yet enough responses to compare both sets of situations.',
  checkpointIntro:'Every choice adds another nuance to your portrait.'
+});
+Object.assign(words.es,{
+ resultSource:'Tu primer retrato · 32 cartas',resultExtended:'Tu retrato ampliado',resultNewOnly:'Nuevas situaciones',
+ resultSkipped:'Hay cartas que dejaste para después. Puedes volver a ellas para completar tu lectura.',
+ resultNoType:'Una combinación todavía abierta',
+ resultEarly:'Las primeras cartas apuntan hacia una combinación, todavía con posibles cambios.'
+});
+Object.assign(words.en,{
+ resultSource:'Your first portrait · 32 cards',resultExtended:'Your extended portrait',resultNewOnly:'New situations',
+ resultSkipped:'There are cards you left for later. You can return to them to complete your reading.',
+ resultNoType:'A combination still taking shape',
+ resultEarly:'Your first cards point toward a combination, with room for change.'
 });
 const checkpointNames={12:['Primera impresión','First impression'],24:['Mapa en formación','Mapping your preferences'],32:['Retrato de referencia','Reference portrait'],48:['Contrastes cotidianos','Everyday contrasts'],64:['Retrato extendido','Extended portrait']};
 const checkpointDescriptions={
