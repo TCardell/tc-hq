@@ -678,6 +678,26 @@ body.in-deck{height:100dvh}
  .beta-details-summary strong{font-size:17px}
  .beta-details-body{padding:13px 11px}
 }
+
+/* TYPE/16 · Quiet two-corner heading. Previous centred star deliberately removed. */
+.app.playing .card-top{
+ display:flex;grid-template-columns:none;
+ justify-content:space-between;align-items:center;
+ min-height:32px;padding:19px 27px 0;
+ font:600 clamp(10px,2.45vw,11.5px)/1.2 var(--sans);
+ letter-spacing:.035em;color:#82684d;
+}
+.app.playing .card-top>span:first-child,.app.playing .card-top>span:last-child{
+ grid-column:auto;justify-self:auto;white-space:nowrap;min-width:0;
+}
+.app.playing .card-top>span:last-child{font:500 clamp(12px,2.8vw,13.5px)/1.2 var(--serif);letter-spacing:.04em;text-transform:none}
+@media(max-width:350px){.app.playing .card-top{padding:17px 22px 0;font-size:10px}}
+@media(max-height:640px){.app.playing .card-top{min-height:29px;padding-top:15px}}
+.beta-art-preview-note{
+ display:block;margin:0 auto 12px;padding:7px 12px;border:1px solid #ddbc7a77;
+ background:#e9c78b0d;border-radius:6px;color:#e9ceac;
+ font:600 11px/1.4 var(--mono);letter-spacing:.02em;
+}
 </style>
 </head>
 <body>
@@ -869,7 +889,7 @@ function createExperience64(plan,{scoreOriginals,interpretOriginals}){
 import {scoreAll} from './js/scoring.js';
 import {displayOptions,renderDeepAnalysis} from './js/enhancements.js';
 import {buildInterpretation} from './js/engine/interpretation.js';
-import {getCardArt,auditArtwork} from './js/artwork.js';
+import {getCardArt,auditArtwork,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices} from './js/artwork.js';
 import {TYPE_COPY} from './js/engine/interpretation-copy.js';
 const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
 const createSession=(o)=>experience.newSession(o);
@@ -878,6 +898,22 @@ const nextItem=(s)=>experience.nextItem(s);
 const transition=(s,a)=>experience.act(s,a);
 (()=>{'use strict';
 const KEY='type16.beta.v1'; // independent from the 64-card prototype
+const ART_PREVIEW_MODE=(()=>{
+ try{
+  const mode=new URLSearchParams(window.location?.search||'').get('art');
+  return mode==='v2'||mode==='selection'?mode:null;
+ }catch{return null}
+})();
+const SAVED_ART_CHOICES=(()=>{
+ try{return sanitizeArtChoices(JSON.parse(localStorage.getItem(ART_SELECTION_KEY)||'{}'));}
+ catch{return {}}
+})();
+const cardArtVersion=id=>{
+ if(ART_PREVIEW_MODE==='v2')return 'v2';
+ if(ART_PREVIEW_MODE==='selection')return SAVED_ART_CHOICES[MOTIF_BY_QUESTION[id]]||'v1';
+ return 'v1';
+};
+
 const rawCards=Array(64).fill(null); // legacy lab compatibility
 function cardData(session){
  const item=experience.question(session);
@@ -1060,18 +1096,29 @@ function intro(){
  const types=Object.entries(TYPE_COPY).sort(([a],[b])=>a.localeCompare(b)).map(([code,copy])=>`<span class='intro-type'><b>${code}</b><small>${safe(copy[state.lang].title)}</small></span>`).join('');
  const legacy=legacyPreview();
  const importPanel=legacy?`<button class='beta-import' data-action='import-legacy'>↶ &nbsp;${state.lang==='es'?'Recuperar mi partida anterior':'Import my previous progress'} · ${legacy.seen.length}/64</button>`:'';
+ const artPreviewLabel=ART_PREVIEW_MODE?(state.lang==='es'?
+    (ART_PREVIEW_MODE==='v2'?'Vista previa: ilustraciones V2':'Vista previa: tu selección de ilustraciones'):
+    (ART_PREVIEW_MODE==='v2'?'Preview: V2 illustrations':'Preview: your selected illustrations')):null;
+ const artPreviewBanner=artPreviewLabel?`<span class="beta-art-preview-note">✦ ${safe(artPreviewLabel)}</span>`:'';
  const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
- return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><div class='intro-foot'>${w.introSmall}</div></section>`;
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><div class='intro-foot'>${w.introSmall}</div></section>`;
 }
 function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,previewSession=state.session){
   let w=W(),
-      q=practice?{scene:'star',es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:cardData(previewSession),
-      [stem,a,b]=q[state.lang],num=practice?'00':String(index+1).padStart(2,'0');
-  return `<div class="card-top"><span>${practice?w.practiceLabel:(state.lang==='es'?'ATLAS · CARTA ':'ATLAS · CARD ')+num}</span><span class="diamond">✧</span><span>TYPE · XVI</span></div>
-    <div class="card-art beta-art" data-art="${practice?'practice':q.id}">${getCardArt(practice?1:q.id)}</div><h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
+      q=practice?{es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:cardData(previewSession),
+      [stem,a,b]=q[state.lang];
+  // Deck number, not source item ID: preserves correct labels during skipped-item review.
+  const deckNumber=practice?0:experience.order.indexOf(q.id)+1;
+  const num=practice?'00':String(deckNumber).padStart(2,'0');
+  const titleLeft=practice||deckNumber===1?(state.lang==='es'?'Bienvenido':'Welcome'):
+    (state.lang==='es'?'Carta ':'Card ')+num;
+  const id=practice?1:q.id;
+  return `<div class="card-top"><span>${safe(titleLeft)}</span><span>Atlas</span></div>
+    <div class="card-art beta-art" data-art="${practice?'practice':q.id}" data-art-version="${cardArtVersion(id)}">${getCardArt(id,null,cardArtVersion(id))}</div>
+    <h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
     ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
     <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
-    <div class="card-bottom"><span>✧ · TYPE/16</span><span>${practice?'NO. 00':'Q'+String(q.id).padStart(2,'0')}</span></div>`
+    <div class="card-bottom"><span>✧ · TYPE/16</span><span>${practice?'NO. 00':'Q'+String(q.id).padStart(2,'0')}</span></div>`;
 }
 // One shared decorative reverse, for the exposed stack and the card being dealt.
 function reverseFace(){return '<div class="reverse-runes">✦ · ✧ · ✦</div><div class="reverse-sigil">✧<span>TYPE/16</span></div><div class="reverse-runes">✦ · ✧ · ✦</div>'}
