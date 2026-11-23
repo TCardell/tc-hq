@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#181e29">
+<meta name="description" content="TYPE/16 · Prototipo de cartas interactivas, mobile-first y bilingüe.">
+<title>TYPE/16 · Card Atelier — Gesture Lab v11.1</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./legacy-manifest.webmanifest">
+<style>
+/* Fully self-contained: native fonts; no external assets or requests. */
+:root{--ink:#171c27;--ink2:#242b39;--cream:#efe7d8;--paper:#e8ddc6;--gold:#d7ad73;--muted:#a7abac;--soft:#d9c4a2;--red:#9e5f62;--teal:#456b67;--mono:'DM Mono',Consolas,monospace;--serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}html{min-height:100%;background:var(--ink)}body{margin:0;min-height:100svh;background:radial-gradient(ellipse 95% 68% at 50% 20%,#303747 0%,#1b222d 62%,#171c27 100%);font-family:var(--sans);color:#f1e7d8;-webkit-font-smoothing:antialiased}body:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");z-index:20;mix-blend-mode:soft-light}
+button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid #e9bd83;outline-offset:4px}a{color:inherit}button:disabled{opacity:.32;cursor:default}.app{min-height:100svh;max-width:520px;margin:0 auto;display:flex;flex-direction:column;padding:calc(13px + env(safe-area-inset-top)) max(17px,env(safe-area-inset-right)) calc(13px + env(safe-area-inset-bottom)) max(17px,env(safe-area-inset-left));gap:0}.masthead{height:50px;display:flex;align-items:center;justify-content:space-between;flex:none}.brand{display:flex;align-items:center;gap:9px;font:500 14px/1 var(--serif);letter-spacing:.055em}.brand-mark{height:26px;width:22px;border:1px solid #a9957b;border-radius:3px;display:grid;place-items:center;color:#d7b991;font-size:16px;transform:rotate(-8deg)}.brand strong{font-size:17px;font-weight:500;color:#fff3de}.slash{color:#c6a87e}.top-right{display:flex;align-items:center;gap:7px}.quiet-btn{height:35px;min-width:38px;padding:0 10px;border:1px solid #ffffff26;border-radius:8px;background:#ffffff08;color:#d9d2c9;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:500 11px/1 var(--mono);letter-spacing:.04em}.quiet-btn:hover,.quiet-btn:active{background:#ffffff1d;border-color:#d8b78a88}.quiet-btn svg{width:15px;height:15px;stroke:currentColor}.section-label{font:500 9px/1.55 var(--mono);letter-spacing:.21em;text-transform:uppercase;color:#baab95}.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.intro{flex:1;min-height:550px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 5px 35px}.intro-eyebrow{margin:24px 0 9px;font:500 10px var(--mono);letter-spacing:.3em;color:#d4b991;text-transform:uppercase}.intro-title{font:500 clamp(65px,15vw,87px)/.95 var(--serif);margin:0 0 19px;letter-spacing:-.07em;color:#f8eedd}.intro-title span{color:#cda36c}.intro-desc{font:400 16px/1.6 var(--sans);max-width:325px;color:#d8d0c5;margin:0 0 9px}.intro-desc.smaller{font-size:13px;color:#b8b5b6;margin-bottom:25px}.start-btn{width:min(100%,326px);min-height:56px;background:#dec59a;color:#292a2d;border:1px solid #f4dfba;border-radius:11px;letter-spacing:.03em;font-weight:700;display:flex;justify-content:center;align-items:center;gap:15px;box-shadow:0 12px 30px #0004;transition:background .17s,transform .17s}.start-btn:hover{background:#f2d5a5;transform:translateY(-2px)}.start-btn:active{transform:translateY(1px)}.start-btn svg{width:17px}.intro-foot{font:400 11px/1.55 var(--mono);color:#aeb0b1;margin-top:20px;max-width:315px}.hero-stack{position:relative;width:215px;height:240px;filter:drop-shadow(0 21px 28px #0006);margin:20px 0 3px}.hero-back{position:absolute;width:166px;height:224px;border:1px solid #bf9f6f;border-radius:10px;left:25px;top:8px;background:linear-gradient(135deg,#304455,#171d2b);transform:rotate(-14deg)}.hero-back:nth-child(2){background:#755c60;transform:rotate(12deg)}.hero-front{position:absolute;width:168px;height:225px;left:23px;top:6px;border:3px double #b98f5d;border-radius:10px;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}.hero-front:before{content:'';position:absolute;inset:7px;border:1px solid #aa856449;border-radius:4px}.hero-front svg{width:142px;height:184px}.hero-front .serial{position:absolute;bottom:14px;font:500 9px var(--mono);color:#6c5141;letter-spacing:.2em}.stage{flex:1;min-height:0;display:flex;flex-direction:column}.progress-block{padding:4px 1px 13px;flex:none}.progress-label{font:500 10px var(--mono);letter-spacing:.09em;color:#d6cbb9}.progress-line{height:2px;background:#c8ae8b35;margin-top:11px;position:relative}.progress-line-fill{height:100%;width:0;background:#e0bb83;transition:width .35s ease}.status-dots{display:flex;align-items:center;gap:4px}.status-dots i{display:block;width:3px;height:3px;background:#9a8e7c;border-radius:50%}.status-dots i:nth-child(1){background:#dfbc83}.deck-area{position:relative;flex:1;min-height:350px;max-height:620px;isolation:isolate;display:flex;align-items:stretch;justify-content:center;padding:8px 8px 14px}.deck-layer{position:absolute;inset:15px 16px 19px;pointer-events:none;border:1px solid #bfa982;border-radius:15px;background:linear-gradient(145deg,#c9bca4,#8f8070);box-shadow:0 13px 18px #0002;transition:transform .25s,opacity .25s}.deck-layer.back{transform:translate(2px,8px) rotate(3.7deg);opacity:.4}.deck-layer.mid{transform:translate(-2px,4px) rotate(-2.6deg);opacity:.75;background:linear-gradient(160deg,#d7c3a3,#a08d77)}.card{z-index:2;position:relative;width:100%;min-width:0;background:linear-gradient(157deg,#f1e8d7 0%,#e4d7be 70%,#eadfc9 100%);border:1px solid #d8c096;border-radius:14px;color:#2e2b2e;touch-action:none;user-select:none;cursor:grab;transform-origin:50% 90%;box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset;will-change:transform,opacity;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .4s cubic-bezier(.19,1,.23,1),box-shadow .2s}.card.dragging{transition:none;cursor:grabbing;box-shadow:0 32px 74px #03060f9c}.card.entering{animation:card-in .48s cubic-bezier(.18,.88,.23,1.15) both}.card.is-leaving{transition:transform .31s cubic-bezier(.4,.1,.8,.37),opacity .31s ease;opacity:0;pointer-events:none}.card:after{content:'';pointer-events:none;position:absolute;inset:8px;border:1px solid #a67d5444;border-radius:8px}.card:before{content:'';pointer-events:none;position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 4px,#754b3b05 5px);mix-blend-mode:multiply}.card-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:21px 26px 2px;font:500 9px var(--mono);letter-spacing:.11em;color:#846b51}.card-top .diamond{font:18px var(--serif);line-height:10px;color:#a58154}.card-art{width:min(100% - 50px,320px);height:clamp(108px,25vh,175px);margin:2px auto 0;display:grid;place-items:center;position:relative;flex-shrink:1;overflow:hidden;border-radius:95px 95px 6px 6px;background:linear-gradient(180deg,#ddd0b8 0%,#e7d8bc 90%);box-shadow:inset 0 1px 15px #9c80502e}.card-art svg{height:100%;max-width:100%;filter:drop-shadow(0 5px 1px #4b403128)}.card-question{margin:0 25px;font:500 clamp(19px,5.2vw,25px)/1.17 var(--serif);text-align:center;color:#3b3435;letter-spacing:-.035em;flex-shrink:0}.card-options{display:grid;grid-template-columns:1fr 18px 1fr;gap:8px;align-items:stretch;margin:0 19px 15px;min-height:70px}.option{border-top:1px solid #a78c6d;padding:10px 5px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}.option .ab{font:500 9px var(--mono);letter-spacing:.13em;color:#917452}.option .copy{font:600 clamp(12px,3.35vw,15px)/1.23 var(--sans);color:#423a35;hyphens:auto;overflow-wrap:anywhere}.option-mid{display:grid;place-items:center;color:#b29978;font:16px var(--serif)}.card-bottom{border-top:1px solid #aa94736e;display:flex;justify-content:space-between;align-items:center;margin:0 24px 15px;padding-top:10px;font:500 8px var(--mono);color:#947d5f;letter-spacing:.2em}.seal{position:absolute;left:50%;top:17%;transform:translate(-50%,-50%) rotate(-11deg) scale(.82);border:3px double #8b4f54;border-radius:8px;padding:11px 13px;opacity:0;pointer-events:none;z-index:7;font:800 clamp(19px,6vw,27px)/1 var(--sans);letter-spacing:.08em;color:#86434a;background:#fff5e06b;text-align:center;transition:opacity .13s,transform .13s;white-space:nowrap;box-shadow:0 0 0 3px #8b4f541a}.seal.right{color:#386b62;border-color:#386b62;transform:translate(-50%,-50%) rotate(10deg) scale(.82)}.seal.neutral{color:#655e72;border-color:#655e72;transform:translate(-50%,-50%) rotate(-5deg) scale(.82)}.seal.visible{opacity:1;transform:translate(-50%,-50%) rotate(-11deg) scale(1)}.seal.right.visible{transform:translate(-50%,-50%) rotate(10deg) scale(1)}.seal.neutral.visible{transform:translate(-50%,-50%) rotate(-5deg) scale(1)}.gesture-zone{flex:none;padding:1px 5px 0}.feedback{display:flex;align-items:center;justify-content:center;min-height:29px;color:#e1cfb1;font:500 11px var(--mono);letter-spacing:.035em;text-align:center;transition:color .2s}.feedback.highlight{color:#f5d198}.gesture-legend{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:3px auto 13px;font-size:11px;color:#bfc0c1}.gesture-legend span{display:flex;align-items:center;gap:6px}.gesture-legend b{font-size:15px;font-weight:400;color:#ddbb8d}.response-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.response{min-height:52px;border:1px solid #6f6b70;border-radius:9px;background:#ffffff09;color:#eadbc7;display:grid;place-items:center;gap:2px;padding:6px 2px;transition:background .18s,border .18s,transform .18s}.response:hover{background:#ffffff15;border-color:#d5af77}.response:active{transform:scale(.95)}.response strong{font:600 14px var(--serif)}.response small{font:500 clamp(8px,2.2vw,10px)/1.15 var(--sans);color:#c6c0bd;text-align:center}.response.neutral{border-color:#a18c6b}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:11px;padding:13px 3px 3px}.tool{color:#c6bead;background:transparent;border:0;min-height:44px;min-width:65px;padding:0 5px;font:500 12px var(--sans);display:flex;align-items:center;gap:7px}.tool:last-child{justify-content:flex-end}.tool:hover{color:#fff3d8}.tool .ico{font-size:19px;line-height:1}.lab-summary{flex:1;display:flex;flex-direction:column;justify-content:center;gap:19px;padding:12px 3px 25px}.summary-panel{padding:31px 22px;border:1px solid #9b876b;border-radius:16px;background:linear-gradient(160deg,#282e3d,#1d2430);box-shadow:0 14px 38px #0003;text-align:center}.summary-icon{font:43px var(--serif);color:#d0ac7a}.summary-title{font:500 36px/1.08 var(--serif);color:#f1dfbf;margin:14px 0}.summary-copy{font-size:14px;line-height:1.6;color:#d1ccc7;margin:0}.summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:27px}.summary-stat{border-top:1px solid #98826465;padding-top:11px}.summary-stat strong{display:block;font:500 25px var(--serif);color:#e5bd84}.summary-stat span{font-size:10px;color:#bfc0c2}.summary-note{font:400 12px/1.55 var(--sans);color:#adafb3;text-align:center}.lab-actions{display:grid;gap:9px}.lab-actions .start-btn{width:100%;max-width:none}.settings{position:fixed;z-index:40;inset:0;background:#000a;display:grid;align-items:end;justify-items:center;padding:0}.settings[hidden]{display:none}.settings-card{width:min(100%,520px);padding:25px 25px calc(24px + env(safe-area-inset-bottom));border-radius:23px 23px 0 0;background:linear-gradient(165deg,#303848,#202733);border:1px solid #a68a63;box-shadow:0 -12px 36px #0005}.settings-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.settings-head h2{font:500 27px var(--serif);margin:0;color:#f2e0c3}.settings-card p{font-size:13px;line-height:1.6;color:#c6c3c0}.settings-label{font-size:12px;color:#ebd2a9;display:flex;justify-content:space-between;gap:5px;margin-top:21px}.settings-card input{width:100%;accent-color:#dbb882;margin:15px 0 12px;height:28px}.settings-scale{display:flex;justify-content:space-between;color:#a8aab1;font:10px var(--mono)}.settings-tip{margin-top:18px;border-left:2px solid var(--gold);padding-left:12px}.settings-close{border:1px solid #b6a081;background:#e5d3ae;color:#262831;border-radius:10px;min-height:47px;font-weight:700;width:100%;margin-top:18px}.footer{color:#9299a1;font:400 10px/1.5 var(--mono);letter-spacing:.02em;text-align:center;padding:8px 0 0}.hidden{display:none!important}
+@keyframes card-in{from{opacity:.25;transform:translateY(40px) scale(.94) rotate(-4deg)}55%{opacity:1}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@media(max-height:680px){.app{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:calc(5px + env(safe-area-inset-bottom))}.masthead{height:40px}.progress-block{padding-bottom:8px}.deck-area{min-height:310px;padding-top:3px;padding-bottom:7px}.card-top{padding-top:14px}.card-art{height:100px}.card-question{font-size:18px}.card-options{min-height:58px;margin-bottom:8px}.card-bottom{margin-bottom:10px}.response{min-height:45px}.toolbar{padding:5px 3px 0}.gesture-legend{margin-bottom:6px}.footer{padding-top:2px}}
+@media(max-width:350px){.app{padding-left:11px;padding-right:11px}.card-question{font-size:18px;margin:0 17px}.card-options{margin-left:13px;margin-right:13px}.card-top{padding-left:18px;padding-right:18px}.card-bottom{margin-left:18px;margin-right:18px}.option .copy{font-size:12px}.deck-area{min-height:335px}}
+@media(min-width:700px){.app{min-height:100vh;padding-top:22px;padding-bottom:24px}.deck-area{max-height:580px}.card-art{height:185px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* TYPE/16 GESTURE LAB V3 · immersive portrait format / static feedback */
+html{min-height:100%;overscroll-behavior-y:none}
+.app{min-height:100dvh}
+.app.playing{padding-top:calc(7px + env(safe-area-inset-top));padding-bottom:calc(7px + env(safe-area-inset-bottom));max-width:510px}
+.app.playing .stage{flex:1;min-height:0}
+.app.playing .deck-area{flex:1;min-height:330px;max-height:none;padding:7px 7px 7px}
+.app.playing .deck-layer{inset:14px 14px 14px}
+.app.playing .card{border-radius:15px;min-height:0}
+.app.playing .card-top{padding:18px 22px 0}
+.app.playing .card-art{width:min(calc(100% - 34px),360px);height:clamp(115px,25dvh,220px);margin:9px auto 0;flex-shrink:1;min-height:105px}
+.app.playing .card-question{margin:0 21px;font-size:clamp(19px,5.1vw,26px)}
+.app.playing .card-options{margin:0 17px 10px;min-height:78px;gap:8px}
+.app.playing .card-bottom{margin:0 20px 13px;padding-top:7px}
+.app.playing .gesture-zone{padding:6px 0 0;display:grid;gap:7px}
+.response-banner{height:62px;min-height:62px;border:1px solid #b49973;border-radius:11px;
+ background:linear-gradient(120deg,#323d4e,#202837 72%);box-shadow:inset 0 1px #d6b58c2e,0 6px 22px #0003;
+ display:grid;grid-template-columns:34px 1fr 34px;align-items:center;gap:5px;padding:5px 12px;text-align:center;
+ transition:background .15s ease,border-color .15s,box-shadow .15s}
+.banner-ornament{font:22px Georgia,serif;color:#bda27c}
+.banner-text{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+.banner-kicker{font:500 9px/1.1 var(--mono);letter-spacing:.24em;color:#c9b495}
+.response-banner #feedback{font:600 clamp(15px,4.3vw,21px)/1.25 var(--serif);color:#f5e7ce;letter-spacing:.015em;min-height:25px}
+.response-banner.selected{border-color:#e0bb85;box-shadow:inset 0 1px #f1dcb858,0 8px 25px #0005}
+.response-banner.selected.left{background:linear-gradient(120deg,#583844,#242d3b 80%)}
+.response-banner.selected.right{background:linear-gradient(120deg,#274a48,#242d3b 80%)}
+.response-banner.selected.neutral{background:linear-gradient(120deg,#464253,#242d3b 80%)}
+.response-banner.selected.strong{border-color:#f0d39b}
+.response-banner.selected.strong #feedback{font-size:clamp(18px,5.1vw,24px);color:#ffe7b4}
+.app.playing .response-row{gap:6px}
+.app.playing .response{min-height:54px;border-radius:10px;padding:5px 1px;background:#ffffff07}
+.app.playing .response strong{font-size:18px}
+.app.playing .response small{font-size:clamp(9px,2.3vw,11px)}
+.app.playing .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0}
+.app.playing .tool{display:flex;align-items:center;justify-content:center;gap:10px;min-height:47px;padding:7px 12px;
+ border:1px solid #746b6c;border-radius:11px;background:#ffffff0d;color:#eee0ca;font-weight:700;font-size:13px}
+.app.playing .tool:last-child{justify-content:center}
+.app.playing .tool:hover{background:#ffffff1c;border-color:#d4b485}
+.app.playing .tool .ico{font-size:23px}
+.play-dock{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:35px}
+.stage-progress{display:flex;flex:1;align-items:center;gap:9px;min-width:0}
+.deck-counter{white-space:nowrap;font:500 10px var(--mono);color:#c0b3a0;letter-spacing:.1em}
+.progress-mini{height:2px;max-width:90px;flex:1;border-radius:8px;background:#d0c09b45;overflow:hidden}
+.progress-mini span{display:block;height:100%;background:#deb77f;transition:width .24s}
+.dock-buttons{display:flex;gap:6px;align-items:center}
+.dock-btn{display:grid;place-items:center;min-width:36px;height:35px;padding:0 7px;background:#ffffff08;
+ color:#d7c5ad;border:1px solid #ffffff36;border-radius:8px;font:500 10px var(--mono)}
+.dock-btn svg{width:17px;height:17px;stroke:currentColor}
+.dock-btn:hover{background:#ffffff20}
+.intro-fullscreen{margin-top:-6px;min-height:44px;background:none;border:0;color:#d5c3a6;text-decoration:underline;text-underline-offset:5px;font-size:13px}
+.settings-toggle{display:flex;align-items:center;gap:12px;margin-top:14px;color:#e6d5b8;font-size:12px;line-height:1.45}
+.settings-toggle input{width:20px;height:20px;accent-color:#d3b381;margin:0;flex:none}
+.settings-card{max-height:min(92dvh,780px);overflow-y:auto}
+.tutorial-screen{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:13px;padding:10px 6px 24px}
+.tutorial-emblem{font:42px Georgia,serif;color:var(--gold)}
+.tutorial-screen h1{font:500 clamp(29px,8vw,39px)/1.08 var(--serif);color:#f2dfbf;margin:0}
+.tutorial-lead{font-size:14px;line-height:1.5;color:#d4cbc1;margin:0;max-width:320px}
+.tutorial-compass{position:relative;display:grid;grid-template-columns:1fr 120px 1fr;grid-template-rows:45px 110px 45px;
+ width:min(100%,310px);align-items:center;justify-items:center;color:#d7c6a6}
+.tutorial-compass span{display:flex;align-items:center;flex-direction:column;font:25px Georgia,serif;gap:3px}
+.tutorial-compass small{font:600 10px var(--sans);color:#c4b9ac}
+.compass-up{grid-column:2;grid-row:1}.compass-left{grid-column:1;grid-row:2}.compass-card{grid-column:2;grid-row:2;
+ width:95px;height:108px;border:3px double #bca17a;border-radius:8px;background:#ddd0b5;color:#8c5c56;justify-content:center;box-shadow:0 8px 18px #0005}
+.compass-card small{color:#6f5b4a}.compass-right{grid-column:3;grid-row:2}.compass-down{grid-column:2;grid-row:3}
+.tutorial-steps{border:1px solid #bfa57d6f;border-radius:11px;text-align:left;padding:11px 16px;background:#ffffff08;width:min(100%,360px)}
+.tutorial-steps p{font-size:12px;line-height:1.55;margin:6px 0;color:#e7d9c2}
+.tutorial-steps p+ p{border-top:1px solid #ffffff18;padding-top:7px}
+.tutorial-note{color:#bfc1c0;font-size:11px;max-width:320px;line-height:1.5;margin:0 0 4px}
+.tutorial-screen .start-btn{flex-shrink:0}
+@media(max-height:720px){
+ .app.playing .deck-area{min-height:295px;padding:4px 5px}
+ .app.playing .card-art{height:clamp(90px,20dvh,135px);min-height:85px;margin-top:3px}
+ .app.playing .card-top{padding-top:13px}
+ .app.playing .card-question{font-size:clamp(17px,5vw,22px)}
+ .app.playing .card-options{min-height:55px;margin-bottom:7px}
+ .app.playing .card-bottom{margin-bottom:8px}
+ .app.playing .gesture-zone{gap:5px}
+ .response-banner{height:54px;min-height:54px}
+ .app.playing .response{min-height:46px}
+ .app.playing .tool{min-height:44px}
+ .play-dock{min-height:32px}
+}
+@media(max-width:350px){
+ .app.playing .card-art{width:calc(100% - 30px)}
+ .app.playing .card-options{margin-left:10px;margin-right:10px;gap:5px}
+ .app.playing .card-question{margin-left:14px;margin-right:14px}
+ .response-banner{grid-template-columns:22px 1fr 22px;padding-left:7px;padding-right:7px}
+ .tutorial-compass{grid-template-columns:1fr 110px 1fr;width:100%}
+}
+@media(prefers-reduced-motion:reduce){.response-banner,.progress-mini span{transition:none!important}}
+/* TYPE/16 V4 — performance, live practice card and compact viewport layout */
+body.in-deck::before{display:none} /* costly fixed noise blend does not repaint during drags */
+.app.playing{height:100dvh;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}
+.app.playing .stage{min-height:0;flex:1}
+.app.playing .deck-area{min-height:240px;flex:1;max-height:none;overflow:visible}
+.app.playing .card{min-height:0;backface-visibility:hidden;contain:layout paint style;transform:translate3d(0,0,0);}
+.app.playing .card.dragging{box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset}
+.app.playing .card:before{mix-blend-mode:normal}
+.app.playing .response-banner{height:auto;min-height:62px;overflow:visible;padding:8px 10px}
+.app.playing .banner-text{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.app.playing .banner-kicker{line-height:1.35}
+.app.playing .response-banner #feedback{min-height:0;line-height:1.22;overflow-wrap:anywhere}
+.app.playing .gesture-zone{min-width:0;padding:5px 1px 0}
+.app.playing .toolbar{flex-shrink:0}
+.gesture-stamp{position:absolute;z-index:10;top:15%;width:max-content;max-width:46%;padding:10px 11px;opacity:0;pointer-events:none;
+ border:3px double #844c51;border-radius:8px;color:#844c51;background:#f8edd5f5;box-shadow:0 5px 10px #4f3d3424;
+ font:800 clamp(14px,4.1vw,20px)/1.16 var(--sans);letter-spacing:.01em;text-align:center;
+ transform:translate3d(0,-5px,0) rotate(-6deg);transition:opacity .13s ease,transform .13s ease;}
+.gesture-stamp.visible{opacity:1;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-right{right:12px;left:auto;transform:translate3d(0,0,0) rotate(6deg)}
+.gesture-stamp.on-left{left:12px;right:auto;border-color:#3f746c;color:#35665e;transform:translate3d(0,0,0) rotate(-6deg)}
+.gesture-stamp.on-center{left:50%;right:auto;max-width:65%;transform:translate3d(-50%,0,0) rotate(-4deg);border-color:#716479;color:#64536e}
+.gesture-stamp.strong{font-size:clamp(17px,4.6vw,23px);border-width:4px}
+.practice-guide{margin:-9px 18px 0;text-align:center;color:#806a50;font-size:clamp(10px,2.8vw,12px);font-weight:650;line-height:1.3}
+.app.playing .card.practice-idle{animation:practice-wiggle 3.5s ease-in-out infinite;will-change:transform}
+@keyframes practice-wiggle{0%,10%,90%,100%{transform:translate3d(0,0,0) rotate(0)}23%{transform:translate3d(-17px,0,0) rotate(-2.6deg)}43%{transform:translate3d(14px,0,0) rotate(2.2deg)}61%{transform:translate3d(-8px,0,0) rotate(-1.1deg)}74%{transform:translate3d(0,0,0) rotate(0)}}
+@media(max-height:710px){
+ .app.playing .deck-area{min-height:215px}
+ .app.playing .card-top{padding-top:12px}
+ .app.playing .card-art{height:clamp(65px,16dvh,115px);min-height:65px;margin-top:1px}
+ .app.playing .card-question{font-size:clamp(16px,4.7vw,21px);line-height:1.12}
+ .app.playing .card-options{min-height:47px;margin-bottom:5px}
+ .app.playing .card-bottom{margin-bottom:7px;padding-top:5px}
+ .app.playing .response-banner{min-height:54px;padding:5px 8px}
+ .app.playing .response{min-height:43px}
+ .app.playing .tool{min-height:42px}
+ .app.playing .play-dock{min-height:31px}
+ .app.playing .gesture-zone{gap:5px}
+ .practice-guide{margin:-6px 10px 0;font-size:10px}
+}
+@media(max-height:590px){
+ .app.playing{padding-top:3px;padding-bottom:calc(3px + env(safe-area-inset-bottom))}
+ .app.playing .deck-area{min-height:195px;padding:2px 4px}
+ .app.playing .card-top{padding-top:8px}
+ .app.playing .card-art{height:65px;min-height:45px}
+ .app.playing .card-question{font-size:clamp(14px,4.5vw,18px)}
+ .app.playing .card-options{min-height:40px}
+ .app.playing .card-bottom{margin-bottom:4px}
+ .app.playing .response-banner{min-height:49px}
+ .app.playing .response{min-height:40px}
+ .app.playing .tool{min-height:38px}
+ .app.playing .play-dock{min-height:29px}
+}
+@media(prefers-reduced-motion:reduce){.app.playing .card.practice-idle{animation:none!important}.gesture-stamp{transition:none!important}}
+\n/* TYPE/16 V5: fixed response panel and genuine face-down / flip-deal choreography. */
+.app.playing .response-banner{height:64px;min-height:64px;max-height:64px;overflow:hidden;padding:5px 9px}
+.app.playing .banner-text{display:grid;grid-template-rows:12px 33px;align-content:center;gap:2px;min-width:0;overflow:hidden}
+.app.playing .banner-kicker{font-size:9px;line-height:12px;white-space:nowrap}
+.app.playing .response-banner #feedback{display:grid;place-content:center;height:33px;min-height:33px;max-height:33px;font:650 clamp(13px,3.7vw,18px)/1.13 var(--serif);overflow:hidden;overflow-wrap:anywhere;text-align:center}
+.app.playing .response-banner.selected.strong #feedback{font-size:clamp(13px,3.7vw,18px);font-weight:800}
+.app.playing .card{overflow:visible;background:transparent;border:none;box-shadow:none;contain:layout style;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;backface-visibility:visible;-webkit-backface-visibility:visible}
+.app.playing .card::before,.app.playing .card::after{content:none}
+.app.playing .card-front,.app.playing .card-reverse{position:absolute;inset:0;border-radius:15px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.app.playing .card-front{display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;color:#2e2b2e;background:linear-gradient(157deg,#f1e8d7 0%,#e4d7be 70%,#eadfc9 100%);border:1px solid #d8c096;box-shadow:0 27px 44px #080d1759,0 2px 2px #ffffff62 inset}
+.app.playing .card-front::after{content:'';pointer-events:none;position:absolute;inset:8px;border:1px solid #a67d5444;border-radius:8px}
+.app.playing .card-reverse{display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:25px 13px;background:repeating-linear-gradient(35deg,transparent 0 19px,#f1e3c908 20px 21px),linear-gradient(135deg,#29394b,#473e4e 55%,#29384a);border:4px double #dbb783;transform:rotateY(180deg);box-shadow:inset 0 0 0 7px #1c2436,0 21px 45px #0006;color:#efdbb6}
+.app.playing .card-reverse::after{content:'';position:absolute;inset:15px;border:1px solid #d9b88a99;border-radius:6px;pointer-events:none}
+.reverse-runes{font:500 15px Georgia,serif;letter-spacing:.8em;color:#d4af83}
+.reverse-sigil{display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center;border:2px solid #d8b787;width:min(51%,180px);aspect-ratio:1;border-radius:50%;font:76px Georgia,serif;line-height:1;box-shadow:0 0 0 13px #d3ac6e17;color:#edce9c}
+.reverse-sigil span{font:700 clamp(12px,3vw,16px) Georgia,serif;letter-spacing:.15em}
+.app.playing .deck-area{perspective:1100px;-webkit-perspective:1100px}
+.app.playing .deck-layer.mid{overflow:hidden;background:repeating-linear-gradient(35deg,#313c4c 0 17px,#3b4653 18px 19px);border:3px double #e2c08b;box-shadow:inset 0 0 0 10px #222d3d,0 12px 23px #0005}
+.app.playing .deck-layer.mid::before{content:'✧';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:100px Georgia,serif;color:#c9aa7f;border:2px solid #bb9769;border-radius:50%;width:154px;height:154px;display:grid;place-content:center}
+.app.playing .deck-layer.mid::after{content:'TYPE / 16';position:absolute;top:68%;left:50%;transform:translateX(-50%);font:600 13px Georgia,serif;letter-spacing:.22em;color:#ead0a5;white-space:nowrap}
+@keyframes tarot-deal{0%{transform:translate3d(0,16px,0) rotateY(-180deg) scale(.975)}55%{transform:translate3d(0,8px,0) rotateY(-91deg) scale(.988)}100%{transform:translate3d(0,0,0) rotateY(0deg) scale(1)}}
+.app.playing .card.deal-flip{animation:tarot-deal .62s cubic-bezier(.22,.68,.12,1) both}
+.app.playing .card.dragging{box-shadow:none}
+@media(max-height:710px){.app.playing .response-banner{height:57px;min-height:57px;max-height:57px;padding:3px 7px}.app.playing .banner-text{grid-template-rows:10px 31px;gap:1px}.app.playing .response-banner #feedback{height:31px;min-height:31px;max-height:31px;font-size:clamp(12px,3.4vw,16px)}.app.playing .response-banner.selected.strong #feedback{font-size:clamp(12px,3.4vw,16px)}}
+@media(prefers-reduced-motion:reduce){.app.playing .card.deal-flip{animation:none!important}}
+
+/* Cross-browser two-face flip: avoid mirrored front faces on mobile WebView/Chromium. */
+.app.playing .card{transform-style:flat;-webkit-transform-style:flat}
+.app.playing .card-reverse{transform:none;opacity:0;visibility:hidden}
+@keyframes tarot-deal-safe{0%{transform:translate3d(0,12px,0) scaleX(.975)}42%{transform:translate3d(0,9px,0) scaleX(.12)}50%{transform:translate3d(0,8px,0) scaleX(.016)}58%{transform:translate3d(0,7px,0) scaleX(.12)}100%{transform:translate3d(0,0,0) scaleX(1)}}
+@keyframes tarot-back-visible{0%,49.9%{opacity:1;visibility:visible}50%,100%{opacity:0;visibility:hidden}}
+@keyframes tarot-front-visible{0%,49.9%{opacity:0;visibility:hidden}50%,100%{opacity:1;visibility:visible}}
+.app.playing .card.deal-flip{animation:tarot-deal-safe .62s cubic-bezier(.4,.12,.25,1) both}
+.app.playing .card.deal-flip .card-front{animation:tarot-front-visible .62s steps(1,end) both}
+.app.playing .card.deal-flip .card-reverse{animation:tarot-back-visible .62s steps(1,end) both}
+@media(prefers-reduced-motion:reduce){.app.playing .card.deal-flip .card-front,.app.playing .card.deal-flip .card-reverse{animation:none!important}}
+
+/* TYPE/16 V6 — desktop stage is behind the foreground cards, never above them. */
+.desktop-scenery{display:none;pointer-events:none}
+@media (min-width:760px){
+  .desktop-scenery{display:block;position:fixed;inset:0;opacity:0;z-index:0;overflow:hidden;transition:opacity .36s ease;pointer-events:none}
+  .desktop-scenery>svg{display:block;width:100%;height:100%;object-fit:cover}
+  .desktop-scenery .scenery-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 58% 75% at 50% 51%,#0b12202b 0%,#0b122052 74%,#0b12207a 100%)}
+  body.in-deck .desktop-scenery{opacity:1}
+  .app{position:relative;z-index:1}
+  .app.playing{overflow:visible}
+  .app.playing .stage{position:relative;z-index:2}
+  .app.playing .deck-area{position:relative;z-index:3}
+  .app.playing .card{z-index:5}
+}
+/* Avoid motion-fill overriding the following drag style even if the animation timer is delayed. */
+.app.playing .card.dragging{animation:none!important}
+.app.playing .card.dragging .card-front,.app.playing .card.dragging .card-reverse{animation:none!important}
+@media(prefers-reduced-motion:reduce){.desktop-scenery{transition:none}}
+
+/* TYPE/16 V7 — preserve physical card proportions at low browser zoom.
+   Desktop viewport may be thousands of CSS pixels; do not stretch a card to fill its height. */
+@media (min-width:760px){
+  .app.playing .deck-area{
+    align-items:center;
+    justify-content:center;
+  }
+  .app.playing .card{
+    flex:0 0 auto;
+    width:min(100%, 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio: .69;
+    height:auto;
+    min-height:0;
+    align-self:center;
+  }
+  .app.playing .deck-layer{
+    inset:auto;
+    top:50%;
+    left:50%;
+    width:min(calc(100% - 14px), 400px, calc((100dvh - 295px) * .69));
+    aspect-ratio:.69;
+    height:auto;
+  }
+  .app.playing .deck-layer.back{
+    transform:translate(calc(-50% + 2px), calc(-50% + 12px)) rotate(3.7deg);
+  }
+  .app.playing .deck-layer.mid{
+    transform:translate(calc(-50% - 2px), calc(-50% + 6px)) rotate(-2.6deg);
+  }
+}
+/* Reuse the exact same reverse art/layout while it is static and while it turns. */
+.app.playing .card-reverse,.app.playing .deck-layer.mid{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:25px 13px;
+  background:repeating-linear-gradient(35deg,transparent 0 19px,#f1e3c908 20px 21px),linear-gradient(135deg,#29394b,#473e4e 55%,#29384a);
+  border:4px double #dbb783;
+  border-radius:15px;
+  box-shadow:inset 0 0 0 7px #1c2436,0 21px 45px #0006;
+  color:#efdbb6;
+}
+.app.playing .deck-layer.mid{opacity:1}
+.app.playing .deck-layer.mid::before{content:none}
+.app.playing .deck-layer.mid::after{
+  content:'';position:absolute;inset:15px;border:1px solid #d9b88a99;
+  border-radius:6px;pointer-events:none;left:15px;top:15px;transform:none;
+  width:auto;height:auto;font:inherit;color:inherit;white-space:normal;
+}
+/* Larger card alternatives: clear A/B signposts and legible short descriptions. */
+.app.playing .option{gap:6px;padding:8px 4px 6px}
+.app.playing .option .ab{font-size:clamp(13px,3.8vw,17px);font-weight:800;letter-spacing:.08em;line-height:1.1}
+.app.playing .option .copy{font-size:clamp(14px,3.9vw,18px);font-weight:650;line-height:1.22}
+.app.playing .card-options{min-height:84px}
+/* Emphasis without changing layout: the choice panel remains a fixed height. */
+.app.playing .response-banner.selected:not(.strong){
+  border-color:#debb8e;
+  box-shadow:inset 0 0 0 1px #ebcfaa40,0 6px 22px #0003;
+}
+.app.playing .response-banner.selected #feedback{
+  font-weight:750;
+  color:#ffedca;
+  letter-spacing:.012em;
+}
+.app.playing .response-banner.selected.strong{
+  background:linear-gradient(120deg,#74444d,#293a43 55%,#31594f);
+  border-color:#f3cc88;
+  box-shadow:inset 0 0 0 1px #f3d59b8c,0 0 18px #d5a36e29,0 6px 22px #0004;
+}
+.app.playing .response-banner.selected.strong #feedback{
+  font-size:clamp(18px,4.9vw,24px);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.075em;
+  color:#fff0c8;
+  text-shadow:0 0 10px #f8d59373;
+}
+.app.playing .response-banner.selected.strong .banner-ornament{color:#f5d08e;text-shadow:0 0 7px #eed08a80}
+.app.playing .gesture-stamp{
+  font-size:clamp(16px,4.5vw,23px);
+  font-weight:850;
+  border-width:3px;
+  background:#fff4e0fa;
+  box-shadow:0 0 0 2px #bd8d6f55,0 9px 22px #201a1a45;
+  letter-spacing:.025em;
+}
+.app.playing .gesture-stamp.strong{
+  font-size:clamp(20px,5.6vw,29px);
+  font-weight:900;
+  color:#fff4d9;
+  border:4px double #fce1a9;
+  background:linear-gradient(135deg,#7d3c4b,#5b2e40);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  text-shadow:0 2px 3px #1d0f1a75;
+  box-shadow:0 0 0 3px #f7d59b88,0 10px 30px #23141b75;
+}
+.app.playing .gesture-stamp.strong.on-left{background:linear-gradient(135deg,#296a60,#1e504f);color:#fff2d9;border-color:#fce1a9}
+.app.playing .gesture-stamp.strong.on-right{background:linear-gradient(135deg,#8d4352,#603341);color:#fff2d9;border-color:#fce1a9}
+@media(max-height:710px){
+  .app.playing .card-options{min-height:60px}
+  .app.playing .option .ab{font-size:clamp(12px,3.7vw,15px)}
+  .app.playing .option .copy{font-size:clamp(13px,3.7vw,16px)}
+  .app.playing .response-banner.selected.strong #feedback{font-size:clamp(16px,4.2vw,20px)}
+}
+@media(max-height:590px){
+  .app.playing .card-options{min-height:44px}
+  .app.playing .option{gap:3px;padding:3px 3px}
+  .app.playing .option .copy{font-size:clamp(12px,3.6vw,14px)}
+}
+
+
+/* TYPE/16 v7 final legibility pass: compact screens remain readable. */
+.app.playing .option .ab{font-size:clamp(15px,4.1vw,18px)}
+.app.playing .option .copy{font-size:clamp(15px,4.2vw,18px)}
+@media(max-height:710px){
+ .app.playing .option .ab{font-size:clamp(14px,3.9vw,16px)}
+ .app.playing .option .copy{font-size:clamp(14px,4vw,16px)}
+}
+@media(max-height:590px){
+ .app.playing .option .ab{font-size:14px}
+ .app.playing .option .copy{font-size:14px}
+ .app.playing .card-options{min-height:57px}
+}
+
+/* TYPE/16 V8 — keep exiting cards from changing document scroll size.
+   Clip at the browser viewport, NOT at the card column: the card remains
+   above the landscape while moving beyond the central desktop column. */
+html.deck-locked,body.in-deck{
+  height:100%;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+body.in-deck{height:100dvh}
+@media(min-width:760px){.app.playing{overflow:visible}}
+
+/* TYPE/16 V9: A = Atlantic blue, B = verdigris green, soft and strong belong
+   to the same visual family. Strong feedback never mixes the two pigments. */
+.app.playing .response-banner.selected.choice-a{
+  background:linear-gradient(110deg,#294d6c,#243c53 80%);
+  border-color:#80a9c8;
+  box-shadow:inset 0 0 0 1px #9ebed346,0 6px 22px #0003;
+}
+.app.playing .response-banner.selected.choice-b{
+  background:linear-gradient(110deg,#285949,#253e3b 80%);
+  border-color:#78ae8d;
+  box-shadow:inset 0 0 0 1px #a1c8ad45,0 6px 22px #0003;
+}
+.app.playing .response-banner.selected.choice-a.strong{
+  background:linear-gradient(115deg,#315f85 0%,#203e5d 100%);
+  border-color:#a5d8ff;
+  box-shadow:inset 0 0 0 1px #c0e3ff98,0 0 20px #659fc27b,0 7px 25px #071a2e87;
+}
+.app.playing .response-banner.selected.choice-b.strong{
+  background:linear-gradient(115deg,#32755d 0%,#214f41 100%);
+  border-color:#b9efc5;
+  box-shadow:inset 0 0 0 1px #ccf5c5a1,0 0 20px #62b78a72,0 7px 25px #0a261887;
+}
+.app.playing .response-banner.selected.choice-a #feedback{color:#e8f3fc;text-shadow:none}
+.app.playing .response-banner.selected.choice-b #feedback{color:#e9f9ed;text-shadow:none}
+.app.playing .response-banner.selected.choice-a.strong #feedback{
+  color:#f6fbff;text-shadow:0 0 12px #a9dcff98;
+}
+.app.playing .response-banner.selected.choice-b.strong #feedback{
+  color:#f4fff1;text-shadow:0 0 12px #b1f3be9e;
+}
+.app.playing .response-banner.selected.choice-a .banner-ornament{color:#b4d6ed;text-shadow:0 0 7px #8abbe763}
+.app.playing .response-banner.selected.choice-b .banner-ornament{color:#bce0c1;text-shadow:0 0 7px #91cba163}
+
+/* Keep the two floating seals stylistically related: subtle parchment soft,
+   solid blue or green enamel for strongly-held answers. */
+.app.playing .gesture-stamp.choice-a{
+  color:#234e70;border:3px double #5a89ab;
+  background:linear-gradient(140deg,#f3f7f8,#deebf1);
+  box-shadow:0 0 0 2px #8fb1c46b,0 8px 20px #1b3a5340;
+}
+.app.playing .gesture-stamp.choice-b{
+  color:#265a49;border:3px double #5c9678;
+  background:linear-gradient(140deg,#f2f8ee,#dfede1);
+  box-shadow:0 0 0 2px #9dc3a77c,0 8px 20px #173d2940;
+}
+.app.playing .gesture-stamp.choice-a.strong,
+.app.playing .gesture-stamp.strong.on-right.choice-a{
+  color:#f4faff;border:4px double #d4e9f8;
+  background:linear-gradient(140deg,#2b628c,#204568);
+  box-shadow:0 0 0 3px #9bcef1a6,0 0 20px #85bdd57e,0 10px 30px #102c4f92;
+  text-shadow:0 2px 3px #102a4380;
+}
+.app.playing .gesture-stamp.choice-b.strong,
+.app.playing .gesture-stamp.strong.on-left.choice-b{
+  color:#f3fff1;border:4px double #d5f0d6;
+  background:linear-gradient(140deg,#34795c,#21583f);
+  box-shadow:0 0 0 3px #a7e0baa6,0 0 20px #82c9a27e,0 10px 30px #0b382392;
+  text-shadow:0 2px 3px #0d342880;
+}
+.app.playing .response[data-value="1"],.app.playing .response[data-value="2"]{border-color:#7095b0}
+.app.playing .response[data-value="4"],.app.playing .response[data-value="5"]{border-color:#72a586}
+
+/* Incoming flip occupies the same card footprint, behind the outgoing card.
+   It is visual-only until the original card is replaced at animation end. */
+.app.playing .card.incoming-preview{
+  position:absolute!important;
+  z-index:4!important;
+  flex:none!important;
+  pointer-events:none!important;
+  margin:0!important;
+  min-height:0!important;
+}
+
+
+/* TYPE/16 V10: hide the response seal immediately, without collapsing its
+   text and decorated box during the fade (the source of the white flash). */
+.app.playing .gesture-stamp:not(.visible){visibility:hidden;opacity:0;transition:none!important}
+.app.playing .gesture-stamp.visible{visibility:visible}
+
+/* The preview has ALREADY finished turning; never trigger another
+   card-in animation when the preview is replaced by the interactive card. */
+.app.playing .card.settled{animation:none!important;transform:none;opacity:1}
+
+/* An equal toolbar footprint prevents the deck from shifting vertically
+   when the Welcome button labels change into ordinary controls. */
+.app.playing .toolbar{height:52px;min-height:52px}
+.app.playing .toolbar .tool{height:100%;min-height:0}
+
+/* Nothing in the card stack or reverse should ever become selected text. */
+.app.playing .deck-area,.app.playing .deck-area *,
+.app.playing .card,.app.playing .card *{
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none;
+}
+.app.playing .deck-area{-webkit-tap-highlight-color:transparent}
+
+
+/* TYPE/16 V11 — Live answer-button feedback during card gestures.
+   Highlight only the matching button; soft and strong share a visual family
+   with different contrast, never competing for attention. */
+.app.playing .response,.app.playing .toolbar .tool{
+  transition:background-color .12s ease,border-color .12s ease,box-shadow .12s ease,color .12s ease,transform .12s ease;
+}
+.app.playing .response.gesture-active{
+  transform:translateY(-1px);
+  border-width:1px;
+}
+.app.playing .response.gesture-active strong,
+.app.playing .response.gesture-active small{color:#f2f8fa}
+.app.playing .response[data-value="2"].gesture-active{
+  background:#294b68;border-color:#8fb7d6;
+  box-shadow:inset 0 0 0 1px #a1c7df51,0 0 13px #5c9ec03c;
+}
+.app.playing .response[data-value="1"].gesture-active{
+  background:#32668f;border-color:#b5dcf9;
+  box-shadow:inset 0 0 0 1px #d0eaffaa,0 0 18px #77bbec91,0 4px 15px #0b273f55;
+}
+.app.playing .response[data-value="4"].gesture-active{
+  background:#295844;border-color:#85bca1;
+  box-shadow:inset 0 0 0 1px #a3d6b85b,0 0 13px #6eae8350;
+}
+.app.playing .response[data-value="5"].gesture-active{
+  background:#327859;border-color:#c0edcc;
+  box-shadow:inset 0 0 0 1px #d9f6d6a8,0 0 18px #7ad7a68a,0 4px 15px #113a2455;
+}
+.app.playing .response.neutral.gesture-active{
+  background:#57526c;border-color:#c3b6dc;
+  box-shadow:inset 0 0 0 1px #c7b9db73,0 0 12px #a89ccc53;
+}
+.app.playing .toolbar .tool.gesture-active{
+  background:#51455a;color:#f8ecfc;border-color:#c3acd1;
+  box-shadow:inset 0 0 0 1px #bba5cf70,0 0 12px #ab93c351;
+}
+@media(prefers-reduced-motion:reduce){
+ .app.playing .response,.app.playing .toolbar .tool{transition:none!important}
+}
+
+/* TYPE/16 v0.11.1 — long English stamps must fit within the desktop card.
+   Spanish and mobile styles are deliberately unchanged. */
+@media(min-width:760px){
+  html[lang="en"] .app.playing .gesture-stamp:not(.on-center){
+    max-width:calc(100% - 30px);
+    white-space:nowrap;
+  }
+  html[lang="en"] .app.playing .gesture-stamp.strong{
+    font-size:clamp(17px,1.7vw,23px);
+    letter-spacing:.045em;
+  }
+}
+</style>
+</head>
+<body>
+<div class="desktop-scenery" aria-hidden="true">
+<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="type-sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#151d33"/><stop offset=".49" stop-color="#3c4459"/><stop offset=".86" stop-color="#706070"/><stop offset="1" stop-color="#96786b"/></linearGradient>
+  <linearGradient id="type-horizon" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#bf967c" stop-opacity=".72"/><stop offset="1" stop-color="#4b5362" stop-opacity=".06"/></linearGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#type-sky)"/>
+<path d="M0 510Q400 442 810 475T1600 476V900H0Z" fill="url(#type-horizon)"/>
+<circle cx="1270" cy="205" r="72" fill="#e0c59b" opacity=".82"/>
+<circle cx="1270" cy="205" r="95" fill="none" stroke="#e0c59b" opacity=".21" stroke-width="2"/>
+<g fill="#e9cfaa" opacity=".7"><circle cx="110" cy="109" r="2"/><circle cx="290" cy="215" r="1.5"/><circle cx="427" cy="129" r="2"/><circle cx="745" cy="71" r="1.4"/><circle cx="1030" cy="114" r="2.3"/><circle cx="1390" cy="85" r="1.6"/><circle cx="1510" cy="258" r="2"/><circle cx="98" cy="319" r="1.4"/><circle cx="606" cy="194" r="1"/></g>
+<path d="M0 563L160 443 298 521 505 357 700 511 920 385 1147 517 1380 369 1600 523V900H0Z" fill="#465063"/>
+<path d="M0 647L180 552 357 610 538 484 740 613 953 519 1150 634 1420 484 1600 567V900H0Z" fill="#333e50"/>
+<path d="M0 753L225 662 409 706 600 627 807 706 1035 609 1277 702 1475 611 1600 655V900H0Z" fill="#273647"/>
+<path d="M0 815Q210 748 401 787T810 765T1190 773T1600 737V900H0Z" fill="#1b293b"/>
+<g fill="#172739" opacity=".87"><path d="M40 900V610l-42 80h27l-37 78h38l-55 132Z"/><path d="M115 900V635l-49 89h30L61 792h48l-54 108Z"/><path d="M1516 900V600l-43 88h27l-36 79h38l-55 133Z"/><path d="M1580 900V663l-37 75h25l-30 64h32l-48 98Z"/></g>
+<g stroke="#c4a47e" stroke-width="2" fill="none" opacity=".29"><path d="M0 900h1600"/><path d="M58 740Q160 700 260 743"/><path d="M1360 754Q1480 718 1570 757"/></g>
+</svg>
+<div class="scenery-vignette"></div></div>
+<div class="app" id="app"></div>
+<div class="settings" id="settings" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title"><div class="settings-card"><div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" aria-label="Close">✕</button></div><p id="settings-copy"></p><label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label><input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div><label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label><p class="settings-tip" id="settings-tip"></p><button class="settings-close" id="settings-done"></button></div></div>
+<script>
+(()=>{'use strict';
+const KEY='type16.gesture-lab.v5'; // fresh v5 entrance, keeps existing locale + sensitivity
+const rawCards=[
+ {scene:'star',es:['Ante una idea nueva, ¿qué sueles hacer primero?','Explorar posibilidades','Buscar ejemplos concretos'],en:['With a new idea, what do you usually do first?','Explore possibilities','Look for concrete examples']},
+ {scene:'moon',es:['Después de un día lleno de gente…','Necesito tranquilidad','Me apetece seguir socializando'],en:['After a day surrounded by people…','I need some quiet','I feel like socializing more']},
+ {scene:'balance',es:['Para tomar una decisión importante…','Analizo argumentos','Valoro cómo afectará a otros'],en:['To make an important decision…','I analyze arguments','I consider how it affects others']},
+ {scene:'hourglass',es:['Cuando tengo algo importante por hacer…','Prefiero un plan claro','Prefiero dejar espacio a cambios'],en:['When I have something important to do…','I prefer a clear plan','I prefer room for changes']},
+ {scene:'sun',es:['Cuando descubro un tema apasionante…','Pienso en sus posibilidades','Busco sus aplicaciones prácticas'],en:['When I discover a fascinating subject…','I think of its possibilities','I look for practical uses']},
+ {scene:'door',es:['En una reunión con personas nuevas…','Primero observo','Entro pronto en la conversación'],en:['At a gathering with new people…','I observe at first','I join the conversation early']},
+ {scene:'hand',es:['Cuando un amigo te plantea un problema…','Busco una solución','Primero escucho cómo se siente'],en:['When a friend brings you a problem…','I look for a solution','I listen to how they feel first']},
+ {scene:'clock',es:['Si organizas un viaje…','Reservo lo importante','Decido sobre la marcha'],en:['If you plan a trip…','I book the essentials','I decide along the way']}
+];
+const words={
+ es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Prueba la sensibilidad de los gestos y cuánto influye la inclinación. Estos cambios solo afectan al prototipo.',sensitivity:'Umbral de respuesta fuerte',settingsTip:'Prueba primero 150 px. En un gesto diagonal, arriba suaviza y abajo intensifica; si arrastras principalmente en vertical, sigue siendo Neutral o Saltar.',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V11.1',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
+ en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsTip:'Try 150 px first. Diagonally up softens and down intensifies; mostly vertical swipes still mean Neutral or Skip.',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V11.1',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
+};
+const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function detectLanguage(){const pref=navigator.languages?.length?navigator.languages:[navigator.language];for(const p of pref){const v=String(p||'').toLowerCase();if(/^(es|ca|gl|eu)(-|$)/.test(v))return'es';if(/^en(-|$)/.test(v))return'en'}return'en'}
+function load(){
+  const fresh={v:5,lang:detectLanguage(),i:0,answers:[],threshold:150,diagonal:true,started:false,tutorialSeen:false,tutorialActive:false};
+  try{
+    const current=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(current?.v===5 && ['en','es'].includes(current.lang) && Number.isInteger(current.i) && current.i>=0 && current.i<=rawCards.length && Array.isArray(current.answers))return current;
+    const legacy=JSON.parse(localStorage.getItem('type16.gesture-lab.v4')||localStorage.getItem('type16.gesture-lab.v3')||'null');
+    if(legacy?.v===4||legacy?.v===3){
+      if(['en','es'].includes(legacy.lang))fresh.lang=legacy.lang;
+      if(Number.isFinite(legacy.threshold)&&legacy.threshold>=110&&legacy.threshold<=210)fresh.threshold=legacy.threshold;
+      if(typeof legacy.diagonal==='boolean')fresh.diagonal=legacy.diagonal;
+    }
+  }catch{}
+  return fresh;
+}
+ let state=load(),busy=false,revealNext=false,skipNextEntrance=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+const iconGear='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.3"/><path d="M10 2h4l.6 2.3 2.2.9 2.1-1.2 2.7 2.7-1.2 2.1.9 2.2L23 11v2l-2.3.6-.9 2.2 1.2 2.1-2.7 2.7-2.1-1.2-2.2.9L13 23h-2l-.6-2.3-2.2-.9-2.1 1.2-2.7-2.7 1.2-2.1-.9-2.2L1 13v-2l2.3-.6.9-2.2L3 6.1l2.7-2.7 2.1 1.2 2.2-.9z" transform="translate(0 -1) scale(.96)"/></svg>';
+const motifs={
+ star:`<circle cx="110" cy="70" r="56" fill="#b5aa98" opacity=".5"/><path d="M110 11L126 57L174 70L126 84L110 132L95 84L47 70L95 57Z" fill="#a35c56"/><circle cx="110" cy="70" r="16" fill="#e4caa4"/><path d="M23 70H55M165 70H198M110 0V21M110 118V139" stroke="#745d56" stroke-width="2"/>`,
+ moon:`<circle cx="110" cy="74" r="60" fill="#536b77"/><circle cx="137" cy="54" r="55" fill="#dcd1ba"/><path d="M45 120l3-12 3 12 12 3-12 3-3 12-3-12-12-3zM159 114l2-9 2 9 9 2-9 2-2 9-2-9-9-2z" fill="#9d6f5e"/><circle cx="68" cy="29" r="4" fill="#bc9677"/>`,
+ balance:`<path d="M110 12V134M69 33H151M110 18L99 29H121Z" stroke="#526978" stroke-width="7" stroke-linecap="round"/><path d="M52 111H168M110 46L59 89M110 46L161 89" stroke="#526978" stroke-width="3"/><path d="M27 87L59 118L91 87Z" fill="#ab726b"/><path d="M129 87L161 118L193 87Z" fill="#bda174"/><path d="M84 131H136" stroke="#b0796b" stroke-width="11" stroke-linecap="round"/>`,
+ hourglass:`<path d="M66 14H154M66 128H154" stroke="#83585b" stroke-width="8" stroke-linecap="round"/><path d="M75 20C75 48 98 51 110 69C122 51 145 48 145 20ZM75 122C75 94 98 87 110 69C122 87 145 94 145 122Z" fill="#e8c7a0" stroke="#755f59" stroke-width="3"/><path d="M86 40H134L110 66Z" fill="#b47a66"/><path d="M90 116L110 92L130 116Z" fill="#b47a66"/><circle cx="110" cy="79" r="3" fill="#b47a66"/>`,
+ sun:`<circle cx="110" cy="70" r="36" fill="#cc9471"/><circle cx="110" cy="70" r="23" fill="#eac69b"/><g stroke="#a86e62" stroke-width="5" stroke-linecap="round"><path d="M110 10V24M110 117V131M50 70H64M156 70H170M68 28L77 38M143 105L152 115M152 28L143 38M77 105L68 115"/></g>`,
+ door:`<path d="M55 133V22Q110 -19 165 22V133" fill="#af8c74" stroke="#826155" stroke-width="5"/><path d="M72 133V30Q110 1 148 30V133" fill="#344d5e"/><path d="M110 33V133" stroke="#d3ab79" stroke-width="4"/><circle cx="98" cy="89" r="3.5" fill="#f0d4a7"/><circle cx="122" cy="89" r="3.5" fill="#f0d4a7"/><path d="M35 133H185" stroke="#8e7863" stroke-width="3"/>`,
+ hand:`<path d="M72 123L60 94Q54 80 63 75Q71 71 78 82L88 96V38Q88 30 96 30Q104 30 104 38V69V25Q104 16 113 17Q122 17 122 26V69V35Q122 27 130 28Q138 28 138 36V75V52Q138 45 146 46Q154 47 154 55V92Q154 120 131 133H95Z" fill="#c89777" stroke="#855f57" stroke-width="3"/><path d="M104 69V90M122 69V93M138 75V94" stroke="#936a5b" stroke-width="2"/>`,
+ clock:`<circle cx="110" cy="72" r="61" fill="#59757d" stroke="#ae875f" stroke-width="7"/><circle cx="110" cy="72" r="47" fill="#e9dbc4"/><path d="M110 31V72L138 88" stroke="#6c5560" stroke-linecap="round" stroke-width="6" fill="none"/><circle cx="110" cy="72" r="6" fill="#b47667"/><g fill="#88694d"><circle cx="110" cy="37" r="3"/><circle cx="145" cy="72" r="3"/><circle cx="110" cy="107" r="3"/><circle cx="75" cy="72" r="3"/></g>`
+};
+function art(scene){return `<svg viewBox="0 0 220 145" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M21 131 Q110 94 199 131" stroke="#ac8c6d" stroke-width="2" fill="none" opacity=".38"/>${motifs[scene]||motifs.star}</svg>`}
+function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button><button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
+function footer(){return `<footer class="footer">${W().footer}</footer>`}
+function intro(){let w=W();return `<section class="intro"><div class="hero-stack" aria-hidden="true"><div class="hero-back"></div><div class="hero-back"></div><div class="hero-front"><span class="hero-front-svg">${art('sun')}</span><span class="serial">ARCANA · XVI</span></div></div><div class="intro-eyebrow">${w.heroEyebrow}</div><h1 class="intro-title">TYPE<span>/</span>16</h1><p class="intro-desc">${w.tagline}</p><p class="intro-desc smaller">${w.intro}</p><button class="start-btn" data-action="start">${state.i>0?w.resume:w.start} <span aria-hidden="true">→</span></button><button class="intro-fullscreen" data-action="fullscreen">⛶ &nbsp;${w.introFull}</button><div class="intro-foot">${w.introSmall}</div></section>`}
+function cardHTML(index=state.i,practice=state.tutorialActive,preview=false){
+  let w=W(),
+      q=practice?{scene:'star',es:[w.practiceQuestion,w.practiceA,w.practiceB],en:[w.practiceQuestion,w.practiceA,w.practiceB]}:rawCards[index],
+      [stem,a,b]=q[state.lang],num=practice?'00':String(index+1).padStart(2,'0');
+  return `<div class="card-top"><span>${practice?w.practiceLabel:'THE DECK · '+num}</span><span class="diamond">✧</span><span>ARCANA / XVI</span></div>
+    <div class="card-art">${art(q.scene)}</div><h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
+    ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
+    <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
+    <div class="card-bottom"><span>✧ · TYPE/16</span><span>NO. ${num}</span></div>`
+}
+// One shared decorative reverse, for the exposed stack and the card being dealt.
+function reverseFace(){return '<div class="reverse-runes">✦ · ✧ · ✦</div><div class="reverse-sigil">✧<span>TYPE/16</span></div><div class="reverse-runes">✦ · ✧ · ✦</div>'}
+function quiz(){
+  let w=W(),practice=state.tutorialActive,idx=practice?0:state.i+1;
+  return `<section class="stage" aria-label="${w.series}">
+  <div class="deck-area"><div class="deck-layer back" aria-hidden="true"></div><div class="deck-layer mid" aria-hidden="true">${reverseFace()}</div>
+    <article class="card ${revealNext?'deal-flip':skipNextEntrance?'settled':'entering'}" id="card" aria-describedby="card-question"><div class="card-front">${cardHTML()}<div class="gesture-stamp" id="gesture-stamp" aria-hidden="true"></div></div><div class="card-reverse" aria-hidden="true">${reverseFace()}</div></article></div>
+  <div class="gesture-zone">
+    <div class="response-banner" id="response-banner" role="status" aria-live="polite" aria-atomic="true">
+      <span class="banner-ornament" aria-hidden="true">✦</span><div class="banner-text"><span class="banner-kicker">${practice?w.practiceLabel:w.pick}</span><strong id="feedback">${practice?w.practiceMessage:w.pickHint}</strong></div><span class="banner-ornament" aria-hidden="true">✦</span>
+    </div>
+    <div class="response-row" role="group" aria-label="${w.choice}">
+      <button class="response" data-value="1" aria-label="${w.strongA}"><strong>««</strong><small>${w.strongA}</small></button>
+      <button class="response" data-value="2" aria-label="${w.softA}"><strong>‹</strong><small>${w.softA}</small></button>
+      <button class="response neutral" data-value="3" aria-label="${w.neutral}"><strong>◇</strong><small>${w.neutral}</small></button>
+      <button class="response" data-value="4" aria-label="${w.softB}"><strong>›</strong><small>${w.softB}</small></button>
+      <button class="response" data-value="5" aria-label="${w.strongB}"><strong>»»</strong><small>${w.strongB}</small></button>
+    </div>
+    <div class="toolbar">
+      ${practice?`<button class="tool" disabled><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip-practice">${w.practiceSkip}<span class="ico" aria-hidden="true">→</span></button>`:
+       `<button class="tool" data-action="undo" ${state.i===0?'disabled':''}><span class="ico" aria-hidden="true">↶</span>${w.undo}</button><button class="tool" data-action="skip">${w.skip}<span class="ico" aria-hidden="true">↓</span></button>`}
+    </div>
+    <div class="play-dock"><div class="stage-progress" aria-label="${practice?w.practiceCount:w.stageCount} ${idx}/${rawCards.length}"><span class="deck-counter">${practice?w.practiceCount.toUpperCase():w.stageCount.toUpperCase()} · ${String(idx).padStart(2,'0')}/${String(rawCards.length).padStart(2,'0')}</span><span class="progress-mini"><span style="width:${(idx/rawCards.length)*100}%"></span></span></div>
+      <div class="dock-buttons"><button class="dock-btn" data-action="language" aria-label="${w.changeLanguage}">${state.lang.toUpperCase()}</button><button class="dock-btn" data-action="fullscreen" aria-label="${w.full}">⛶</button><button class="dock-btn" data-action="settings" aria-label="${w.settings}">${iconGear}</button></div>
+    </div>
+  </div></section>`
+}
+function summary(){let w=W(),a=state.answers.filter(v=>v===1||v===2).length,b=state.answers.filter(v=>v===4||v===5).length,n=state.answers.filter(v=>v===3).length,skips=state.answers.filter(v=>v===null).length;return `<section class="lab-summary"><div class="section-label">TYPE / 16 · INTERACTION LAB</div><div class="summary-panel"><div class="summary-icon">✷</div><h1 class="summary-title">${w.done}</h1><p class="summary-copy">${w.doneSub}</p><div class="summary-stats"><div class="summary-stat"><strong>${a}</strong><span>${w.countA}</span></div><div class="summary-stat"><strong>${b}</strong><span>${w.countB}</span></div><div class="summary-stat"><strong>${n}</strong><span>${w.countN}</span></div></div></div><p class="summary-note">${skips} ${w.skip.toLowerCase()} · ${state.answers.filter(v=>v===1||v===5).length} ${w.strong.toLowerCase()}<br>${w.introSmall}</p><div class="lab-actions"><button class="start-btn" data-action="restart">${w.again} →</button><button class="quiet-btn" data-action="settings">${iconGear} ${w.settings}</button></div></section>`}
+function draw(){
+  document.documentElement.lang=state.lang;
+  const play=state.started && state.i<rawCards.length;
+  app.classList.toggle('playing',play);
+  document.body.classList.toggle('in-deck',play);
+  document.documentElement.classList.toggle('deck-locked',play);
+  app.innerHTML=(play?'':masthead())+(state.i>=rawCards.length?summary():play?quiz():intro())+(play?'':footer());
+  if(play){
+    bindPointer();
+    if(state.tutorialActive)armPracticeSway();
+    const card=document.querySelector('#card');
+    if(card?.classList.contains('deal-flip')){
+      const settle=()=>card.classList.remove('deal-flip');
+      card.addEventListener('animationend',event=>{
+        if(event.target===card && event.animationName==='tarot-deal-safe')settle();
+      });
+      window.setTimeout(settle,680); // Cross-browser fallback if animationend never fires.
+    }
+  }
+  revealNext=false;
+  skipNextEntrance=false;
+}
+function armPracticeSway(){
+  const card=document.querySelector('#card');
+  if(!card||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  setTimeout(()=>{if(card.isConnected && state.tutorialActive && !busy && !card.classList.contains('dragging')){card.classList.remove('entering');card.classList.add('practice-idle')}},1150);
+}
+function finishPractice(previewAlreadyFlipped=false){state.tutorialActive=false;state.tutorialSeen=true;state.started=true;revealNext=!previewAlreadyFlipped;skipNextEntrance=previewAlreadyFlipped;persist();draw()}
+
+
+function showChoice(choice,hint=W().pickHint){
+  const fb=document.querySelector('#feedback');
+  const banner=document.querySelector('#response-banner');
+  const stamp=document.querySelector('#gesture-stamp');
+  if(!fb||!banner||!stamp)return;
+  // The selected control mirrors the live answer banner, including changes
+  // between a short and a long drag. No response is stored until release.
+  const active=choice?(choice.value===null?
+    document.querySelector('.toolbar [data-action="skip"],.toolbar [data-action="skip-practice"]'):
+    document.querySelector('.response[data-value="'+choice.value+'"]')):null;
+  document.querySelectorAll('.response.gesture-active,.toolbar .tool.gesture-active').forEach(button=>{
+    if(button!==active)button.classList.remove('gesture-active');
+  });
+  if(active)active.classList.add('gesture-active');
+  if(!choice){
+    fb.textContent=hint;
+    banner.className='response-banner';
+    // Keep the existing content, width, position and color while hiding.
+    // Erasing the text and side classes during opacity transition created
+    // a tiny pale square in the card's upper left corner.
+    stamp.classList.remove('visible');
+    return;
+  }
+  fb.textContent=choice.text;
+  const side=choice?.side==='left'?'choice-a':choice?.side==='right'?'choice-b':'neutral';
+  banner.className='response-banner'+(choice?' selected '+side+(choice.strong?' strong':''):'');
+  stamp.textContent=choice?choice.text:'';
+  stamp.className='gesture-stamp'+(choice?' visible '+(choice.side==='left'?'on-right choice-a':choice.side==='right'?'on-left choice-b':'on-center')+(choice.strong?' strong':''):'');
+}
+
+function record(value,exitX=0,exitY=0){
+  if(busy)return;
+  busy=true;
+  const practice=state.tutorialActive;
+  const card=document.querySelector('#card');
+  // Buttons and gestures use the same visible decision feedback.
+  const label=value===null?W().skip:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1];
+  showChoice({value,text:label,side:value===1||value===2?'left':value===4||value===5?'right':'neutral',strong:value===1||value===5});
+
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const nextIndex=practice?state.i:state.i+1;
+  const hasNext=nextIndex<rawCards.length;
+  let completed=false,previewStarted=false,previewAt=0,previewTimer=0;
+
+  // The incoming card starts turning while the previous card is still leaving.
+  // It stays behind the outgoing card and is never interactive until the change.
+  const beginPreview=()=>{
+    previewTimer=0;
+    if(completed||!hasNext||!card?.isConnected||reduced)return;
+    const deck=document.querySelector('.deck-area');
+    if(!deck)return;
+    const upcoming=document.createElement('article');
+    upcoming.className='card deal-flip incoming-preview';
+    upcoming.setAttribute('aria-hidden','true');
+    upcoming.innerHTML='<div class="card-front">'+cardHTML(nextIndex,false,true)+'</div><div class="card-reverse" aria-hidden="true">'+reverseFace()+'</div>';
+    upcoming.style.width=card.offsetWidth+'px';
+    upcoming.style.height=card.offsetHeight+'px';
+    upcoming.style.left=((deck.clientWidth-card.offsetWidth)/2)+'px';
+    upcoming.style.top=((deck.clientHeight-card.offsetHeight)/2)+'px';
+    deck.appendChild(upcoming);
+    previewStarted=true;
+    previewAt=performance.now();
+  };
+  const advance=()=>{
+    if(practice)finishPractice(previewStarted);
+    else{
+      state.answers[state.i]=value;
+      state.i=Math.min(rawCards.length,state.i+1);
+      revealNext=state.i<rawCards.length&&!previewStarted;
+      skipNextEntrance=previewStarted;
+      persist();draw();
+    }
+    busy=false;
+  };
+  const finish=()=>{
+    if(completed)return;
+    completed=true;
+    if(previewTimer){clearTimeout(previewTimer);previewTimer=0;}
+    if(card)card.style.visibility='hidden';
+    // Let the incoming 620ms flip complete before switching the real question.
+    const wait=reduced?0:previewStarted?
+      Math.max(15,640-(performance.now()-previewAt)):105;
+    window.setTimeout(advance,wait);
+  };
+  if(!card){finish();return;}
+  const startTransform=getComputedStyle(card).transform;
+  card.classList.remove('dragging','entering','deal-flip','practice-idle');
+  const deck=document.querySelector('.deck-area').getBoundingClientRect();
+  const cardWidth=card.offsetWidth,cardHeight=card.offsetHeight;
+  const cardLeft=deck.left+(deck.width-cardWidth)/2;
+  const cardRight=cardLeft+cardWidth;
+  const cardTop=deck.top+(deck.height-cardHeight)/2;
+  const cardBottom=cardTop+cardHeight;
+  const x=value===3||value===null?0:value<=2?
+    -Math.ceil(cardRight+48):Math.ceil(window.innerWidth-cardLeft+48);
+  const y=value===null?Math.ceil(window.innerHeight-cardTop+48):
+    value===3?-Math.ceil(cardBottom+48):
+    exitY===0?-36:Math.max(-125,Math.min(125,exitY));
+  const finalTransform=`translate3d(${x}px,${y}px,0) rotate(${x===0?0:x>0?17:-17}deg) scale(.96)`;
+  const duration=Math.round(Math.max(540,Math.min(780,330+Math.hypot(x,y)*.43)));
+  if(reduced||!card.animate){card.style.transform=finalTransform;finish();return;}
+  try{
+    const anim=card.animate([
+      {transform:startTransform==='none'?'translate3d(0,0,0)':startTransform,opacity:1},
+      {transform:finalTransform,opacity:0}
+    ],{duration,easing:'cubic-bezier(.22,.65,.28,1)',fill:'forwards'});
+    if(hasNext)previewTimer=window.setTimeout(beginPreview,Math.max(0,duration-500));
+    anim.finished.then(finish,finish);
+    window.setTimeout(finish,duration+240);
+  }catch{card.style.transform=finalTransform;finish();}
+}
+
+function classify(dx,dy,threshold){
+  const ax=Math.abs(dx),ay=Math.abs(dy);
+  if(ay>=70 && ay>=ax*1.3)return {value:dy<0?3:null,text:dy<0?W().neutral:W().skip,side:'neutral'};
+  if(ax<52 || ax<ay*.7)return null;
+  const yInfluence=state.diagonal===false?0:Math.max(-62,Math.min(62,dy*.72));
+  const effective=ax+yInfluence, strong=effective>=threshold;
+  const value=dx<0?(strong?1:2):(strong?5:4),side=dx<0?'left':'right';
+  return {value,text:[W().strongA,W().softA,W().neutral,W().softB,W().strongB][value-1],side,effective,strong};
+}
+function bindPointer(){
+  const card=document.querySelector('#card');
+  if(!card)return;
+  let pos=null,frame=0,latest=null,lastChoice='';
+  const initialHint=state.tutorialActive?W().practiceMessage:W().pickHint;
+  const feedback=choice=>{
+    const key=choice?String(choice.value):'none';
+    if(key===lastChoice)return;
+    lastChoice=key;
+    showChoice(choice,initialHint);
+  };
+  const paint=()=>{
+    frame=0;if(!pos||!latest)return;
+    const {dx,dy}=latest;
+    const dragX=Math.sign(dx)*(Math.min(95,Math.abs(dx))+Math.max(0,Math.abs(dx)-95)*.25);
+    const dragY=Math.sign(dy)*(Math.min(80,Math.abs(dy))+Math.max(0,Math.abs(dy)-80)*.2);
+    card.style.transform=`translate3d(${dragX}px,${dragY*.8}px,0) rotate(${Math.max(-14,Math.min(14,dragX*.05))}deg)`;
+    feedback(classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150))));
+  };
+  const cancelFrame=()=>{if(frame){cancelAnimationFrame(frame);frame=0;}};
+  const cleanup=()=>{
+    cancelFrame();pos=null;latest=null;card.classList.remove('dragging');card.style.transform='';feedback(null);
+    if(state.tutorialActive && !matchMedia('(prefers-reduced-motion:reduce)').matches)card.classList.add('practice-idle');
+  };
+  const deck=card.closest('.deck-area');
+  deck.addEventListener('selectstart',event=>event.preventDefault());
+  deck.addEventListener('dragstart',event=>event.preventDefault());
+  card.addEventListener('pointerdown',e=>{
+    if(busy||e.button!==0||pos)return;
+    e.preventDefault();
+    if(window.getSelection()?.rangeCount)window.getSelection().removeAllRanges();
+    pos={x:e.clientX,y:e.clientY,id:e.pointerId};latest={dx:0,dy:0};lastChoice='';
+    // Interrupt the deal animation cleanly: its CSS fill mode otherwise overrides
+    // inline translate3d() and makes all subsequent cards appear undraggable.
+    card.classList.remove('entering','deal-flip','practice-idle');
+    card.classList.add('dragging');
+    try{card.setPointerCapture(e.pointerId)}catch{}
+  });
+  card.addEventListener('pointermove',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    const samples=e.getCoalescedEvents?.();const latestEvent=samples?.length?samples[samples.length-1]:e;
+    latest={dx:latestEvent.clientX-pos.x,dy:latestEvent.clientY-pos.y};
+    if(!frame)frame=requestAnimationFrame(paint);
+  },{passive:true});
+  card.addEventListener('pointerup',e=>{
+    if(!pos||pos.id!==e.pointerId||busy)return;
+    cancelFrame();
+    const dx=e.clientX-pos.x,dy=e.clientY-pos.y;
+    const choice=classify(dx,dy,Math.max(110,Math.min(210,Number(state.threshold)||150)));
+    pos=null;latest=null;
+    if(!choice){cleanup();return;}
+    feedback(choice);
+    record(choice.value,dx,dy);
+  });
+  card.addEventListener('pointercancel',cleanup);
+  card.addEventListener('lostpointercapture',()=>{if(pos&&!busy)cleanup()});
+}
+function toggleSettings(open){
+ modal.hidden=!open;
+ if(open){let w=W();
+  document.querySelector('#settings-title').textContent=w.settingsTitle;
+  document.querySelector('#settings-copy').textContent=w.settingsCopy;
+  document.querySelector('#sensitivity-label').textContent=w.sensitivity;
+  document.querySelector('#settings-tip').textContent=w.settingsTip;
+  document.querySelector('#settings-done').textContent=w.settingsDone;
+  document.querySelector('#threshold').value=state.threshold||150;
+  document.querySelector('#threshold-value').textContent=(state.threshold||150)+' px';
+  document.querySelector('#diagonal-label').textContent=w.diagonalLabel;
+  document.querySelector('#diagonal').checked=state.diagonal!==false;
+  document.querySelector('#close-settings').focus();
+ }
+}
+function attemptFullscreenOnStart(){
+  // Browsers require a user gesture: this runs immediately inside the Start click, not during page load.
+  if(document.fullscreenElement||!document.documentElement.requestFullscreen)return;
+  try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});p?.catch?.(()=>{});}catch{}
+}
+function toggleFullscreen(){
+ if(document.fullscreenElement){document.exitFullscreen?.();return;}
+ if(document.documentElement.requestFullscreen){
+   try{const p=document.documentElement.requestFullscreen({navigationUI:'hide'});
+     if(p&&typeof p.catch==='function')p.catch(()=>alert(W().fsHelp));
+   }catch{alert(W().fsHelp)}
+ }else alert(W().fsHelp);
+}
+
+app.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-value]');if(!b||busy)return;if(b.hasAttribute('data-value')){const v=Number(b.dataset.value);record(v);return}switch(b.dataset.action){case'language':state.lang=state.lang==='es'?'en':'es';persist();draw();break;case'start':attemptFullscreenOnStart();state.tutorialActive=!state.tutorialSeen&&state.i===0;state.started=true;persist();draw();break;case'skip-practice':finishPractice();break;case'fullscreen':toggleFullscreen();break;case'settings':toggleSettings(true);break;case'undo':if(state.i>0){state.i--;state.answers.length=state.i;persist();draw()}break;case'skip':record(null);break;case'restart':if(confirm(W().resetQuestion)){state.i=0;state.answers=[];state.started=false;state.tutorialActive=false;state.tutorialSeen=false;persist();draw()}break;}});
+document.querySelector('#diagonal').addEventListener('change',e=>{state.diagonal=e.target.checked;persist()});document.querySelector('#threshold').addEventListener('input',e=>{state.threshold=Number(e.target.value);document.querySelector('#threshold-value').textContent=state.threshold+' px';persist()});document.querySelector('#close-settings').addEventListener('click',()=>toggleSettings(false));document.querySelector('#settings-done').addEventListener('click',()=>toggleSettings(false));modal.addEventListener('click',e=>{if(e.target===modal)toggleSettings(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)toggleSettings(false);if(e.target.matches('input')||!modal.hidden||!state.started||state.i>=rawCards.length||busy)return;const map={ArrowLeft:2,ArrowRight:4,ArrowUp:3,ArrowDown:null,a:1,d:5};if(Object.prototype.hasOwnProperty.call(map,e.key)){e.preventDefault();record(map[e.key])}});
+draw();
+})();
+</script>
+</body>
+</html>

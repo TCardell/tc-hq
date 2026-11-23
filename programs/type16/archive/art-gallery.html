@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171d29">
+<meta name="description" content="Compara las versiones de los doce motivos geométricos de TYPE/16 y guarda tu selección provisional.">
+<title>TYPE/16 · Galería comparativa de ilustraciones</title>
+<style>
+:root{color-scheme:dark;--bg:#151b27;--panel:#202a39;--panel2:#283445;--line:#a992705c;--gold:#e5bc83;--muted:#bab5b0;--paper:#eee3d0;--ink:#f3e7d5;--serif:Georgia,Palatino,serif;--sans:system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(ellipse 85% 65% at 50% 0,#394353 0,#1d2532 60%,var(--bg) 100%);font:14px/1.58 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;background:repeating-linear-gradient(0deg,transparent 0 4px,#fff 5px 6px)}
+button,a{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #ffda9f;outline-offset:3px}a{color:var(--gold)}
+.shell{max-width:1240px;margin:0 auto;padding:0 clamp(15px,3vw,34px)}
+.topline{height:56px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line)}
+.logo{font:500 19px var(--serif);letter-spacing:.05em;color:#f3e6ce;text-decoration:none}.logo b{color:var(--gold);font-weight:500}
+.back-link{font:600 12px/1.3 var(--sans);text-decoration:none;color:#e1c39b}.back-link:hover{text-decoration:underline}
+.hero{padding:clamp(28px,5vw,55px) 0 27px}
+.eyebrow{font:600 10px/1.4 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+h1{font:500 clamp(35px,7vw,59px)/1.1 var(--serif);margin:12px 0 14px;letter-spacing:-.03em}
+.hero>p{max-width:790px;font-size:15px;line-height:1.75;color:#d2c6b9;margin:0}
+.hero strong{color:#f0d3ab;font-weight:650}
+.toolbar{margin:0 0 34px;padding:19px 20px;border:1px solid #e1bd866b;border-radius:14px;background:linear-gradient(135deg,#293748,#222c3b);box-shadow:0 15px 40px #0003;display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px}
+.toolbar h2{font:500 20px/1.25 var(--serif);margin:0 0 4px;color:#f4ddba}
+.toolbar p{margin:0;color:#c9bdb0;font-size:12.5px;line-height:1.6}
+.progressline{height:5px;max-width:350px;background:#ffffff21;border-radius:50px;overflow:hidden;margin-top:12px}
+.progressline>span{height:100%;width:0;display:block;background:#e3ba81;transition:width .2s ease}
+.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px}
+.control{min-height:39px;padding:9px 13px;border:1px solid #c0a07880;border-radius:8px;background:#ede0c810;color:#f2dfc7;text-decoration:none;font:600 12px/1.4 var(--sans);transition:background .15s}
+.control:hover{background:#e3bb8733}.control.emphasis{background:#d7ac7540;border-color:#ebc18a;color:#fff0d6}
+.control:disabled{opacity:.45;cursor:not-allowed}
+.family{margin:34px 0 48px}.family-title{display:flex;align-items:center;gap:13px;padding-bottom:13px;border-bottom:1px solid var(--line);margin:0 0 17px}
+.family-title .rune{width:36px;height:36px;border:1px solid #c9a47a80;display:grid;place-items:center;border-radius:50%;color:var(--gold);font:18px var(--serif)}
+.family-title h2{font:500 clamp(23px,4vw,30px)/1.2 var(--serif);margin:0;color:#f2d8b5}
+.family-title p{margin:1px 0 0;color:#aeb5b9;font-size:12px}
+.motifs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.motif{border:1px solid var(--line);background:linear-gradient(135deg,#263344,#1e2939);border-radius:15px;overflow:hidden;box-shadow:0 12px 29px #0003;min-width:0}
+.motif-head{padding:17px 18px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.motif-head h3{font:500 24px/1.2 var(--serif);margin:0 0 3px;color:#f4dfbe}
+.motif-note{color:#bac0bf;font-size:12px;line-height:1.5;margin:0}
+.motif-count{font:600 10px var(--mono);white-space:nowrap;letter-spacing:.09em;color:#d2b182;padding:7px 9px;border:1px solid #9e8c7366;border-radius:50px}
+.versions{display:grid;grid-auto-flow:column;grid-auto-columns:calc(50% - 5px);gap:10px;overflow-x:auto;padding:8px 14px 12px;scroll-snap-type:x proximity}
+.version{min-width:0;border:1px solid #bfab885b;border-radius:11px;background:#ffffff07;overflow:hidden;scroll-snap-align:start;transition:border-color .2s,box-shadow .2s}
+.version.chosen{border-color:#efc58b;box-shadow:0 0 0 2px #f1d3a944}
+.version-top{padding:9px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;font:600 12px/1.2 var(--mono);color:#ecd5ae}
+.version-tag{font:500 9px var(--mono);color:#e0c6a0;letter-spacing:.04em;text-transform:uppercase}
+.version-visual{background:var(--paper);aspect-ratio:220 / 145;display:block;overflow:hidden}
+.version-visual svg{display:block;width:100%;height:100%}
+.version-caption{padding:9px 10px;min-height:43px;color:#d0c7bd;font:400 11px/1.35 var(--sans)}
+.pick{width:calc(100% - 18px);margin:0 9px 10px;min-height:38px;border:1px solid #bda67f82;border-radius:7px;background:#10172233;color:#e4d3b8;font:600 11px/1.3 var(--sans)}
+.pick:hover{background:#e2c18c19}
+.pick[aria-pressed="true"]{background:#dfb777;color:#1d2730;border-color:#f9d9a5}
+.motif-foot{padding:9px 17px 15px;border-top:1px solid #dcc09218;display:flex;flex-direction:column;gap:7px}
+.associations{font:11px/1.5 var(--mono);color:#d5bf9d;overflow-wrap:anywhere}
+.composition{border:1px solid #b99c7245;border-radius:8px}
+.composition summary{cursor:pointer;padding:9px 11px;list-style:none;color:#ded0b9;font-size:11px}
+.composition summary::-webkit-details-marker{display:none}.composition[open] summary{border-bottom:1px solid #b99c7245}
+.composition .mini-grid{padding:11px;display:grid;gap:13px}.mini-tile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.mini-tile>small{grid-column:1/-1}
+.mini-tile{min-width:0}.mini-tile .mini-art{background:var(--paper);border-radius:4px;aspect-ratio:220 / 145;overflow:hidden}
+.mini-art svg{display:block;width:100%;height:100%}.mini-tile small{display:block;font:10px var(--mono);color:#e1c89f;text-align:center;margin:4px 0}
+.fineprint{margin:20px 0 40px;padding-top:17px;border-top:1px solid var(--line);color:#b3ada7;font:12px/1.65 var(--sans)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#202a38;border:1px solid #eed09c;color:#ffebcc;padding:11px 18px;border-radius:9px;box-shadow:0 10px 30px #0007;z-index:10;font:600 12px var(--sans);pointer-events:none}
+.toast[hidden]{display:none}
+@media(max-width:950px){.motifs{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.controls{justify-content:flex-start}}
+@media(max-width:440px){.motif-head{padding:15px 13px 8px}.motif-head h3{font-size:22px}.versions{padding:7px 9px 10px;gap:7px;grid-auto-columns:calc(50% - 4px)}.version-top{padding:8px 7px}.version-caption{font-size:10.5px;padding:8px 7px;min-height:45px}.motif-foot{padding:10px 11px 13px}.hero>p{font-size:14px}.toolbar{padding:15px}.control{padding:8px 11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="topline"><a class="logo" href="./beta-i-legacy.html">TYPE<b>/</b>16</a><a class="back-link" href="./beta-i-legacy.html">← Volver al test</a></nav>
+  <header class="hero"><div class="eyebrow">Atlas visual · Archivo de versiones</div><h1>Un símbolo, varias interpretaciones.</h1><p>Los <strong>doce motivos originales (V1)</strong> se conservan intactos. Las nuevas <strong>V2</strong> son alternativas geométricas distintas, no simples variaciones de color. Podremos incorporar V3, V4 y posteriores sin borrar ni sustituir las versiones anteriores. Compáralas, elige las que prefieras y prueba tu combinación en las cartas. Tu selección es provisional: no cambia la beta ni las respuestas guardadas.</p></header>
+  <section class="toolbar" aria-label="Tus preferencias visuales">
+    <div><h2 id="progressTitle">Tu selección · 0 de 12</h2><p>Marca una versión para cada motivo. Puedes cambiarla o desmarcarla cuando quieras; queda guardada en este navegador.</p><div class="progressline" aria-hidden="true"><span id="progressBar"></span></div></div>
+    <div class="controls">
+      <a id="selectedPreview" class="control emphasis" href="./beta-i-legacy.html?art=selection">Probar mi selección</a>
+      <a class="control" href="./beta-i-legacy.html?art=v2">Probar todas las V2</a>
+      <button class="control" id="copyChoices" type="button">Copiar decisiones</button>
+      <button class="control" id="clearChoices" type="button">Restablecer</button>
+    </div>
+  </section>
+  <main id="gallery"></main>
+  <footer class="fineprint">TYPE/16 · 12 motivos maestros · 64 asignaciones temáticas. Los encuadres 1, 2 y 3 (dentro de «Composiciones») son variaciones decorativas, independientes de las versiones del símbolo. Cuando añadamos V3 del símbolo, aparecerá como una columna más automáticamente.</footer>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module">
+import {getMotifArt,ART_VERSIONS,MOTIF_GROUPS,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices,auditArtwork} from './runtime/js/artwork.js';
+const LABELS={
+ sanctuary:['Recogimiento','V1: luna · V2: refugio'],
+ threshold:['Umbral','V1: arco · V2: abertura'],
+ exchange:['Intercambio','V1: vínculos · V2: diálogo'],
+ focus:['Enfoque','V1: diana · V2: lupa'],
+ pattern:['Patrones','V1: puntos · V2: mosaico'],
+ prism:['Perspectivas','V1: prisma · V2: ventanas'],
+ balance:['Equilibrio','V1: balanza · V2: palanca'],
+ consideration:['Consideración','V1: unión · V2: cuidado'],
+ criteria:['Criterios','V1: brújula · V2: registro'],
+ interval:['Tiempo','V1: reloj de arena · V2: esfera'],
+ paths:['Caminos','V1: bifurcación · V2: laberinto'],
+ key:['Resolución','V1: llave · V2: cerradura']
+};
+const FAMILIES={
+ IE:['I / E · Relación e interioridad','✦'],
+ SN:['S / N · Percepción y posibilidades','◇'],
+ FT:['F / T · Decisiones y valores','✧'],
+ JP:['J / P · Estructura y flexibilidad','◈']
+};
+const uniqueMotifs=Object.values(MOTIF_GROUPS).flat();
+const htmlEscape=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let choices={};
+try{choices=sanitizeArtChoices(JSON.parse(localStorage.getItem(ART_SELECTION_KEY)||'{}'));}
+catch{choices={};}
+const gallery=document.querySelector('#gallery'),toast=document.querySelector('#toast');
+let toastTimer=0;
+function alertText(message){toast.textContent=message;toast.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.hidden=true,2600);}
+function persist(){
+ try{localStorage.setItem(ART_SELECTION_KEY,JSON.stringify(choices));}
+ catch{alertText('No se han podido conservar las preferencias en este navegador.');}
+}
+function updateSelection(){
+ const count=Object.keys(choices).length;
+ document.querySelector('#progressTitle').textContent='Tu selección · '+count+' de '+uniqueMotifs.length;
+ document.querySelector('#progressBar').style.width=(100*count/uniqueMotifs.length)+'%';
+ document.querySelectorAll('.version').forEach(card=>{
+  const chosen=choices[card.dataset.motif]===card.dataset.version;
+  card.classList.toggle('chosen',chosen);
+  const button=card.querySelector('.pick');
+  button.setAttribute('aria-pressed',String(chosen));
+  button.textContent=chosen?'✓ Tu favorita':('Elegir '+card.dataset.version.toUpperCase());
+ });
+ document.querySelector('#selectedPreview').title=count+' motivos elegidos. Los demás se muestran en V1.';
+}
+function build(){
+ const audit=auditArtwork();if(!audit.ok)throw Error('Banco de SVG incompleto: '+audit.errors.join(', '));
+ for(const [axis,motifs] of Object.entries(MOTIF_GROUPS)){
+  const section=document.createElement('section');section.className='family';section.id='axis-'+axis;
+  const [heading,rune]=FAMILIES[axis];
+  section.innerHTML='<div class="family-title"><span class="rune" aria-hidden="true">'+rune+'</span><div><h2>'+htmlEscape(heading)+'</h2><p>Tres familias de símbolos · varias interpretaciones de cada uno</p></div></div><div class="motifs"></div>';
+  const grid=section.querySelector('.motifs');
+  for(const motif of motifs){
+   const ids=Object.entries(MOTIF_BY_QUESTION).filter(([id,key])=>key===motif).map(([id])=>Number(id));
+   const [label,note]=LABELS[motif];
+   const versions=ART_VERSIONS.map(version=>{
+    const caption=version==='v1'?'Primera interpretación':'Alternativa '+version.toUpperCase();
+    return '<div class="version" data-motif="'+motif+'" data-version="'+version+'"><div class="version-top"><strong>'+version.toUpperCase()+'</strong><span class="version-tag">'+htmlEscape(caption)+'</span></div>'+
+      '<div class="version-visual" role="img" aria-label="'+htmlEscape(label+' '+version)+'">'+getMotifArt(motif,{version,frameVariant:0})+'</div>'+
+      '<div class="version-caption">'+htmlEscape(note.split(' · ').find(part=>part.toLowerCase().startsWith(version))||caption)+'</div>'+
+      '<button class="pick" type="button" data-pick="'+motif+'" data-version="'+version+'" aria-pressed="false">Elegir '+version.toUpperCase()+'</button></div>';
+   }).join('');
+   const compositions=ART_VERSIONS.map(version=>'<div class="mini-tile"><small>'+version.toUpperCase()+'</small><div class="mini-art">'+getMotifArt(motif,{version,frameVariant:0})+'</div><div class="mini-art">'+getMotifArt(motif,{version,frameVariant:1})+'</div><div class="mini-art">'+getMotifArt(motif,{version,frameVariant:2})+'</div></div>').join('');
+   const item=document.createElement('article');item.className='motif';item.id='motif-'+motif;
+   item.innerHTML='<div class="motif-head"><div><h3>'+htmlEscape(label)+'</h3><p class="motif-note">'+htmlEscape(note)+'</p></div><span class="motif-count">'+ids.length+' cartas</span></div>'+
+    '<div class="versions">'+versions+'</div>'+
+    '<div class="motif-foot"><div class="associations">'+ids.map(id=>'Q'+String(id).padStart(2,'0')).join(' · ')+'</div>'+
+    '<details class="composition"><summary>Ver los tres encuadres de cada versión ⌄</summary><div class="mini-grid">'+compositions+'</div></details></div>';
+   grid.appendChild(item);
+  }
+  gallery.appendChild(section);
+ }
+ updateSelection();
+}
+gallery.addEventListener('click',event=>{
+ const button=event.target.closest('[data-pick]');
+ if(!button)return;
+ const motif=button.dataset.pick,version=button.dataset.version;
+ if(!uniqueMotifs.includes(motif)||!ART_VERSIONS.includes(version))return;
+ if(choices[motif]===version)delete choices[motif];else choices[motif]=version;
+ persist();updateSelection();
+});
+document.querySelector('#clearChoices').addEventListener('click',()=>{
+ if(!Object.keys(choices).length)return;
+ if(!confirm('¿Quitar todas las preferencias de la galería? Las ilustraciones originales no se borrarán.'))return;
+ choices={};persist();updateSelection();alertText('Selección restablecida.');
+});
+document.querySelector('#copyChoices').addEventListener('click',async()=>{
+ const lines=['TYPE/16 · Selección de ilustraciones',...Object.entries(MOTIF_GROUPS).flatMap(([axis,motifs])=>[axis,...motifs.map(motif=>'• '+LABELS[motif][0]+' ('+motif+'): '+(choices[motif]?.toUpperCase()||'Pendiente'))])];
+ const text=lines.join('\n');
+ try{await navigator.clipboard.writeText(text);alertText('Selección copiada al portapapeles.');}
+ catch{const box=document.createElement('textarea');box.value=text;box.style.cssText='position:fixed;top:5%;left:5%;width:90%;height:65%;z-index:99';document.body.appendChild(box);box.focus();box.select();alertText('Selecciona y copia el texto; después puedes cerrar este cuadro.');box.addEventListener('blur',()=>box.remove(),{once:true});}
+});
+build();
+</script>
+</body></html>
