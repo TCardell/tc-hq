@@ -1,3 +1,4 @@
+import {ARTWORK_V2} from './artwork-v2.js';
 /**
  * TYPE/16 — Beta art system (12 geometric masters for 64 situations).
  * All artwork is original, handmade SVG: no fonts, images, generated clipart or dependencies.
@@ -20,6 +21,32 @@ const MASTERS={
  paths:'<path d="M110 119V86M110 86Q78 74 66 45M110 86V39M110 86Q142 74 154 45" fill="none" stroke="{INK}" stroke-width="4" stroke-linecap="round"/><circle cx="110" cy="39" r="9" fill="{GOLD}"/><circle cx="66" cy="45" r="9" fill="{BLUE}"/><circle cx="154" cy="45" r="9" fill="{ROSE}"/><circle cx="110" cy="119" r="6" fill="{INK}"/><path d="M62 67h12m73 0h12" stroke="{GOLD}" stroke-width="2"/>',
  key:'<circle cx="85" cy="57" r="27" fill="none" stroke="{INK}" stroke-width="5"/><circle cx="85" cy="57" r="11" fill="none" stroke="{GOLD}" stroke-width="3"/><path d="M104 77L146 119h21v-13h-14V94h-13l-34-34" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="164" cy="40" r="5" fill="{ROSE}"/>'
 };
+
+/**
+ * The version registry is the single place to register future sets.
+ * All 12 V1 masters above are preserved byte-for-byte.
+ * Future V3: import its 12 masters, then add v3: ARTWORK_V3 below.
+ */
+const VERSION_LIBRARY=Object.freeze({
+ v1:Object.freeze(MASTERS),
+ v2:ARTWORK_V2
+});
+export const ART_VERSIONS=Object.freeze(Object.keys(VERSION_LIBRARY));
+export const ART_SELECTION_KEY='type16.beta.art-choices.v1';
+export function getMotifVersions(motif){
+ if(!Object.hasOwn(MASTERS,motif))throw new Error('Unknown motif: '+motif);
+ return ART_VERSIONS.filter(version=>typeof VERSION_LIBRARY[version]?.[motif]==='string');
+}
+/** Ignore unrecognized versions; a saved selection remains compatible when sets are added. */
+export function sanitizeArtChoices(value){
+ const result={};
+ const input=value&&typeof value==='object'&&!Array.isArray(value)?value:{};
+ for(const motif of Object.keys(MASTERS)){
+  const version=input[motif];
+  if(typeof version==='string'&&getMotifVersions(motif).includes(version))result[motif]=version;
+ }
+ return result;
+}
 export const MOTIF_GROUPS=Object.freeze({
  IE:Object.freeze(['sanctuary','threshold','exchange']),
  SN:Object.freeze(['focus','pattern','prism']),
@@ -50,13 +77,26 @@ const frame=Object.freeze([
  '<path d="M42 41Q110 -9 178 41M42 108Q110 156 178 108" fill="none" stroke="{GOLD}" stroke-opacity=".3" stroke-width="1.5"/>'
 ]);
 const hydrate=html=>html.replace(/\{(INK|GOLD|ROSE|PAPER|BLUE)\}/g,(_,key)=>PALETTE[key]);
-export function getCardArt(id=1, variantOverride=null){
+/**
+ * Render the requested motif without changing question-to-motif mapping.
+ * frameVariant 0/1/2 is independent of the artwork version.
+ */
+export function getMotifArt(motif,{version='v1',frameVariant=0}={}){
+ const versions=getMotifVersions(motif);
+ if(!versions.includes(version))throw new Error('Artwork version '+version+' unavailable for '+motif);
+ const index=Math.trunc(Number(frameVariant));
+ const variant=Number.isFinite(index)?Math.max(0,index)%frame.length:0;
+ const symbol=VERSION_LIBRARY[version][motif];
+ return '<svg viewBox="0 0 220 145" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'
+  +hydrate('<path d="M24 70h15M181 70h15" stroke="{GOLD}" stroke-width="1.5" stroke-opacity=".36"/>'
+  +frame[variant]+symbol)+'</svg>';
+}
+/** Backward-compatible first two arguments. The third selects the SVG edition. */
+export function getCardArt(id=1,variantOverride=null,version='v1'){
  const number=Number(id);
  const motif=MOTIF_BY_QUESTION[number]||'criteria';
- const variant=variantOverride===null?(number+Math.floor(number/8))%3:Math.max(0,Number(variantOverride)||0)%3;
- return '<svg viewBox="0 0 220 145" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'
- +hydrate('<path d="M24 70h15M181 70h15" stroke="{GOLD}" stroke-width="1.5" stroke-opacity=".36"/>'
- +frame[variant]+MASTERS[motif])+'</svg>';
+ const frameVariant=variantOverride===null?(number+Math.floor(number/8))%frame.length:variantOverride;
+ return getMotifArt(motif,{version,frameVariant});
 }
 export function auditArtwork(questionBank){
  const errors=[],counts={};
@@ -69,5 +109,12 @@ export function auditArtwork(questionBank){
   if(question){const allowed=MOTIF_GROUPS[question.axis];if(!allowed||!allowed.includes(motif))errors.push('Wrong visual family Q'+id);}
   counts[motif]=(counts[motif]||0)+1;
  }
- return {ok:errors.length===0,errors,counts};
+ for(const motif of Object.keys(MASTERS)){
+  for(const version of ART_VERSIONS){
+   const fragment=VERSION_LIBRARY[version]?.[motif];
+   if(typeof fragment!=='string'||!fragment.trim()||!fragment.includes('<'))errors.push('Missing or invalid '+motif+' '+version);
+   else if(/\{(?!INK\}|GOLD\}|ROSE\}|PAPER\}|BLUE\})/.test(fragment))errors.push('Unrecognized palette token '+motif+' '+version);
+  }
+ }
+ return {ok:errors.length===0,errors,counts,versions:[...ART_VERSIONS]};
 }
