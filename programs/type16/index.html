@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181e29">
 <meta name="description" content="TYPE/16: un atlas interactivo de 16 perfiles de personalidad, cuatro dimensiones, 64 cartas y cinco paradas.">
-<title>TYPE/16 · 1.0.1 · Atlas de personalidad</title>
+<title>TYPE/16 · 1.0.2 · Atlas de personalidad</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -765,6 +765,18 @@ body.in-deck{height:100dvh}
  .app.playing .card-top{grid-template-columns:minmax(0,1fr) 51px minmax(0,1fr);column-gap:3px}
  .app.playing .card-top > .card-stars{font-size:12px;letter-spacing:0}
 }
+
+/* TYPE/16 v1.0.2: homepage card uses the approved digital art collection. */
+.hero-front .hero-front-art{display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;padding:23px 5px 35px;gap:14px;position:relative;z-index:1}
+.hero-front .hero-cover-image{display:block;width:150px;max-width:100%;height:auto;max-height:105px;object-fit:contain;user-select:none;pointer-events:none}
+.hero-front .hero-front-ornament{font:400 13px/1 var(--serif);letter-spacing:.16em;color:#a88656}
+.hero-front .hero-front-ornament-bottom{font-size:17px}
+.footer{display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap}
+.footer-signature{font-size:11px;color:#dfbf90;text-decoration:none;border-bottom:1px solid #c9a7796b}
+.footer-signature:hover,.footer-signature:focus-visible{color:#fff1d1;border-bottom-color:currentColor}
+.footer-separator{opacity:.55;color:#bda177}
+.settings-section-title{margin:17px 0 2px;padding-bottom:7px;border-bottom:1px solid #c3a77761;color:#e6c99e;font:600 11px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.settings-preferences .settings-section-title{margin:14px 0 2px}
 </style>
 </head>
 <body>
@@ -800,10 +812,12 @@ body.in-deck{height:100dvh}
 <div class="settings-card" tabindex="-1">
  <div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" type="button" aria-label="Cerrar ajustes">✕</button></div>
  <p id="settings-copy"></p>
+ <h3 class="settings-section-title" id="settings-gestures-title"></h3>
  <label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label>
  <input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div>
  <label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label>
- <section class="settings-preferences" aria-label="Preferencias">
+ <section class="settings-preferences" aria-labelledby="settings-preferences-title">
+  <h3 class="settings-section-title" id="settings-preferences-title"></h3>
   <div class="settings-preference-row"><span id="settings-language-label"></span><div class="settings-language-switch" role="group" id="settings-language-group" aria-label="Idioma"><button type="button" data-modal-language="es">ES</button><button type="button" data-modal-language="en">EN</button></div></div>
   <div class="settings-preference-row"><span id="settings-fullscreen-label"></span><button type="button" class="settings-control-button" id="settings-fullscreen">⛶</button></div>
   <div class="settings-preference-row"><span id="settings-sound-label"></span><button type="button" class="settings-control-button" id="settings-sound" aria-pressed="true"></button></div>
@@ -1114,31 +1128,33 @@ Object.assign(words.en,{
  resultEarly:'Your first cards point toward a combination, with room for change.'
 });
 Object.assign(words.es,{
- heroEyebrow:'ATLAS DE PERSONALIDAD · 1.0.1',
+ heroEyebrow:'ATLAS DE PERSONALIDAD · 1.0.2',
  tagline:'Una forma distinta de explorar cómo eres.',
  intro:'64 cartas, cuatro dimensiones y 16 perfiles posibles. Puedes detenerte en cinco paradas y descubrir tus preferencias paso a paso.',
  introSmall:'Una experiencia orientativa de autoconocimiento. Tus respuestas se guardan en este navegador.',
- footer:'TYPE/16 · V1.0.1 / TC-HQ',
+ footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultSource:'Tu primera lectura · 32 cartas',resultExtended:'Tu retrato ampliado'
 });
 Object.assign(words.en,{
- heroEyebrow:'PERSONALITY ATLAS · 1.0.1',
+ heroEyebrow:'PERSONALITY ATLAS · 1.0.2',
  tagline:'A different way to explore who you are.',
  intro:'64 cards, four dimensions and 16 possible profiles. Pause at five stops to discover your preferences step by step.',
  introSmall:'An exploratory self-discovery experience. Your answers stay in this browser.',
- footer:'TYPE/16 · V1.0.1 / TC-HQ',
+ footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultSource:'Your first reading · 32 cards',resultExtended:'Your extended portrait'
 });
 
 /* v1.0 settings vocabulary: user-focused rather than prototyping language. */
 Object.assign(words.es,{
- settingsCopy:'Ajusta la sensibilidad de los gestos y la inclinación de las cartas a tu gusto.',
+ settingsTitle:'Ajustes',settingsGestures:'Gestos',settingsPreferences:'Preferencias',
+ settingsCopy:'Personaliza los gestos, el idioma, la pantalla y el sonido a tu gusto.',
  settingsDone:'Continuar',settingsLanguage:'Idioma',settingsFullscreen:'Pantalla completa',
  settingsExitFullscreen:'Salir de pantalla completa',settingsSound:'Sonido',settingsSoundOn:'Activado',
  settingsSoundOff:'Desactivado',settingsSaveExit:'Guardar y salir',settingsRestart:'Reiniciar test'
 });
 Object.assign(words.en,{
- settingsCopy:'Adjust swipe sensitivity and card tilt to your preference.',
+ settingsTitle:'Settings',settingsGestures:'Gestures',settingsPreferences:'Preferences',
+ settingsCopy:'Customize gestures, language, display and sound to suit you.',
  settingsDone:'Continue',settingsLanguage:'Language',settingsFullscreen:'Fullscreen',
  settingsExitFullscreen:'Exit fullscreen',settingsSound:'Sound',settingsSoundOn:'On',
  settingsSoundOff:'Off',settingsSaveExit:'Save and exit',settingsRestart:'Restart test'
@@ -1205,7 +1221,7 @@ function playCardSound(value){
 
 const iconGear='<svg viewBox="0 0 32 32" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M12.61 5.33 L13.70 4.73 L14.14 2.02 L17.86 2.02 L18.30 4.73 L19.39 5.33 L19.53 5.37 L20.77 5.53 L22.71 3.60 L25.72 5.78 L24.48 8.23 L25.02 9.36 L25.10 9.47 L26.01 10.33 L28.72 9.92 L29.87 13.44 L27.43 14.70 L27.20 15.93 L27.20 16.07 L27.43 17.30 L29.87 18.56 L28.72 22.08 L26.01 21.67 L25.10 22.53 L25.02 22.64 L24.48 23.77 L25.72 26.22 L22.71 28.40 L20.77 26.47 L19.53 26.63 L19.39 26.67 L18.30 27.27 L17.86 29.98 L14.14 29.98 L13.70 27.27 L12.61 26.67 L12.47 26.63 L11.23 26.47 L9.29 28.40 L6.28 26.22 L7.52 23.77 L6.98 22.64 L6.90 22.53 L5.99 21.67 L3.28 22.08 L2.13 18.56 L4.57 17.30 L4.80 16.07 L4.80 15.93 L4.57 14.70 L2.13 13.44 L3.28 9.92 L5.99 10.33 L6.90 9.47 L6.98 9.36 L7.52 8.23 L6.28 5.78 L9.29 3.60 L11.23 5.53 L12.47 5.37 Z M16 11.1 a4.9 4.9 0 1 0 0 9.8 a4.9 4.9 0 1 0 0 -9.8 Z" fill="currentColor" fill-rule="evenodd"/><circle cx="16" cy="16" r="7.4" fill="none" stroke="currentColor" stroke-width=".65" opacity=".5"/></svg>';
 function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button>${soundButton('quiet-btn')}<button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
-function footer(){return `<footer class="footer">${W().footer}</footer>`}
+function footer(){return `<footer class="footer"><span>${W().footer}</span><span class="footer-separator" aria-hidden="true">✦</span><a class="footer-signature" href="https://t.cardell.es/" target="_blank" rel="noopener noreferrer">t.cardell.es</a></footer>`}
 function legacyPreview(){
  if(state.session.seen.length)return null;
  try{
@@ -1215,6 +1231,17 @@ function legacyPreview(){
   return old.seen.length?old:null;
  }catch{return null}
 }
+/* Twelve approved cover illustrations; pick once per document load. Avoid consecutive repeats on refresh. */
+const HOME_MOTIFS=Object.freeze(['sanctuary','threshold','exchange','focus','pattern','prism','balance','consideration','criteria','interval','paths','key']);
+const HOME_COVER=(()=>{
+ let previous=null;
+ try{previous=sessionStorage.getItem('type16.home.lastMotif')}catch{}
+ const eligible=HOME_MOTIFS.filter(motif=>motif!==previous);
+ const motif=eligible[Math.floor(Math.random()*eligible.length)];
+ try{sessionStorage.setItem('type16.home.lastMotif',motif)}catch{}
+ return motif;
+})();
+
 function intro(){
  const w=W(),seen=state.session.seen.length,answered=Object.keys(state.session.answers).length,
   nextStop=experience.checkpoints.find(n=>n>seen)||64;
@@ -1238,7 +1265,7 @@ function intro(){
     (ART_PREVIEW_MODE==='v2'?'Preview: V2 illustrations':'Preview: your selected illustrations')):null;
  const artPreviewBanner=artPreviewLabel?`<span class="beta-art-preview-note">✦ ${safe(artPreviewLabel)}</span>`:'';
  const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
- return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./archive/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones V3':'Gallery of 12 V3 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-art'><span class='hero-front-ornament'>✦ ✧ ✦</span><img class='hero-cover-image' src='./assets/art/${HOME_COVER}.webp' width='660' height='330' alt='' loading='eager' decoding='async' draggable='false'><span class='hero-front-ornament hero-front-ornament-bottom'>✧</span></span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./archive/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones':'Gallery of the 12 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
 }
 
 // V3 art is deliberately separate from the original V1/V2 gallery and SVG registry.
@@ -1558,6 +1585,8 @@ function bindPointer(){
 function refreshSettings(){
  const w=W();
  document.querySelector('#settings-title').textContent=w.settingsTitle;
+ document.querySelector('#settings-gestures-title').textContent=w.settingsGestures;
+ document.querySelector('#settings-preferences-title').textContent=w.settingsPreferences;
  document.querySelector('#settings-copy').textContent=w.settingsCopy;
  document.querySelector('#sensitivity-label').textContent=w.sensitivity;
  document.querySelector('#settings-done').textContent=w.settingsDone;
