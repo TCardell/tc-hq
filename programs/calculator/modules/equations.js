@@ -20,7 +20,12 @@ function realRoots(coeff){const n=coeff.length-1;if(n===1)return[-coeff[1]/coeff
  return roots.sort((a,b)=>a-b).filter((x,i,arr)=>i===0||Math.abs(x-arr[i-1])>1e-7*Math.max(1,Math.abs(x)));
 }
 function deflate(coeff,r){const out=[coeff[0]];for(let i=1;i<coeff.length-1;i++)out.push(coeff[i]+r*out[out.length-1]);const residue=coeff.at(-1)+r*out.at(-1);return{out,residue}}
-function quadratic(coeff){const[a,b,c]=coeff,disc=b*b-4*a*c;if(disc>=0){const s=Math.sqrt(disc),q=-.5*(b+Math.sign(b||1)*s);return q===0?[complex(-b/(2*a)),complex(-b/(2*a))]:[complex(q/a),complex(c/q)]}
+function quadratic(coeff){const[a,b,c]=coeff,disc=b*b-4*a*c;
+ // Evitar partes imaginarias ficticias al redondear raíces dobles reales.
+ const discScale=Math.abs(b*b)+Math.abs(4*a*c);
+ const nearDouble=Math.abs(disc)<=1e-12*discScale;
+ if(nearDouble){const root=-b/(2*a);return[complex(root),complex(root)]}
+ if(disc>0){const s=Math.sqrt(disc),q=-.5*(b+Math.sign(b||1)*s);return q===0?[complex(-b/(2*a)),complex(-b/(2*a))]:[complex(q/a),complex(c/q)]}
  return[complex(-b/(2*a),Math.sqrt(-disc)/(2*Math.abs(a))),complex(-b/(2*a),-Math.sqrt(-disc)/(2*Math.abs(a)))]}
 function durandKerner(coeff){const n=coeff.length-1;const scale=coeff[0],pol=coeff.map(c=>c/scale),bound=Math.min(1e5,Math.max(1,rootBound(pol)));
  for(let attempt=0;attempt<5;attempt++){
@@ -34,6 +39,12 @@ function durandKerner(coeff){const n=coeff.length-1;const scale=coeff[0],pol=coe
 }
 export function solvePolynomial(raw){if(!Array.isArray(raw)||raw.length<2||raw.length>5||!raw.every(finite))throw Error('Introduce de 2 a 5 coeficientes numéricos.');const coeff=[...raw];if(coeff[0]===0)throw Error('El coeficiente de mayor grado no puede ser cero.');
  const n=coeff.length-1;if(n===1)return[complex(-coeff[1]/coeff[0])];if(n===2)return quadratic(coeff);
+ // Reconocer cuadrados de polinomios cuadráticos, incluso con raíces complejas repetidas.
+ if(n===4){const normalized=coeff.map(c=>c/coeff[0]);const u=normalized[1]/2,v=(normalized[2]-u*u)/2;
+  const scale=1+normalized.reduce((sum,c)=>sum+Math.abs(c),0);
+  if(Math.abs(normalized[3]-2*u*v)<=1e-12*scale&&Math.abs(normalized[4]-v*v)<=1e-12*scale)
+   return quadratic([1,u,v]).flatMap(z=>[z,z]).sort((a,b)=>a.re-b.re||a.im-b.im);
+ }
  let current=[...coeff];const reals=realRoots(coeff);const roots=[];
  for(const r of reals){let attempts=0;while(current.length>3&&attempts++<n){const {out,residue}=deflate(current,r);const scale=current.reduce((sum,v)=>sum+Math.abs(v)*Math.pow(Math.max(1,Math.abs(r)),current.length-1),0);if(Math.abs(residue)>1e-7*Math.max(1,scale))break;roots.push(complex(r));current=out}}
  let rest;if(current.length===3)rest=quadratic(current);else if(current.length===2)rest=[complex(-current[1]/current[0])];else if(current.length===1)rest=[];else rest=durandKerner(current);
@@ -41,10 +52,13 @@ export function solvePolynomial(raw){if(!Array.isArray(raw)||raw.length<2||raw.l
  if(result.length!==n)throw Error('No se encontraron todas las raíces.');return result.sort((a,b)=>a.re-b.re||a.im-b.im);
 }
 export function solveLinearSystem(A,b){const n=A?.length;if(![2,3,4].includes(n)||!Array.isArray(b)||b.length!==n||!A.every(r=>Array.isArray(r)&&r.length===n&&r.every(finite))||!b.every(finite))throw Error('Sistema de 2 a 4 ecuaciones: introduce coeficientes reales.');
- const rows=A.map((r,i)=>[...r,b[i]]);const tol=1e-12*Math.max(1,...A.flat().map(Math.abs));
- for(let k=0;k<n;k++){let pivot=k;for(let i=k+1;i<n;i++)if(Math.abs(rows[i][k])>Math.abs(rows[pivot][k]))pivot=i;
-  if(Math.abs(rows[pivot][k])<tol)throw Error('El sistema es singular o no tiene solución única.');
-  [rows[k],rows[pivot]]=[rows[pivot],rows[k]];
+ const rows=A.map((r,i)=>[...r,b[i]]);
+ // Pivoteo escalado: coeficientes 1e-14 pueden dar un sistema invertible.
+ const scales=A.map(row=>Math.max(...row.map(Math.abs)));
+ if(scales.some(v=>v===0))throw Error('El sistema es singular o no tiene solución única.');
+ for(let k=0;k<n;k++){let pivot=k;for(let i=k+1;i<n;i++)if(Math.abs(rows[i][k])/scales[i]>Math.abs(rows[pivot][k])/scales[pivot])pivot=i;
+  if(Math.abs(rows[pivot][k])/scales[pivot]<=1e-12)throw Error('El sistema es singular o no tiene solución única.');
+  [rows[k],rows[pivot]]=[rows[pivot],rows[k]];[scales[k],scales[pivot]]=[scales[pivot],scales[k]];
   for(let i=k+1;i<n;i++){const m=rows[i][k]/rows[k][k];rows[i][k]=0;for(let j=k+1;j<=n;j++)rows[i][j]-=m*rows[k][j]}}
  const x=Array(n).fill(0);for(let i=n-1;i>=0;i--){let v=rows[i][n];for(let j=i+1;j<n;j++)v-=rows[i][j]*x[j];x[i]=v/rows[i][i]}
  if(x.some(v=>!Number.isFinite(v)))throw Error('Resultado no definido.');return x;

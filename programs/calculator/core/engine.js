@@ -110,6 +110,7 @@ function rationalNode(node){const r=n=>rationalNode(n);
  }
  return null;
 }
+export function parseMathExpression(source){return parse(source)}
 export function compileExpression(source){const ast=parse(source);return (context={})=>evaluateNode(ast,context)};
 export function calculate(source,context={}){
  const ast=parse(source),value=evaluateNode(ast,{angle:context.angle==='rad'?'rad':'deg',ans:context.ans,memory:context.memory,x:context.x,variables:context.variables});
