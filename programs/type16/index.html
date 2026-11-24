@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181e29">
 <meta name="description" content="TYPE/16: un atlas interactivo de 16 perfiles de personalidad, cuatro dimensiones, 64 cartas y cinco paradas.">
-<title>TYPE/16 · 1.0.1 · Atlas de personalidad</title>
+<title>TYPE/16 · 1.0.2 · Atlas de personalidad</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -394,7 +394,7 @@ body.in-deck{height:100dvh}
 }
 </style>
 <style>
-/* TYPE/16 standalone playtest, inserted after the v0.11.1 styles; no changes to the master */
+/* TYPE/16 — Standalone personality atlas styles. */
 .app.playing .card-options .copy{overflow-wrap:anywhere;hyphens:auto;line-height:1.19;}
 .app.playing .card-question{font-size:clamp(18px,4.8vw,23px)}
 .app:not(.playing){max-width:560px;}
@@ -411,7 +411,7 @@ body.in-deck{height:100dvh}
 </style>
 
 <style>
-/* TYPE/16 — isolated 64-card preview. Original Gesture Lab styles are unchanged. */
+/* TYPE/16 — 64-card layout and response styles. */
 .app:not(.playing){max-width:600px}
 .app.playing .card-top{padding-top:12px}
 .app.playing .card-art{height:clamp(86px,18dvh,150px);min-height:75px;margin:6px auto 0;flex-shrink:1}
@@ -614,7 +614,7 @@ body.in-deck{height:100dvh}
   .app.playing .card-bottom{margin-bottom:21px;padding-top:6px;min-height:18px}
 }
 
-/* TYPE/16 — BETA I. Original geometric illustrations, quiet textures, layered insights. */
+/* TYPE/16 — Card artwork styles. Keep class names to preserve rendering. */
 .app.playing .card-art.beta-art{
  width:min(calc(100% - 47px),330px);
  height:clamp(90px,18dvh,150px);min-height:72px;
@@ -712,7 +712,7 @@ body.in-deck{height:100dvh}
 .app.playing .card-art.beta-art.v3-image-art.v3-color-2 .v3-image{filter:hue-rotate(7deg) saturate(.97);}
 /* Existing inset arch and ornament remain visible above the art. */
 
-/* Beta II: slight art enlargement (10–12%), no change to card layout. */
+/* Artwork enlargement (10–12%) with unchanged card layout. */
 .app.playing .card-art.beta-art.v3-image-art .v3-image{transform:scale(1.11);transform-origin:center}
 .app.playing .card-art.beta-art.v3-image-art.v3-color-1 .v3-image{transform:scale(1.12)}
 .app.playing .card-art.beta-art.v3-image-art.v3-color-2 .v3-image{transform:scale(1.10)}
@@ -765,6 +765,18 @@ body.in-deck{height:100dvh}
  .app.playing .card-top{grid-template-columns:minmax(0,1fr) 51px minmax(0,1fr);column-gap:3px}
  .app.playing .card-top > .card-stars{font-size:12px;letter-spacing:0}
 }
+
+/* TYPE/16 v1.0.2: homepage card uses the approved digital art collection. */
+.hero-front .hero-front-art{display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;padding:23px 5px 35px;gap:14px;position:relative;z-index:1}
+.hero-front .hero-cover-image{display:block;width:150px;max-width:100%;height:auto;max-height:105px;object-fit:contain;user-select:none;pointer-events:none}
+.hero-front .hero-front-ornament{font:400 13px/1 var(--serif);letter-spacing:.16em;color:#a88656}
+.hero-front .hero-front-ornament-bottom{font-size:17px}
+.footer{display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap}
+.footer-signature{font-size:11px;color:#dfbf90;text-decoration:none;border-bottom:1px solid #c9a7796b}
+.footer-signature:hover,.footer-signature:focus-visible{color:#fff1d1;border-bottom-color:currentColor}
+.footer-separator{opacity:.55;color:#bda177}
+.settings-section-title{margin:17px 0 2px;padding-bottom:7px;border-bottom:1px solid #c3a77761;color:#e6c99e;font:600 11px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.settings-preferences .settings-section-title{margin:14px 0 2px}
 </style>
 </head>
 <body>
@@ -800,10 +812,12 @@ body.in-deck{height:100dvh}
 <div class="settings-card" tabindex="-1">
  <div class="settings-head"><h2 id="settings-title"></h2><button class="quiet-btn" id="close-settings" type="button" aria-label="Cerrar ajustes">✕</button></div>
  <p id="settings-copy"></p>
+ <h3 class="settings-section-title" id="settings-gestures-title"></h3>
  <label class="settings-label" for="threshold"><span id="sensitivity-label"></span><strong id="threshold-value"></strong></label>
  <input type="range" id="threshold" min="110" max="210" step="5" value="150"><div class="settings-scale"><span>110 px</span><span>210 px</span></div>
  <label class="settings-toggle"><input type="checkbox" id="diagonal" checked><span id="diagonal-label"></span></label>
- <section class="settings-preferences" aria-label="Preferencias">
+ <section class="settings-preferences" aria-labelledby="settings-preferences-title">
+  <h3 class="settings-section-title" id="settings-preferences-title"></h3>
   <div class="settings-preference-row"><span id="settings-language-label"></span><div class="settings-language-switch" role="group" id="settings-language-group" aria-label="Idioma"><button type="button" data-modal-language="es">ES</button><button type="button" data-modal-language="en">EN</button></div></div>
   <div class="settings-preference-row"><span id="settings-fullscreen-label"></span><button type="button" class="settings-control-button" id="settings-fullscreen">⛶</button></div>
   <div class="settings-preference-row"><span id="settings-sound-label"></span><button type="button" class="settings-control-button" id="settings-sound" aria-pressed="true"></button></div>
@@ -977,7 +991,7 @@ function createExperience64(plan,{scoreOriginals,interpretOriginals}){
 import {scoreAll} from './js/scoring.js';
 import {displayOptions,renderDeepAnalysis} from './js/enhancements.js';
 import {buildInterpretation} from './js/engine/interpretation.js';
-import {getCardArt,auditArtwork,MOTIF_BY_QUESTION,ART_SELECTION_KEY,sanitizeArtChoices} from './js/artwork.js';
+import {auditArtwork,MOTIF_BY_QUESTION} from './js/artwork.js';
 import {TYPE_COPY} from './js/engine/interpretation-copy.js';
 const experience=createExperience64(PLAN64,{scoreOriginals:scoreAll,interpretOriginals:buildInterpretation});
 const createSession=(o)=>experience.newSession(o);
@@ -985,23 +999,7 @@ const restoreSession=(s)=>experience.restoreSession(s);
 const nextItem=(s)=>experience.nextItem(s);
 const transition=(s,a)=>experience.act(s,a);
 (()=>{'use strict';
-const KEY='type16.beta.v1'; // independent from the 64-card prototype
-const ART_PREVIEW_MODE=(()=>{
- try{
-  const mode=new URLSearchParams(window.location?.search||'').get('art');
-  return mode==='v2'||mode==='selection'?mode:null;
- }catch{return null}
-})();
-const SAVED_ART_CHOICES=(()=>{
- try{return sanitizeArtChoices(JSON.parse(localStorage.getItem(ART_SELECTION_KEY)||'{}'));}
- catch{return {}}
-})();
-const cardArtVersion=id=>{
- if(ART_PREVIEW_MODE==='v2')return 'v2';
- if(ART_PREVIEW_MODE==='selection')return SAVED_ART_CHOICES[MOTIF_BY_QUESTION[id]]||'v1';
- return 'v1';
-};
-
+const KEY='type16.beta.v1'; // Keep original storage key to preserve saved progress across releases
 const rawCards=Array(64).fill(null); // legacy lab compatibility
 function cardData(session){
  const item=experience.question(session);
@@ -1012,23 +1010,23 @@ const artAudit=auditArtwork(PLAN64.questions);
 if(!artAudit.ok)throw new Error('TYPE/16 artwork assignment: '+artAudit.errors.join(', '));
 
 const words={
- es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'Ocho cartas para probar una nueva forma de responder.',introSmall:'Prototipo de interacción · Sin interpretación psicológica · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'No es todavía un test de personalidad. Solo estamos probando cómo se sienten las cartas y las respuestas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Afinar los gestos',settingsCopy:'Ajusta la sensibilidad de los gestos y la inclinación de las cartas a tu gusto.',sensitivity:'Umbral de respuesta fuerte',settingsDone:'Guardar y volver',footer:'TYPE/16 · LABORATORIO / TC-HQ · V9',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
- en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Eight cards to explore a new way to answer.',introSmall:'Interaction prototype · No personality interpretation · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'This is not a personality test yet. We are only trying out the cards and response gestures.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Fine-tune gestures',settingsCopy:'Experiment with the swipe distance and diagonal influence. Changes affect only this prototype.',sensitivity:'Strong-response threshold',settingsDone:'Save and return',footer:'TYPE/16 · INTERACTION LAB / TC-HQ · V9',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
+ es:{heroEyebrow:'UN PEQUEÑO VIAJE INTERIOR',tagline:'Cada elección revela un matiz.',intro:'64 cartas para explorar cuatro dimensiones de personalidad.',introSmall:'Experiencia orientativa de autoconocimiento · Diseño para móvil',start:'Comenzar la experiencia',step:'CARTA',of:'DE',series:'EL ATELIER DE LAS DECISIONES',drag:'DESLIZA LA CARTA',hint:'ARRASTRA PARA ELEGIR',softA:'Un poco A',strongA:'Muy A',softB:'Un poco B',strongB:'Muy B',neutral:'Neutral',skip:'Saltar',undo:'Deshacer',settings:'Ajustes',reset:'Reiniciar',shortA:'Algo A',longA:'Mucho A',shortB:'Algo B',longB:'Mucho B',choice:'Elige con un gesto o pulsa abajo',short:'SUAVE',strong:'MUY',center:'NEUTRAL',ignored:'SALTAR',hold:'MUEVE LA CARTA',done:'Has terminado la baraja',doneSub:'Un recorrido por tus preferencias a través de situaciones cotidianas.',countA:'Respuestas A',countB:'Respuestas B',countN:'Neutrales',again:'Volver a probar',settingsTitle:'Ajustes',settingsCopy:'Ajusta la sensibilidad de los gestos y la inclinación de las cartas a tu gusto.',sensitivity:'Umbral de respuesta fuerte',settingsDone:'Guardar y volver',footer:'TYPE/16 · V1.0.2 / TC-HQ',long:'LARGO',shortDist:'SUAVE',resume:'Continuar',skipNote:'El gesto hacia abajo salta la carta',resetQuestion:'¿Reiniciar la experiencia y borrar tus respuestas?',top:'ARRIBA',down:'ABAJO',back:'Atrás',full:'Pantalla completa',exitFull:'Salir de pantalla completa',fsHelp:'Este navegador no permite pantalla completa desde una web. En iPhone: Compartir → Añadir a pantalla de inicio y ábrela desde el icono.',introFull:'Ver a pantalla completa',introTutorial:'Primero, una explicación muy breve de los gestos.',tutorial:'Cómo mover las cartas',tutorialLead:'Una dirección elige la respuesta; la intensidad depende de la distancia y de la inclinación.',tutorialHorizontal:'Izquierda = A · Derecha = B',tutorialDistance:'Poco recorrido = «Un poco»; mucho recorrido = «Muy».',tutorialDiagonal:'Si te mueves en diagonal, subir suaviza y bajar intensifica la respuesta.',tutorialVertical:'Principalmente arriba = Neutral · principalmente abajo = Saltar.',tutorialNote:'Las etiquetas grandes debajo de la carta siempre muestran la respuesta que vas a registrar.',tutorialGo:'Entendido, probar',tutorialSkip:'Ir a las cartas',diagonalLabel:'Inclinación diagonal: arriba suave / abajo fuerte',pick:'TU ELECCIÓN',pickHint:'Arrastra una carta para descubrir tu respuesta',release:'SUELTA PARA CONFIRMAR',moveMore:'SIGUE DESLIZANDO',tapChoice:'También puedes pulsar una opción',playControls:'Controles',stageCount:'Carta',changeLanguage:'Cambiar idioma',practiceLabel:'BIENVENIDO',practiceQuestion:'¡Bienvenido a TYPE/16!',practiceA:'Desliza a la izquierda para elegir A',practiceB:'Desliza a la derecha para elegir B',practiceGuide:'Desliza un poco para una elección suave; más lejos para una respuesta fuerte. Arriba: neutral. Abajo: saltar.',practiceMessage:'Arrastra la carta para elegir A o B',practiceSkip:'Ir al cuestionario',practiceCount:'INICIO',practiceHint:'Prueba a mover la carta: se animará suavemente si esperas.' },
+ en:{heroEyebrow:'A LITTLE JOURNEY INWARD',tagline:'Each choice reveals a nuance.',intro:'Explore four personality dimensions through 64 cards.',introSmall:'Exploratory self-discovery experience · Designed for mobile',start:'Begin the experience',step:'CARD',of:'OF',series:'THE ATELIER OF DECISIONS',drag:'SWIPE THE CARD',hint:'DRAG TO DECIDE',softA:'Somewhat A',strongA:'Strongly A',softB:'Somewhat B',strongB:'Strongly B',neutral:'Neutral',skip:'Skip',undo:'Undo',settings:'Settings',reset:'Restart',shortA:'Slight A',longA:'Strong A',shortB:'Slight B',longB:'Strong B',choice:'Swipe or use the buttons below',short:'SLIGHT',strong:'STRONG',center:'NEUTRAL',ignored:'SKIP',hold:'MOVE THE CARD',done:'The deck is complete',doneSub:'Explore your preferences through everyday situations.',countA:'Answers A',countB:'Answers B',countN:'Neutral',again:'Try again',settingsTitle:'Settings',settingsCopy:'Choose how the card gestures respond to you.',sensitivity:'Strong-response threshold',settingsDone:'Save and return',footer:'TYPE/16 · V1.0.2 / TC-HQ',long:'LONG',shortDist:'SLIGHT',resume:'Continue',skipNote:'Swipe down to skip this card',resetQuestion:'Restart and erase your answers?',top:'UP',down:'DOWN',back:'Back',full:'Fullscreen',exitFull:'Exit fullscreen',fsHelp:'Fullscreen is not supported in this browser. On iPhone: Share → Add to Home Screen, then open it from the icon.',introFull:'View fullscreen',introTutorial:'First, a very short guide to the gestures.',tutorial:'How to move the cards',tutorialLead:'Direction chooses the answer; distance and tilt determine intensity.',tutorialHorizontal:'Left = A · Right = B',tutorialDistance:'A shorter swipe = «Somewhat»; a longer swipe = «Strongly».',tutorialDiagonal:'On diagonal swipes, tilting up softens the answer and tilting down intensifies it.',tutorialVertical:'Mostly up = Neutral · mostly down = Skip.',tutorialNote:'The large indicator below the card always shows which answer you are about to submit.',tutorialGo:'Got it, let me try',tutorialSkip:'Go to cards',diagonalLabel:'Diagonal: tilt up softens / down intensifies',pick:'YOUR CHOICE',pickHint:'Drag a card to reveal your answer',release:'RELEASE TO CONFIRM',moveMore:'KEEP DRAGGING',tapChoice:'Or use the buttons',playControls:'Controls',stageCount:'Card',changeLanguage:'Switch language',practiceLabel:'WELCOME',practiceQuestion:'Welcome to TYPE/16!',practiceA:'Swipe left to choose A',practiceB:'Swipe right to choose B',practiceGuide:'A short swipe means a slight preference; swipe farther for a strong one. Up: neutral. Down: skip.',practiceMessage:'Swipe this card to choose A or B',practiceSkip:'Go to the questions',practiceCount:'START',practiceHint:'Try swiping the card: it gently moves if you wait.' }
 };
 
-Object.assign(words.es,{intro:'12 cartas para explorar tus preferencias. Después podrás profundizar con otras 20.',introSmall:'Prototipo de cuestionario · Arte provisional del laboratorio · Resultado orientativo',start:'Empezar el cuestionario',done:'Tu primera lectura',doneSub:'Un resultado orientativo, basado solo en las respuestas que has dado.',again:'Reiniciar el test',footer:'TYPE/16 · PROTOTIPO 12 + 20 / TC-HQ',resultLabel:'LECTURA DE PREFERENCIAS',resultQuick:'Primer recorrido',resultFull:'Recorrido completo',resultEarly:'Las cuatro letras son provisionales hasta completar las 32 preguntas.',resultFullNote:'Has completado el recorrido de 32 preguntas.',resultUnknown:'Todavía no hay suficiente información para presentar cuatro letras sin ocultar empates o ausencias.',resultContinue:'Profundizar · 20 cartas más',resultReview:'Revisar preguntas saltadas',resultCoverage:'Preguntas respondidas',resultAxis:'Preferencias observadas por dimensión',resultScale:'Posición descriptiva de las respuestas (no probabilidad)',resultNoData:'Aún no hay respuestas en esta dimensión',resultNoType:'Perfil aún indeterminado',resultDetails:'Lectura por dimensión',resultDisclaimer:'Experiencia educativa y orientativa; no es una prueba clínica ni un diagnóstico. La adaptación a cartas no está validada.',resultArt:'Los motivos son los del laboratorio original; las ilustraciones definitivas siguen pendientes.'});
-Object.assign(words.en,{intro:'12 cards to explore your preferences. You can then go deeper with 20 more.',introSmall:'Questionnaire prototype · Temporary art from the lab · Exploratory reading',start:'Start the questionnaire',done:'Your first reading',doneSub:'An exploratory result based only on your answers.',again:'Restart test',footer:'TYPE/16 · 12 + 20 PLAYTEST / TC-HQ',resultLabel:'PREFERENCE READING',resultQuick:'First journey',resultFull:'Full journey',resultEarly:'The four letters remain provisional until all 32 questions are answered.',resultFullNote:'You have completed all 32 questions.',resultUnknown:'There is not yet enough information to present four letters without hiding ties or missing answers.',resultContinue:'Go deeper · 20 more cards',resultReview:'Review skipped questions',resultCoverage:'Questions answered',resultAxis:'Observed preferences by dimension',resultScale:'Descriptive response position (not probability)',resultNoData:'No answers in this dimension yet',resultNoType:'Type not determined yet',resultDetails:'Reading by dimension',resultDisclaimer:'Educational and exploratory only; not a clinical test or diagnosis. The card-based presentation is not validated.',resultArt:'Motifs are temporary artwork from the original lab; final illustrations are still pending.'});
+Object.assign(words.es,{intro:'64 cartas para explorar tus preferencias a tu ritmo.',introSmall:'Cuestionario orientativo · Ilustraciones originales',start:'Empezar el cuestionario',done:'Tu primera lectura',doneSub:'Un resultado orientativo, basado solo en las respuestas que has dado.',again:'Reiniciar el test',footer:'TYPE/16 · V1.0.2 / TC-HQ',resultLabel:'LECTURA DE PREFERENCIAS',resultQuick:'Primer recorrido',resultFull:'Recorrido completo',resultEarly:'Las cuatro letras son provisionales hasta completar las 32 preguntas.',resultFullNote:'Has completado el recorrido de 32 preguntas.',resultUnknown:'Todavía no hay suficiente información para presentar cuatro letras sin ocultar empates o ausencias.',resultContinue:'Profundizar · 20 cartas más',resultReview:'Revisar preguntas saltadas',resultCoverage:'Preguntas respondidas',resultAxis:'Preferencias observadas por dimensión',resultScale:'Posición descriptiva de las respuestas (no probabilidad)',resultNoData:'Aún no hay respuestas en esta dimensión',resultNoType:'Perfil aún indeterminado',resultDetails:'Lectura por dimensión',resultDisclaimer:'Experiencia educativa y orientativa; no es una prueba clínica ni un diagnóstico. La adaptación a cartas no está validada.',resultArt:'Las ilustraciones acompañan el recorrido de las cartas.'});
+Object.assign(words.en,{intro:'64 cards to explore your preferences at your own pace.',introSmall:'Exploratory questionnaire · Original illustrated artwork',start:'Start the questionnaire',done:'Your first reading',doneSub:'An exploratory result based only on your answers.',again:'Restart test',footer:'TYPE/16 · V1.0.2 / TC-HQ',resultLabel:'PREFERENCE READING',resultQuick:'First journey',resultFull:'Full journey',resultEarly:'The four letters remain provisional until all 32 questions are answered.',resultFullNote:'You have completed all 32 questions.',resultUnknown:'There is not yet enough information to present four letters without hiding ties or missing answers.',resultContinue:'Go deeper · 20 more cards',resultReview:'Review skipped questions',resultCoverage:'Questions answered',resultAxis:'Observed preferences by dimension',resultScale:'Descriptive response position (not probability)',resultNoData:'No answers in this dimension yet',resultNoType:'Type not determined yet',resultDetails:'Reading by dimension',resultDisclaimer:'Educational and exploratory only; not a clinical test or diagnosis. The card-based presentation is not validated.',resultArt:'The illustrations accompany the card journey.'});
 
 
 Object.assign(words.es,{
  intro:'64 cartas, cinco paradas. Empieza con 12 y decide hasta dónde quieres explorar.',
- introSmall:'Prototipo de 64 cartas · Paradas 12 / 24 / 32 / 48 / 64 · Arte provisional',
- start:'Comenzar el viaje',footer:'TYPE/16 · PROTOTIPO 64 · TC-HQ',
+ introSmall:'64 cartas · Paradas 12 / 24 / 32 / 48 / 64',
+ start:'Comenzar el viaje',footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultLabel:'LECTURA DE PREFERENCIAS',resultQuick:'Primera impresión',resultFull:'Retrato de referencia',
  resultContinue:'Continuar el viaje',resultReview:'Revisar saltadas',resultNoType:'Preferencia aún abierta',
  resultDetails:'Las cuatro dimensiones',resultScale:'Posiciones descriptivas; no indican fiabilidad ni probabilidad',
  resultDisclaimer:'Experiencia educativa y orientativa. No es una prueba clínica ni un indicador estadístico de certeza.',
- resultArt:'Arte temporal heredado de Gesture Lab. No se utilizan los SVG rechazados.',
+ resultArt:'Las cartas utilizan doce ilustraciones diseñadas para TYPE/16.',
  resultCoverage:'Respuestas registradas',resultPause:'Guardar y salir',resultUndo:'Deshacer última respuesta',
  resultSource:'Referencia OEJTS · 32 preguntas',resultExtended:'Exploración TYPE/16 · 64 cartas',
  resultNewOnly:'Nuevas situaciones',resultComparison:'Comparación de enfoques',resultNoContrast:'Aún no hay respuestas suficientes para contrastar ambos bancos.',
@@ -1045,13 +1043,13 @@ Object.assign(words.es,{
 });
 Object.assign(words.en,{
  intro:'64 cards, five checkpoints. Start with 12 and choose how deep to explore.',
- introSmall:'64-card playtest · Checkpoints 12 / 24 / 32 / 48 / 64 · Placeholder artwork',
- start:'Begin the journey',footer:'TYPE/16 · 64-CARD PLAYTEST · TC-HQ',
+ introSmall:'64 cards · Checkpoints at 12 / 24 / 32 / 48 / 64',
+ start:'Begin the journey',footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultLabel:'PREFERENCE READING',resultQuick:'First impression',resultFull:'Reference portrait',
  resultContinue:'Continue the journey',resultReview:'Review skipped',resultNoType:'Preference still open',
  resultDetails:'The four dimensions',resultScale:'Descriptive positions, not reliability or probability measures',
  resultDisclaimer:'Educational and exploratory. Not a clinical test or a statistical confidence indicator.',
- resultArt:'Temporary Gesture Lab artwork. None of the rejected SVGs are used.',
+ resultArt:'The cards use twelve illustrations designed for TYPE/16.',
  resultCoverage:'Answers recorded',resultPause:'Save and leave',resultUndo:'Undo last answer',
  resultSource:'OEJTS reference · 32 questions',resultExtended:'TYPE/16 exploration · 64 cards',
  resultNewOnly:'New situations',resultComparison:'Comparing perspectives',resultNoContrast:'Not enough answers yet to compare both item sets.',
@@ -1114,31 +1112,33 @@ Object.assign(words.en,{
  resultEarly:'Your first cards point toward a combination, with room for change.'
 });
 Object.assign(words.es,{
- heroEyebrow:'ATLAS DE PERSONALIDAD · 1.0.1',
+ heroEyebrow:'ATLAS DE PERSONALIDAD · 1.0.2',
  tagline:'Una forma distinta de explorar cómo eres.',
  intro:'64 cartas, cuatro dimensiones y 16 perfiles posibles. Puedes detenerte en cinco paradas y descubrir tus preferencias paso a paso.',
  introSmall:'Una experiencia orientativa de autoconocimiento. Tus respuestas se guardan en este navegador.',
- footer:'TYPE/16 · V1.0.1 / TC-HQ',
+ footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultSource:'Tu primera lectura · 32 cartas',resultExtended:'Tu retrato ampliado'
 });
 Object.assign(words.en,{
- heroEyebrow:'PERSONALITY ATLAS · 1.0.1',
+ heroEyebrow:'PERSONALITY ATLAS · 1.0.2',
  tagline:'A different way to explore who you are.',
  intro:'64 cards, four dimensions and 16 possible profiles. Pause at five stops to discover your preferences step by step.',
  introSmall:'An exploratory self-discovery experience. Your answers stay in this browser.',
- footer:'TYPE/16 · V1.0.1 / TC-HQ',
+ footer:'TYPE/16 · V1.0.2 / TC-HQ',
  resultSource:'Your first reading · 32 cards',resultExtended:'Your extended portrait'
 });
 
 /* v1.0 settings vocabulary: user-focused rather than prototyping language. */
 Object.assign(words.es,{
- settingsCopy:'Ajusta la sensibilidad de los gestos y la inclinación de las cartas a tu gusto.',
+ settingsTitle:'Ajustes',settingsGestures:'Gestos',settingsPreferences:'Preferencias',
+ settingsCopy:'Personaliza los gestos, el idioma, la pantalla y el sonido a tu gusto.',
  settingsDone:'Continuar',settingsLanguage:'Idioma',settingsFullscreen:'Pantalla completa',
  settingsExitFullscreen:'Salir de pantalla completa',settingsSound:'Sonido',settingsSoundOn:'Activado',
  settingsSoundOff:'Desactivado',settingsSaveExit:'Guardar y salir',settingsRestart:'Reiniciar test'
 });
 Object.assign(words.en,{
- settingsCopy:'Adjust swipe sensitivity and card tilt to your preference.',
+ settingsTitle:'Settings',settingsGestures:'Gestures',settingsPreferences:'Preferences',
+ settingsCopy:'Customize gestures, language, display and sound to suit you.',
  settingsDone:'Continue',settingsLanguage:'Language',settingsFullscreen:'Fullscreen',
  settingsExitFullscreen:'Exit fullscreen',settingsSound:'Sound',settingsSoundOn:'On',
  settingsSoundOff:'Off',settingsSaveExit:'Save and exit',settingsRestart:'Restart test'
@@ -1170,7 +1170,7 @@ function load(){
  let state=load(),busy=false,revealNext=false;
 let skipNextEntrance=false;const app=document.querySelector('#app');const modal=document.querySelector('#settings');const W=()=>words[state.lang];function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
 
-/* Beta II — original paper-card sound: tiny synthesized swish plus a soft tactile landing. */
+/* Original paper-card sound: a synthesized swish and gentle landing. */
 const SOUND_KEY='type16.beta2.sound';
 let soundEnabled=true,cardAudio=null;
 try{soundEnabled=localStorage.getItem(SOUND_KEY)!=='off'}catch{}
@@ -1205,7 +1205,7 @@ function playCardSound(value){
 
 const iconGear='<svg viewBox="0 0 32 32" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M12.61 5.33 L13.70 4.73 L14.14 2.02 L17.86 2.02 L18.30 4.73 L19.39 5.33 L19.53 5.37 L20.77 5.53 L22.71 3.60 L25.72 5.78 L24.48 8.23 L25.02 9.36 L25.10 9.47 L26.01 10.33 L28.72 9.92 L29.87 13.44 L27.43 14.70 L27.20 15.93 L27.20 16.07 L27.43 17.30 L29.87 18.56 L28.72 22.08 L26.01 21.67 L25.10 22.53 L25.02 22.64 L24.48 23.77 L25.72 26.22 L22.71 28.40 L20.77 26.47 L19.53 26.63 L19.39 26.67 L18.30 27.27 L17.86 29.98 L14.14 29.98 L13.70 27.27 L12.61 26.67 L12.47 26.63 L11.23 26.47 L9.29 28.40 L6.28 26.22 L7.52 23.77 L6.98 22.64 L6.90 22.53 L5.99 21.67 L3.28 22.08 L2.13 18.56 L4.57 17.30 L4.80 16.07 L4.80 15.93 L4.57 14.70 L2.13 13.44 L3.28 9.92 L5.99 10.33 L6.90 9.47 L6.98 9.36 L7.52 8.23 L6.28 5.78 L9.29 3.60 L11.23 5.53 L12.47 5.37 Z M16 11.1 a4.9 4.9 0 1 0 0 9.8 a4.9 4.9 0 1 0 0 -9.8 Z" fill="currentColor" fill-rule="evenodd"/><circle cx="16" cy="16" r="7.4" fill="none" stroke="currentColor" stroke-width=".65" opacity=".5"/></svg>';
 function masthead(){return `<header class="masthead"><div class="brand"><span class="brand-mark" aria-hidden="true">✶</span><span>TYPE<span class="slash">/</span><strong>16</strong></span></div><div class="top-right"><button class="quiet-btn" data-action="language" aria-label="${state.lang==='es'?'Cambiar a inglés':'Switch to Spanish'}">${state.lang.toUpperCase()} <span aria-hidden="true">⇄</span></button>${soundButton('quiet-btn')}<button class="quiet-btn" data-action="fullscreen" aria-label="${W().full}">⛶</button><button class="quiet-btn" data-action="settings" aria-label="${W().settings}">${iconGear}</button></div></header>`}
-function footer(){return `<footer class="footer">${W().footer}</footer>`}
+function footer(){return `<footer class="footer"><span>${W().footer}</span><span class="footer-separator" aria-hidden="true">✦</span><a class="footer-signature" href="https://t.cardell.es/" target="_blank" rel="noopener noreferrer">t.cardell.es</a></footer>`}
 function legacyPreview(){
  if(state.session.seen.length)return null;
  try{
@@ -1215,6 +1215,17 @@ function legacyPreview(){
   return old.seen.length?old:null;
  }catch{return null}
 }
+/* Twelve approved cover illustrations; pick once per document load. Avoid consecutive repeats on refresh. */
+const HOME_MOTIFS=Object.freeze(['sanctuary','threshold','exchange','focus','pattern','prism','balance','consideration','criteria','interval','paths','key']);
+const HOME_COVER=(()=>{
+ let previous=null;
+ try{previous=sessionStorage.getItem('type16.home.lastMotif')}catch{}
+ const eligible=HOME_MOTIFS.filter(motif=>motif!==previous);
+ const motif=eligible[Math.floor(Math.random()*eligible.length)];
+ try{sessionStorage.setItem('type16.home.lastMotif',motif)}catch{}
+ return motif;
+})();
+
 function intro(){
  const w=W(),seen=state.session.seen.length,answered=Object.keys(state.session.answers).length,
   nextStop=experience.checkpoints.find(n=>n>seen)||64;
@@ -1233,16 +1244,12 @@ function intro(){
  const types=Object.entries(TYPE_COPY).sort(([a],[b])=>a.localeCompare(b)).map(([code,copy])=>`<span class='intro-type'><b>${code}</b><small>${safe(copy[state.lang].title)}</small></span>`).join('');
  const legacy=legacyPreview();
  const importPanel=legacy?`<button class='beta-import' data-action='import-legacy'>↶ &nbsp;${state.lang==='es'?'Recuperar mi partida anterior':'Import my previous progress'} · ${legacy.seen.length}/64</button>`:'';
- const artPreviewLabel=ART_PREVIEW_MODE?(state.lang==='es'?
-    (ART_PREVIEW_MODE==='v2'?'Vista previa: ilustraciones V2':'Vista previa: tu selección de ilustraciones'):
-    (ART_PREVIEW_MODE==='v2'?'Preview: V2 illustrations':'Preview: your selected illustrations')):null;
- const artPreviewBanner=artPreviewLabel?`<span class="beta-art-preview-note">✦ ${safe(artPreviewLabel)}</span>`:'';
  const save=seen>0?`<div class='intro-resume' role='status'><div class='intro-resume-head'><span>✦ ${state.lang==='es'?'TU PARTIDA GUARDADA':'YOUR SAVED JOURNEY'}</span><strong>${seen} / 64</strong></div><div class='intro-resume-track'><span style='width:${(seen/64*100).toFixed(1)}%'></span></div><p>${state.lang==='es'?'Respuestas registradas':'Answers recorded'}: <b>${answered}</b> · ${state.lang==='es'?'Próxima parada':'Next stop'}: <b>${nextStop}</b></p></div>`:'';
- return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-svg'>${getCardArt(2,0)}</span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${artPreviewBanner}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./archive/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones V3':'Gallery of 12 V3 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
+ return `<section class='intro'><div class='hero-stack' aria-hidden='true'><div class='hero-back'></div><div class='hero-back'></div><div class='hero-front'><span class='hero-front-art'><span class='hero-front-ornament'>✦ ✧ ✦</span><img class='hero-cover-image' src='./assets/art/${HOME_COVER}.webp' width='660' height='330' alt='' loading='eager' decoding='async' draggable='false'><span class='hero-front-ornament hero-front-ornament-bottom'>✧</span></span><span class='serial'>ATLAS · XVI</span></div></div><div class='intro-eyebrow'>${w.heroEyebrow}</div><h1 class='intro-title'>TYPE<span>/</span>16</h1><p class='intro-desc'>${w.tagline}</p><p class='intro-desc smaller'>${w.intro}</p><section class='intro-atlas' aria-label='${state.lang==='es'?'Dimensiones de personalidad':'Personality dimensions'}'><h2>${state.lang==='es'?'Cuatro dimensiones de tu personalidad':'Four dimensions of your personality'}</h2><div class='intro-dimension-grid'>${axisMarkup}</div></section><details class='intro-types'><summary>${state.lang==='es'?'Conoce los 16 perfiles posibles':'Explore the 16 possible profiles'} <span>✧</span></summary><p>${state.lang==='es'?'Cada combinación de cuatro preferencias forma uno de estos retratos. Ninguno es mejor que otro.':'Each combination of four preferences creates one of these portraits. No profile is better than another.'}</p><div class='intro-type-grid'>${types}</div></details>${save}${importPanel}<button class='start-btn' data-action='start'>${seen>0?w.resume:w.start} <span aria-hidden='true'>→</span></button><button class='intro-fullscreen' data-action='fullscreen'>⛶ &nbsp;${w.introFull}</button><a class='intro-art-gallery' href='./archive/art-gallery-v3.html'>✧ ${state.lang==='es'?'Galería de las 12 ilustraciones':'Gallery of the 12 illustrations'}</a><div class='intro-foot'>${w.introSmall}</div></section>`;
 }
 
-// V3 art is deliberately separate from the original V1/V2 gallery and SVG registry.
-const V3_ACTIVE = !['v1','v2','selection'].includes(new URLSearchParams(window.location.search).get('art')||'v3');
+// The published artwork uses the approved twelve-motif WebP collection.
+const V3_ACTIVE=true; // The published application uses the twelve approved digital motifs.
 const V3_ORNAMENTS = [
  '<path d="M13 75h18m268 0h18" stroke="#D5B06A" opacity=".60"/><path d="M35 67l5 8-5 8-5-8Zm260 0l5 8-5 8-5-8Z" fill="#D5B06A" opacity=".68"/>',
  '<g fill="none" stroke="#8E6C84" opacity=".60" stroke-width="1.3"><path d="M17 42q22 33 0 66m296-66q-22 33 0 66"/><path d="M27 58q13 18 0 34m276-34q-13 18 0 34"/></g><circle cx="17" cy="75" r="2.8" fill="#D5B06A"/><circle cx="313" cy="75" r="2.8" fill="#D5B06A"/>',
@@ -1269,7 +1276,7 @@ function cardHTML(index=state.i,practice=state.tutorialActive,preview=false,prev
     (state.lang==='es'?'Carta ':'Card ')+num;
   const id=practice?1:q.id;
   return `<div class="card-top"><span>${safe(titleLeft)}</span><span class="card-stars" aria-hidden="true">✦ ✧ ✦</span><span>Atlas</span></div>
-    <div class="card-art beta-art${V3_ACTIVE?' v3-image-art v3-color-'+v3VariantFor(id).tone+(v3VariantFor(id).green?' v3-green':''):''}" data-art="${practice?'practice':q.id}" data-art-version="${V3_ACTIVE?'v3':cardArtVersion(id)}">${V3_ACTIVE?getV3Art(id):getCardArt(id,null,cardArtVersion(id))}</div>
+    <div class="card-art beta-art v3-image-art v3-color-${v3VariantFor(id).tone}${v3VariantFor(id).green?' v3-green':''}" data-art="${practice?'practice':q.id}" data-art-version="v3">${getV3Art(id)}</div>
     <h2 class="card-question"${preview?'':' id="card-question"'}>${safe(stem)}</h2>
     ${practice?`<p class="practice-guide">${safe(w.practiceGuide)}</p>`:''}
     <div class="card-options"><div class="option"><span class="ab">A · ←</span><span class="copy">${safe(a)}</span></div><div class="option-mid">✦</div><div class="option"><span class="ab">→ · B</span><span class="copy">${safe(b)}</span></div></div>
@@ -1558,6 +1565,8 @@ function bindPointer(){
 function refreshSettings(){
  const w=W();
  document.querySelector('#settings-title').textContent=w.settingsTitle;
+ document.querySelector('#settings-gestures-title').textContent=w.settingsGestures;
+ document.querySelector('#settings-preferences-title').textContent=w.settingsPreferences;
  document.querySelector('#settings-copy').textContent=w.settingsCopy;
  document.querySelector('#sensitivity-label').textContent=w.sensitivity;
  document.querySelector('#settings-done').textContent=w.settingsDone;
