@@ -1,14 +1,22 @@
-# TYPE/16 · Versión estable 1.0.1
+# TYPE/16 · Versión estable 1.0.2
 
 **Abrir la aplicación:** https://t.cardell.es/programs/type16/
 
 Proyecto web de 64 cartas y 16 perfiles de personalidad, con interfaz bilingüe (ES/EN), cuatro dimensiones y paradas en 12, 24, 32, 48 y 64 preguntas. Esta es la versión activa; los experimentos anteriores están archivados.
 
+## Novedades 1.0.2
+
+- La carta decorativa de la portada muestra una de las **12 ilustraciones WebP originales**, elegida al azar al cargar el documento. Se recuerda la última en esa pestaña para evitar repetirla en la recarga inmediatamente siguiente; el motivo se mantiene durante cambios de idioma y otras actualizaciones internas sin recargar la página.
+- El pie de la portada y los resultados muestra un enlace discreto a **t.cardell.es**. No aparece durante el juego de las cartas.
+- El panel se titula **Ajustes / Settings** y separa los controles en **Gestos** y **Preferencias**, conservando las opciones existentes.
+- Eliminados los mensajes visibles de versiones antiguas y el selector de ilustraciones de prueba `?art=` en la versión pública; los prototipos siguen disponibles en `archive/`.
+- No se cambian el banco de 64 preguntas, las puntuaciones ni las claves de progreso.
+
 ## Estructura actual
 
 | Ruta | Función |
 | --- | --- |
-| [`index.html`](./index.html) | Aplicación estable v1.0.1 |
+| [`index.html`](./index.html) | Aplicación estable v1.0.2 |
 | [`manifest.webmanifest`](./manifest.webmanifest) | Instalación PWA estable |
 | [`js/`](./js/) y [`js/engine/`](./js/engine/) | Código activo, puntuación, contenido y motor del cuestionario |
 | [`assets/art/`](./assets/art/) | Doce ilustraciones WebP reutilizadas por las 64 cartas |
