@@ -168,6 +168,46 @@
       "openMode": "internal"
     },
     {
+      "id": "type16",
+      "name": {
+        "es": "TYPE/16",
+        "en": "TYPE/16"
+      },
+      "description": {
+        "es": "Atlas interactivo de personalidad: 64 cartas, cuatro dimensiones y 16 perfiles",
+        "en": "Interactive personality atlas: 64 cards, four dimensions and 16 profiles"
+      },
+      "icon": "quiz",
+      "type": "page",
+      "url": "programs/type16/index.html",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "type16",
+      "folder": "projects",
+      "openMode": "ask"
+    },
+    {
+      "id": "formulacion-com-projects",
+      "name": {
+        "es": "Formulacion.com",
+        "en": "Formulacion.com"
+      },
+      "description": {
+        "es": "Formulación y nomenclatura química inorgánica y orgánica",
+        "en": "Inorganic and organic chemical nomenclature and formula writing"
+      },
+      "icon": "flask",
+      "type": "page",
+      "url": "https://www.formulacion.com/",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "formulacionweb",
+      "folder": "projects",
+      "openMode": "external"
+    },
+    {
       "id": "clock",
       "name": {
         "es": "Reloj TC-HQ",
@@ -226,6 +266,26 @@
       "command": "formulacion",
       "folder": "chemistry",
       "openMode": "ask"
+    },
+    {
+      "id": "formulacion-com-chemistry",
+      "name": {
+        "es": "Formulacion.com",
+        "en": "Formulacion.com"
+      },
+      "description": {
+        "es": "Formulación y nomenclatura química inorgánica y orgánica",
+        "en": "Inorganic and organic chemical nomenclature and formula writing"
+      },
+      "icon": "flask",
+      "type": "page",
+      "url": "https://www.formulacion.com/",
+      "desktop": false,
+      "menu": true,
+      "terminal": true,
+      "command": "formulacionquimica",
+      "folder": "chemistry",
+      "openMode": "external"
     },
     {
       "id": "penney-lab",
