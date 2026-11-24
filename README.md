@@ -20,9 +20,27 @@
 | `system/boot-audio.js` | Efectos originales sintetizados para el arranque, sujetos a las políticas de audio del navegador. |
 | `system/sound.js` y `system/tray-sound.js` | Sonidos de interfaz y control rápido de volumen/silencio en la barra de tareas. |
 | `programs/` | Aplicaciones independientes: archivos HTML individuales o proyectos con varias carpetas (por ejemplo, `programs/calculator/`). |
+| `programs/type16/` | TYPE/16 v1.0.1 (entrada estable), módulos e imágenes actuales; sus versiones anteriores están en `archive/`. |
 | `programs.json` | Catálogo de programas y carpetas utilizado por TC/OS. |
 | `pages/`, `media/` | Otras páginas y recursos. |
 | `iconos.html`, `not_found.html`, `robots.txt` | Páginas y recursos auxiliares. |
+
+## Conservación y limpieza del repositorio
+
+**Revisión del 24/11/2026.** La estructura actual es ligera y no contiene dependencias descargadas, compilaciones antiguas ni archivos multimedia voluminosos. Se ha eliminado `system/apps/calendar.js`, un módulo de calendario que ya no era importado; el calendario vigente es `programs/calendar/index.html`.
+
+Los siguientes archivos son aplicaciones independientes **no registradas en el menú de `programs.json`**, pero se conservan deliberadamente porque pueden abrirse directamente mediante su URL:
+
+- `programs/Central_de_Clientes.html`
+- `programs/Oficina_de_Reclamaciones.html`
+- `programs/PRISMA.html`
+- `programs/SISFQ.html`
+
+Tampoco deben confundirse con basura los archivos auxiliares `.nojekyll`, `CNAME`, `robots.txt`, `not_found.html`, `media/playlist.json`, las herramientas de `programs/admin/` o `iconos.html`: cumplen funciones de publicación, compatibilidad, diagnóstico o soporte.
+
+**TYPE/16:** `programs/type16/archive/` contiene versiones antiguas aisladas con su motor histórico. Las copias de módulos son intencionales y están protegidas por el historial de Git; no se deben borrar sin comprobar sus referencias. Los enlaces antiguos se conservan como redirecciones.
+
+El archivo [`.gitignore`](.gitignore) evita que se incorporen archivos temporales, entornos locales, dependencias y secretos por accidente. Ante futuras limpiezas, comprobar primero `programs.json`, los enlaces directos y las rutas relativas de cada aplicación.
 
 ## Uso y desarrollo
 
