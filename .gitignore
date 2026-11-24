@@ -1,0 +1,23 @@
+# Editor, operating-system and temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# Local editor and tooling state
+.vscode/
+.idea/
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Local secrets (never publish in this public repository)
+.env
+.env.*
+!.env.example
