@@ -1,6 +1,12 @@
-# SCE — Swipe Card Engine · v0.1.0
+# SCE — Swipe Card Engine · v0.2.0
 
 Independent reusable HTML/CSS/JavaScript card engine derived from TYPE/16 v1.0.2. No network dependencies or build step. Open index.html directly or serve the directory. The demo is also the editable studio. All custom content remains in the browser unless exported; uploaded images are embedded as data URLs.
+
+## v0.2.0
+- Exact active button illumination during drag and throw, including strong and vertical actions; cancel clears all feedback.
+- TYPE/16-style fixed choice banner, single spatial response row (strong left, left, up, right, strong right), down in the lower toolbar when available.
+- Opposed card stamps: left choice on the right, right choice on the left, up at the bottom and down at the top. Side colors follow the theme.
+- Preserve existing set schema and local storage key. Gesture thresholds and editor unchanged.
 
 ## Quick start
 1. Open index.html and choose an example or create a set.
