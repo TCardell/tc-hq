@@ -81,6 +81,6 @@
  $("examples").addEventListener("change",ev=>{if(!ev.target.value)return;if(confirm("¿Sustituir el set actual? Exporta antes si quieres conservarlo."))load(({quiz,six,narrative})[ev.target.value]());ev.target.value="";});
  $("hide").addEventListener("click",()=>{const h=$("editor");h.hidden=!h.hidden;$("workspace").classList.toggle("play-only",h.hidden);$("hide").textContent=h.hidden?"Editar set":"Ocultar editor";});
  $("sensitivity").addEventListener("input",()=>{$("sens-value").textContent=$("sensitivity").value+" px";if(player)player.threshold=Number($("sensitivity").value);});
- $("sound").addEventListener("change",()=>{if(player){player.sound=$("sound").checked;player.render();}});
- try{const saved=localStorage.getItem(storage);load(saved?JSON.parse(saved):quiz());}catch{load(quiz());}if(!set)load(quiz());
+ $("sound").addEventListener("change",()=>{if(player){player.sound=$("sound").checked;const mute=player.root.querySelector(".sce-tools button");if(mute){mute.textContent=player.sound?"♪ Sonido":"♪ Silencio";mute.setAttribute("aria-pressed",String(player.sound));}}});
+ try{const saved=localStorage.getItem(storage);load(saved?JSON.parse(saved):quiz());}catch{load(quiz());}if(!set||!player)load(quiz());
 })();

@@ -44,6 +44,7 @@
     if(!c){
       const end=el("section","sce-end");end.append(el("span","sce-eyebrow","✦  FIN DEL SET  ✦"),el("h2","",set.endText||"Experiencia completada"),el("p","",s.history.length+" cartas respondidas"));
       if(d.score!==false)end.append(el("strong","sce-score",String(s.score)+" puntos"),el("p","",s.correct+" aciertos · "+s.incorrect+" errores"));
+      if(this.last?.feedback){const f=el("p","sce-feedback",this.last.feedback);f.setAttribute("role","status");end.append(f);}
       end.append(this.button("Volver a empezar",()=>this.restart()),this.button("Deshacer última decisión",()=>this.undo()));root.append(end);this.options.onFinish?.(s);return;
     }
     const stage=el("div","sce-stage"),stack=el("div","sce-stack");stack.setAttribute("aria-hidden","true");stack.append(el("span","","✧"));
